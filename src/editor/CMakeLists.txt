@@ -12,8 +12,16 @@ endif(LINUX)
 SET(EDITOR_FOLDER ${CMAKE_CURRENT_SOURCE_DIR})
 message(STATUS "Generating project file for example in ${EXAMPLE_FOLDER}")
 # Main
-file(GLOB SOURCE *.cpp ${BASE_HEADERS} ${EDITOR_FOLDER}/*.cpp)
+
+file(GLOB BASE_HEADERS "*.hpp" "*.h")
+file(GLOB GLAD_HEADERS "../../third_party/glfw/deps/*.h" )
+file(GLOB GLAD_SOURCE "../../third_party/glfw/deps/*.c" )
+
+file(GLOB SOURCE *.cpp ${BASE_HEADERS} ${EDITOR_FOLDER}/*.cpp )
 SET(MAIN_CPP ${EDITOR_FOLDER}/editor.cpp)
 SET(MAIN_HEADER ${EDITOR_FOLDER}/editor.hpp)
 
-add_executable(Editor ${MAIN_CPP} ${SOURCE} ${MAIN_HEADER})
+
+
+add_executable(Editor ${MAIN_CPP} ${SOURCE} ${GLAD_SOURCE} ${MAIN_HEADER} ${GLAD_HEADERS})
+target_link_libraries(Editor glfw ${GLFW_LIBRARIES})

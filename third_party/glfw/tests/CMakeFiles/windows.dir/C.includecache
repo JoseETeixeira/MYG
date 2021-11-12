@@ -1,0 +1,32 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/eduardo/Desktop/BYOND/MYG.gg/MYG/third_party/glfw/deps/glad/gl.h
+winapifamily.h
+-
+khrplatform.h
+/home/eduardo/Desktop/BYOND/MYG.gg/MYG/third_party/glfw/deps/glad/khrplatform.h
+
+/home/eduardo/Desktop/BYOND/MYG.gg/MYG/third_party/glfw/deps/glad/khrplatform.h
+stdint.h
+-
+inttypes.h
+-
+stdint.h
+-
+
+/home/eduardo/Desktop/BYOND/MYG.gg/MYG/third_party/glfw/deps/glad_gl.c
+stdio.h
+-
+stdlib.h
+-
+string.h
+-
+glad/gl.h
+/home/eduardo/Desktop/BYOND/MYG.gg/MYG/third_party/glfw/deps/glad/gl.h
+

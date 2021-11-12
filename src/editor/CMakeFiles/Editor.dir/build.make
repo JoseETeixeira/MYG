@@ -70,17 +70,81 @@ src/editor/CMakeFiles/Editor.dir/editor.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Editor.dir/editor.cpp.s"
 	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG/src/editor && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/eduardo/Desktop/BYOND/MYG.gg/MYG/src/editor/editor.cpp -o CMakeFiles/Editor.dir/editor.cpp.s
 
+src/editor/CMakeFiles/Editor.dir/__/__/third_party/glfw/deps/getopt.c.o: src/editor/CMakeFiles/Editor.dir/flags.make
+src/editor/CMakeFiles/Editor.dir/__/__/third_party/glfw/deps/getopt.c.o: third_party/glfw/deps/getopt.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/eduardo/Desktop/BYOND/MYG.gg/MYG/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building C object src/editor/CMakeFiles/Editor.dir/__/__/third_party/glfw/deps/getopt.c.o"
+	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG/src/editor && /usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/Editor.dir/__/__/third_party/glfw/deps/getopt.c.o   -c /home/eduardo/Desktop/BYOND/MYG.gg/MYG/third_party/glfw/deps/getopt.c
+
+src/editor/CMakeFiles/Editor.dir/__/__/third_party/glfw/deps/getopt.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/Editor.dir/__/__/third_party/glfw/deps/getopt.c.i"
+	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG/src/editor && /usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/eduardo/Desktop/BYOND/MYG.gg/MYG/third_party/glfw/deps/getopt.c > CMakeFiles/Editor.dir/__/__/third_party/glfw/deps/getopt.c.i
+
+src/editor/CMakeFiles/Editor.dir/__/__/third_party/glfw/deps/getopt.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/Editor.dir/__/__/third_party/glfw/deps/getopt.c.s"
+	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG/src/editor && /usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/eduardo/Desktop/BYOND/MYG.gg/MYG/third_party/glfw/deps/getopt.c -o CMakeFiles/Editor.dir/__/__/third_party/glfw/deps/getopt.c.s
+
+src/editor/CMakeFiles/Editor.dir/__/__/third_party/glfw/deps/glad_gl.c.o: src/editor/CMakeFiles/Editor.dir/flags.make
+src/editor/CMakeFiles/Editor.dir/__/__/third_party/glfw/deps/glad_gl.c.o: third_party/glfw/deps/glad_gl.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/eduardo/Desktop/BYOND/MYG.gg/MYG/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building C object src/editor/CMakeFiles/Editor.dir/__/__/third_party/glfw/deps/glad_gl.c.o"
+	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG/src/editor && /usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/Editor.dir/__/__/third_party/glfw/deps/glad_gl.c.o   -c /home/eduardo/Desktop/BYOND/MYG.gg/MYG/third_party/glfw/deps/glad_gl.c
+
+src/editor/CMakeFiles/Editor.dir/__/__/third_party/glfw/deps/glad_gl.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/Editor.dir/__/__/third_party/glfw/deps/glad_gl.c.i"
+	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG/src/editor && /usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/eduardo/Desktop/BYOND/MYG.gg/MYG/third_party/glfw/deps/glad_gl.c > CMakeFiles/Editor.dir/__/__/third_party/glfw/deps/glad_gl.c.i
+
+src/editor/CMakeFiles/Editor.dir/__/__/third_party/glfw/deps/glad_gl.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/Editor.dir/__/__/third_party/glfw/deps/glad_gl.c.s"
+	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG/src/editor && /usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/eduardo/Desktop/BYOND/MYG.gg/MYG/third_party/glfw/deps/glad_gl.c -o CMakeFiles/Editor.dir/__/__/third_party/glfw/deps/glad_gl.c.s
+
+src/editor/CMakeFiles/Editor.dir/__/__/third_party/glfw/deps/glad_vulkan.c.o: src/editor/CMakeFiles/Editor.dir/flags.make
+src/editor/CMakeFiles/Editor.dir/__/__/third_party/glfw/deps/glad_vulkan.c.o: third_party/glfw/deps/glad_vulkan.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/eduardo/Desktop/BYOND/MYG.gg/MYG/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building C object src/editor/CMakeFiles/Editor.dir/__/__/third_party/glfw/deps/glad_vulkan.c.o"
+	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG/src/editor && /usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/Editor.dir/__/__/third_party/glfw/deps/glad_vulkan.c.o   -c /home/eduardo/Desktop/BYOND/MYG.gg/MYG/third_party/glfw/deps/glad_vulkan.c
+
+src/editor/CMakeFiles/Editor.dir/__/__/third_party/glfw/deps/glad_vulkan.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/Editor.dir/__/__/third_party/glfw/deps/glad_vulkan.c.i"
+	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG/src/editor && /usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/eduardo/Desktop/BYOND/MYG.gg/MYG/third_party/glfw/deps/glad_vulkan.c > CMakeFiles/Editor.dir/__/__/third_party/glfw/deps/glad_vulkan.c.i
+
+src/editor/CMakeFiles/Editor.dir/__/__/third_party/glfw/deps/glad_vulkan.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/Editor.dir/__/__/third_party/glfw/deps/glad_vulkan.c.s"
+	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG/src/editor && /usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/eduardo/Desktop/BYOND/MYG.gg/MYG/third_party/glfw/deps/glad_vulkan.c -o CMakeFiles/Editor.dir/__/__/third_party/glfw/deps/glad_vulkan.c.s
+
+src/editor/CMakeFiles/Editor.dir/__/__/third_party/glfw/deps/tinycthread.c.o: src/editor/CMakeFiles/Editor.dir/flags.make
+src/editor/CMakeFiles/Editor.dir/__/__/third_party/glfw/deps/tinycthread.c.o: third_party/glfw/deps/tinycthread.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/eduardo/Desktop/BYOND/MYG.gg/MYG/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building C object src/editor/CMakeFiles/Editor.dir/__/__/third_party/glfw/deps/tinycthread.c.o"
+	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG/src/editor && /usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/Editor.dir/__/__/third_party/glfw/deps/tinycthread.c.o   -c /home/eduardo/Desktop/BYOND/MYG.gg/MYG/third_party/glfw/deps/tinycthread.c
+
+src/editor/CMakeFiles/Editor.dir/__/__/third_party/glfw/deps/tinycthread.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/Editor.dir/__/__/third_party/glfw/deps/tinycthread.c.i"
+	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG/src/editor && /usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/eduardo/Desktop/BYOND/MYG.gg/MYG/third_party/glfw/deps/tinycthread.c > CMakeFiles/Editor.dir/__/__/third_party/glfw/deps/tinycthread.c.i
+
+src/editor/CMakeFiles/Editor.dir/__/__/third_party/glfw/deps/tinycthread.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/Editor.dir/__/__/third_party/glfw/deps/tinycthread.c.s"
+	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG/src/editor && /usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/eduardo/Desktop/BYOND/MYG.gg/MYG/third_party/glfw/deps/tinycthread.c -o CMakeFiles/Editor.dir/__/__/third_party/glfw/deps/tinycthread.c.s
+
 # Object files for target Editor
 Editor_OBJECTS = \
-"CMakeFiles/Editor.dir/editor.cpp.o"
+"CMakeFiles/Editor.dir/editor.cpp.o" \
+"CMakeFiles/Editor.dir/__/__/third_party/glfw/deps/getopt.c.o" \
+"CMakeFiles/Editor.dir/__/__/third_party/glfw/deps/glad_gl.c.o" \
+"CMakeFiles/Editor.dir/__/__/third_party/glfw/deps/glad_vulkan.c.o" \
+"CMakeFiles/Editor.dir/__/__/third_party/glfw/deps/tinycthread.c.o"
 
 # External object files for target Editor
 Editor_EXTERNAL_OBJECTS =
 
 bin/Editor: src/editor/CMakeFiles/Editor.dir/editor.cpp.o
+bin/Editor: src/editor/CMakeFiles/Editor.dir/__/__/third_party/glfw/deps/getopt.c.o
+bin/Editor: src/editor/CMakeFiles/Editor.dir/__/__/third_party/glfw/deps/glad_gl.c.o
+bin/Editor: src/editor/CMakeFiles/Editor.dir/__/__/third_party/glfw/deps/glad_vulkan.c.o
+bin/Editor: src/editor/CMakeFiles/Editor.dir/__/__/third_party/glfw/deps/tinycthread.c.o
 bin/Editor: src/editor/CMakeFiles/Editor.dir/build.make
+bin/Editor: third_party/glfw/src/libglfw3.a
+bin/Editor: /usr/lib/x86_64-linux-gnu/librt.so
+bin/Editor: /usr/lib/x86_64-linux-gnu/libm.so
+bin/Editor: /usr/lib/x86_64-linux-gnu/libX11.so
 bin/Editor: src/editor/CMakeFiles/Editor.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/eduardo/Desktop/BYOND/MYG.gg/MYG/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable ../../bin/Editor"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/eduardo/Desktop/BYOND/MYG.gg/MYG/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Linking CXX executable ../../bin/Editor"
 	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG/src/editor && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/Editor.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

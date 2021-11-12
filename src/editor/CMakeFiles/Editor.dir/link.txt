@@ -1,1 +1,1 @@
-/usr/bin/c++  -std=c++2a   CMakeFiles/Editor.dir/editor.cpp.o  -o ../../bin/Editor 
+/usr/bin/c++  -std=c++2a   CMakeFiles/Editor.dir/editor.cpp.o CMakeFiles/Editor.dir/__/__/third_party/glfw/deps/getopt.c.o CMakeFiles/Editor.dir/__/__/third_party/glfw/deps/glad_gl.c.o CMakeFiles/Editor.dir/__/__/third_party/glfw/deps/glad_vulkan.c.o CMakeFiles/Editor.dir/__/__/third_party/glfw/deps/tinycthread.c.o  -o ../../bin/Editor  ../../third_party/glfw/src/libglfw3.a /usr/lib/x86_64-linux-gnu/librt.so -lm -ldl /usr/lib/x86_64-linux-gnu/libX11.so -lpthread 

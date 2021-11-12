@@ -56,6 +56,52 @@ CMAKE_BINARY_DIR = /home/eduardo/Desktop/BYOND/MYG.gg/MYG
 #=============================================================================
 # Targets provided globally by CMake.
 
+# Special rule for the target install/strip
+install/strip: preinstall
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing the project stripped..."
+	/usr/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
+.PHONY : install/strip
+
+# Special rule for the target install/strip
+install/strip/fast: preinstall/fast
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing the project stripped..."
+	/usr/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
+.PHONY : install/strip/fast
+
+# Special rule for the target install/local
+install/local: preinstall
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
+	/usr/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
+.PHONY : install/local
+
+# Special rule for the target install/local
+install/local/fast: preinstall/fast
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
+	/usr/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
+.PHONY : install/local/fast
+
+# Special rule for the target install
+install: preinstall
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Install the project..."
+	/usr/bin/cmake -P cmake_install.cmake
+.PHONY : install
+
+# Special rule for the target install
+install/fast: preinstall/fast
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Install the project..."
+	/usr/bin/cmake -P cmake_install.cmake
+.PHONY : install/fast
+
+# Special rule for the target list_install_components
+list_install_components:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Available install components are: \"Unspecified\""
+.PHONY : list_install_components
+
+# Special rule for the target list_install_components
+list_install_components/fast: list_install_components
+
+.PHONY : list_install_components/fast
+
 # Special rule for the target rebuild_cache
 rebuild_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
@@ -125,6 +171,114 @@ Editor/fast:
 	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/build
 .PHONY : Editor/fast
 
+__/__/third_party/glfw/deps/getopt.o: __/__/third_party/glfw/deps/getopt.c.o
+
+.PHONY : __/__/third_party/glfw/deps/getopt.o
+
+# target to build an object file
+__/__/third_party/glfw/deps/getopt.c.o:
+	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/__/__/third_party/glfw/deps/getopt.c.o
+.PHONY : __/__/third_party/glfw/deps/getopt.c.o
+
+__/__/third_party/glfw/deps/getopt.i: __/__/third_party/glfw/deps/getopt.c.i
+
+.PHONY : __/__/third_party/glfw/deps/getopt.i
+
+# target to preprocess a source file
+__/__/third_party/glfw/deps/getopt.c.i:
+	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/__/__/third_party/glfw/deps/getopt.c.i
+.PHONY : __/__/third_party/glfw/deps/getopt.c.i
+
+__/__/third_party/glfw/deps/getopt.s: __/__/third_party/glfw/deps/getopt.c.s
+
+.PHONY : __/__/third_party/glfw/deps/getopt.s
+
+# target to generate assembly for a file
+__/__/third_party/glfw/deps/getopt.c.s:
+	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/__/__/third_party/glfw/deps/getopt.c.s
+.PHONY : __/__/third_party/glfw/deps/getopt.c.s
+
+__/__/third_party/glfw/deps/glad_gl.o: __/__/third_party/glfw/deps/glad_gl.c.o
+
+.PHONY : __/__/third_party/glfw/deps/glad_gl.o
+
+# target to build an object file
+__/__/third_party/glfw/deps/glad_gl.c.o:
+	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/__/__/third_party/glfw/deps/glad_gl.c.o
+.PHONY : __/__/third_party/glfw/deps/glad_gl.c.o
+
+__/__/third_party/glfw/deps/glad_gl.i: __/__/third_party/glfw/deps/glad_gl.c.i
+
+.PHONY : __/__/third_party/glfw/deps/glad_gl.i
+
+# target to preprocess a source file
+__/__/third_party/glfw/deps/glad_gl.c.i:
+	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/__/__/third_party/glfw/deps/glad_gl.c.i
+.PHONY : __/__/third_party/glfw/deps/glad_gl.c.i
+
+__/__/third_party/glfw/deps/glad_gl.s: __/__/third_party/glfw/deps/glad_gl.c.s
+
+.PHONY : __/__/third_party/glfw/deps/glad_gl.s
+
+# target to generate assembly for a file
+__/__/third_party/glfw/deps/glad_gl.c.s:
+	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/__/__/third_party/glfw/deps/glad_gl.c.s
+.PHONY : __/__/third_party/glfw/deps/glad_gl.c.s
+
+__/__/third_party/glfw/deps/glad_vulkan.o: __/__/third_party/glfw/deps/glad_vulkan.c.o
+
+.PHONY : __/__/third_party/glfw/deps/glad_vulkan.o
+
+# target to build an object file
+__/__/third_party/glfw/deps/glad_vulkan.c.o:
+	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/__/__/third_party/glfw/deps/glad_vulkan.c.o
+.PHONY : __/__/third_party/glfw/deps/glad_vulkan.c.o
+
+__/__/third_party/glfw/deps/glad_vulkan.i: __/__/third_party/glfw/deps/glad_vulkan.c.i
+
+.PHONY : __/__/third_party/glfw/deps/glad_vulkan.i
+
+# target to preprocess a source file
+__/__/third_party/glfw/deps/glad_vulkan.c.i:
+	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/__/__/third_party/glfw/deps/glad_vulkan.c.i
+.PHONY : __/__/third_party/glfw/deps/glad_vulkan.c.i
+
+__/__/third_party/glfw/deps/glad_vulkan.s: __/__/third_party/glfw/deps/glad_vulkan.c.s
+
+.PHONY : __/__/third_party/glfw/deps/glad_vulkan.s
+
+# target to generate assembly for a file
+__/__/third_party/glfw/deps/glad_vulkan.c.s:
+	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/__/__/third_party/glfw/deps/glad_vulkan.c.s
+.PHONY : __/__/third_party/glfw/deps/glad_vulkan.c.s
+
+__/__/third_party/glfw/deps/tinycthread.o: __/__/third_party/glfw/deps/tinycthread.c.o
+
+.PHONY : __/__/third_party/glfw/deps/tinycthread.o
+
+# target to build an object file
+__/__/third_party/glfw/deps/tinycthread.c.o:
+	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/__/__/third_party/glfw/deps/tinycthread.c.o
+.PHONY : __/__/third_party/glfw/deps/tinycthread.c.o
+
+__/__/third_party/glfw/deps/tinycthread.i: __/__/third_party/glfw/deps/tinycthread.c.i
+
+.PHONY : __/__/third_party/glfw/deps/tinycthread.i
+
+# target to preprocess a source file
+__/__/third_party/glfw/deps/tinycthread.c.i:
+	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/__/__/third_party/glfw/deps/tinycthread.c.i
+.PHONY : __/__/third_party/glfw/deps/tinycthread.c.i
+
+__/__/third_party/glfw/deps/tinycthread.s: __/__/third_party/glfw/deps/tinycthread.c.s
+
+.PHONY : __/__/third_party/glfw/deps/tinycthread.s
+
+# target to generate assembly for a file
+__/__/third_party/glfw/deps/tinycthread.c.s:
+	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/__/__/third_party/glfw/deps/tinycthread.c.s
+.PHONY : __/__/third_party/glfw/deps/tinycthread.c.s
+
 editor.o: editor.cpp.o
 
 .PHONY : editor.o
@@ -158,9 +312,25 @@ help:
 	@echo "... all (the default if no target is provided)"
 	@echo "... clean"
 	@echo "... depend"
+	@echo "... install/strip"
+	@echo "... install/local"
+	@echo "... install"
+	@echo "... list_install_components"
 	@echo "... rebuild_cache"
 	@echo "... edit_cache"
 	@echo "... Editor"
+	@echo "... __/__/third_party/glfw/deps/getopt.o"
+	@echo "... __/__/third_party/glfw/deps/getopt.i"
+	@echo "... __/__/third_party/glfw/deps/getopt.s"
+	@echo "... __/__/third_party/glfw/deps/glad_gl.o"
+	@echo "... __/__/third_party/glfw/deps/glad_gl.i"
+	@echo "... __/__/third_party/glfw/deps/glad_gl.s"
+	@echo "... __/__/third_party/glfw/deps/glad_vulkan.o"
+	@echo "... __/__/third_party/glfw/deps/glad_vulkan.i"
+	@echo "... __/__/third_party/glfw/deps/glad_vulkan.s"
+	@echo "... __/__/third_party/glfw/deps/tinycthread.o"
+	@echo "... __/__/third_party/glfw/deps/tinycthread.i"
+	@echo "... __/__/third_party/glfw/deps/tinycthread.s"
 	@echo "... editor.o"
 	@echo "... editor.i"
 	@echo "... editor.s"

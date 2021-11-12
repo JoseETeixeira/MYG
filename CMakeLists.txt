@@ -9,5 +9,8 @@ set(CMAKE_CXX_FLAGS "-std=c++2a")
 set (CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
 
+add_subdirectory(third_party/glfw)
+include_directories(third_party/glfw/include)
+include_directories(third_party/glfw/deps/glad)
 
 add_subdirectory(src/editor)

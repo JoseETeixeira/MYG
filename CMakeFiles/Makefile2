@@ -53,16 +53,19 @@ CMAKE_BINARY_DIR = /home/eduardo/Desktop/BYOND/MYG.gg/MYG
 # Directory level rules for the build root directory
 
 # The main recursive "all" target.
+all: third_party/glfw/all
 all: src/editor/all
 
 .PHONY : all
 
 # The main recursive "preinstall" target.
+preinstall: third_party/glfw/preinstall
 preinstall: src/editor/preinstall
 
 .PHONY : preinstall
 
 # The main recursive "clean" target.
+clean: third_party/glfw/clean
 clean: src/editor/clean
 
 .PHONY : clean
@@ -86,18 +89,1016 @@ src/editor/clean: src/editor/CMakeFiles/Editor.dir/clean
 .PHONY : src/editor/clean
 
 #=============================================================================
+# Directory level rules for directory third_party/glfw
+
+# Recursive "all" directory target.
+third_party/glfw/all: third_party/glfw/src/all
+third_party/glfw/all: third_party/glfw/examples/all
+third_party/glfw/all: third_party/glfw/tests/all
+
+.PHONY : third_party/glfw/all
+
+# Recursive "preinstall" directory target.
+third_party/glfw/preinstall: third_party/glfw/src/preinstall
+third_party/glfw/preinstall: third_party/glfw/examples/preinstall
+third_party/glfw/preinstall: third_party/glfw/tests/preinstall
+
+.PHONY : third_party/glfw/preinstall
+
+# Recursive "clean" directory target.
+third_party/glfw/clean: third_party/glfw/CMakeFiles/uninstall.dir/clean
+third_party/glfw/clean: third_party/glfw/src/clean
+third_party/glfw/clean: third_party/glfw/examples/clean
+third_party/glfw/clean: third_party/glfw/tests/clean
+
+.PHONY : third_party/glfw/clean
+
+#=============================================================================
+# Directory level rules for directory third_party/glfw/examples
+
+# Recursive "all" directory target.
+third_party/glfw/examples/all: third_party/glfw/examples/CMakeFiles/boing.dir/all
+third_party/glfw/examples/all: third_party/glfw/examples/CMakeFiles/gears.dir/all
+third_party/glfw/examples/all: third_party/glfw/examples/CMakeFiles/heightmap.dir/all
+third_party/glfw/examples/all: third_party/glfw/examples/CMakeFiles/sharing.dir/all
+third_party/glfw/examples/all: third_party/glfw/examples/CMakeFiles/particles.dir/all
+third_party/glfw/examples/all: third_party/glfw/examples/CMakeFiles/simple.dir/all
+third_party/glfw/examples/all: third_party/glfw/examples/CMakeFiles/splitview.dir/all
+third_party/glfw/examples/all: third_party/glfw/examples/CMakeFiles/offscreen.dir/all
+third_party/glfw/examples/all: third_party/glfw/examples/CMakeFiles/wave.dir/all
+
+.PHONY : third_party/glfw/examples/all
+
+# Recursive "preinstall" directory target.
+third_party/glfw/examples/preinstall:
+
+.PHONY : third_party/glfw/examples/preinstall
+
+# Recursive "clean" directory target.
+third_party/glfw/examples/clean: third_party/glfw/examples/CMakeFiles/boing.dir/clean
+third_party/glfw/examples/clean: third_party/glfw/examples/CMakeFiles/gears.dir/clean
+third_party/glfw/examples/clean: third_party/glfw/examples/CMakeFiles/heightmap.dir/clean
+third_party/glfw/examples/clean: third_party/glfw/examples/CMakeFiles/sharing.dir/clean
+third_party/glfw/examples/clean: third_party/glfw/examples/CMakeFiles/particles.dir/clean
+third_party/glfw/examples/clean: third_party/glfw/examples/CMakeFiles/simple.dir/clean
+third_party/glfw/examples/clean: third_party/glfw/examples/CMakeFiles/splitview.dir/clean
+third_party/glfw/examples/clean: third_party/glfw/examples/CMakeFiles/offscreen.dir/clean
+third_party/glfw/examples/clean: third_party/glfw/examples/CMakeFiles/wave.dir/clean
+
+.PHONY : third_party/glfw/examples/clean
+
+#=============================================================================
+# Directory level rules for directory third_party/glfw/src
+
+# Recursive "all" directory target.
+third_party/glfw/src/all: third_party/glfw/src/CMakeFiles/glfw.dir/all
+
+.PHONY : third_party/glfw/src/all
+
+# Recursive "preinstall" directory target.
+third_party/glfw/src/preinstall:
+
+.PHONY : third_party/glfw/src/preinstall
+
+# Recursive "clean" directory target.
+third_party/glfw/src/clean: third_party/glfw/src/CMakeFiles/glfw.dir/clean
+third_party/glfw/src/clean: third_party/glfw/src/CMakeFiles/update_mappings.dir/clean
+
+.PHONY : third_party/glfw/src/clean
+
+#=============================================================================
+# Directory level rules for directory third_party/glfw/tests
+
+# Recursive "all" directory target.
+third_party/glfw/tests/all: third_party/glfw/tests/CMakeFiles/triangle-vulkan.dir/all
+third_party/glfw/tests/all: third_party/glfw/tests/CMakeFiles/tearing.dir/all
+third_party/glfw/tests/all: third_party/glfw/tests/CMakeFiles/title.dir/all
+third_party/glfw/tests/all: third_party/glfw/tests/CMakeFiles/opacity.dir/all
+third_party/glfw/tests/all: third_party/glfw/tests/CMakeFiles/clipboard.dir/all
+third_party/glfw/tests/all: third_party/glfw/tests/CMakeFiles/msaa.dir/all
+third_party/glfw/tests/all: third_party/glfw/tests/CMakeFiles/glfwinfo.dir/all
+third_party/glfw/tests/all: third_party/glfw/tests/CMakeFiles/iconify.dir/all
+third_party/glfw/tests/all: third_party/glfw/tests/CMakeFiles/reopen.dir/all
+third_party/glfw/tests/all: third_party/glfw/tests/CMakeFiles/gamma.dir/all
+third_party/glfw/tests/all: third_party/glfw/tests/CMakeFiles/monitors.dir/all
+third_party/glfw/tests/all: third_party/glfw/tests/CMakeFiles/windows.dir/all
+third_party/glfw/tests/all: third_party/glfw/tests/CMakeFiles/timeout.dir/all
+third_party/glfw/tests/all: third_party/glfw/tests/CMakeFiles/inputlag.dir/all
+third_party/glfw/tests/all: third_party/glfw/tests/CMakeFiles/threads.dir/all
+third_party/glfw/tests/all: third_party/glfw/tests/CMakeFiles/cursor.dir/all
+third_party/glfw/tests/all: third_party/glfw/tests/CMakeFiles/empty.dir/all
+third_party/glfw/tests/all: third_party/glfw/tests/CMakeFiles/icon.dir/all
+third_party/glfw/tests/all: third_party/glfw/tests/CMakeFiles/events.dir/all
+third_party/glfw/tests/all: third_party/glfw/tests/CMakeFiles/joysticks.dir/all
+
+.PHONY : third_party/glfw/tests/all
+
+# Recursive "preinstall" directory target.
+third_party/glfw/tests/preinstall:
+
+.PHONY : third_party/glfw/tests/preinstall
+
+# Recursive "clean" directory target.
+third_party/glfw/tests/clean: third_party/glfw/tests/CMakeFiles/triangle-vulkan.dir/clean
+third_party/glfw/tests/clean: third_party/glfw/tests/CMakeFiles/tearing.dir/clean
+third_party/glfw/tests/clean: third_party/glfw/tests/CMakeFiles/title.dir/clean
+third_party/glfw/tests/clean: third_party/glfw/tests/CMakeFiles/opacity.dir/clean
+third_party/glfw/tests/clean: third_party/glfw/tests/CMakeFiles/clipboard.dir/clean
+third_party/glfw/tests/clean: third_party/glfw/tests/CMakeFiles/msaa.dir/clean
+third_party/glfw/tests/clean: third_party/glfw/tests/CMakeFiles/glfwinfo.dir/clean
+third_party/glfw/tests/clean: third_party/glfw/tests/CMakeFiles/iconify.dir/clean
+third_party/glfw/tests/clean: third_party/glfw/tests/CMakeFiles/reopen.dir/clean
+third_party/glfw/tests/clean: third_party/glfw/tests/CMakeFiles/gamma.dir/clean
+third_party/glfw/tests/clean: third_party/glfw/tests/CMakeFiles/monitors.dir/clean
+third_party/glfw/tests/clean: third_party/glfw/tests/CMakeFiles/windows.dir/clean
+third_party/glfw/tests/clean: third_party/glfw/tests/CMakeFiles/timeout.dir/clean
+third_party/glfw/tests/clean: third_party/glfw/tests/CMakeFiles/inputlag.dir/clean
+third_party/glfw/tests/clean: third_party/glfw/tests/CMakeFiles/threads.dir/clean
+third_party/glfw/tests/clean: third_party/glfw/tests/CMakeFiles/cursor.dir/clean
+third_party/glfw/tests/clean: third_party/glfw/tests/CMakeFiles/empty.dir/clean
+third_party/glfw/tests/clean: third_party/glfw/tests/CMakeFiles/icon.dir/clean
+third_party/glfw/tests/clean: third_party/glfw/tests/CMakeFiles/events.dir/clean
+third_party/glfw/tests/clean: third_party/glfw/tests/CMakeFiles/joysticks.dir/clean
+
+.PHONY : third_party/glfw/tests/clean
+
+#=============================================================================
+# Target rules for target third_party/glfw/CMakeFiles/uninstall.dir
+
+# All Build rule for target.
+third_party/glfw/CMakeFiles/uninstall.dir/all:
+	$(MAKE) -f third_party/glfw/CMakeFiles/uninstall.dir/build.make third_party/glfw/CMakeFiles/uninstall.dir/depend
+	$(MAKE) -f third_party/glfw/CMakeFiles/uninstall.dir/build.make third_party/glfw/CMakeFiles/uninstall.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/eduardo/Desktop/BYOND/MYG.gg/MYG/CMakeFiles --progress-num= "Built target uninstall"
+.PHONY : third_party/glfw/CMakeFiles/uninstall.dir/all
+
+# Build rule for subdir invocation for target.
+third_party/glfw/CMakeFiles/uninstall.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/eduardo/Desktop/BYOND/MYG.gg/MYG/CMakeFiles 0
+	$(MAKE) -f CMakeFiles/Makefile2 third_party/glfw/CMakeFiles/uninstall.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/eduardo/Desktop/BYOND/MYG.gg/MYG/CMakeFiles 0
+.PHONY : third_party/glfw/CMakeFiles/uninstall.dir/rule
+
+# Convenience name for target.
+uninstall: third_party/glfw/CMakeFiles/uninstall.dir/rule
+
+.PHONY : uninstall
+
+# clean rule for target.
+third_party/glfw/CMakeFiles/uninstall.dir/clean:
+	$(MAKE) -f third_party/glfw/CMakeFiles/uninstall.dir/build.make third_party/glfw/CMakeFiles/uninstall.dir/clean
+.PHONY : third_party/glfw/CMakeFiles/uninstall.dir/clean
+
+#=============================================================================
+# Target rules for target third_party/glfw/src/CMakeFiles/glfw.dir
+
+# All Build rule for target.
+third_party/glfw/src/CMakeFiles/glfw.dir/all:
+	$(MAKE) -f third_party/glfw/src/CMakeFiles/glfw.dir/build.make third_party/glfw/src/CMakeFiles/glfw.dir/depend
+	$(MAKE) -f third_party/glfw/src/CMakeFiles/glfw.dir/build.make third_party/glfw/src/CMakeFiles/glfw.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/eduardo/Desktop/BYOND/MYG.gg/MYG/CMakeFiles --progress-num=25,26,27,28,29,30,31,32,33,34,35,36,37 "Built target glfw"
+.PHONY : third_party/glfw/src/CMakeFiles/glfw.dir/all
+
+# Build rule for subdir invocation for target.
+third_party/glfw/src/CMakeFiles/glfw.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/eduardo/Desktop/BYOND/MYG.gg/MYG/CMakeFiles 13
+	$(MAKE) -f CMakeFiles/Makefile2 third_party/glfw/src/CMakeFiles/glfw.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/eduardo/Desktop/BYOND/MYG.gg/MYG/CMakeFiles 0
+.PHONY : third_party/glfw/src/CMakeFiles/glfw.dir/rule
+
+# Convenience name for target.
+glfw: third_party/glfw/src/CMakeFiles/glfw.dir/rule
+
+.PHONY : glfw
+
+# clean rule for target.
+third_party/glfw/src/CMakeFiles/glfw.dir/clean:
+	$(MAKE) -f third_party/glfw/src/CMakeFiles/glfw.dir/build.make third_party/glfw/src/CMakeFiles/glfw.dir/clean
+.PHONY : third_party/glfw/src/CMakeFiles/glfw.dir/clean
+
+#=============================================================================
+# Target rules for target third_party/glfw/src/CMakeFiles/update_mappings.dir
+
+# All Build rule for target.
+third_party/glfw/src/CMakeFiles/update_mappings.dir/all:
+	$(MAKE) -f third_party/glfw/src/CMakeFiles/update_mappings.dir/build.make third_party/glfw/src/CMakeFiles/update_mappings.dir/depend
+	$(MAKE) -f third_party/glfw/src/CMakeFiles/update_mappings.dir/build.make third_party/glfw/src/CMakeFiles/update_mappings.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/eduardo/Desktop/BYOND/MYG.gg/MYG/CMakeFiles --progress-num=94 "Built target update_mappings"
+.PHONY : third_party/glfw/src/CMakeFiles/update_mappings.dir/all
+
+# Build rule for subdir invocation for target.
+third_party/glfw/src/CMakeFiles/update_mappings.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/eduardo/Desktop/BYOND/MYG.gg/MYG/CMakeFiles 1
+	$(MAKE) -f CMakeFiles/Makefile2 third_party/glfw/src/CMakeFiles/update_mappings.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/eduardo/Desktop/BYOND/MYG.gg/MYG/CMakeFiles 0
+.PHONY : third_party/glfw/src/CMakeFiles/update_mappings.dir/rule
+
+# Convenience name for target.
+update_mappings: third_party/glfw/src/CMakeFiles/update_mappings.dir/rule
+
+.PHONY : update_mappings
+
+# clean rule for target.
+third_party/glfw/src/CMakeFiles/update_mappings.dir/clean:
+	$(MAKE) -f third_party/glfw/src/CMakeFiles/update_mappings.dir/build.make third_party/glfw/src/CMakeFiles/update_mappings.dir/clean
+.PHONY : third_party/glfw/src/CMakeFiles/update_mappings.dir/clean
+
+#=============================================================================
+# Target rules for target third_party/glfw/examples/CMakeFiles/boing.dir
+
+# All Build rule for target.
+third_party/glfw/examples/CMakeFiles/boing.dir/all: third_party/glfw/src/CMakeFiles/glfw.dir/all
+	$(MAKE) -f third_party/glfw/examples/CMakeFiles/boing.dir/build.make third_party/glfw/examples/CMakeFiles/boing.dir/depend
+	$(MAKE) -f third_party/glfw/examples/CMakeFiles/boing.dir/build.make third_party/glfw/examples/CMakeFiles/boing.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/eduardo/Desktop/BYOND/MYG.gg/MYG/CMakeFiles --progress-num=5,6,7 "Built target boing"
+.PHONY : third_party/glfw/examples/CMakeFiles/boing.dir/all
+
+# Build rule for subdir invocation for target.
+third_party/glfw/examples/CMakeFiles/boing.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/eduardo/Desktop/BYOND/MYG.gg/MYG/CMakeFiles 16
+	$(MAKE) -f CMakeFiles/Makefile2 third_party/glfw/examples/CMakeFiles/boing.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/eduardo/Desktop/BYOND/MYG.gg/MYG/CMakeFiles 0
+.PHONY : third_party/glfw/examples/CMakeFiles/boing.dir/rule
+
+# Convenience name for target.
+boing: third_party/glfw/examples/CMakeFiles/boing.dir/rule
+
+.PHONY : boing
+
+# clean rule for target.
+third_party/glfw/examples/CMakeFiles/boing.dir/clean:
+	$(MAKE) -f third_party/glfw/examples/CMakeFiles/boing.dir/build.make third_party/glfw/examples/CMakeFiles/boing.dir/clean
+.PHONY : third_party/glfw/examples/CMakeFiles/boing.dir/clean
+
+#=============================================================================
+# Target rules for target third_party/glfw/examples/CMakeFiles/gears.dir
+
+# All Build rule for target.
+third_party/glfw/examples/CMakeFiles/gears.dir/all: third_party/glfw/src/CMakeFiles/glfw.dir/all
+	$(MAKE) -f third_party/glfw/examples/CMakeFiles/gears.dir/build.make third_party/glfw/examples/CMakeFiles/gears.dir/depend
+	$(MAKE) -f third_party/glfw/examples/CMakeFiles/gears.dir/build.make third_party/glfw/examples/CMakeFiles/gears.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/eduardo/Desktop/BYOND/MYG.gg/MYG/CMakeFiles --progress-num=22,23,24 "Built target gears"
+.PHONY : third_party/glfw/examples/CMakeFiles/gears.dir/all
+
+# Build rule for subdir invocation for target.
+third_party/glfw/examples/CMakeFiles/gears.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/eduardo/Desktop/BYOND/MYG.gg/MYG/CMakeFiles 16
+	$(MAKE) -f CMakeFiles/Makefile2 third_party/glfw/examples/CMakeFiles/gears.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/eduardo/Desktop/BYOND/MYG.gg/MYG/CMakeFiles 0
+.PHONY : third_party/glfw/examples/CMakeFiles/gears.dir/rule
+
+# Convenience name for target.
+gears: third_party/glfw/examples/CMakeFiles/gears.dir/rule
+
+.PHONY : gears
+
+# clean rule for target.
+third_party/glfw/examples/CMakeFiles/gears.dir/clean:
+	$(MAKE) -f third_party/glfw/examples/CMakeFiles/gears.dir/build.make third_party/glfw/examples/CMakeFiles/gears.dir/clean
+.PHONY : third_party/glfw/examples/CMakeFiles/gears.dir/clean
+
+#=============================================================================
+# Target rules for target third_party/glfw/examples/CMakeFiles/heightmap.dir
+
+# All Build rule for target.
+third_party/glfw/examples/CMakeFiles/heightmap.dir/all: third_party/glfw/src/CMakeFiles/glfw.dir/all
+	$(MAKE) -f third_party/glfw/examples/CMakeFiles/heightmap.dir/build.make third_party/glfw/examples/CMakeFiles/heightmap.dir/depend
+	$(MAKE) -f third_party/glfw/examples/CMakeFiles/heightmap.dir/build.make third_party/glfw/examples/CMakeFiles/heightmap.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/eduardo/Desktop/BYOND/MYG.gg/MYG/CMakeFiles --progress-num=42,43,44 "Built target heightmap"
+.PHONY : third_party/glfw/examples/CMakeFiles/heightmap.dir/all
+
+# Build rule for subdir invocation for target.
+third_party/glfw/examples/CMakeFiles/heightmap.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/eduardo/Desktop/BYOND/MYG.gg/MYG/CMakeFiles 16
+	$(MAKE) -f CMakeFiles/Makefile2 third_party/glfw/examples/CMakeFiles/heightmap.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/eduardo/Desktop/BYOND/MYG.gg/MYG/CMakeFiles 0
+.PHONY : third_party/glfw/examples/CMakeFiles/heightmap.dir/rule
+
+# Convenience name for target.
+heightmap: third_party/glfw/examples/CMakeFiles/heightmap.dir/rule
+
+.PHONY : heightmap
+
+# clean rule for target.
+third_party/glfw/examples/CMakeFiles/heightmap.dir/clean:
+	$(MAKE) -f third_party/glfw/examples/CMakeFiles/heightmap.dir/build.make third_party/glfw/examples/CMakeFiles/heightmap.dir/clean
+.PHONY : third_party/glfw/examples/CMakeFiles/heightmap.dir/clean
+
+#=============================================================================
+# Target rules for target third_party/glfw/examples/CMakeFiles/sharing.dir
+
+# All Build rule for target.
+third_party/glfw/examples/CMakeFiles/sharing.dir/all: third_party/glfw/src/CMakeFiles/glfw.dir/all
+	$(MAKE) -f third_party/glfw/examples/CMakeFiles/sharing.dir/build.make third_party/glfw/examples/CMakeFiles/sharing.dir/depend
+	$(MAKE) -f third_party/glfw/examples/CMakeFiles/sharing.dir/build.make third_party/glfw/examples/CMakeFiles/sharing.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/eduardo/Desktop/BYOND/MYG.gg/MYG/CMakeFiles --progress-num=74,75 "Built target sharing"
+.PHONY : third_party/glfw/examples/CMakeFiles/sharing.dir/all
+
+# Build rule for subdir invocation for target.
+third_party/glfw/examples/CMakeFiles/sharing.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/eduardo/Desktop/BYOND/MYG.gg/MYG/CMakeFiles 15
+	$(MAKE) -f CMakeFiles/Makefile2 third_party/glfw/examples/CMakeFiles/sharing.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/eduardo/Desktop/BYOND/MYG.gg/MYG/CMakeFiles 0
+.PHONY : third_party/glfw/examples/CMakeFiles/sharing.dir/rule
+
+# Convenience name for target.
+sharing: third_party/glfw/examples/CMakeFiles/sharing.dir/rule
+
+.PHONY : sharing
+
+# clean rule for target.
+third_party/glfw/examples/CMakeFiles/sharing.dir/clean:
+	$(MAKE) -f third_party/glfw/examples/CMakeFiles/sharing.dir/build.make third_party/glfw/examples/CMakeFiles/sharing.dir/clean
+.PHONY : third_party/glfw/examples/CMakeFiles/sharing.dir/clean
+
+#=============================================================================
+# Target rules for target third_party/glfw/examples/CMakeFiles/particles.dir
+
+# All Build rule for target.
+third_party/glfw/examples/CMakeFiles/particles.dir/all: third_party/glfw/src/CMakeFiles/glfw.dir/all
+	$(MAKE) -f third_party/glfw/examples/CMakeFiles/particles.dir/build.make third_party/glfw/examples/CMakeFiles/particles.dir/depend
+	$(MAKE) -f third_party/glfw/examples/CMakeFiles/particles.dir/build.make third_party/glfw/examples/CMakeFiles/particles.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/eduardo/Desktop/BYOND/MYG.gg/MYG/CMakeFiles --progress-num=67,68,69,70 "Built target particles"
+.PHONY : third_party/glfw/examples/CMakeFiles/particles.dir/all
+
+# Build rule for subdir invocation for target.
+third_party/glfw/examples/CMakeFiles/particles.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/eduardo/Desktop/BYOND/MYG.gg/MYG/CMakeFiles 17
+	$(MAKE) -f CMakeFiles/Makefile2 third_party/glfw/examples/CMakeFiles/particles.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/eduardo/Desktop/BYOND/MYG.gg/MYG/CMakeFiles 0
+.PHONY : third_party/glfw/examples/CMakeFiles/particles.dir/rule
+
+# Convenience name for target.
+particles: third_party/glfw/examples/CMakeFiles/particles.dir/rule
+
+.PHONY : particles
+
+# clean rule for target.
+third_party/glfw/examples/CMakeFiles/particles.dir/clean:
+	$(MAKE) -f third_party/glfw/examples/CMakeFiles/particles.dir/build.make third_party/glfw/examples/CMakeFiles/particles.dir/clean
+.PHONY : third_party/glfw/examples/CMakeFiles/particles.dir/clean
+
+#=============================================================================
+# Target rules for target third_party/glfw/examples/CMakeFiles/simple.dir
+
+# All Build rule for target.
+third_party/glfw/examples/CMakeFiles/simple.dir/all: third_party/glfw/src/CMakeFiles/glfw.dir/all
+	$(MAKE) -f third_party/glfw/examples/CMakeFiles/simple.dir/build.make third_party/glfw/examples/CMakeFiles/simple.dir/depend
+	$(MAKE) -f third_party/glfw/examples/CMakeFiles/simple.dir/build.make third_party/glfw/examples/CMakeFiles/simple.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/eduardo/Desktop/BYOND/MYG.gg/MYG/CMakeFiles --progress-num=76,77,78 "Built target simple"
+.PHONY : third_party/glfw/examples/CMakeFiles/simple.dir/all
+
+# Build rule for subdir invocation for target.
+third_party/glfw/examples/CMakeFiles/simple.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/eduardo/Desktop/BYOND/MYG.gg/MYG/CMakeFiles 16
+	$(MAKE) -f CMakeFiles/Makefile2 third_party/glfw/examples/CMakeFiles/simple.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/eduardo/Desktop/BYOND/MYG.gg/MYG/CMakeFiles 0
+.PHONY : third_party/glfw/examples/CMakeFiles/simple.dir/rule
+
+# Convenience name for target.
+simple: third_party/glfw/examples/CMakeFiles/simple.dir/rule
+
+.PHONY : simple
+
+# clean rule for target.
+third_party/glfw/examples/CMakeFiles/simple.dir/clean:
+	$(MAKE) -f third_party/glfw/examples/CMakeFiles/simple.dir/build.make third_party/glfw/examples/CMakeFiles/simple.dir/clean
+.PHONY : third_party/glfw/examples/CMakeFiles/simple.dir/clean
+
+#=============================================================================
+# Target rules for target third_party/glfw/examples/CMakeFiles/splitview.dir
+
+# All Build rule for target.
+third_party/glfw/examples/CMakeFiles/splitview.dir/all: third_party/glfw/src/CMakeFiles/glfw.dir/all
+	$(MAKE) -f third_party/glfw/examples/CMakeFiles/splitview.dir/build.make third_party/glfw/examples/CMakeFiles/splitview.dir/depend
+	$(MAKE) -f third_party/glfw/examples/CMakeFiles/splitview.dir/build.make third_party/glfw/examples/CMakeFiles/splitview.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/eduardo/Desktop/BYOND/MYG.gg/MYG/CMakeFiles --progress-num=79,80 "Built target splitview"
+.PHONY : third_party/glfw/examples/CMakeFiles/splitview.dir/all
+
+# Build rule for subdir invocation for target.
+third_party/glfw/examples/CMakeFiles/splitview.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/eduardo/Desktop/BYOND/MYG.gg/MYG/CMakeFiles 15
+	$(MAKE) -f CMakeFiles/Makefile2 third_party/glfw/examples/CMakeFiles/splitview.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/eduardo/Desktop/BYOND/MYG.gg/MYG/CMakeFiles 0
+.PHONY : third_party/glfw/examples/CMakeFiles/splitview.dir/rule
+
+# Convenience name for target.
+splitview: third_party/glfw/examples/CMakeFiles/splitview.dir/rule
+
+.PHONY : splitview
+
+# clean rule for target.
+third_party/glfw/examples/CMakeFiles/splitview.dir/clean:
+	$(MAKE) -f third_party/glfw/examples/CMakeFiles/splitview.dir/build.make third_party/glfw/examples/CMakeFiles/splitview.dir/clean
+.PHONY : third_party/glfw/examples/CMakeFiles/splitview.dir/clean
+
+#=============================================================================
+# Target rules for target third_party/glfw/examples/CMakeFiles/offscreen.dir
+
+# All Build rule for target.
+third_party/glfw/examples/CMakeFiles/offscreen.dir/all: third_party/glfw/src/CMakeFiles/glfw.dir/all
+	$(MAKE) -f third_party/glfw/examples/CMakeFiles/offscreen.dir/build.make third_party/glfw/examples/CMakeFiles/offscreen.dir/depend
+	$(MAKE) -f third_party/glfw/examples/CMakeFiles/offscreen.dir/build.make third_party/glfw/examples/CMakeFiles/offscreen.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/eduardo/Desktop/BYOND/MYG.gg/MYG/CMakeFiles --progress-num=63,64 "Built target offscreen"
+.PHONY : third_party/glfw/examples/CMakeFiles/offscreen.dir/all
+
+# Build rule for subdir invocation for target.
+third_party/glfw/examples/CMakeFiles/offscreen.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/eduardo/Desktop/BYOND/MYG.gg/MYG/CMakeFiles 15
+	$(MAKE) -f CMakeFiles/Makefile2 third_party/glfw/examples/CMakeFiles/offscreen.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/eduardo/Desktop/BYOND/MYG.gg/MYG/CMakeFiles 0
+.PHONY : third_party/glfw/examples/CMakeFiles/offscreen.dir/rule
+
+# Convenience name for target.
+offscreen: third_party/glfw/examples/CMakeFiles/offscreen.dir/rule
+
+.PHONY : offscreen
+
+# clean rule for target.
+third_party/glfw/examples/CMakeFiles/offscreen.dir/clean:
+	$(MAKE) -f third_party/glfw/examples/CMakeFiles/offscreen.dir/build.make third_party/glfw/examples/CMakeFiles/offscreen.dir/clean
+.PHONY : third_party/glfw/examples/CMakeFiles/offscreen.dir/clean
+
+#=============================================================================
+# Target rules for target third_party/glfw/examples/CMakeFiles/wave.dir
+
+# All Build rule for target.
+third_party/glfw/examples/CMakeFiles/wave.dir/all: third_party/glfw/src/CMakeFiles/glfw.dir/all
+	$(MAKE) -f third_party/glfw/examples/CMakeFiles/wave.dir/build.make third_party/glfw/examples/CMakeFiles/wave.dir/depend
+	$(MAKE) -f third_party/glfw/examples/CMakeFiles/wave.dir/build.make third_party/glfw/examples/CMakeFiles/wave.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/eduardo/Desktop/BYOND/MYG.gg/MYG/CMakeFiles --progress-num=95,96 "Built target wave"
+.PHONY : third_party/glfw/examples/CMakeFiles/wave.dir/all
+
+# Build rule for subdir invocation for target.
+third_party/glfw/examples/CMakeFiles/wave.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/eduardo/Desktop/BYOND/MYG.gg/MYG/CMakeFiles 15
+	$(MAKE) -f CMakeFiles/Makefile2 third_party/glfw/examples/CMakeFiles/wave.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/eduardo/Desktop/BYOND/MYG.gg/MYG/CMakeFiles 0
+.PHONY : third_party/glfw/examples/CMakeFiles/wave.dir/rule
+
+# Convenience name for target.
+wave: third_party/glfw/examples/CMakeFiles/wave.dir/rule
+
+.PHONY : wave
+
+# clean rule for target.
+third_party/glfw/examples/CMakeFiles/wave.dir/clean:
+	$(MAKE) -f third_party/glfw/examples/CMakeFiles/wave.dir/build.make third_party/glfw/examples/CMakeFiles/wave.dir/clean
+.PHONY : third_party/glfw/examples/CMakeFiles/wave.dir/clean
+
+#=============================================================================
+# Target rules for target third_party/glfw/tests/CMakeFiles/triangle-vulkan.dir
+
+# All Build rule for target.
+third_party/glfw/tests/CMakeFiles/triangle-vulkan.dir/all: third_party/glfw/src/CMakeFiles/glfw.dir/all
+	$(MAKE) -f third_party/glfw/tests/CMakeFiles/triangle-vulkan.dir/build.make third_party/glfw/tests/CMakeFiles/triangle-vulkan.dir/depend
+	$(MAKE) -f third_party/glfw/tests/CMakeFiles/triangle-vulkan.dir/build.make third_party/glfw/tests/CMakeFiles/triangle-vulkan.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/eduardo/Desktop/BYOND/MYG.gg/MYG/CMakeFiles --progress-num=92,93 "Built target triangle-vulkan"
+.PHONY : third_party/glfw/tests/CMakeFiles/triangle-vulkan.dir/all
+
+# Build rule for subdir invocation for target.
+third_party/glfw/tests/CMakeFiles/triangle-vulkan.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/eduardo/Desktop/BYOND/MYG.gg/MYG/CMakeFiles 15
+	$(MAKE) -f CMakeFiles/Makefile2 third_party/glfw/tests/CMakeFiles/triangle-vulkan.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/eduardo/Desktop/BYOND/MYG.gg/MYG/CMakeFiles 0
+.PHONY : third_party/glfw/tests/CMakeFiles/triangle-vulkan.dir/rule
+
+# Convenience name for target.
+triangle-vulkan: third_party/glfw/tests/CMakeFiles/triangle-vulkan.dir/rule
+
+.PHONY : triangle-vulkan
+
+# clean rule for target.
+third_party/glfw/tests/CMakeFiles/triangle-vulkan.dir/clean:
+	$(MAKE) -f third_party/glfw/tests/CMakeFiles/triangle-vulkan.dir/build.make third_party/glfw/tests/CMakeFiles/triangle-vulkan.dir/clean
+.PHONY : third_party/glfw/tests/CMakeFiles/triangle-vulkan.dir/clean
+
+#=============================================================================
+# Target rules for target third_party/glfw/tests/CMakeFiles/tearing.dir
+
+# All Build rule for target.
+third_party/glfw/tests/CMakeFiles/tearing.dir/all: third_party/glfw/src/CMakeFiles/glfw.dir/all
+	$(MAKE) -f third_party/glfw/tests/CMakeFiles/tearing.dir/build.make third_party/glfw/tests/CMakeFiles/tearing.dir/depend
+	$(MAKE) -f third_party/glfw/tests/CMakeFiles/tearing.dir/build.make third_party/glfw/tests/CMakeFiles/tearing.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/eduardo/Desktop/BYOND/MYG.gg/MYG/CMakeFiles --progress-num=81,82,83 "Built target tearing"
+.PHONY : third_party/glfw/tests/CMakeFiles/tearing.dir/all
+
+# Build rule for subdir invocation for target.
+third_party/glfw/tests/CMakeFiles/tearing.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/eduardo/Desktop/BYOND/MYG.gg/MYG/CMakeFiles 16
+	$(MAKE) -f CMakeFiles/Makefile2 third_party/glfw/tests/CMakeFiles/tearing.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/eduardo/Desktop/BYOND/MYG.gg/MYG/CMakeFiles 0
+.PHONY : third_party/glfw/tests/CMakeFiles/tearing.dir/rule
+
+# Convenience name for target.
+tearing: third_party/glfw/tests/CMakeFiles/tearing.dir/rule
+
+.PHONY : tearing
+
+# clean rule for target.
+third_party/glfw/tests/CMakeFiles/tearing.dir/clean:
+	$(MAKE) -f third_party/glfw/tests/CMakeFiles/tearing.dir/build.make third_party/glfw/tests/CMakeFiles/tearing.dir/clean
+.PHONY : third_party/glfw/tests/CMakeFiles/tearing.dir/clean
+
+#=============================================================================
+# Target rules for target third_party/glfw/tests/CMakeFiles/title.dir
+
+# All Build rule for target.
+third_party/glfw/tests/CMakeFiles/title.dir/all: third_party/glfw/src/CMakeFiles/glfw.dir/all
+	$(MAKE) -f third_party/glfw/tests/CMakeFiles/title.dir/build.make third_party/glfw/tests/CMakeFiles/title.dir/depend
+	$(MAKE) -f third_party/glfw/tests/CMakeFiles/title.dir/build.make third_party/glfw/tests/CMakeFiles/title.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/eduardo/Desktop/BYOND/MYG.gg/MYG/CMakeFiles --progress-num=89,90,91 "Built target title"
+.PHONY : third_party/glfw/tests/CMakeFiles/title.dir/all
+
+# Build rule for subdir invocation for target.
+third_party/glfw/tests/CMakeFiles/title.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/eduardo/Desktop/BYOND/MYG.gg/MYG/CMakeFiles 16
+	$(MAKE) -f CMakeFiles/Makefile2 third_party/glfw/tests/CMakeFiles/title.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/eduardo/Desktop/BYOND/MYG.gg/MYG/CMakeFiles 0
+.PHONY : third_party/glfw/tests/CMakeFiles/title.dir/rule
+
+# Convenience name for target.
+title: third_party/glfw/tests/CMakeFiles/title.dir/rule
+
+.PHONY : title
+
+# clean rule for target.
+third_party/glfw/tests/CMakeFiles/title.dir/clean:
+	$(MAKE) -f third_party/glfw/tests/CMakeFiles/title.dir/build.make third_party/glfw/tests/CMakeFiles/title.dir/clean
+.PHONY : third_party/glfw/tests/CMakeFiles/title.dir/clean
+
+#=============================================================================
+# Target rules for target third_party/glfw/tests/CMakeFiles/opacity.dir
+
+# All Build rule for target.
+third_party/glfw/tests/CMakeFiles/opacity.dir/all: third_party/glfw/src/CMakeFiles/glfw.dir/all
+	$(MAKE) -f third_party/glfw/tests/CMakeFiles/opacity.dir/build.make third_party/glfw/tests/CMakeFiles/opacity.dir/depend
+	$(MAKE) -f third_party/glfw/tests/CMakeFiles/opacity.dir/build.make third_party/glfw/tests/CMakeFiles/opacity.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/eduardo/Desktop/BYOND/MYG.gg/MYG/CMakeFiles --progress-num=65,66 "Built target opacity"
+.PHONY : third_party/glfw/tests/CMakeFiles/opacity.dir/all
+
+# Build rule for subdir invocation for target.
+third_party/glfw/tests/CMakeFiles/opacity.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/eduardo/Desktop/BYOND/MYG.gg/MYG/CMakeFiles 15
+	$(MAKE) -f CMakeFiles/Makefile2 third_party/glfw/tests/CMakeFiles/opacity.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/eduardo/Desktop/BYOND/MYG.gg/MYG/CMakeFiles 0
+.PHONY : third_party/glfw/tests/CMakeFiles/opacity.dir/rule
+
+# Convenience name for target.
+opacity: third_party/glfw/tests/CMakeFiles/opacity.dir/rule
+
+.PHONY : opacity
+
+# clean rule for target.
+third_party/glfw/tests/CMakeFiles/opacity.dir/clean:
+	$(MAKE) -f third_party/glfw/tests/CMakeFiles/opacity.dir/build.make third_party/glfw/tests/CMakeFiles/opacity.dir/clean
+.PHONY : third_party/glfw/tests/CMakeFiles/opacity.dir/clean
+
+#=============================================================================
+# Target rules for target third_party/glfw/tests/CMakeFiles/clipboard.dir
+
+# All Build rule for target.
+third_party/glfw/tests/CMakeFiles/clipboard.dir/all: third_party/glfw/src/CMakeFiles/glfw.dir/all
+	$(MAKE) -f third_party/glfw/tests/CMakeFiles/clipboard.dir/build.make third_party/glfw/tests/CMakeFiles/clipboard.dir/depend
+	$(MAKE) -f third_party/glfw/tests/CMakeFiles/clipboard.dir/build.make third_party/glfw/tests/CMakeFiles/clipboard.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/eduardo/Desktop/BYOND/MYG.gg/MYG/CMakeFiles --progress-num=8,9,10 "Built target clipboard"
+.PHONY : third_party/glfw/tests/CMakeFiles/clipboard.dir/all
+
+# Build rule for subdir invocation for target.
+third_party/glfw/tests/CMakeFiles/clipboard.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/eduardo/Desktop/BYOND/MYG.gg/MYG/CMakeFiles 16
+	$(MAKE) -f CMakeFiles/Makefile2 third_party/glfw/tests/CMakeFiles/clipboard.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/eduardo/Desktop/BYOND/MYG.gg/MYG/CMakeFiles 0
+.PHONY : third_party/glfw/tests/CMakeFiles/clipboard.dir/rule
+
+# Convenience name for target.
+clipboard: third_party/glfw/tests/CMakeFiles/clipboard.dir/rule
+
+.PHONY : clipboard
+
+# clean rule for target.
+third_party/glfw/tests/CMakeFiles/clipboard.dir/clean:
+	$(MAKE) -f third_party/glfw/tests/CMakeFiles/clipboard.dir/build.make third_party/glfw/tests/CMakeFiles/clipboard.dir/clean
+.PHONY : third_party/glfw/tests/CMakeFiles/clipboard.dir/clean
+
+#=============================================================================
+# Target rules for target third_party/glfw/tests/CMakeFiles/msaa.dir
+
+# All Build rule for target.
+third_party/glfw/tests/CMakeFiles/msaa.dir/all: third_party/glfw/src/CMakeFiles/glfw.dir/all
+	$(MAKE) -f third_party/glfw/tests/CMakeFiles/msaa.dir/build.make third_party/glfw/tests/CMakeFiles/msaa.dir/depend
+	$(MAKE) -f third_party/glfw/tests/CMakeFiles/msaa.dir/build.make third_party/glfw/tests/CMakeFiles/msaa.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/eduardo/Desktop/BYOND/MYG.gg/MYG/CMakeFiles --progress-num=59,60,61,62 "Built target msaa"
+.PHONY : third_party/glfw/tests/CMakeFiles/msaa.dir/all
+
+# Build rule for subdir invocation for target.
+third_party/glfw/tests/CMakeFiles/msaa.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/eduardo/Desktop/BYOND/MYG.gg/MYG/CMakeFiles 17
+	$(MAKE) -f CMakeFiles/Makefile2 third_party/glfw/tests/CMakeFiles/msaa.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/eduardo/Desktop/BYOND/MYG.gg/MYG/CMakeFiles 0
+.PHONY : third_party/glfw/tests/CMakeFiles/msaa.dir/rule
+
+# Convenience name for target.
+msaa: third_party/glfw/tests/CMakeFiles/msaa.dir/rule
+
+.PHONY : msaa
+
+# clean rule for target.
+third_party/glfw/tests/CMakeFiles/msaa.dir/clean:
+	$(MAKE) -f third_party/glfw/tests/CMakeFiles/msaa.dir/build.make third_party/glfw/tests/CMakeFiles/msaa.dir/clean
+.PHONY : third_party/glfw/tests/CMakeFiles/msaa.dir/clean
+
+#=============================================================================
+# Target rules for target third_party/glfw/tests/CMakeFiles/glfwinfo.dir
+
+# All Build rule for target.
+third_party/glfw/tests/CMakeFiles/glfwinfo.dir/all: third_party/glfw/src/CMakeFiles/glfw.dir/all
+	$(MAKE) -f third_party/glfw/tests/CMakeFiles/glfwinfo.dir/build.make third_party/glfw/tests/CMakeFiles/glfwinfo.dir/depend
+	$(MAKE) -f third_party/glfw/tests/CMakeFiles/glfwinfo.dir/build.make third_party/glfw/tests/CMakeFiles/glfwinfo.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/eduardo/Desktop/BYOND/MYG.gg/MYG/CMakeFiles --progress-num=38,39,40,41 "Built target glfwinfo"
+.PHONY : third_party/glfw/tests/CMakeFiles/glfwinfo.dir/all
+
+# Build rule for subdir invocation for target.
+third_party/glfw/tests/CMakeFiles/glfwinfo.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/eduardo/Desktop/BYOND/MYG.gg/MYG/CMakeFiles 17
+	$(MAKE) -f CMakeFiles/Makefile2 third_party/glfw/tests/CMakeFiles/glfwinfo.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/eduardo/Desktop/BYOND/MYG.gg/MYG/CMakeFiles 0
+.PHONY : third_party/glfw/tests/CMakeFiles/glfwinfo.dir/rule
+
+# Convenience name for target.
+glfwinfo: third_party/glfw/tests/CMakeFiles/glfwinfo.dir/rule
+
+.PHONY : glfwinfo
+
+# clean rule for target.
+third_party/glfw/tests/CMakeFiles/glfwinfo.dir/clean:
+	$(MAKE) -f third_party/glfw/tests/CMakeFiles/glfwinfo.dir/build.make third_party/glfw/tests/CMakeFiles/glfwinfo.dir/clean
+.PHONY : third_party/glfw/tests/CMakeFiles/glfwinfo.dir/clean
+
+#=============================================================================
+# Target rules for target third_party/glfw/tests/CMakeFiles/iconify.dir
+
+# All Build rule for target.
+third_party/glfw/tests/CMakeFiles/iconify.dir/all: third_party/glfw/src/CMakeFiles/glfw.dir/all
+	$(MAKE) -f third_party/glfw/tests/CMakeFiles/iconify.dir/build.make third_party/glfw/tests/CMakeFiles/iconify.dir/depend
+	$(MAKE) -f third_party/glfw/tests/CMakeFiles/iconify.dir/build.make third_party/glfw/tests/CMakeFiles/iconify.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/eduardo/Desktop/BYOND/MYG.gg/MYG/CMakeFiles --progress-num=47,48,49,50 "Built target iconify"
+.PHONY : third_party/glfw/tests/CMakeFiles/iconify.dir/all
+
+# Build rule for subdir invocation for target.
+third_party/glfw/tests/CMakeFiles/iconify.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/eduardo/Desktop/BYOND/MYG.gg/MYG/CMakeFiles 17
+	$(MAKE) -f CMakeFiles/Makefile2 third_party/glfw/tests/CMakeFiles/iconify.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/eduardo/Desktop/BYOND/MYG.gg/MYG/CMakeFiles 0
+.PHONY : third_party/glfw/tests/CMakeFiles/iconify.dir/rule
+
+# Convenience name for target.
+iconify: third_party/glfw/tests/CMakeFiles/iconify.dir/rule
+
+.PHONY : iconify
+
+# clean rule for target.
+third_party/glfw/tests/CMakeFiles/iconify.dir/clean:
+	$(MAKE) -f third_party/glfw/tests/CMakeFiles/iconify.dir/build.make third_party/glfw/tests/CMakeFiles/iconify.dir/clean
+.PHONY : third_party/glfw/tests/CMakeFiles/iconify.dir/clean
+
+#=============================================================================
+# Target rules for target third_party/glfw/tests/CMakeFiles/reopen.dir
+
+# All Build rule for target.
+third_party/glfw/tests/CMakeFiles/reopen.dir/all: third_party/glfw/src/CMakeFiles/glfw.dir/all
+	$(MAKE) -f third_party/glfw/tests/CMakeFiles/reopen.dir/build.make third_party/glfw/tests/CMakeFiles/reopen.dir/depend
+	$(MAKE) -f third_party/glfw/tests/CMakeFiles/reopen.dir/build.make third_party/glfw/tests/CMakeFiles/reopen.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/eduardo/Desktop/BYOND/MYG.gg/MYG/CMakeFiles --progress-num=71,72,73 "Built target reopen"
+.PHONY : third_party/glfw/tests/CMakeFiles/reopen.dir/all
+
+# Build rule for subdir invocation for target.
+third_party/glfw/tests/CMakeFiles/reopen.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/eduardo/Desktop/BYOND/MYG.gg/MYG/CMakeFiles 16
+	$(MAKE) -f CMakeFiles/Makefile2 third_party/glfw/tests/CMakeFiles/reopen.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/eduardo/Desktop/BYOND/MYG.gg/MYG/CMakeFiles 0
+.PHONY : third_party/glfw/tests/CMakeFiles/reopen.dir/rule
+
+# Convenience name for target.
+reopen: third_party/glfw/tests/CMakeFiles/reopen.dir/rule
+
+.PHONY : reopen
+
+# clean rule for target.
+third_party/glfw/tests/CMakeFiles/reopen.dir/clean:
+	$(MAKE) -f third_party/glfw/tests/CMakeFiles/reopen.dir/build.make third_party/glfw/tests/CMakeFiles/reopen.dir/clean
+.PHONY : third_party/glfw/tests/CMakeFiles/reopen.dir/clean
+
+#=============================================================================
+# Target rules for target third_party/glfw/tests/CMakeFiles/gamma.dir
+
+# All Build rule for target.
+third_party/glfw/tests/CMakeFiles/gamma.dir/all: third_party/glfw/src/CMakeFiles/glfw.dir/all
+	$(MAKE) -f third_party/glfw/tests/CMakeFiles/gamma.dir/build.make third_party/glfw/tests/CMakeFiles/gamma.dir/depend
+	$(MAKE) -f third_party/glfw/tests/CMakeFiles/gamma.dir/build.make third_party/glfw/tests/CMakeFiles/gamma.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/eduardo/Desktop/BYOND/MYG.gg/MYG/CMakeFiles --progress-num=20,21 "Built target gamma"
+.PHONY : third_party/glfw/tests/CMakeFiles/gamma.dir/all
+
+# Build rule for subdir invocation for target.
+third_party/glfw/tests/CMakeFiles/gamma.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/eduardo/Desktop/BYOND/MYG.gg/MYG/CMakeFiles 15
+	$(MAKE) -f CMakeFiles/Makefile2 third_party/glfw/tests/CMakeFiles/gamma.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/eduardo/Desktop/BYOND/MYG.gg/MYG/CMakeFiles 0
+.PHONY : third_party/glfw/tests/CMakeFiles/gamma.dir/rule
+
+# Convenience name for target.
+gamma: third_party/glfw/tests/CMakeFiles/gamma.dir/rule
+
+.PHONY : gamma
+
+# clean rule for target.
+third_party/glfw/tests/CMakeFiles/gamma.dir/clean:
+	$(MAKE) -f third_party/glfw/tests/CMakeFiles/gamma.dir/build.make third_party/glfw/tests/CMakeFiles/gamma.dir/clean
+.PHONY : third_party/glfw/tests/CMakeFiles/gamma.dir/clean
+
+#=============================================================================
+# Target rules for target third_party/glfw/tests/CMakeFiles/monitors.dir
+
+# All Build rule for target.
+third_party/glfw/tests/CMakeFiles/monitors.dir/all: third_party/glfw/src/CMakeFiles/glfw.dir/all
+	$(MAKE) -f third_party/glfw/tests/CMakeFiles/monitors.dir/build.make third_party/glfw/tests/CMakeFiles/monitors.dir/depend
+	$(MAKE) -f third_party/glfw/tests/CMakeFiles/monitors.dir/build.make third_party/glfw/tests/CMakeFiles/monitors.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/eduardo/Desktop/BYOND/MYG.gg/MYG/CMakeFiles --progress-num=56,57,58 "Built target monitors"
+.PHONY : third_party/glfw/tests/CMakeFiles/monitors.dir/all
+
+# Build rule for subdir invocation for target.
+third_party/glfw/tests/CMakeFiles/monitors.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/eduardo/Desktop/BYOND/MYG.gg/MYG/CMakeFiles 16
+	$(MAKE) -f CMakeFiles/Makefile2 third_party/glfw/tests/CMakeFiles/monitors.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/eduardo/Desktop/BYOND/MYG.gg/MYG/CMakeFiles 0
+.PHONY : third_party/glfw/tests/CMakeFiles/monitors.dir/rule
+
+# Convenience name for target.
+monitors: third_party/glfw/tests/CMakeFiles/monitors.dir/rule
+
+.PHONY : monitors
+
+# clean rule for target.
+third_party/glfw/tests/CMakeFiles/monitors.dir/clean:
+	$(MAKE) -f third_party/glfw/tests/CMakeFiles/monitors.dir/build.make third_party/glfw/tests/CMakeFiles/monitors.dir/clean
+.PHONY : third_party/glfw/tests/CMakeFiles/monitors.dir/clean
+
+#=============================================================================
+# Target rules for target third_party/glfw/tests/CMakeFiles/windows.dir
+
+# All Build rule for target.
+third_party/glfw/tests/CMakeFiles/windows.dir/all: third_party/glfw/src/CMakeFiles/glfw.dir/all
+	$(MAKE) -f third_party/glfw/tests/CMakeFiles/windows.dir/build.make third_party/glfw/tests/CMakeFiles/windows.dir/depend
+	$(MAKE) -f third_party/glfw/tests/CMakeFiles/windows.dir/build.make third_party/glfw/tests/CMakeFiles/windows.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/eduardo/Desktop/BYOND/MYG.gg/MYG/CMakeFiles --progress-num=97,98,99,100 "Built target windows"
+.PHONY : third_party/glfw/tests/CMakeFiles/windows.dir/all
+
+# Build rule for subdir invocation for target.
+third_party/glfw/tests/CMakeFiles/windows.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/eduardo/Desktop/BYOND/MYG.gg/MYG/CMakeFiles 17
+	$(MAKE) -f CMakeFiles/Makefile2 third_party/glfw/tests/CMakeFiles/windows.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/eduardo/Desktop/BYOND/MYG.gg/MYG/CMakeFiles 0
+.PHONY : third_party/glfw/tests/CMakeFiles/windows.dir/rule
+
+# Convenience name for target.
+windows: third_party/glfw/tests/CMakeFiles/windows.dir/rule
+
+.PHONY : windows
+
+# clean rule for target.
+third_party/glfw/tests/CMakeFiles/windows.dir/clean:
+	$(MAKE) -f third_party/glfw/tests/CMakeFiles/windows.dir/build.make third_party/glfw/tests/CMakeFiles/windows.dir/clean
+.PHONY : third_party/glfw/tests/CMakeFiles/windows.dir/clean
+
+#=============================================================================
+# Target rules for target third_party/glfw/tests/CMakeFiles/timeout.dir
+
+# All Build rule for target.
+third_party/glfw/tests/CMakeFiles/timeout.dir/all: third_party/glfw/src/CMakeFiles/glfw.dir/all
+	$(MAKE) -f third_party/glfw/tests/CMakeFiles/timeout.dir/build.make third_party/glfw/tests/CMakeFiles/timeout.dir/depend
+	$(MAKE) -f third_party/glfw/tests/CMakeFiles/timeout.dir/build.make third_party/glfw/tests/CMakeFiles/timeout.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/eduardo/Desktop/BYOND/MYG.gg/MYG/CMakeFiles --progress-num=87,88 "Built target timeout"
+.PHONY : third_party/glfw/tests/CMakeFiles/timeout.dir/all
+
+# Build rule for subdir invocation for target.
+third_party/glfw/tests/CMakeFiles/timeout.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/eduardo/Desktop/BYOND/MYG.gg/MYG/CMakeFiles 15
+	$(MAKE) -f CMakeFiles/Makefile2 third_party/glfw/tests/CMakeFiles/timeout.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/eduardo/Desktop/BYOND/MYG.gg/MYG/CMakeFiles 0
+.PHONY : third_party/glfw/tests/CMakeFiles/timeout.dir/rule
+
+# Convenience name for target.
+timeout: third_party/glfw/tests/CMakeFiles/timeout.dir/rule
+
+.PHONY : timeout
+
+# clean rule for target.
+third_party/glfw/tests/CMakeFiles/timeout.dir/clean:
+	$(MAKE) -f third_party/glfw/tests/CMakeFiles/timeout.dir/build.make third_party/glfw/tests/CMakeFiles/timeout.dir/clean
+.PHONY : third_party/glfw/tests/CMakeFiles/timeout.dir/clean
+
+#=============================================================================
+# Target rules for target third_party/glfw/tests/CMakeFiles/inputlag.dir
+
+# All Build rule for target.
+third_party/glfw/tests/CMakeFiles/inputlag.dir/all: third_party/glfw/src/CMakeFiles/glfw.dir/all
+	$(MAKE) -f third_party/glfw/tests/CMakeFiles/inputlag.dir/build.make third_party/glfw/tests/CMakeFiles/inputlag.dir/depend
+	$(MAKE) -f third_party/glfw/tests/CMakeFiles/inputlag.dir/build.make third_party/glfw/tests/CMakeFiles/inputlag.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/eduardo/Desktop/BYOND/MYG.gg/MYG/CMakeFiles --progress-num=51,52,53 "Built target inputlag"
+.PHONY : third_party/glfw/tests/CMakeFiles/inputlag.dir/all
+
+# Build rule for subdir invocation for target.
+third_party/glfw/tests/CMakeFiles/inputlag.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/eduardo/Desktop/BYOND/MYG.gg/MYG/CMakeFiles 16
+	$(MAKE) -f CMakeFiles/Makefile2 third_party/glfw/tests/CMakeFiles/inputlag.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/eduardo/Desktop/BYOND/MYG.gg/MYG/CMakeFiles 0
+.PHONY : third_party/glfw/tests/CMakeFiles/inputlag.dir/rule
+
+# Convenience name for target.
+inputlag: third_party/glfw/tests/CMakeFiles/inputlag.dir/rule
+
+.PHONY : inputlag
+
+# clean rule for target.
+third_party/glfw/tests/CMakeFiles/inputlag.dir/clean:
+	$(MAKE) -f third_party/glfw/tests/CMakeFiles/inputlag.dir/build.make third_party/glfw/tests/CMakeFiles/inputlag.dir/clean
+.PHONY : third_party/glfw/tests/CMakeFiles/inputlag.dir/clean
+
+#=============================================================================
+# Target rules for target third_party/glfw/tests/CMakeFiles/threads.dir
+
+# All Build rule for target.
+third_party/glfw/tests/CMakeFiles/threads.dir/all: third_party/glfw/src/CMakeFiles/glfw.dir/all
+	$(MAKE) -f third_party/glfw/tests/CMakeFiles/threads.dir/build.make third_party/glfw/tests/CMakeFiles/threads.dir/depend
+	$(MAKE) -f third_party/glfw/tests/CMakeFiles/threads.dir/build.make third_party/glfw/tests/CMakeFiles/threads.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/eduardo/Desktop/BYOND/MYG.gg/MYG/CMakeFiles --progress-num=84,85,86 "Built target threads"
+.PHONY : third_party/glfw/tests/CMakeFiles/threads.dir/all
+
+# Build rule for subdir invocation for target.
+third_party/glfw/tests/CMakeFiles/threads.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/eduardo/Desktop/BYOND/MYG.gg/MYG/CMakeFiles 16
+	$(MAKE) -f CMakeFiles/Makefile2 third_party/glfw/tests/CMakeFiles/threads.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/eduardo/Desktop/BYOND/MYG.gg/MYG/CMakeFiles 0
+.PHONY : third_party/glfw/tests/CMakeFiles/threads.dir/rule
+
+# Convenience name for target.
+threads: third_party/glfw/tests/CMakeFiles/threads.dir/rule
+
+.PHONY : threads
+
+# clean rule for target.
+third_party/glfw/tests/CMakeFiles/threads.dir/clean:
+	$(MAKE) -f third_party/glfw/tests/CMakeFiles/threads.dir/build.make third_party/glfw/tests/CMakeFiles/threads.dir/clean
+.PHONY : third_party/glfw/tests/CMakeFiles/threads.dir/clean
+
+#=============================================================================
+# Target rules for target third_party/glfw/tests/CMakeFiles/cursor.dir
+
+# All Build rule for target.
+third_party/glfw/tests/CMakeFiles/cursor.dir/all: third_party/glfw/src/CMakeFiles/glfw.dir/all
+	$(MAKE) -f third_party/glfw/tests/CMakeFiles/cursor.dir/build.make third_party/glfw/tests/CMakeFiles/cursor.dir/depend
+	$(MAKE) -f third_party/glfw/tests/CMakeFiles/cursor.dir/build.make third_party/glfw/tests/CMakeFiles/cursor.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/eduardo/Desktop/BYOND/MYG.gg/MYG/CMakeFiles --progress-num=11,12 "Built target cursor"
+.PHONY : third_party/glfw/tests/CMakeFiles/cursor.dir/all
+
+# Build rule for subdir invocation for target.
+third_party/glfw/tests/CMakeFiles/cursor.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/eduardo/Desktop/BYOND/MYG.gg/MYG/CMakeFiles 15
+	$(MAKE) -f CMakeFiles/Makefile2 third_party/glfw/tests/CMakeFiles/cursor.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/eduardo/Desktop/BYOND/MYG.gg/MYG/CMakeFiles 0
+.PHONY : third_party/glfw/tests/CMakeFiles/cursor.dir/rule
+
+# Convenience name for target.
+cursor: third_party/glfw/tests/CMakeFiles/cursor.dir/rule
+
+.PHONY : cursor
+
+# clean rule for target.
+third_party/glfw/tests/CMakeFiles/cursor.dir/clean:
+	$(MAKE) -f third_party/glfw/tests/CMakeFiles/cursor.dir/build.make third_party/glfw/tests/CMakeFiles/cursor.dir/clean
+.PHONY : third_party/glfw/tests/CMakeFiles/cursor.dir/clean
+
+#=============================================================================
+# Target rules for target third_party/glfw/tests/CMakeFiles/empty.dir
+
+# All Build rule for target.
+third_party/glfw/tests/CMakeFiles/empty.dir/all: third_party/glfw/src/CMakeFiles/glfw.dir/all
+	$(MAKE) -f third_party/glfw/tests/CMakeFiles/empty.dir/build.make third_party/glfw/tests/CMakeFiles/empty.dir/depend
+	$(MAKE) -f third_party/glfw/tests/CMakeFiles/empty.dir/build.make third_party/glfw/tests/CMakeFiles/empty.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/eduardo/Desktop/BYOND/MYG.gg/MYG/CMakeFiles --progress-num=13,14,15,16 "Built target empty"
+.PHONY : third_party/glfw/tests/CMakeFiles/empty.dir/all
+
+# Build rule for subdir invocation for target.
+third_party/glfw/tests/CMakeFiles/empty.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/eduardo/Desktop/BYOND/MYG.gg/MYG/CMakeFiles 17
+	$(MAKE) -f CMakeFiles/Makefile2 third_party/glfw/tests/CMakeFiles/empty.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/eduardo/Desktop/BYOND/MYG.gg/MYG/CMakeFiles 0
+.PHONY : third_party/glfw/tests/CMakeFiles/empty.dir/rule
+
+# Convenience name for target.
+empty: third_party/glfw/tests/CMakeFiles/empty.dir/rule
+
+.PHONY : empty
+
+# clean rule for target.
+third_party/glfw/tests/CMakeFiles/empty.dir/clean:
+	$(MAKE) -f third_party/glfw/tests/CMakeFiles/empty.dir/build.make third_party/glfw/tests/CMakeFiles/empty.dir/clean
+.PHONY : third_party/glfw/tests/CMakeFiles/empty.dir/clean
+
+#=============================================================================
+# Target rules for target third_party/glfw/tests/CMakeFiles/icon.dir
+
+# All Build rule for target.
+third_party/glfw/tests/CMakeFiles/icon.dir/all: third_party/glfw/src/CMakeFiles/glfw.dir/all
+	$(MAKE) -f third_party/glfw/tests/CMakeFiles/icon.dir/build.make third_party/glfw/tests/CMakeFiles/icon.dir/depend
+	$(MAKE) -f third_party/glfw/tests/CMakeFiles/icon.dir/build.make third_party/glfw/tests/CMakeFiles/icon.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/eduardo/Desktop/BYOND/MYG.gg/MYG/CMakeFiles --progress-num=45,46 "Built target icon"
+.PHONY : third_party/glfw/tests/CMakeFiles/icon.dir/all
+
+# Build rule for subdir invocation for target.
+third_party/glfw/tests/CMakeFiles/icon.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/eduardo/Desktop/BYOND/MYG.gg/MYG/CMakeFiles 15
+	$(MAKE) -f CMakeFiles/Makefile2 third_party/glfw/tests/CMakeFiles/icon.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/eduardo/Desktop/BYOND/MYG.gg/MYG/CMakeFiles 0
+.PHONY : third_party/glfw/tests/CMakeFiles/icon.dir/rule
+
+# Convenience name for target.
+icon: third_party/glfw/tests/CMakeFiles/icon.dir/rule
+
+.PHONY : icon
+
+# clean rule for target.
+third_party/glfw/tests/CMakeFiles/icon.dir/clean:
+	$(MAKE) -f third_party/glfw/tests/CMakeFiles/icon.dir/build.make third_party/glfw/tests/CMakeFiles/icon.dir/clean
+.PHONY : third_party/glfw/tests/CMakeFiles/icon.dir/clean
+
+#=============================================================================
+# Target rules for target third_party/glfw/tests/CMakeFiles/events.dir
+
+# All Build rule for target.
+third_party/glfw/tests/CMakeFiles/events.dir/all: third_party/glfw/src/CMakeFiles/glfw.dir/all
+	$(MAKE) -f third_party/glfw/tests/CMakeFiles/events.dir/build.make third_party/glfw/tests/CMakeFiles/events.dir/depend
+	$(MAKE) -f third_party/glfw/tests/CMakeFiles/events.dir/build.make third_party/glfw/tests/CMakeFiles/events.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/eduardo/Desktop/BYOND/MYG.gg/MYG/CMakeFiles --progress-num=17,18,19 "Built target events"
+.PHONY : third_party/glfw/tests/CMakeFiles/events.dir/all
+
+# Build rule for subdir invocation for target.
+third_party/glfw/tests/CMakeFiles/events.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/eduardo/Desktop/BYOND/MYG.gg/MYG/CMakeFiles 16
+	$(MAKE) -f CMakeFiles/Makefile2 third_party/glfw/tests/CMakeFiles/events.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/eduardo/Desktop/BYOND/MYG.gg/MYG/CMakeFiles 0
+.PHONY : third_party/glfw/tests/CMakeFiles/events.dir/rule
+
+# Convenience name for target.
+events: third_party/glfw/tests/CMakeFiles/events.dir/rule
+
+.PHONY : events
+
+# clean rule for target.
+third_party/glfw/tests/CMakeFiles/events.dir/clean:
+	$(MAKE) -f third_party/glfw/tests/CMakeFiles/events.dir/build.make third_party/glfw/tests/CMakeFiles/events.dir/clean
+.PHONY : third_party/glfw/tests/CMakeFiles/events.dir/clean
+
+#=============================================================================
+# Target rules for target third_party/glfw/tests/CMakeFiles/joysticks.dir
+
+# All Build rule for target.
+third_party/glfw/tests/CMakeFiles/joysticks.dir/all: third_party/glfw/src/CMakeFiles/glfw.dir/all
+	$(MAKE) -f third_party/glfw/tests/CMakeFiles/joysticks.dir/build.make third_party/glfw/tests/CMakeFiles/joysticks.dir/depend
+	$(MAKE) -f third_party/glfw/tests/CMakeFiles/joysticks.dir/build.make third_party/glfw/tests/CMakeFiles/joysticks.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/eduardo/Desktop/BYOND/MYG.gg/MYG/CMakeFiles --progress-num=54,55 "Built target joysticks"
+.PHONY : third_party/glfw/tests/CMakeFiles/joysticks.dir/all
+
+# Build rule for subdir invocation for target.
+third_party/glfw/tests/CMakeFiles/joysticks.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/eduardo/Desktop/BYOND/MYG.gg/MYG/CMakeFiles 15
+	$(MAKE) -f CMakeFiles/Makefile2 third_party/glfw/tests/CMakeFiles/joysticks.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/eduardo/Desktop/BYOND/MYG.gg/MYG/CMakeFiles 0
+.PHONY : third_party/glfw/tests/CMakeFiles/joysticks.dir/rule
+
+# Convenience name for target.
+joysticks: third_party/glfw/tests/CMakeFiles/joysticks.dir/rule
+
+.PHONY : joysticks
+
+# clean rule for target.
+third_party/glfw/tests/CMakeFiles/joysticks.dir/clean:
+	$(MAKE) -f third_party/glfw/tests/CMakeFiles/joysticks.dir/build.make third_party/glfw/tests/CMakeFiles/joysticks.dir/clean
+.PHONY : third_party/glfw/tests/CMakeFiles/joysticks.dir/clean
+
+#=============================================================================
 # Target rules for target src/editor/CMakeFiles/Editor.dir
 
 # All Build rule for target.
-src/editor/CMakeFiles/Editor.dir/all:
+src/editor/CMakeFiles/Editor.dir/all: third_party/glfw/src/CMakeFiles/glfw.dir/all
 	$(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/depend
 	$(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/eduardo/Desktop/BYOND/MYG.gg/MYG/CMakeFiles --progress-num=1,2 "Built target Editor"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/eduardo/Desktop/BYOND/MYG.gg/MYG/CMakeFiles --progress-num=1,2,3,4 "Built target Editor"
 .PHONY : src/editor/CMakeFiles/Editor.dir/all
 
 # Build rule for subdir invocation for target.
 src/editor/CMakeFiles/Editor.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/eduardo/Desktop/BYOND/MYG.gg/MYG/CMakeFiles 2
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/eduardo/Desktop/BYOND/MYG.gg/MYG/CMakeFiles 17
 	$(MAKE) -f CMakeFiles/Makefile2 src/editor/CMakeFiles/Editor.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/eduardo/Desktop/BYOND/MYG.gg/MYG/CMakeFiles 0
 .PHONY : src/editor/CMakeFiles/Editor.dir/rule
