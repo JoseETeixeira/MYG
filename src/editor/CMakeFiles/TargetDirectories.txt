@@ -1,0 +1,3 @@
+/home/eduardo/Desktop/BYOND/MYG.gg/MYG/src/editor/CMakeFiles/rebuild_cache.dir
+/home/eduardo/Desktop/BYOND/MYG.gg/MYG/src/editor/CMakeFiles/edit_cache.dir
+/home/eduardo/Desktop/BYOND/MYG.gg/MYG/src/editor/CMakeFiles/Editor.dir

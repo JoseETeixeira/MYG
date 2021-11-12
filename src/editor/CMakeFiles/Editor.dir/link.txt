@@ -1,0 +1,1 @@
+/usr/bin/c++  -std=c++2a   CMakeFiles/Editor.dir/editor.cpp.o  -o ../../bin/Editor 

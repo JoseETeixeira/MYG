@@ -1,0 +1,18 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/eduardo/Desktop/BYOND/MYG.gg/MYG/src/editor/editor.cpp
+editor.hpp
+/home/eduardo/Desktop/BYOND/MYG.gg/MYG/src/editor/editor.hpp
+iostream
+-
+
+/home/eduardo/Desktop/BYOND/MYG.gg/MYG/src/editor/editor.hpp
+GLFW/glfw3.h
+-
+
