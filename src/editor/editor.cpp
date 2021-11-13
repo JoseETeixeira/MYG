@@ -9,7 +9,7 @@
 
 namespace myg{
 
-    void Editor::InitializeGLFW(){
+    void Editor::InitializeGLFW(bool fullscreen){
 
         glfwSetErrorCallback(error_callback);
 
@@ -33,8 +33,10 @@ namespace myg{
         //Get the primary monitor work area
         glfwGetMonitorWorkarea	(glfwGetPrimaryMonitor(), &xpos, &ypos, &width,&height );
         //Create a GLFW window object with the size of the monitor work area, named M.Y.G Editor
-        window = glfwCreateWindow(width, height, "M.Y.G Editor", NULL, NULL);
-
+        if(fullscreen)
+            window = glfwCreateWindow(width, height, "M.Y.G Editor", glfwGetPrimaryMonitor(), NULL);
+        else
+            window = glfwCreateWindow(width, height, "M.Y.G Editor", NULL, NULL);
         //Error check if the window fails to create
         if (!window)
         {
@@ -80,8 +82,8 @@ namespace myg{
     }
 
     Editor::Editor(){
-        //We initialize GLFW 
-        InitializeGLFW();
+        //We initialize GLFW with the default false value for fullscreen (editor does not go fullscreen)
+        InitializeGLFW(false);
         MainLoop();
     }
 

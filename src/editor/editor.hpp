@@ -33,7 +33,7 @@ namespace myg{
 
             int xpos,ypos,width,height;
 
-            void InitializeGLFW();
+            void InitializeGLFW(bool fullscreen);
 
             void MainLoop();
 
