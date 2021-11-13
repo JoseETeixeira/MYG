@@ -1,0 +1,14 @@
+*.vcxproj
+*.vcxproj.filters
+*.sln
+CMakeFiles/*
+*.exe
+*.tlog
+*.log
+*.exe.recipe
+*.stamp
+*.stamp.depend
+*.opendb
+*.db
+*.db-wal
+*.db-shm
