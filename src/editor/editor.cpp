@@ -101,6 +101,7 @@ namespace myg{
         IMGUI_CHECKVERSION();
         ImGui::CreateContext();
         ImGuiIO& io = ImGui::GetIO(); (void)io;
+        io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
         //io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
         //io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
 
@@ -187,7 +188,19 @@ namespace myg{
             ImGui_ImplGlfw_NewFrame();
             ImGui::NewFrame();
 
-            if (ImGui::BeginMainMenuBar())
+           
+
+            ImGui::SetNextWindowPos(ImVec2(0.0f, 0.0f));
+
+            ImGui::Begin("MYG Maker", nullptr, ImGuiWindowFlags_HorizontalScrollbar | ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoCollapse);
+            ImGui::SetWindowSize(ImVec2(width, height));
+            
+            ImGuiDockNodeFlags dockspaceFlags = ImGuiDockNodeFlags_PassthruCentralNode;
+            ImGuiID dockspaceID =ImGui::GetID("MainDockspace");
+   
+            ImGui::DockSpace(dockspaceID, ImVec2(0.0f, 0.0f), dockspaceFlags);
+
+            if (ImGui::BeginMenuBar())
             {
                 if (ImGui::BeginMenu("File"))
                 {
@@ -241,7 +254,7 @@ namespace myg{
                         editor.SetPalette(TextEditor::GetRetroBluePalette());
                     ImGui::EndMenu();
                 }
-                ImGui::EndMainMenuBar();
+                ImGui::EndMenuBar();
             }
 
 
@@ -263,7 +276,7 @@ namespace myg{
             ImGui::End();
 
             ImGui::Begin("DM Editor", nullptr, ImGuiWindowFlags_HorizontalScrollbar | ImGuiWindowFlags_MenuBar);
-            ImGui::SetWindowSize(ImVec2(800, 600), ImGuiCond_FirstUseEver);
+            ImGui::SetWindowSize(ImVec2(width*0.8, height*0.8), ImGuiCond_FirstUseEver);
             
 
             ImGui::Text("%6d/%-6d %6d lines  | %s | %s | %s | %s", cpos.mLine + 1, cpos.mColumn + 1, editor.GetTotalLines(),
@@ -273,6 +286,9 @@ namespace myg{
 
             editor.Render("TextEditor");
             ImGui::End();
+
+            ImGui::End();
+           
             // Rendering
             ImGui::Render();
             int display_w, display_h;
