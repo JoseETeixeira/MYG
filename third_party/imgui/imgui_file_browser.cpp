@@ -91,12 +91,10 @@ const bool file_browser::render(const bool isVisible, std::string& outPath) {
         }
 
         //Auto resize text wrap to popup width.
-        ImGui::PushItemWidth(-1);
+
         ImGui::TextWrapped(m_currentPath.string().data());
-        ImGui::PopItemWidth();
 
         ImGui::Spacing();
-        ImGui::SameLine(ImGui::GetWindowWidth() - 60);
 
         // Make the "Select" button look / act disabled if the current selection is a directory.
         if (m_currentPathIsDir) {
