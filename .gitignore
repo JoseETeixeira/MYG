@@ -12,4 +12,11 @@ CMakeFiles/*
 *.db
 *.db-wal
 *.db-shm
+*.ipch
+*.suo
+*.ini
+*.ilk
+*.obj
+bin/*
+bin/Debug/*
 CMakeCache.txt

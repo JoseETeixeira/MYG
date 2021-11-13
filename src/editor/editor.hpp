@@ -2,12 +2,14 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "linmath.h"
-
+#include <fstream>
+#include <streambuf>
 
 #pragma once
 #include "imgui.h"
 #include "imgui_impl_glfw.h"
 #include "imgui_impl_opengl3.h"
+#include "TextEditor.h"
 #include "../../third_party/glfw/deps/glad/gl.h"
 #define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>
