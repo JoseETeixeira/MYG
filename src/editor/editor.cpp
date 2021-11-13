@@ -8,12 +8,28 @@
 
 
 namespace myg{
+    
+    void resize_window_callback(GLFWwindow *glfw_window, int x, int y)
+    {
+        if (x == 0 || y == 0)
+        {
+            return;
+        }
+        //spdlog::debug("Resizing window to {}x{}", x, y);
+        glViewport(0, 0, x, y);
+
+
+        ImGui::GetStyle().ScaleAllSizes(1.0 / (x/y));
+        ImGui::GetIO().FontGlobalScale = 1.0 / (x / y);
+
+    }
+
 
     void Editor::InitializeGLFW(bool fullscreen){
 
         glfwSetErrorCallback(error_callback);
-
-
+        
+       
         //Initialize GLFW
         if (!glfwInit())
             exit(EXIT_FAILURE);
@@ -62,6 +78,8 @@ namespace myg{
 
         //Swap the back buffer with the front buffer
         glfwSwapBuffers(window);
+
+        glfwSetWindowSizeCallback(window, resize_window_callback);
     }
 
     void Editor::InitializeImGUI(){
