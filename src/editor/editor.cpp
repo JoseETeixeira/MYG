@@ -8,7 +8,8 @@
 
 
 namespace myg{
-    
+    float previous_x = 1920.0f;
+    float previous_y= 1080.0f;
     void resize_window_callback(GLFWwindow *glfw_window, int x, int y)
     {
         if (x == 0 || y == 0)
@@ -18,10 +19,24 @@ namespace myg{
         //spdlog::debug("Resizing window to {}x{}", x, y);
         glViewport(0, 0, x, y);
 
+       
+        if (x > 2500) {
+            ImGui::GetStyle().ScaleAllSizes(1.0f / (previous_x / previous_y));
+            ImGui::GetIO().FontGlobalScale = (1.0f / (previous_x / previous_y));
 
-        ImGui::GetStyle().ScaleAllSizes(1.0 / (x/y));
-        ImGui::GetIO().FontGlobalScale = 1.0 / (x / y);
+            ImGui::GetStyle().ScaleAllSizes(2.0f / (x / y));
+            ImGui::GetIO().FontGlobalScale = 2.0f/ (x / y);
+        }
+            
+        else {
+            ImGui::GetStyle().ScaleAllSizes(2.0f / (previous_x / previous_y));
+            ImGui::GetIO().FontGlobalScale = (2.0f / (previous_x / previous_y));
 
+            ImGui::GetStyle().ScaleAllSizes(1.0f/ (x / y));
+            ImGui::GetIO().FontGlobalScale = 1.0f / (x / y);
+        }
+           
+ 
     }
 
 
@@ -116,7 +131,7 @@ namespace myg{
         bool show_demo_window = true;
         bool show_another_window = false;
         ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
-        resize_window_callback(window, width, height);
+        
     }
 
     void Editor::setEditorFile(static const char* fileToEdit){
@@ -143,10 +158,10 @@ namespace myg{
         //editor.SetPalette(TextEditor::GetLightPalette());
 
         // error markers
-        TextEditor::ErrorMarkers markers;
+        //TextEditor::ErrorMarkers markers;
         //markers.insert(std::make_pair<int, std::string>(6, "Example error here:\nInclude file not found: \"TextEditor.h\""));
         //markers.insert(std::make_pair<int, std::string>(41, "Another example error"));
-        editor.SetErrorMarkers(markers);
+        //editor.SetErrorMarkers(markers);
 
         // "breakpoint" markers
         //TextEditor::Breakpoints bpts;

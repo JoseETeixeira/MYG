@@ -2832,7 +2832,7 @@ const TextEditor::LanguageDefinition& TextEditor::LanguageDefinition::DM()
             "Bump", "Click", "DblClick", "Del", "Enter", "Entered", "Exit", "Exited", "MouseDown", "MouseDrag", "MouseDrop", "MouseEntered", "MouseExited", "MouseUp", "Move",
             "New", "Read", "Stat", "Topic", "Write", "IconStates", "Turn", "Flip", "Shift", "SetIntensity", "Blend", "SwapColor", "DrawBox", "Insert", "MapColors", "Scale", "Crop", "GetPixel",
             "Width", "Height", "ClearMedal", "Export", "GetConfig", "GetMedal", "GetScores", "Import", "IsBanned", "OpenPort", "Reboot", "Repop", "SetConfig", "SetMedal", "SetScores", "Topic",
-            "Cross", "Crossed", "Uncross", "Uncrossed", "rgb", "file", "browse", "rand", "prob"
+            "Cross", "Crossed", "Uncross", "Uncrossed", "rgb", "file", "browse", "rand", "prob","winset","winget","winshow"
 		};
 		for (auto& k : identifiers)
 		{

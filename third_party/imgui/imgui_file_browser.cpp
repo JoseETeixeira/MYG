@@ -77,7 +77,7 @@ const bool file_browser::render(const bool isVisible, std::string& outPath) {
     bool isOpen = true;
     if (ImGui::Begin(m_title, &isOpen)) {
 
-        if (ImGui::ListBox("##", &m_selection, vector_file_items_getter, &m_filesInScope, m_filesInScope.size(), 10)) {
+        if (ImGui::ListBox("##", &m_selection, vector_file_items_getter, &m_filesInScope, m_filesInScope.size(), 30)) {
 
             //Update current path to the selected list item.
             m_currentPath = m_filesInScope[m_selection].path;
@@ -94,7 +94,6 @@ const bool file_browser::render(const bool isVisible, std::string& outPath) {
 
         ImGui::TextWrapped(m_currentPath.string().data());
 
-        ImGui::Spacing();
 
         // Make the "Select" button look / act disabled if the current selection is a directory.
         if (m_currentPathIsDir) {
