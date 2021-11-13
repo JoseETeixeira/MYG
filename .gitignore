@@ -12,3 +12,4 @@ CMakeFiles/*
 *.db
 *.db-wal
 *.db-shm
+CMakeCache.txt
