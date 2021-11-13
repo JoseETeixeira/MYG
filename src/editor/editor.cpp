@@ -119,12 +119,23 @@ namespace myg{
         resize_window_callback(window, width, height);
     }
 
+    void Editor::setEditorFile(static const char* fileToEdit){
+         {
+            std::ifstream t(fileToEdit);
+            if (t.good())
+            {
+                std::string str((std::istreambuf_iterator<char>(t)), std::istreambuf_iterator<char>());
+                editor.SetText(str);
+            }
+        }
+    }
+
 
     void Editor::MainLoop(){
         //Main while loop
         ///////////////////////////////////////////////////////////////////////
         // TEXT EDITOR SAMPLE
-        TextEditor editor;
+        
         auto lang = TextEditor::LanguageDefinition::CPlusPlus();
 
         // set your own known preprocessor symbols...
@@ -187,17 +198,8 @@ namespace myg{
         //bpts.insert(47);
         //editor.SetBreakpoints(bpts);
 
-        static const char* fileToEdit = "ImGuiColorTextEdit/TextEditor.cpp";
+        
         //	static const char* fileToEdit = "test.cpp";
-
-        {
-            std::ifstream t(fileToEdit);
-            if (t.good())
-            {
-                std::string str((std::istreambuf_iterator<char>(t)), std::istreambuf_iterator<char>());
-                editor.SetText(str);
-            }
-        }
 
         // Main loop
     
@@ -271,7 +273,24 @@ namespace myg{
                 ImGui::EndMainMenuBar();
             }
 
+
+
             auto cpos = editor.GetCursorPosition();
+
+            ImGui::Begin("File Explorer");
+            static imgui_ext::file_browser fileBrowser("File Explorer");
+
+            // Had to use this awkward approach to get the menu item to open the pop-up modal.
+
+            std::string path;
+            if (fileBrowser.render(true, path)) {
+                // The "path" string will hold a valid file path here.
+                fileToEdit = path;
+                setEditorFile(fileToEdit.c_str());
+
+            }
+            ImGui::End();
+
             ImGui::Begin("DM Editor", nullptr, ImGuiWindowFlags_HorizontalScrollbar | ImGuiWindowFlags_MenuBar);
             ImGui::SetWindowSize(ImVec2(800, 600), ImGuiCond_FirstUseEver);
             

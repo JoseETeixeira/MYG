@@ -22,5 +22,7 @@ CMakeFiles/*
 bin/*
 bin/Debug/*
 CMakeCache.txt
+src/editor/Editor.dir/*
+src/editor/imgui.dir/*
 src/editor/Editor.dir/Debug/*
 .vs/MYG/v16/ipch/AutoPCH/47091e188e1f3dd3/EDITOR.ipch

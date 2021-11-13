@@ -10,6 +10,7 @@
 #include "imgui_impl_glfw.h"
 #include "imgui_impl_opengl3.h"
 #include "TextEditor.h"
+#include "imgui_file_browser.h"
 #include "../../third_party/glfw/deps/glad/gl.h"
 #define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>
@@ -38,6 +39,8 @@ namespace myg{
         private:
             GLFWwindow* window;
 
+            TextEditor editor;
+
             int xpos,ypos,width,height;
 
             const char* glsl_version = "#version 130";
@@ -49,6 +52,9 @@ namespace myg{
             void InitializeGLFW(bool fullscreen);
 
             void InitializeImGUI();
+
+            std::string fileToEdit = "";
+            void setEditorFile(static const char* fileToEdit);
 
 
             void MainLoop();
