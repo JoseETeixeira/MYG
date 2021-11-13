@@ -2007,7 +2007,7 @@ const TextEditor::Palette & TextEditor::GetDarkPalette()
 {
 	const static Palette p = { {
 			0xff7f7f7f,	// Default
-			0xffd69c56,	// Keyword	
+			0xffd69c56,	// Keyword
 			0xff00ff00,	// Number
 			0xff7070e0,	// String
 			0xff70a0e0, // Char literal
@@ -2035,7 +2035,7 @@ const TextEditor::Palette & TextEditor::GetLightPalette()
 {
 	const static Palette p = { {
 			0xff7f7f7f,	// None
-			0xffff0c06,	// Keyword	
+			0xffff0c06,	// Keyword
 			0xff008000,	// Number
 			0xff2020a0,	// String
 			0xff304070, // Char literal
@@ -2063,7 +2063,7 @@ const TextEditor::Palette & TextEditor::GetRetroBluePalette()
 {
 	const static Palette p = { {
 			0xff00ffff,	// None
-			0xffffff00,	// Keyword	
+			0xffffff00,	// Keyword
 			0xff00ff00,	// Number
 			0xff808000,	// String
 			0xff808000, // Char literal
@@ -2803,6 +2803,86 @@ const TextEditor::LanguageDefinition& TextEditor::LanguageDefinition::CPlusPlus(
 	}
 	return langDef;
 }
+
+
+const TextEditor::LanguageDefinition& TextEditor::LanguageDefinition::DM()
+{
+	static bool inited = false;
+	static LanguageDefinition langDef;
+	if (!inited)
+	{
+		static const char* const dmKeywords[] = {
+			"if","in","var", "else", "switch","break", "del", "return", "for", "while", "do", "continue", "new", "true",
+            "false", "null", "const", "set", "to", "step", "global", "static", "arg", "as", "goto", "new", "sleep", "spawn", "tmp",
+            "obj", "mob", "turf", "proc", "world", "client", "savefile", "list", "verb", "atom", "datum", "area", "src", "icon", "image", "sound", "usr", "matrix",
+            "address", "authenticate", "byond_version", "CGI", "ckey", "client", "command_text", "connection", "contents", "control_freak", "computer_id",
+            "default_verb_category", "density", "desc", "dir","edge_limit", "eye", "gender", "glide_size", "group", "icon", "icon_state", "images", "inactivity", "invisibility",
+            "infra_luminosity", "key", "lazy_eye", "loc", "layer", "luminosity", "mouse_over_pointer","mouse_drag_pointer", "mouse_drop_pointer",
+            "mouse_drop_zone", "mouse_pointer_icon", "var", "mouse_opacity", "name", "opacity", "overlays", "override", "parent_type", "perspective", "pixel_x", "pixel_y", "pixel_z",
+            "preload_rsc", "screen", "script", "see_infrared", "see_invisible", "see_in_dark", "show_map", "show_popup_menus", "show_verb_panel", "sight",
+            "statobj", "statpanel", "suffix", "tag", "text", "type", "underlays", "vars", "verbs", "view", "virtual_eye", "x", "y", "z", "cache_lifespan", "category", "hidden",
+            "popup_menu", "instant", "background", "alpha", "animate", "color", "blend_mode", "transform", "animate_movement",
+            "bound_x", "bound_y", "bound_width", "bound_height", "locs", "screen_loc", "step_size", "step_x", "step_y",
+            "DM_VERSION", "__FILE__", "__LINE__", "__MAIN__", "FILE_DIR"
+		};
+		for (auto& k : dmKeywords)
+			langDef.mKeywords.insert(k);
+
+		static const char* const identifiers[] = {
+            "Bump", "Click", "DblClick", "Del", "Enter", "Entered", "Exit", "Exited", "MouseDown", "MouseDrag", "MouseDrop", "MouseEntered", "MouseExited", "MouseUp", "Move",
+            "New", "Read", "Stat", "Topic", "Write", "IconStates", "Turn", "Flip", "Shift", "SetIntensity", "Blend", "SwapColor", "DrawBox", "Insert", "MapColors", "Scale", "Crop", "GetPixel",
+            "Width", "Height", "ClearMedal", "Export", "GetConfig", "GetMedal", "GetScores", "Import", "IsBanned", "OpenPort", "Reboot", "Repop", "SetConfig", "SetMedal", "SetScores", "Topic",
+            "Cross", "Crossed", "Uncross", "Uncrossed", "rgb", "file", "browse", "rand", "prob"
+		};
+		for (auto& k : identifiers)
+		{
+			Identifier id;
+			id.mDeclaration = "Built-in function";
+			langDef.mIdentifiers.insert(std::make_pair(std::string(k), id));
+		}
+
+		langDef.mTokenize = [](const char * in_begin, const char * in_end, const char *& out_begin, const char *& out_end, PaletteIndex & paletteIndex) -> bool
+		{
+			paletteIndex = PaletteIndex::Max;
+
+			while (in_begin < in_end && isascii(*in_begin) && isblank(*in_begin))
+				in_begin++;
+
+			if (in_begin == in_end)
+			{
+				out_begin = in_end;
+				out_end = in_end;
+				paletteIndex = PaletteIndex::Default;
+			}
+			else if (TokenizeCStyleString(in_begin, in_end, out_begin, out_end))
+				paletteIndex = PaletteIndex::String;
+			else if (TokenizeCStyleCharacterLiteral(in_begin, in_end, out_begin, out_end))
+				paletteIndex = PaletteIndex::CharLiteral;
+			else if (TokenizeCStyleIdentifier(in_begin, in_end, out_begin, out_end))
+				paletteIndex = PaletteIndex::Identifier;
+			else if (TokenizeCStyleNumber(in_begin, in_end, out_begin, out_end))
+				paletteIndex = PaletteIndex::Number;
+			else if (TokenizeCStylePunctuation(in_begin, in_end, out_begin, out_end))
+				paletteIndex = PaletteIndex::Punctuation;
+
+			return paletteIndex != PaletteIndex::Max;
+		};
+
+		langDef.mCommentStart = "/*";
+		langDef.mCommentEnd = "*/";
+		langDef.mSingleLineComment = "//";
+
+		langDef.mCaseSensitive = true;
+		langDef.mAutoIndentation = true;
+
+		langDef.mName = "DM";
+
+		inited = true;
+	}
+	return langDef;
+}
+
+
 
 const TextEditor::LanguageDefinition& TextEditor::LanguageDefinition::HLSL()
 {
