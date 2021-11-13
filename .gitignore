@@ -17,6 +17,7 @@ CMakeFiles/*
 *.ini
 *.ilk
 *.obj
+*.pdb
 bin/*
 bin/Debug/*
 CMakeCache.txt
