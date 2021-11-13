@@ -1,0 +1,43 @@
+{
+	"sources" : 
+	[
+		{
+			"file" : "C:/Users/Eduardo/OneDrive/Ambiente de Trabalho/BYOND/MYG/third_party/ultralight/samples/CMakeFiles/UltralightCoreBin"
+		},
+		{
+			"file" : "C:/Users/Eduardo/OneDrive/Ambiente de Trabalho/BYOND/MYG/CMakeFiles/69053b5b1f035dbb5eb010987c34a067/UltralightCoreBin.rule"
+		},
+		{
+			"file" : "C:/Users/Eduardo/OneDrive/Ambiente de Trabalho/BYOND/MYG/CMakeFiles/3695a57dc2b0492a350012658e2160aa/UltralightCoreBin-complete.rule"
+		},
+		{
+			"file" : "C:/Users/Eduardo/OneDrive/Ambiente de Trabalho/BYOND/MYG/CMakeFiles/1ff7e3b75ab2ca1ca68fd9c2dc9793c2/UltralightCoreBin-build.rule"
+		},
+		{
+			"file" : "C:/Users/Eduardo/OneDrive/Ambiente de Trabalho/BYOND/MYG/CMakeFiles/1ff7e3b75ab2ca1ca68fd9c2dc9793c2/UltralightCoreBin-configure.rule"
+		},
+		{
+			"file" : "C:/Users/Eduardo/OneDrive/Ambiente de Trabalho/BYOND/MYG/CMakeFiles/1ff7e3b75ab2ca1ca68fd9c2dc9793c2/UltralightCoreBin-download.rule"
+		},
+		{
+			"file" : "C:/Users/Eduardo/OneDrive/Ambiente de Trabalho/BYOND/MYG/CMakeFiles/1ff7e3b75ab2ca1ca68fd9c2dc9793c2/UltralightCoreBin-install.rule"
+		},
+		{
+			"file" : "C:/Users/Eduardo/OneDrive/Ambiente de Trabalho/BYOND/MYG/CMakeFiles/1ff7e3b75ab2ca1ca68fd9c2dc9793c2/UltralightCoreBin-mkdir.rule"
+		},
+		{
+			"file" : "C:/Users/Eduardo/OneDrive/Ambiente de Trabalho/BYOND/MYG/CMakeFiles/1ff7e3b75ab2ca1ca68fd9c2dc9793c2/UltralightCoreBin-patch.rule"
+		},
+		{
+			"file" : "C:/Users/Eduardo/OneDrive/Ambiente de Trabalho/BYOND/MYG/CMakeFiles/1ff7e3b75ab2ca1ca68fd9c2dc9793c2/UltralightCoreBin-update.rule"
+		}
+	],
+	"target" : 
+	{
+		"labels" : 
+		[
+			"UltralightCoreBin"
+		],
+		"name" : "UltralightCoreBin"
+	}
+}

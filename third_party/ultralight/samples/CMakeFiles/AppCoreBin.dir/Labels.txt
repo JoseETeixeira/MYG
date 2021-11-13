@@ -1,0 +1,13 @@
+# Target labels
+ AppCoreBin
+# Source files and their labels
+C:/Users/Eduardo/OneDrive/Ambiente de Trabalho/BYOND/MYG/third_party/ultralight/samples/CMakeFiles/AppCoreBin
+C:/Users/Eduardo/OneDrive/Ambiente de Trabalho/BYOND/MYG/CMakeFiles/69053b5b1f035dbb5eb010987c34a067/AppCoreBin.rule
+C:/Users/Eduardo/OneDrive/Ambiente de Trabalho/BYOND/MYG/CMakeFiles/3695a57dc2b0492a350012658e2160aa/AppCoreBin-complete.rule
+C:/Users/Eduardo/OneDrive/Ambiente de Trabalho/BYOND/MYG/CMakeFiles/33235202fdd11a465b7ec78b614e4cab/AppCoreBin-build.rule
+C:/Users/Eduardo/OneDrive/Ambiente de Trabalho/BYOND/MYG/CMakeFiles/33235202fdd11a465b7ec78b614e4cab/AppCoreBin-configure.rule
+C:/Users/Eduardo/OneDrive/Ambiente de Trabalho/BYOND/MYG/CMakeFiles/33235202fdd11a465b7ec78b614e4cab/AppCoreBin-download.rule
+C:/Users/Eduardo/OneDrive/Ambiente de Trabalho/BYOND/MYG/CMakeFiles/33235202fdd11a465b7ec78b614e4cab/AppCoreBin-install.rule
+C:/Users/Eduardo/OneDrive/Ambiente de Trabalho/BYOND/MYG/CMakeFiles/33235202fdd11a465b7ec78b614e4cab/AppCoreBin-mkdir.rule
+C:/Users/Eduardo/OneDrive/Ambiente de Trabalho/BYOND/MYG/CMakeFiles/33235202fdd11a465b7ec78b614e4cab/AppCoreBin-patch.rule
+C:/Users/Eduardo/OneDrive/Ambiente de Trabalho/BYOND/MYG/CMakeFiles/33235202fdd11a465b7ec78b614e4cab/AppCoreBin-update.rule

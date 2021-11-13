@@ -1,0 +1,13 @@
+# Target labels
+ UltralightBin
+# Source files and their labels
+C:/Users/Eduardo/OneDrive/Ambiente de Trabalho/BYOND/MYG/third_party/ultralight/samples/CMakeFiles/UltralightBin
+C:/Users/Eduardo/OneDrive/Ambiente de Trabalho/BYOND/MYG/CMakeFiles/69053b5b1f035dbb5eb010987c34a067/UltralightBin.rule
+C:/Users/Eduardo/OneDrive/Ambiente de Trabalho/BYOND/MYG/CMakeFiles/3695a57dc2b0492a350012658e2160aa/UltralightBin-complete.rule
+C:/Users/Eduardo/OneDrive/Ambiente de Trabalho/BYOND/MYG/CMakeFiles/95f9e5436429979603eb299d59a3b406/UltralightBin-build.rule
+C:/Users/Eduardo/OneDrive/Ambiente de Trabalho/BYOND/MYG/CMakeFiles/95f9e5436429979603eb299d59a3b406/UltralightBin-configure.rule
+C:/Users/Eduardo/OneDrive/Ambiente de Trabalho/BYOND/MYG/CMakeFiles/95f9e5436429979603eb299d59a3b406/UltralightBin-download.rule
+C:/Users/Eduardo/OneDrive/Ambiente de Trabalho/BYOND/MYG/CMakeFiles/95f9e5436429979603eb299d59a3b406/UltralightBin-install.rule
+C:/Users/Eduardo/OneDrive/Ambiente de Trabalho/BYOND/MYG/CMakeFiles/95f9e5436429979603eb299d59a3b406/UltralightBin-mkdir.rule
+C:/Users/Eduardo/OneDrive/Ambiente de Trabalho/BYOND/MYG/CMakeFiles/95f9e5436429979603eb299d59a3b406/UltralightBin-patch.rule
+C:/Users/Eduardo/OneDrive/Ambiente de Trabalho/BYOND/MYG/CMakeFiles/95f9e5436429979603eb299d59a3b406/UltralightBin-update.rule

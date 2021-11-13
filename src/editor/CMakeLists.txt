@@ -7,7 +7,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 
 if(LINUX)
-    SET(GLFW_FLAGS "-lglfw3 -lGL -lX11 -lpthread -lXrandr -lXi -ldl")
+    SET(GLFW_FLAGS "-lglfw3 -lGL -lX11 -lpthread -lXrandr -lXi -ldl -lUltralight -lUltralightCore -lWebCore -lAppCore")
     add_definitions(${GLFW_FLAGS})
 endif(LINUX)
 
@@ -34,8 +34,15 @@ find_library(imgui ../../third_party/imgui)
 file(GLOB IMGUI_HEADER_FILES "../../third_party/imgui/*.h" )
 file(GLOB IMGUI_SOURCE_FILES "../../third_party/imgui/*.cpp" )
 
-add_executable(Editor ${MAIN_CPP} ${SOURCE} ${GLAD_SOURCE} ${MAIN_HEADER} ${GLAD_HEADERS} ${IMGUI_HEADER_FILES} ${IMGUI_SOURCE_FILES})
+# Ultralight
+
+LINK_DIRECTORIES("../../libs/ultralight")
+
+
+file(GLOB ULTRALIGHT_INCLUDES "../../third_party/ultralight/Ultralight/*.h","../../third_party/ultralight/AppCore/*.h","../../third_party/ultralight/JavaScriptCore/*.h" )
+
+add_executable(Editor ${MAIN_CPP} ${SOURCE} ${GLAD_SOURCE} ${MAIN_HEADER} ${GLAD_HEADERS} ${IMGUI_HEADER_FILES} ${IMGUI_SOURCE_FILES} ${ULTRALIGHT_INCLUDES})
 
 
     
-target_link_libraries(Editor glfw ${GLFW_LIBRARIES})
+target_link_libraries(Editor glfw ${GLFW_LIBRARIES} UltralightCore AppCore Ultralight WebCore)

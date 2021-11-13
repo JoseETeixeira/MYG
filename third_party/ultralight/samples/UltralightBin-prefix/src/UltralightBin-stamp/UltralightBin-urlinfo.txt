@@ -1,0 +1,3 @@
+repository='external project URL'
+module='https://ultralight-bin.sfo2.cdn.digitaloceanspaces.com/ultralight-bin-193592e1-win-x64.7z'
+tag=''

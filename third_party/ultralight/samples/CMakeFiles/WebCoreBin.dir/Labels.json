@@ -1,0 +1,43 @@
+{
+	"sources" : 
+	[
+		{
+			"file" : "C:/Users/Eduardo/OneDrive/Ambiente de Trabalho/BYOND/MYG/third_party/ultralight/samples/CMakeFiles/WebCoreBin"
+		},
+		{
+			"file" : "C:/Users/Eduardo/OneDrive/Ambiente de Trabalho/BYOND/MYG/CMakeFiles/69053b5b1f035dbb5eb010987c34a067/WebCoreBin.rule"
+		},
+		{
+			"file" : "C:/Users/Eduardo/OneDrive/Ambiente de Trabalho/BYOND/MYG/CMakeFiles/3695a57dc2b0492a350012658e2160aa/WebCoreBin-complete.rule"
+		},
+		{
+			"file" : "C:/Users/Eduardo/OneDrive/Ambiente de Trabalho/BYOND/MYG/CMakeFiles/e3f7c51c1aea3e99e527d26e402b6cb9/WebCoreBin-build.rule"
+		},
+		{
+			"file" : "C:/Users/Eduardo/OneDrive/Ambiente de Trabalho/BYOND/MYG/CMakeFiles/e3f7c51c1aea3e99e527d26e402b6cb9/WebCoreBin-configure.rule"
+		},
+		{
+			"file" : "C:/Users/Eduardo/OneDrive/Ambiente de Trabalho/BYOND/MYG/CMakeFiles/e3f7c51c1aea3e99e527d26e402b6cb9/WebCoreBin-download.rule"
+		},
+		{
+			"file" : "C:/Users/Eduardo/OneDrive/Ambiente de Trabalho/BYOND/MYG/CMakeFiles/e3f7c51c1aea3e99e527d26e402b6cb9/WebCoreBin-install.rule"
+		},
+		{
+			"file" : "C:/Users/Eduardo/OneDrive/Ambiente de Trabalho/BYOND/MYG/CMakeFiles/e3f7c51c1aea3e99e527d26e402b6cb9/WebCoreBin-mkdir.rule"
+		},
+		{
+			"file" : "C:/Users/Eduardo/OneDrive/Ambiente de Trabalho/BYOND/MYG/CMakeFiles/e3f7c51c1aea3e99e527d26e402b6cb9/WebCoreBin-patch.rule"
+		},
+		{
+			"file" : "C:/Users/Eduardo/OneDrive/Ambiente de Trabalho/BYOND/MYG/CMakeFiles/e3f7c51c1aea3e99e527d26e402b6cb9/WebCoreBin-update.rule"
+		}
+	],
+	"target" : 
+	{
+		"labels" : 
+		[
+			"WebCoreBin"
+		],
+		"name" : "WebCoreBin"
+	}
+}

@@ -1,0 +1,3 @@
+repository='external project URL'
+module='https://appcore-bin.sfo2.cdn.digitaloceanspaces.com/appcore-bin-b4326cd-win-x64.7z'
+tag=''

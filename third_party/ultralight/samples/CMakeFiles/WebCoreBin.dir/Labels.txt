@@ -1,0 +1,13 @@
+# Target labels
+ WebCoreBin
+# Source files and their labels
+C:/Users/Eduardo/OneDrive/Ambiente de Trabalho/BYOND/MYG/third_party/ultralight/samples/CMakeFiles/WebCoreBin
+C:/Users/Eduardo/OneDrive/Ambiente de Trabalho/BYOND/MYG/CMakeFiles/69053b5b1f035dbb5eb010987c34a067/WebCoreBin.rule
+C:/Users/Eduardo/OneDrive/Ambiente de Trabalho/BYOND/MYG/CMakeFiles/3695a57dc2b0492a350012658e2160aa/WebCoreBin-complete.rule
+C:/Users/Eduardo/OneDrive/Ambiente de Trabalho/BYOND/MYG/CMakeFiles/e3f7c51c1aea3e99e527d26e402b6cb9/WebCoreBin-build.rule
+C:/Users/Eduardo/OneDrive/Ambiente de Trabalho/BYOND/MYG/CMakeFiles/e3f7c51c1aea3e99e527d26e402b6cb9/WebCoreBin-configure.rule
+C:/Users/Eduardo/OneDrive/Ambiente de Trabalho/BYOND/MYG/CMakeFiles/e3f7c51c1aea3e99e527d26e402b6cb9/WebCoreBin-download.rule
+C:/Users/Eduardo/OneDrive/Ambiente de Trabalho/BYOND/MYG/CMakeFiles/e3f7c51c1aea3e99e527d26e402b6cb9/WebCoreBin-install.rule
+C:/Users/Eduardo/OneDrive/Ambiente de Trabalho/BYOND/MYG/CMakeFiles/e3f7c51c1aea3e99e527d26e402b6cb9/WebCoreBin-mkdir.rule
+C:/Users/Eduardo/OneDrive/Ambiente de Trabalho/BYOND/MYG/CMakeFiles/e3f7c51c1aea3e99e527d26e402b6cb9/WebCoreBin-patch.rule
+C:/Users/Eduardo/OneDrive/Ambiente de Trabalho/BYOND/MYG/CMakeFiles/e3f7c51c1aea3e99e527d26e402b6cb9/WebCoreBin-update.rule

@@ -1,0 +1,43 @@
+{
+	"sources" : 
+	[
+		{
+			"file" : "C:/Users/Eduardo/OneDrive/Ambiente de Trabalho/BYOND/MYG/third_party/ultralight/samples/CMakeFiles/AppCoreBin"
+		},
+		{
+			"file" : "C:/Users/Eduardo/OneDrive/Ambiente de Trabalho/BYOND/MYG/CMakeFiles/69053b5b1f035dbb5eb010987c34a067/AppCoreBin.rule"
+		},
+		{
+			"file" : "C:/Users/Eduardo/OneDrive/Ambiente de Trabalho/BYOND/MYG/CMakeFiles/3695a57dc2b0492a350012658e2160aa/AppCoreBin-complete.rule"
+		},
+		{
+			"file" : "C:/Users/Eduardo/OneDrive/Ambiente de Trabalho/BYOND/MYG/CMakeFiles/33235202fdd11a465b7ec78b614e4cab/AppCoreBin-build.rule"
+		},
+		{
+			"file" : "C:/Users/Eduardo/OneDrive/Ambiente de Trabalho/BYOND/MYG/CMakeFiles/33235202fdd11a465b7ec78b614e4cab/AppCoreBin-configure.rule"
+		},
+		{
+			"file" : "C:/Users/Eduardo/OneDrive/Ambiente de Trabalho/BYOND/MYG/CMakeFiles/33235202fdd11a465b7ec78b614e4cab/AppCoreBin-download.rule"
+		},
+		{
+			"file" : "C:/Users/Eduardo/OneDrive/Ambiente de Trabalho/BYOND/MYG/CMakeFiles/33235202fdd11a465b7ec78b614e4cab/AppCoreBin-install.rule"
+		},
+		{
+			"file" : "C:/Users/Eduardo/OneDrive/Ambiente de Trabalho/BYOND/MYG/CMakeFiles/33235202fdd11a465b7ec78b614e4cab/AppCoreBin-mkdir.rule"
+		},
+		{
+			"file" : "C:/Users/Eduardo/OneDrive/Ambiente de Trabalho/BYOND/MYG/CMakeFiles/33235202fdd11a465b7ec78b614e4cab/AppCoreBin-patch.rule"
+		},
+		{
+			"file" : "C:/Users/Eduardo/OneDrive/Ambiente de Trabalho/BYOND/MYG/CMakeFiles/33235202fdd11a465b7ec78b614e4cab/AppCoreBin-update.rule"
+		}
+	],
+	"target" : 
+	{
+		"labels" : 
+		[
+			"AppCoreBin"
+		],
+		"name" : "AppCoreBin"
+	}
+}

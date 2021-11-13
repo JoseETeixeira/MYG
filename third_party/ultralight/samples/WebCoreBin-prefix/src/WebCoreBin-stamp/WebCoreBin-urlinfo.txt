@@ -1,0 +1,3 @@
+repository='external project URL'
+module='https://webcore-bin.sfo2.cdn.digitaloceanspaces.com/webcore-bin-88630b80-win-x64.7z'
+tag=''

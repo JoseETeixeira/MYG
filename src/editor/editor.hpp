@@ -14,11 +14,15 @@
 #include "../../third_party/glfw/deps/glad/gl.h"
 #define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>
+
+
  
 #if defined(_MSC_VER) && (_MSC_VER >= 1900) && !defined(IMGUI_DISABLE_WIN32_FUNCTIONS)
 #pragma comment(lib, "legacy_stdio_definitions")
 #endif
  
+#include "Ultralight/Ultralight.h"
+#include "AppCore/AppCore.h"
 
 
 namespace myg{
