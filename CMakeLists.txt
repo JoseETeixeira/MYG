@@ -11,7 +11,10 @@ set(GLFW_BUILD_EXAMPLES OFF)
 set(GLFW_BUILD_TESTS OFF)
 
 add_subdirectory(third_party/glfw)
+add_subdirectory(third_party/imgui)
+
 include_directories(third_party/glfw/include)
 include_directories(third_party/glfw/deps/glad)
+include_directories(third_party/imgui)
 
 add_subdirectory(src/editor)

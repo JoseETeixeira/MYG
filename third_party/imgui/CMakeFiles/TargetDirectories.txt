@@ -1,0 +1,3 @@
+C:/Users/Eduardo/OneDrive/Ambiente de Trabalho/BYOND/MYG/third_party/imgui/CMakeFiles/imgui.dir
+C:/Users/Eduardo/OneDrive/Ambiente de Trabalho/BYOND/MYG/third_party/imgui/CMakeFiles/ALL_BUILD.dir
+C:/Users/Eduardo/OneDrive/Ambiente de Trabalho/BYOND/MYG/third_party/imgui/CMakeFiles/ZERO_CHECK.dir

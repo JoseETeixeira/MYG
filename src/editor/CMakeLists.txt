@@ -27,10 +27,14 @@ file(GLOB SOURCE *.cpp ${BASE_HEADERS} ${EDITOR_FOLDER}/*.cpp )
 SET(MAIN_CPP ${EDITOR_FOLDER}/editor.cpp)
 SET(MAIN_HEADER ${EDITOR_FOLDER}/editor.hpp)
 
+# ImGUI
 
+find_library(imgui ../../third_party/imgui)
 
+file(GLOB IMGUI_HEADER_FILES "../../third_party/imgui/*.h" )
+file(GLOB IMGUI_SOURCE_FILES "../../third_party/imgui/*.cpp" )
 
-add_executable(Editor ${MAIN_CPP} ${SOURCE} ${GLAD_SOURCE} ${MAIN_HEADER} ${GLAD_HEADERS})
+add_executable(Editor ${MAIN_CPP} ${SOURCE} ${GLAD_SOURCE} ${MAIN_HEADER} ${GLAD_HEADERS} ${IMGUI_HEADER_FILES} ${IMGUI_SOURCE_FILES})
 
 
     

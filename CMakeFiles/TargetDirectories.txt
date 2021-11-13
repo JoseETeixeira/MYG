@@ -7,6 +7,8 @@ C:/Users/Eduardo/OneDrive/Ambiente de Trabalho/BYOND/MYG/third_party/glfw/CMakeF
 C:/Users/Eduardo/OneDrive/Ambiente de Trabalho/BYOND/MYG/third_party/glfw/src/CMakeFiles/update_mappings.dir
 C:/Users/Eduardo/OneDrive/Ambiente de Trabalho/BYOND/MYG/third_party/glfw/src/CMakeFiles/glfw.dir
 C:/Users/Eduardo/OneDrive/Ambiente de Trabalho/BYOND/MYG/third_party/glfw/src/CMakeFiles/INSTALL.dir
+C:/Users/Eduardo/OneDrive/Ambiente de Trabalho/BYOND/MYG/third_party/imgui/CMakeFiles/imgui.dir
+C:/Users/Eduardo/OneDrive/Ambiente de Trabalho/BYOND/MYG/third_party/imgui/CMakeFiles/INSTALL.dir
 C:/Users/Eduardo/OneDrive/Ambiente de Trabalho/BYOND/MYG/src/editor/CMakeFiles/INSTALL.dir
 C:/Users/Eduardo/OneDrive/Ambiente de Trabalho/BYOND/MYG/src/editor/CMakeFiles/Editor.dir
 C:/Users/Eduardo/OneDrive/Ambiente de Trabalho/BYOND/MYG/src/editor/CMakeFiles/ALL_BUILD.dir
