@@ -18,6 +18,8 @@ CMakeFiles/*
 *.ilk
 *.obj
 *.pdb
+.vs/*
 bin/*
 bin/Debug/*
 CMakeCache.txt
+src/editor/Editor.dir/Debug/*
