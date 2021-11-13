@@ -5,29 +5,10 @@
  */
 
 #include "editor.hpp"
-using namespace ultralight;
+
 
 namespace myg{
-
-    class MyApp {
-        RefPtr<Overlay> overlay_;
-        public:
-        MyApp(Ref<Window> win) {
-            ///
-            /// Create an Overlay using the same dimensions as our Window.
-            ///
-            overlay_ = Overlay::Create(win, win->width(), win->height(), 0, 0);
-
-            ///
-            /// Load a file from the FileSystem.
-            ///
-            ///  **IMPORTANT**: Make sure `file:///` has three (3) forward slashes.
-            ///
-            overlay_->view()->LoadURL("file:///app.html");
-        }
-
-        virtual ~MyApp() {}
-        };
+    
 
 
     float previous_x = 1920.0f;
@@ -333,31 +314,6 @@ namespace myg{
     }
 
     Editor::Editor(){
-
-        auto app = App::Create();
-            
-        ///
-        /// Create our Window using default window flags.
-        ///
-        auto window = Window::Create(app->main_monitor(), 450, 700, false,
-            kWindowFlags_Titled);
-
-        ///
-        /// Set the title of our window.
-        ///
-        window->SetTitle("Ultralight Sample 5 - File Loading");
-
-        ///
-        /// Tell our app to use 'window' as our main window.
-        ///
-        /// This call is required before creating any overlays or calling App::Run
-        ///
-        app->set_window(window);
-            
-        ///
-        /// Create our MyApp instance (creates overlays and handles all logic).
-        ///
-        MyApp my_app(window);
         //We initialize GLFW with the default false value for fullscreen (editor does not go fullscreen)
         InitializeGLFW(false);
         InitializeImGUI();

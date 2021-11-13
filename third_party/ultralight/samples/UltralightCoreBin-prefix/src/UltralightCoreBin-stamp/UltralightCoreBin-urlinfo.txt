@@ -1,3 +1,0 @@
-repository='external project URL'
-module='https://ultralightcore-bin.sfo2.cdn.digitaloceanspaces.com/ultralightcore-bin-96fdb30c-win-x64.7z'
-tag=''
