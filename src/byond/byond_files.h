@@ -1,3 +1,6 @@
+#ifndef _BYOND_FILES_H
+#define _BYOND_FILES_H
+
 #include <string>
 
 
@@ -11,3 +14,5 @@ namespace BYOND {
         ByondFiles(); 
     };
 };
+
+#endif

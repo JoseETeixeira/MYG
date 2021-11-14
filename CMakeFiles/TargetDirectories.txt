@@ -9,6 +9,12 @@ C:/Users/Eduardo/OneDrive/Ambiente de Trabalho/BYOND/MYG/third_party/glfw/src/CM
 C:/Users/Eduardo/OneDrive/Ambiente de Trabalho/BYOND/MYG/third_party/glfw/src/CMakeFiles/INSTALL.dir
 C:/Users/Eduardo/OneDrive/Ambiente de Trabalho/BYOND/MYG/third_party/imgui/CMakeFiles/imgui.dir
 C:/Users/Eduardo/OneDrive/Ambiente de Trabalho/BYOND/MYG/third_party/imgui/CMakeFiles/INSTALL.dir
+C:/Users/Eduardo/OneDrive/Ambiente de Trabalho/BYOND/MYG/third_party/spdlog/CMakeFiles/spdlog.dir
+C:/Users/Eduardo/OneDrive/Ambiente de Trabalho/BYOND/MYG/third_party/spdlog/CMakeFiles/INSTALL.dir
+C:/Users/Eduardo/OneDrive/Ambiente de Trabalho/BYOND/MYG/third_party/spdlog/CMakeFiles/ALL_BUILD.dir
+C:/Users/Eduardo/OneDrive/Ambiente de Trabalho/BYOND/MYG/src/byond/CMakeFiles/byond-core.dir
+C:/Users/Eduardo/OneDrive/Ambiente de Trabalho/BYOND/MYG/src/byond/CMakeFiles/INSTALL.dir
+C:/Users/Eduardo/OneDrive/Ambiente de Trabalho/BYOND/MYG/src/byond/CMakeFiles/ALL_BUILD.dir
 C:/Users/Eduardo/OneDrive/Ambiente de Trabalho/BYOND/MYG/src/editor/CMakeFiles/INSTALL.dir
 C:/Users/Eduardo/OneDrive/Ambiente de Trabalho/BYOND/MYG/src/editor/CMakeFiles/Editor.dir
 C:/Users/Eduardo/OneDrive/Ambiente de Trabalho/BYOND/MYG/src/editor/CMakeFiles/ALL_BUILD.dir

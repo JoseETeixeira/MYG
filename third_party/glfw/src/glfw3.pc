@@ -1,7 +1,7 @@
 prefix=C:/Program Files (x86)/MYG
 exec_prefix=${prefix}
 includedir=C:/Program Files (x86)/MYG/include
-libdir=C:/Program Files (x86)/MYG/lib
+libdir=C:/Users/Eduardo/OneDrive/Ambiente de Trabalho/BYOND/MYG/libs
 
 Name: GLFW
 Description: A multi-platform library for OpenGL, window and input

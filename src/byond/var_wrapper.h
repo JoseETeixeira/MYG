@@ -1,16 +1,18 @@
+#ifndef _VAR_WRAPPER_H
+#define _VAR_WRAPPER_H
+
 #include <string>
 #include <optional>
 #include "byond_types.h"
-namespace BYOND {
 
-static ByondTypes types;
+namespace BYOND {
 
 class VarWrapper {
 
 public:
     
     static std::string rawValue(std::string var) {
-        return var.empty() ? types.null : var;
+        return var.empty() ? ByondTypes::null : var;
     }
 
     static std::optional<std::string> optionalText(std::string var) {
@@ -48,16 +50,18 @@ public:
         if (var.empty()) {
             return std::nullopt;
         }
-        if (strcmp(types.null.c_str(),var.c_str()) == 0 || var.empty() || strcmp("\"\"",var.c_str()) == 0 || strcmp("0",var.c_str()) == 0) {
+        if (strcmp(ByondTypes::null.c_str(),var.c_str()) == 0 || var.empty() || strcmp("\"\"",var.c_str()) == 0 || strcmp("0",var.c_str()) == 0) {
             return std::optional<bool>(false);
         }
         return std::optional<bool>(true);
     }
 
     static bool isEmptyVar(std::string var) {
-        return var.empty() || strcmp(var.c_str(),types.null.c_str()) == 0;
+        return var.empty() || strcmp(var.c_str(),ByondTypes::null.c_str()) == 0;
     }
 
     VarWrapper();
 };
 };
+
+#endif
