@@ -345,14 +345,8 @@ public:
     }
 
     void mergeWithJson(std::string json) {
-       /* DmeJsonMerger merger;
-        Dme self;
-        self.absoluteRootPath = absoluteRootPath;
-        self.macroses = macroses;
-        self.items = items;
-        self.includedFiles = includedFiles;
-        self.mapFiles = mapFiles;
-        merger.merge(json, self);*/
+        DmeJsonMerger merger;
+        merger.merge(json, *this);
         spdlog::info(json);
     }
 
