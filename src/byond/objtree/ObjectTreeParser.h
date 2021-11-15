@@ -3,38 +3,23 @@
 #include "ObjectTree.h"
 #include "ObjectTreeItem.h"
 #include <string>
+#include <regex>
+#include <algorithm>
+#include <fstream>
+#include <iostream>
+#include <sstream>
 #include <unordered_map>
 #include <vector>
+#include <thread>
 #include "../stringhelper.h"
 #include "../stringbuilder.h"
 #pragma once
 
 
 
-namespace com::github::tgstation::fastdmm::objtree
+namespace BYOND
 {
 
-	using CachedPattern = com::github::tgstation::fastdmm::CachedPattern;
-	using Util = com::github::tgstation::fastdmm::Util;
-
-	using BorderLayout = java::awt::BorderLayout;
-	using BufferedReader = java::io::BufferedReader;
-	using InputStreamReader = java::io::InputStreamReader;
-	using File = java::io::File;
-	using FileReader = java::io::FileReader;
-	using IOException = java::io::IOException;
-	using Paths = java::nio::file::Paths;
-	using Path = java::nio::file::Path;
-	using ArrayList = java::util::ArrayList;
-	using HashMap = java::util::HashMap;
-	using Map = java::util::Map;
-	using Matcher = java::util::regex::Matcher;
-	using Pattern = java::util::regex::Pattern;
-
-	using JDialog = javax::swing::JDialog;
-	using JFrame = javax::swing::JFrame;
-	using JLabel = javax::swing::JLabel;
-	using JProgressBar = javax::swing::JProgressBar;
 
 	// Ah, the parser. It looks like it was written by 2 people: One that knows regex, and one that doesn't.
 	// Part of it was written before I had any clue how to regex, and the other part was after.
@@ -44,6 +29,7 @@ namespace com::github::tgstation::fastdmm::objtree
 	class ObjectTreeParser
 	{
 	public:
+        std::filesystem::path dme;
 		bool isCommenting = false;
 		bool inMultilineString = false;
 		int multilineStringDepth = 0;
@@ -56,23 +42,21 @@ namespace com::github::tgstation::fastdmm::objtree
 		ObjectTree *tree;
 
 		std::unordered_map<std::string, std::string> macros = std::unordered_map<std::string, std::string>();
-		JFrame *modalParent;
 
 	private:
 //JAVA TO C++ CONVERTER TODO TASK: C++ does not allow initialization of static non-const/integral fields in their declarations - choose the conversion option for separate .h and .cpp files:
-		static const CachedPattern *QUOTES_PATTERN = new CachedPattern("^\"(.*)\"$");
+		static inline std::regex QUOTES_PATTERN = std::regex("^\"(.*)\"$");
 //JAVA TO C++ CONVERTER TODO TASK: C++ does not allow initialization of static non-const/integral fields in their declarations - choose the conversion option for separate .h and .cpp files:
-		static const CachedPattern *DEFINE_PATTERN = new CachedPattern("#define +([\\d\\w]+) +(.+)");
+		static inline std::regex DEFINE_PATTERN = std::regex("#define +([\\d\\w]+) +(.+)");
 //JAVA TO C++ CONVERTER TODO TASK: C++ does not allow initialization of static non-const/integral fields in their declarations - choose the conversion option for separate .h and .cpp files:
-		static const CachedPattern *UNDEF_PATTERN = new CachedPattern("#undef[ \\t]*([\\d\\w]+)");
+		static inline std::regex UNDEF_PATTERN =  std::regex("#undef[ \\t]*([\\d\\w]+)");
 //JAVA TO C++ CONVERTER TODO TASK: C++ does not allow initialization of static non-const/integral fields in their declarations - choose the conversion option for separate .h and .cpp files:
-		static const CachedPattern *MACRO_PATTERN = new CachedPattern("(?<![\\d\\w\"])\\w+(?![\\d\\w\"])");
+		static inline  std::regex MACRO_PATTERN = std::regex("(?<![\\d\\w\"])\\w+(?![\\d\\w\"])");
 
 	public:
 		virtual ~ObjectTreeParser()
 		{
 			delete tree;
-			delete modalParent;
 		}
 
 		ObjectTreeParser()
@@ -85,80 +69,118 @@ namespace com::github::tgstation::fastdmm::objtree
 			this->tree = tree;
 		}
 
-		virtual void parseDME(File *file)
+		virtual void parseDME(std::filesystem::path file)
 		{
 			// Parse stddef.dm for macros and such.
-			BufferedReader tempVar(new InputStreamReader(Util::getFile("stddef.dm")));
-			doSubParse(&tempVar, Paths->get("stddef.dm"));
+			
+			std::ifstream  tempVar(Util::getFile("../../resources/stddef.dm"));
+			doSubParse(tempVar, std::filesystem::path("../../resources/stddef.dm"));
 
-			BufferedReader tempVar2(new FileReader(file));
-			doParse(&tempVar2, file->toPath(), true);
+			std::ifstream tempVar2(file.string());
+			doParse(tempVar2, file, true);
 		}
 
-		virtual void doParse(BufferedReader *br, Path *currentFile, bool isMainFile)
+		std::string ReplaceAll(std::string str, const std::string& from, const std::string& to) {
+			size_t start_pos = 0;
+			while((start_pos = str.find(from, start_pos)) != std::string::npos) {
+				str.replace(start_pos, from.length(), to);
+				start_pos += to.length(); // Handles case where 'to' is a substring of 'from'
+			}
+			return str;
+		}
+
+		std::vector<std::string> split(const std::string& s,const  char* seperator)
+		{
+		std::vector<std::string> output;
+
+			std::string::size_type prev_pos = 0, pos = 0;
+
+			while((pos = s.find(seperator, pos)) != std::string::npos)
+			{
+				std::string substring( s.substr(prev_pos, pos-prev_pos) );
+
+				output.push_back(substring);
+
+				prev_pos = ++pos;
+			}
+
+			output.push_back(s.substr(prev_pos, pos-prev_pos)); // Last word
+
+			return output;
+		}
+
+		static inline void ltrim(std::string &s) {
+			s.erase(s.begin(), std::find_if(s.begin(), s.end(), [](unsigned char ch) {
+				return !std::isspace(ch);
+			}));
+		}
+
+		// trim from end (in place)
+		static inline void rtrim(std::string &s) {
+			s.erase(std::find_if(s.rbegin(), s.rend(), [](unsigned char ch) {
+				return !std::isspace(ch);
+			}).base(), s.end());
+		}
+
+		// trim from both ends (in place)
+		static inline void trim(std::string &s) {
+			ltrim(s);
+			rtrim(s);
+		}
+
+		virtual void doParse(std::ifstream &br, std::filesystem::path currentFile, bool isMainFile)
 		{
 			std::string line = "";
 			std::vector<std::string> lines;
-			StringBuilder *runOn = new StringBuilder();
+			std::stringstream runOn;
 			int includeCount = 0;
 			// This part turns spaces into tabs, strips all the comments, and puts multiline statements on one line.
-			while ((line = br->readLine()) != "")
+			while (std::getline(br, line))
 			{
 				line = stripComments(line);
-				line = line.replaceAll("\\t", " ");
-				if (!StringHelper::trim(line)->isEmpty())
+				line = ReplaceAll(line,"\\t"," ");
+				if (!StringHelper::trim(line).empty())
 				{
 					if (StringHelper::endsWith(line, "\\"))
 					{
 						line = line.substr(0, line.length() - 1);
-						runOn->append(line);
+						runOn << line;
 					}
 					else if (inMultilineString)
 					{
-						runOn->append(line);
-						runOn->append("\\n");
+						runOn << line;
+						runOn << "\\n";
 					}
 					else if (parenthesisDepth > 0)
 					{
-						runOn->append(line);
+						runOn << line;
 					}
 					else
 					{
-						runOn->append(line);
-						line = runOn->toString();
-						runOn->setLength(0);
+						runOn << line;
+						line = runOn.str();
 						lines.push_back(line);
-						if (isMainFile && StringHelper::trim(line)->startsWith("#include"))
+						if (isMainFile && StringHelper::trim(line).rfind("#include", 0) == 0)
 						{
 							includeCount++;
 						}
 					}
 				}
 			}
-			br->close();
+			br.close();
 
 			std::vector<std::string> pathTree;
 
 			int currentInclude = 0;
 
-			JProgressBar *dpb = nullptr;
-			JDialog *dlg = nullptr;
-			JLabel *lbl = nullptr;
 			if (isMainFile)
 			{
-				JDialog * const tdlg = new JDialog(modalParent, "Object Tree Generation", modalParent != nullptr);
-				dlg = tdlg;
-				dpb = new JProgressBar(0, includeCount);
-				dlg->add(BorderLayout::CENTER, dpb);
-				lbl = new JLabel("");
-				dlg->add(BorderLayout::NORTH, lbl);
-				dlg->setDefaultCloseOperation(JDialog::DO_NOTHING_ON_CLOSE);
-				dlg->setSize(300, 75);
-				Thread *t = new Thread([&] ()
+				spdlog::info("Object Tree Generation");
+				std::thread *t = new std::thread([&] ()
 				{
-				tdlg->setVisible(true);
+					spdlog::info(currentFile.string());
 				});
-				t->start();
+				t->join();
 
 				delete t;
 			}
@@ -167,78 +189,80 @@ namespace com::github::tgstation::fastdmm::objtree
 			{
 				line = line1;
 				// Process #include, #define, and #undef
-				if (StringHelper::trim(line)->startsWith("#"))
+				if (StringHelper::trim(line).rfind("#", 0) == 0)
 				{
 					line = StringHelper::trim(line);
-					if (StringHelper::startsWith(line, "#include"))
+					if (line.rfind("#include", 0) == 0)
 					{
 						std::string path = "";
-						std::string includeData = line.split(" ")[1];
-						if (StringHelper::startsWith(includeData, "\"") || StringHelper::startsWith(includeData, "<"))
+						std::string includeData = split(line," ")[1];
+						if (includeData.rfind("\"", 0) == 0  || includeData.rfind("<", 0) == 0 )
 						{
 							// "path\to\file.dm" OR <path\to\library.dme>
 							path = includeData.substr(1, (includeData.length() - 1) - 1);
 						}
 						else
 						{
-							System::err::println(currentFile->getFileName() + " has an invalid #include statement: " + line);
+							spdlog::error(currentFile.filename().string() + " has an invalid #include statement: " + line);
 							continue;
 						}
 						if (isMainFile)
 						{
-							lbl->setText(path);
+							//lbl->setText(path);
 						}
 						if (StringHelper::endsWith(path, ".dm") || StringHelper::endsWith(path, ".dme"))
 						{
-							File *includeFile = new File(currentFile->getParent().toFile(), Util::separatorsToSystem(path));
-							if (!includeFile->exists())
-							{
-								System::err::println(currentFile->getFileName() + " references a nonexistent file: " + includeFile->getAbsolutePath());
-
-								delete includeFile;
-								continue;
-							}
-							BufferedReader tempVar(new FileReader(includeFile));
-							doSubParse(&tempVar, includeFile->toPath());
+							std::ifstream includeFile = std::ifstream(Util::getFile(currentFile.parent_path().filename().string()));
+							
+							doSubParse(includeFile, currentFile.parent_path().filename());
 
 //JAVA TO C++ CONVERTER TODO TASK: A 'delete includeFile' statement was not added since includeFile was passed to a method or constructor. Handle memory management manually.
 						}
 						if (isMainFile)
 						{
 							currentInclude++;
-							dpb->setValue(currentInclude);
+							spdlog::info(currentInclude);
+							spdlog::info(currentFile.string());
 						}
 					}
 					else if (StringHelper::startsWith(line, "#define"))
 					{
-						Matcher *m = DEFINE_PATTERN->getMatcher(line);
-						if (m->find())
+						std::smatch m;
+						std::regex_search(line, m,DEFINE_PATTERN);
+						if (!m.empty())
 						{
-							std::string group = m->group(1);
+							std::string group = m.str(1);
 							if (group == "FILE_DIR")
 							{
-								Matcher *quotes = QUOTES_PATTERN->getMatcher(m->group(2));
-								if (quotes->find())
+								std::string file_group = m.str(2);
+								std::smatch quotes;
+								std::regex_search(file_group, quotes,QUOTES_PATTERN);
+								if (!quotes.empty())
 								{
 									// 2 ways this can't happen:
+									//std::string quotes_group = quotes.str(1);
 									// Somebody intentionally placed broken FILE_DIR defines.
 									// It's the . FILE_DIR, which has no quotes, and we don't need.
-									tree->fileDirs.push_back(Paths->get(Util::separatorsToSystem(quotes->group(1))));
+									//tree->fileDirs.push_back(std::filesystem::path(Util::separatorsToSystem(quotes_group)));
 								}
 
 							}
 							else
 							{
-								macros.emplace(m->group(1), m->group(2)->replace("$", "\\$"));
+								std::string group = m.str(1);
+								std::string value = m.str(2);
+								value = ReplaceAll(value,"$","\\$");
+								macros.emplace(group, value);
 							}
 						}
 					}
 					else if (StringHelper::startsWith(line, "#undef"))
 					{
-						Matcher *m = UNDEF_PATTERN->getMatcher(line);
-						if (m->find() && macros.find(m->group(1)) != macros.end())
+						std::smatch m;
+						std::regex_search(line, m,UNDEF_PATTERN);
+						if (!m.empty() && macros.find(m.str(1)) != macros.end())
 						{
-							macros.erase(m->group(1));
+							macros.erase(m.str(1));
 						}
 					}
 
@@ -262,7 +286,8 @@ namespace com::github::tgstation::fastdmm::objtree
 				{
 					pathTree.push_back("");
 				}
-				pathTree[level] = cleanPath(StringHelper::trim(line));
+				trim(line);
+				pathTree[level] = cleanPath(line);
 				if (pathTree.size() > level + 1)
 				{
 					for (int j = pathTree.size() - 1; j > level; j--)
@@ -276,24 +301,27 @@ namespace com::github::tgstation::fastdmm::objtree
 					fullPath += c;
 				}
 				// Now, split it again, and rebuild it again, but only figure out how big the object itself is.
-				std::vector<std::string> divided = fullPath.split("\\/");
+				std::vector<std::string> divided = split(fullPath,"\\/");
 				std::string affectedObjectPath = "";
 				for (auto item : divided)
 				{
-					if (item.isEmpty())
+					if (item.empty())
 					{
 						continue;
 					}
-					if (item.equalsIgnoreCase("static") || item.equalsIgnoreCase("global") || item.equalsIgnoreCase("tmp"))
+					if (StringHelper::toLower(item) == "static" || StringHelper::toLower(item) == ("global") || StringHelper::toLower(item) == ("tmp"))
 					{
 						continue;
 					}
-					if (item.equals("proc") || item.equals("verb") || item.equals("var"))
+					if (item == ("proc") || item == ("verb") || item == ("var"))
 					{
 						break;
 					}
-					if (item.contains("=") || item.contains("("))
+					if (fullPath.find("=") != std::string::npos)
 					{
+						break;
+					}
+					if (fullPath.find("(") != std::string::npos) {
 						break;
 					}
 					affectedObjectPath += "/" + item;
@@ -303,19 +331,21 @@ namespace com::github::tgstation::fastdmm::objtree
 				{
 					continue;
 				}
-				fullPath = fullPath.replaceAll("/tmp", ""); // Let's avoid giving a shit about whether the var is tmp, static, or global.
-				fullPath = fullPath.replaceAll("/static", "");
-				fullPath = fullPath.replaceAll("/global", "");
+				fullPath = ReplaceAll(fullPath,"/tmp", ""); // Let's avoid giving a shit about whether the var is tmp, static, or global.
+				fullPath = ReplaceAll(fullPath,"/static", "");
+				fullPath = ReplaceAll(fullPath,"/global", "");
 				// Parse the var definitions.
-				if (fullPath.find("var/") != std::string::npos || (fullPath.find("=") != std::string::npos && (!fullPath.find("(") != std::string::npos || (int)fullPath.find("(") > (int)fullPath.find("="))))
+				if (fullPath.find("var/") != std::string::npos || (fullPath.find("=") != std::string::npos && (fullPath.find("(") != std::string::npos || (int)fullPath.find("(") > (int)fullPath.find("="))))
 				{
-					std::vector<std::string> split = Pattern::compile("=")->split(fullPath, 2);
-										var tempVar2 = split[0].rfind("/") + 1;
-					std::string varname = StringHelper::trim(split[0].substr(tempVar2, split[0].length() - (tempVar2)));
+					std::string split = fullPath;
+					auto tempVar2 = split.rfind("/") + 1;
+					std::string varname = StringHelper::trim(split.substr(tempVar2, split.length() - (tempVar2)));
 					if (split.size() > 1)
 					{
-						std::string val = StringHelper::trim(split[1]);
+						std::string val = StringHelper::trim(varname);
 						std::string origVal = "";
+
+						/*
 						while (origVal != val)
 						{
 							origVal = val;
@@ -337,7 +367,7 @@ namespace com::github::tgstation::fastdmm::objtree
 							val = outVal->toString();
 
 //JAVA TO C++ CONVERTER TODO TASK: A 'delete outVal' statement was not added since outVal was passed to a method or constructor. Handle memory management manually.
-						}
+						}*/
 						/*// Parse additions.
 						Matcher m = Pattern.compile("([\\d\\.]+)[ \\t]*\\+[ \\t]*([\\d\\.]+)").matcher(val);
 						StringBuffer outVal = new StringBuffer();
@@ -363,11 +393,6 @@ namespace com::github::tgstation::fastdmm::objtree
 					}
 				}
 			}
-			if (dlg != nullptr)
-			{
-				dlg->setVisible(false);
-			}
-
 			// Reset variables
 			isCommenting = false;
 			inMultilineString = false;
@@ -380,11 +405,11 @@ namespace com::github::tgstation::fastdmm::objtree
 
 //JAVA TO C++ CONVERTER TODO TASK: A 'delete lbl' statement was not added since lbl was passed to a method or constructor. Handle memory management manually.
 //JAVA TO C++ CONVERTER TODO TASK: A 'delete dpb' statement was not added since dpb was passed to a method or constructor. Handle memory management manually.
-			delete runOn;
+			//delete runOn;
 		}
 
 	private:
-		void doSubParse(BufferedReader *br, Path *currentFile)
+		void doSubParse(std::ifstream  &br, std::filesystem::path currentFile)
 		{
 			ObjectTreeParser *parser = new ObjectTreeParser(tree);
 			parser->macros = macros;
@@ -396,7 +421,7 @@ namespace com::github::tgstation::fastdmm::objtree
 	public:
 		virtual std::string stripComments(const std::string &s)
 		{
-			StringBuilder *o = new StringBuilder();
+			std::stringstream o;
 			for (int i = 0; i < s.length(); i++)
 			{
 				wchar_t pC = ' ';
@@ -468,7 +493,7 @@ namespace com::github::tgstation::fastdmm::objtree
 					{
 						parenthesisDepth--;
 					}
-					o->append(c);
+					o << std::to_string(c);
 				}
 				else
 				{
@@ -481,18 +506,17 @@ namespace com::github::tgstation::fastdmm::objtree
 
 			}
 
-			delete o;
-			return o->toString();
+			return o.str();
 		}
 
-		static std::string cleanPath(const std::string &s)
+		static std::string cleanPath(std::string &s)
 		{
 			// Makes sure that paths start with a slash, and don't end with a slash.
-			if (!StringHelper::startsWith(s, "/"))
+			if (!s.rfind("/", 0) == 0)
 			{
 				s = "/" + s;
 			}
-			if (StringHelper::endsWith(s, "/"))
+			if (s.rfind("/", s.length()) == 0)
 			{
 				s = s.substr(0, s.length() - 1);
 			}

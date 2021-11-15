@@ -200,6 +200,24 @@ namespace BYOND
 			return items[""];
 		}
 
+		std::string ReplaceAll(std::string str, const std::string& from, const std::string& to) {
+			size_t start_pos = 0;
+			while ((start_pos = str.find(from, start_pos)) != std::string::npos) {
+				str.replace(start_pos, from.length(), to);
+				start_pos += to.length(); // Handles case where 'to' is a substring of 'from'
+			}
+			return str;
+		}
+
+		int searchsubtypes(std::vector<ObjectTreeItem*> subtypes, ObjectTreeItem* arg) {
+			int i = 0;
+			for (ObjectTreeItem* type : subtypes) {
+				if (type == arg)
+					return i;
+				i++;
+			}
+			return -1;
+		}
 
 		virtual void completeTree()
 		{
@@ -230,13 +248,17 @@ namespace BYOND
 							if (global->vars.find(m.str(i)) != global->vars.end())
 							{
 								std::string s = outVal.str();
-								std::replace(s.begin(), s.end(),s, global->vars.at(m.str(i)));
+								std::string varsAtI = global->vars.at(m.str(i));
+								s = ReplaceAll(s, varsAtI,"");
+								//std::replace(s.begin(), s.end(),s,varsAtI );
 								outVal.str(s);
 							}
 							else
 							{
 								std::string s = outVal.str();
-								std::replace(s.begin(), s.end(),s, m.str(i));
+								std::string varsAtI = m.str(i);
+								s = ReplaceAll(s, varsAtI, "");
+								//std::replace(s.begin(), s.end(),s, m.str(i));
 								outVal.str(s);
 							}
 						}
@@ -254,14 +276,16 @@ namespace BYOND
 								if (m.str(i+1) != "." && m.str(i+3) != ".")
 									{
 										std::string s = outVal.str();
-										std::replace(s.begin(), s.end(), s, std::to_string(std::stof(m.str(i+1)) + std::stof(m.str(i+3))));
+										std::string varsAtI = std::to_string(std::stof(m.str(i + 1)) + std::stof(m.str(i + 3)));
+										s = ReplaceAll(s, varsAtI, "");
 										outVal.str(s);
 									}
 							}else if(expr == "-"){
 								if (m.str(i+1) != "." && m.str(i+3) != ".")
 									{
 										std::string s = outVal.str();
-										std::replace(s.begin(), s.end(), s, std::to_string(std::stof(m.str(i+1)) - std::stof(m.str(i+3))));
+										std::string varsAtI = std::to_string(std::stof(m.str(i + 1)) - std::stof(m.str(i + 3)));
+										s = ReplaceAll(s, varsAtI, "");
 										outVal.str(s);
 									}
 							}
@@ -275,7 +299,9 @@ namespace BYOND
 						for (int i =0; i< m.size(); i++)
 						{
 							std::string s = outVal.str();
-								std::replace(s.begin(), s.end(), s, m.str(i+1));
+							std::string varsAtI = m.str(i+1);
+							s = ReplaceAll(s, varsAtI, "");
+								
 								outVal.str(s);
 						}
 						val = outVal.str();
@@ -300,6 +326,7 @@ namespace BYOND
 				}
 			}
 			// Sort children
+			/*
 			for (auto i : items)
 			{
 				std::sort(i.second->subtypes.begin(), i.second->subtypes.end(),[&] (ObjectTreeItem *arg0, ObjectTreeItem *arg1)
@@ -307,6 +334,8 @@ namespace BYOND
 				 std::strcmp(arg0->path.c_str(),arg1->path.c_str());
 				});
 			}
+			*/
+			
 
 			try
 			{
@@ -390,9 +419,8 @@ namespace BYOND
 			if (arg0.type() == typeid(ObjectTreeItem))
 			{
 				std::vector<ObjectTreeItem*> subtypes = std::any_cast<ObjectTreeItem*>(arg0)->subtypes;
-				std::vector<ObjectTreeItem*>::iterator it = std::find(subtypes.begin(), subtypes.end(), arg1);
-				if (it != subtypes.end())
-					return std::distance(subtypes.begin(), it);
+				if (searchsubtypes(subtypes, std::any_cast<ObjectTreeItem*>(arg1)) != -1)
+					return searchsubtypes(subtypes, std::any_cast<ObjectTreeItem*>(arg1));
 				else
 					return -1;
 			}
@@ -436,11 +464,10 @@ namespace BYOND
 			{
 				std::filesystem::path newPath = (path->relative_path()).append(filePath);
 				std::filesystem::path rootPath = path->root_path();
-
 				
 				ss << newPath.relative_path();
 				// Ding ding ding we got a winner!
-				if (newPath.has_filename())
+				if (std::filesystem::exists(newPath) && newPath.has_filename())
 				{
 					
 					return ss.str();
