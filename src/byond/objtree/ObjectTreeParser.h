@@ -1,5 +1,3 @@
-#pragma once
-
 #include "../CachedPattern.h"
 #include "../Util.h"
 #include "ObjectTree.h"
@@ -9,6 +7,9 @@
 #include <vector>
 #include "../stringhelper.h"
 #include "../stringbuilder.h"
+#pragma once
+
+
 
 namespace com::github::tgstation::fastdmm::objtree
 {
@@ -54,18 +55,18 @@ namespace com::github::tgstation::fastdmm::objtree
 
 		ObjectTree *tree;
 
-		std::unordered_map<std::wstring, std::wstring> macros = std::unordered_map<std::wstring, std::wstring>();
+		std::unordered_map<std::string, std::string> macros = std::unordered_map<std::string, std::string>();
 		JFrame *modalParent;
 
 	private:
 //JAVA TO C++ CONVERTER TODO TASK: C++ does not allow initialization of static non-const/integral fields in their declarations - choose the conversion option for separate .h and .cpp files:
-		static const CachedPattern *QUOTES_PATTERN = new CachedPattern(L"^\"(.*)\"$");
+		static const CachedPattern *QUOTES_PATTERN = new CachedPattern("^\"(.*)\"$");
 //JAVA TO C++ CONVERTER TODO TASK: C++ does not allow initialization of static non-const/integral fields in their declarations - choose the conversion option for separate .h and .cpp files:
-		static const CachedPattern *DEFINE_PATTERN = new CachedPattern(L"#define +([\\d\\w]+) +(.+)");
+		static const CachedPattern *DEFINE_PATTERN = new CachedPattern("#define +([\\d\\w]+) +(.+)");
 //JAVA TO C++ CONVERTER TODO TASK: C++ does not allow initialization of static non-const/integral fields in their declarations - choose the conversion option for separate .h and .cpp files:
-		static const CachedPattern *UNDEF_PATTERN = new CachedPattern(L"#undef[ \\t]*([\\d\\w]+)");
+		static const CachedPattern *UNDEF_PATTERN = new CachedPattern("#undef[ \\t]*([\\d\\w]+)");
 //JAVA TO C++ CONVERTER TODO TASK: C++ does not allow initialization of static non-const/integral fields in their declarations - choose the conversion option for separate .h and .cpp files:
-		static const CachedPattern *MACRO_PATTERN = new CachedPattern(L"(?<![\\d\\w\"])\\w+(?![\\d\\w\"])");
+		static const CachedPattern *MACRO_PATTERN = new CachedPattern("(?<![\\d\\w\"])\\w+(?![\\d\\w\"])");
 
 	public:
 		virtual ~ObjectTreeParser()
@@ -87,8 +88,8 @@ namespace com::github::tgstation::fastdmm::objtree
 		virtual void parseDME(File *file)
 		{
 			// Parse stddef.dm for macros and such.
-			BufferedReader tempVar(new InputStreamReader(Util::getFile(L"stddef.dm")));
-			doSubParse(&tempVar, Paths->get(L"stddef.dm"));
+			BufferedReader tempVar(new InputStreamReader(Util::getFile("stddef.dm")));
+			doSubParse(&tempVar, Paths->get("stddef.dm"));
 
 			BufferedReader tempVar2(new FileReader(file));
 			doParse(&tempVar2, file->toPath(), true);
@@ -96,18 +97,18 @@ namespace com::github::tgstation::fastdmm::objtree
 
 		virtual void doParse(BufferedReader *br, Path *currentFile, bool isMainFile)
 		{
-			std::wstring line = L"";
-			std::vector<std::wstring> lines;
+			std::string line = "";
+			std::vector<std::string> lines;
 			StringBuilder *runOn = new StringBuilder();
 			int includeCount = 0;
 			// This part turns spaces into tabs, strips all the comments, and puts multiline statements on one line.
-			while ((line = br->readLine()) != L"")
+			while ((line = br->readLine()) != "")
 			{
 				line = stripComments(line);
-				line = line.replaceAll(L"\\t", L" ");
+				line = line.replaceAll("\\t", " ");
 				if (!StringHelper::trim(line)->isEmpty())
 				{
-					if (StringHelper::endsWith(line, L"\\"))
+					if (StringHelper::endsWith(line, "\\"))
 					{
 						line = line.substr(0, line.length() - 1);
 						runOn->append(line);
@@ -115,7 +116,7 @@ namespace com::github::tgstation::fastdmm::objtree
 					else if (inMultilineString)
 					{
 						runOn->append(line);
-						runOn->append(L"\\n");
+						runOn->append("\\n");
 					}
 					else if (parenthesisDepth > 0)
 					{
@@ -127,7 +128,7 @@ namespace com::github::tgstation::fastdmm::objtree
 						line = runOn->toString();
 						runOn->setLength(0);
 						lines.push_back(line);
-						if (isMainFile && StringHelper::trim(line)->startsWith(L"#include"))
+						if (isMainFile && StringHelper::trim(line)->startsWith("#include"))
 						{
 							includeCount++;
 						}
@@ -136,7 +137,7 @@ namespace com::github::tgstation::fastdmm::objtree
 			}
 			br->close();
 
-			std::vector<std::wstring> pathTree;
+			std::vector<std::string> pathTree;
 
 			int currentInclude = 0;
 
@@ -145,11 +146,11 @@ namespace com::github::tgstation::fastdmm::objtree
 			JLabel *lbl = nullptr;
 			if (isMainFile)
 			{
-				JDialog * const tdlg = new JDialog(modalParent, L"Object Tree Generation", modalParent != nullptr);
+				JDialog * const tdlg = new JDialog(modalParent, "Object Tree Generation", modalParent != nullptr);
 				dlg = tdlg;
 				dpb = new JProgressBar(0, includeCount);
 				dlg->add(BorderLayout::CENTER, dpb);
-				lbl = new JLabel(L"");
+				lbl = new JLabel("");
 				dlg->add(BorderLayout::NORTH, lbl);
 				dlg->setDefaultCloseOperation(JDialog::DO_NOTHING_ON_CLOSE);
 				dlg->setSize(300, 75);
@@ -166,33 +167,33 @@ namespace com::github::tgstation::fastdmm::objtree
 			{
 				line = line1;
 				// Process #include, #define, and #undef
-				if (StringHelper::trim(line)->startsWith(L"#"))
+				if (StringHelper::trim(line)->startsWith("#"))
 				{
 					line = StringHelper::trim(line);
-					if (StringHelper::startsWith(line, L"#include"))
+					if (StringHelper::startsWith(line, "#include"))
 					{
-						std::wstring path = L"";
-						std::wstring includeData = line.split(L" ")[1];
-						if (StringHelper::startsWith(includeData, L"\"") || StringHelper::startsWith(includeData, L"<"))
+						std::string path = "";
+						std::string includeData = line.split(" ")[1];
+						if (StringHelper::startsWith(includeData, "\"") || StringHelper::startsWith(includeData, "<"))
 						{
 							// "path\to\file.dm" OR <path\to\library.dme>
 							path = includeData.substr(1, (includeData.length() - 1) - 1);
 						}
 						else
 						{
-							System::err::println(currentFile->getFileName() + L" has an invalid #include statement: " + line);
+							System::err::println(currentFile->getFileName() + " has an invalid #include statement: " + line);
 							continue;
 						}
 						if (isMainFile)
 						{
 							lbl->setText(path);
 						}
-						if (StringHelper::endsWith(path, L".dm") || StringHelper::endsWith(path, L".dme"))
+						if (StringHelper::endsWith(path, ".dm") || StringHelper::endsWith(path, ".dme"))
 						{
 							File *includeFile = new File(currentFile->getParent().toFile(), Util::separatorsToSystem(path));
 							if (!includeFile->exists())
 							{
-								System::err::println(currentFile->getFileName() + L" references a nonexistent file: " + includeFile->getAbsolutePath());
+								System::err::println(currentFile->getFileName() + " references a nonexistent file: " + includeFile->getAbsolutePath());
 
 								delete includeFile;
 								continue;
@@ -208,13 +209,13 @@ namespace com::github::tgstation::fastdmm::objtree
 							dpb->setValue(currentInclude);
 						}
 					}
-					else if (StringHelper::startsWith(line, L"#define"))
+					else if (StringHelper::startsWith(line, "#define"))
 					{
 						Matcher *m = DEFINE_PATTERN->getMatcher(line);
 						if (m->find())
 						{
-							std::wstring group = m->group(1);
-							if (group == L"FILE_DIR")
+							std::string group = m->group(1);
+							if (group == "FILE_DIR")
 							{
 								Matcher *quotes = QUOTES_PATTERN->getMatcher(m->group(2));
 								if (quotes->find())
@@ -228,11 +229,11 @@ namespace com::github::tgstation::fastdmm::objtree
 							}
 							else
 							{
-								macros.emplace(m->group(1), m->group(2)->replace(L"$", L"\\$"));
+								macros.emplace(m->group(1), m->group(2)->replace("$", "\\$"));
 							}
 						}
 					}
-					else if (StringHelper::startsWith(line, L"#undef"))
+					else if (StringHelper::startsWith(line, "#undef"))
 					{
 						Matcher *m = UNDEF_PATTERN->getMatcher(line);
 						if (m->find() && macros.find(m->group(1)) != macros.end())
@@ -247,7 +248,7 @@ namespace com::github::tgstation::fastdmm::objtree
 				int level = 0;
 				for (int j = 0; j < line.length(); j++)
 				{
-					if (line[j] == L' ')
+					if (line[j] == ' ')
 					{
 						level++;
 					}
@@ -259,7 +260,7 @@ namespace com::github::tgstation::fastdmm::objtree
 				// Rebuild the path tree.
 				for (int j = pathTree.size(); j <= level; j++)
 				{
-					pathTree.push_back(L"");
+					pathTree.push_back("");
 				}
 				pathTree[level] = cleanPath(StringHelper::trim(line));
 				if (pathTree.size() > level + 1)
@@ -269,52 +270,52 @@ namespace com::github::tgstation::fastdmm::objtree
 						pathTree.erase(pathTree.begin() + j);
 					}
 				}
-				std::wstring fullPath = L"";
+				std::string fullPath = "";
 				for (auto c : pathTree)
 				{
 					fullPath += c;
 				}
 				// Now, split it again, and rebuild it again, but only figure out how big the object itself is.
-				std::vector<std::wstring> divided = fullPath.split(L"\\/");
-				std::wstring affectedObjectPath = L"";
+				std::vector<std::string> divided = fullPath.split("\\/");
+				std::string affectedObjectPath = "";
 				for (auto item : divided)
 				{
 					if (item.isEmpty())
 					{
 						continue;
 					}
-					if (item.equalsIgnoreCase(L"static") || item.equalsIgnoreCase(L"global") || item.equalsIgnoreCase(L"tmp"))
+					if (item.equalsIgnoreCase("static") || item.equalsIgnoreCase("global") || item.equalsIgnoreCase("tmp"))
 					{
 						continue;
 					}
-					if (item.equals(L"proc") || item.equals(L"verb") || item.equals(L"var"))
+					if (item.equals("proc") || item.equals("verb") || item.equals("var"))
 					{
 						break;
 					}
-					if (item.contains(L"=") || item.contains(L"("))
+					if (item.contains("=") || item.contains("("))
 					{
 						break;
 					}
-					affectedObjectPath += L"/" + item;
+					affectedObjectPath += "/" + item;
 				}
 				ObjectTreeItem *item = tree->getOrCreate(affectedObjectPath);
-				if (fullPath.find(L"(") != std::wstring::npos && (int)fullPath.find(L"(") < (int)fullPath.rfind(L"/"))
+				if (fullPath.find("(") != std::string::npos && (int)fullPath.find("(") < (int)fullPath.rfind("/"))
 				{
 					continue;
 				}
-				fullPath = fullPath.replaceAll(L"/tmp", L""); // Let's avoid giving a shit about whether the var is tmp, static, or global.
-				fullPath = fullPath.replaceAll(L"/static", L"");
-				fullPath = fullPath.replaceAll(L"/global", L"");
+				fullPath = fullPath.replaceAll("/tmp", ""); // Let's avoid giving a shit about whether the var is tmp, static, or global.
+				fullPath = fullPath.replaceAll("/static", "");
+				fullPath = fullPath.replaceAll("/global", "");
 				// Parse the var definitions.
-				if (fullPath.find(L"var/") != std::wstring::npos || (fullPath.find(L"=") != std::wstring::npos && (!fullPath.find(L"(") != std::wstring::npos || (int)fullPath.find(L"(") > (int)fullPath.find(L"="))))
+				if (fullPath.find("var/") != std::string::npos || (fullPath.find("=") != std::string::npos && (!fullPath.find("(") != std::string::npos || (int)fullPath.find("(") > (int)fullPath.find("="))))
 				{
-					std::vector<std::wstring> split = Pattern::compile(L"=")->split(fullPath, 2);
-										var tempVar2 = split[0].rfind(L"/") + 1;
-					std::wstring varname = StringHelper::trim(split[0].substr(tempVar2, split[0].length() - (tempVar2)));
+					std::vector<std::string> split = Pattern::compile("=")->split(fullPath, 2);
+										var tempVar2 = split[0].rfind("/") + 1;
+					std::string varname = StringHelper::trim(split[0].substr(tempVar2, split[0].length() - (tempVar2)));
 					if (split.size() > 1)
 					{
-						std::wstring val = StringHelper::trim(split[1]);
-						std::wstring origVal = L"";
+						std::string val = StringHelper::trim(split[1]);
+						std::string origVal = "";
 						while (origVal != val)
 						{
 							origVal = val;
@@ -393,77 +394,77 @@ namespace com::github::tgstation::fastdmm::objtree
 		}
 
 	public:
-		virtual std::wstring stripComments(const std::wstring &s)
+		virtual std::string stripComments(const std::string &s)
 		{
 			StringBuilder *o = new StringBuilder();
 			for (int i = 0; i < s.length(); i++)
 			{
-				wchar_t pC = L' ';
+				wchar_t pC = ' ';
 				if (i - 1 >= 0)
 				{
 					pC = s[i - 1];
 				}
-				wchar_t ppC = L' ';
+				wchar_t ppC = ' ';
 				if (i - 2 >= 0)
 				{
 					ppC = s[i - 2];
 				}
 				wchar_t c = s[i];
-				wchar_t nC = L' ';
+				wchar_t nC = ' ';
 				if (i + 1 < s.length())
 				{
 					nC = s[i + 1];
 				}
 				if (!isCommenting)
 				{
-					if (c == L'/' && nC == L'/' && stringDepth == 0)
+					if (c == '/' && nC == '/' && stringDepth == 0)
 					{
 						break;
 					}
-					if (c == L'/' && nC == L'*' && stringDepth == 0)
+					if (c == '/' && nC == '*' && stringDepth == 0)
 					{
 						isCommenting = true;
 						continue;
 					}
-					if (c == L'"' && nC == L'}' && (pC != L'\\' || ppC == L'\\') && stringDepth == multilineStringDepth && inMultilineString)
+					if (c == '"' && nC == '}' && (pC != '\\' || ppC == '\\') && stringDepth == multilineStringDepth && inMultilineString)
 					{
 						inMultilineString = false;
 					}
-					if (c == L'"' && (pC != L'\\' || ppC == L'\\') && stringDepth != stringExpDepth && (!inMultilineString || multilineStringDepth != stringDepth))
+					if (c == '"' && (pC != '\\' || ppC == '\\') && stringDepth != stringExpDepth && (!inMultilineString || multilineStringDepth != stringDepth))
 					{
 						stringDepth--;
 					}
-					else if (c == L'"' && stringDepth == stringExpDepth && (!inMultilineString || multilineStringDepth != stringDepth))
+					else if (c == '"' && stringDepth == stringExpDepth && (!inMultilineString || multilineStringDepth != stringDepth))
 					{
 						stringDepth++;
-						if (pC == L'{')
+						if (pC == '{')
 						{
 							inMultilineString = true;
 							multilineStringDepth = stringDepth;
 						}
 					}
-					if (c == L'[' && stringDepth == stringExpDepth)
+					if (c == '[' && stringDepth == stringExpDepth)
 					{
 						arrayDepth[stringExpDepth]++;
 					}
-					else if (c == L'[' && (pC != L'\\' || ppC == L'\\') && stringDepth != stringExpDepth)
+					else if (c == '[' && (pC != '\\' || ppC == '\\') && stringDepth != stringExpDepth)
 					{
 						stringExpDepth++;
 					}
 
-					if (c == L']' && arrayDepth[stringExpDepth] != 0)
+					if (c == ']' && arrayDepth[stringExpDepth] != 0)
 					{
 						arrayDepth[stringExpDepth]--;
 					}
-					else if (c == L']' && stringDepth > 0 && stringDepth == stringExpDepth)
+					else if (c == ']' && stringDepth > 0 && stringDepth == stringExpDepth)
 					{
 						stringExpDepth--;
 					}
-					if (c == L'(' && stringDepth == stringExpDepth)
+					if (c == '(' && stringDepth == stringExpDepth)
 					{
 						parenthesisDepth++;
 					}
-					if (c == L')' && stringDepth == stringExpDepth)
+					if (c == ')' && stringDepth == stringExpDepth)
 					{
 						parenthesisDepth--;
 					}
@@ -471,7 +472,7 @@ namespace com::github::tgstation::fastdmm::objtree
 				}
 				else
 				{
-					if (c == L'*' && nC == L'/')
+					if (c == '*' && nC == '/')
 					{
 						isCommenting = false;
 						i++;
@@ -484,14 +485,14 @@ namespace com::github::tgstation::fastdmm::objtree
 			return o->toString();
 		}
 
-		static std::wstring cleanPath(const std::wstring &s)
+		static std::string cleanPath(const std::string &s)
 		{
 			// Makes sure that paths start with a slash, and don't end with a slash.
-			if (!StringHelper::startsWith(s, L"/"))
+			if (!StringHelper::startsWith(s, "/"))
 			{
-				s = L"/" + s;
+				s = "/" + s;
 			}
-			if (StringHelper::endsWith(s, L"/"))
+			if (StringHelper::endsWith(s, "/"))
 			{
 				s = s.substr(0, s.length() - 1);
 			}

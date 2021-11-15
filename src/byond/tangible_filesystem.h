@@ -13,37 +13,37 @@
 class FileSystem
 {
 public:
-	static void createDirectory(const std::wstring &path)
+	static void createDirectory(const std::string &path)
 	{
 		std::filesystem::create_directory(pathFromString(path));
 	}
 
-	static bool pathExists(const std::wstring &path)
+	static bool pathExists(const std::string &path)
 	{
 		return std::filesystem::exists(pathFromString(path));
 	}
 
-	static bool fileExists(const std::wstring &path)
+	static bool fileExists(const std::string &path)
 	{
 		return std::filesystem::is_regular_file(pathFromString(path));
 	}
 
-	static bool directoryExists(const std::wstring &path)
+	static bool directoryExists(const std::string &path)
 	{
 		return std::filesystem::is_directory(pathFromString(path));
 	}
 
-	static std::wstring getFullPath(const std::wstring &path)
+	static std::wstring getFullPath(const std::string &path)
 	{
 		return std::filesystem::absolute(pathFromString(path)).generic_wstring();
 	}
 
-	static std::wstring getFileName(const std::wstring &path)
+	static std::wstring getFileName(const std::string &path)
 	{
 		return std::filesystem::path(pathFromString(path)).filename().generic_wstring();
 	}
 
-	static std::wstring getDirectoryName(const std::wstring &path)
+	static std::wstring getDirectoryName(const std::string &path)
 	{
 		return std::filesystem::path(pathFromString(path)).parent_path().generic_wstring();
 	}
@@ -54,7 +54,7 @@ public:
 	}
 
 private:
-	static std::filesystem::path pathFromString(const std::wstring &path)
+	static std::filesystem::path pathFromString(const std::string &path)
 	{
 		return std::filesystem::path(&path[0]);
 	}

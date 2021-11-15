@@ -1,8 +1,9 @@
-#pragma once
-
 #include <string>
 #include "exceptionhelper.h"
 #include "../../third_party/color/src/color/color.hpp"
+#pragma once
+
+
 
 namespace BYOND
 {
@@ -25,6 +26,7 @@ namespace BYOND
 		std::string cachedIconState = "";
 		std::string cachedIcon = "";
 
+
 	public:
 		virtual ~ObjInstance()
 		{
@@ -46,7 +48,7 @@ namespace BYOND
 
 				if (!patternMatch.empty())
 				{
-					cachedIcon = patternMatch[1];
+					cachedIcon = patternMatch.str(1);
 				}
 				else
 				{
@@ -66,7 +68,7 @@ namespace BYOND
 
 				if (!patternMatch.empty())
 				{
-					cachedIconState = patternMatch[1];
+					cachedIconState = patternMatch.str(1);
 				}
 				else
 				{
@@ -152,7 +154,7 @@ namespace BYOND
 			std::regex_search(var, patternMatch, std::regex("(#[\\d\\w][\\d\\w][\\d\\w][\\d\\w][\\d\\w][\\d\\w])"));
 			if (!patternMatch.empty())
 			{
-				std::string match = patternMatch[1];
+				std::string match = patternMatch.str(1);
 				int r;
 				int g;
 				int bi;
@@ -167,9 +169,9 @@ namespace BYOND
 			std::regex_search(var, patternMatch, std::regex("rgb ?\\( ?([\\d]+) ?, ?([\\d]+) ?, ?([\\d]+) ?\\)"));
 			if (!patternMatch.empty())
 			{
-				int r = std::stoi(patternMatch[1]);
-				int g = std::stoi(patternMatch[2]);
-				int bi = std::stoi(patternMatch[3]);
+				int r = std::stoi(patternMatch.str(1));
+				int g = std::stoi(patternMatch.str(2));
+				int bi = std::stoi(patternMatch.str(3));
 				if (r > 255)
 				{
 					r = 255;

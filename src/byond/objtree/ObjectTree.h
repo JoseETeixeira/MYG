@@ -1,31 +1,39 @@
-#pragma once
-
 #include "ObjectTreeItem.h"
 #include <string>
 #include <unordered_map>
 #include <list>
 #include <any>
+#include <regex>
 #include "node.hpp"
+#include <sstream>
+#include <algorithm>
 #include "../exceptionhelper.h"
 #include "../stringbuilder.h"
 #include "../vectorhelper.h"
 #include "../tangible_filesystem.h"
+#include "spdlog/spdlog.h"
+#pragma once
+
+
 
 namespace BYOND
 {
-	static const std::wstring macroRegex = L"([\\d\\.]+)[ \\t]*(\\+|\\-)[ \\t]*([\\d\\.]+)";
+	
 
-	class ObjectTree : public Node<ObjectTreeItem>
+	class ObjectTree 
 	{
 	public:
+		static inline std::string macroRegex = "([\\d\\.]+)[ \\t]*(\\+|\\-)[ \\t]*([\\d\\.]+)";
 	
-		std::unordered_map<std::wstring, ObjectTreeItem*> items = std::unordered_map<std::wstring, ObjectTreeItem*>();
+		std::unordered_map<std::string, ObjectTreeItem*> items = std::unordered_map<std::string, ObjectTreeItem*>();
 		std::string dmePath;
 
 		// List of all FILE_DIR definitions.
 		// Linked list because it only really gets used for iteration and I'm too lazy to estimate the directory count
 		// So it doesn't reallocate the array a billion times.
-		std::list<std::filesystem::path*> fileDirs = std::list<std::filesystem::path*>();
+		std::list<std::filesystem::path *> fileDirs = std::list<std::filesystem::path*>();
+
+		//Node<ObjectTreeItem> root = Node<ObjectTreeItem>(ObjectTreeItem(nullptr,""));
 
 		int icon_size = 0;
 
@@ -34,95 +42,96 @@ namespace BYOND
 		{
 			// Default datums
 
-			ObjectTreeItem *datum = new ObjectTreeItem(nullptr, L"/datum");
-			datum->setVar(L"tag",L"null");
+			ObjectTreeItem *datum = new ObjectTreeItem(nullptr, "/datum");
+			datum->setVar("tag","null");
 			addItem(datum);
 
-			ObjectTreeItem *atom = new ObjectTreeItem(datum, L"/atom");
-			atom->setVar(L"alpha", L"255");
-			atom->setVar(L"appearance_flags", L"0");
-			atom->setVar(L"blend_mode", L"0");
-			atom->setVar(L"color", L"null");
-			atom->setVar(L"density", L"0");
-			atom->setVar(L"desc", L"null");
-			atom->setVar(L"dir", L"2");
-			atom->setVar(L"gender", L"neuter");
-			atom->setVar(L"icon", L"null");
-			atom->setVar(L"icon_state", L"null");
-			atom->setVar(L"infra_luminosity", L"0");
-			atom->setVar(L"invisibility", L"0");
-			atom->setVar(L"layer", L"1");
-			atom->setVar(L"luminosity", L"0");
-			atom->setVar(L"maptext", L"null");
-			atom->setVar(L"maptext_width", L"32");
-			atom->setVar(L"maptext_height", L"32");
-			atom->setVar(L"maptext_x", L"0");
-			atom->setVar(L"maptext_y", L"0");
-			atom->setVar(L"mouse_drag_pointer", L"0");
-			atom->setVar(L"mouse_drop_pointer", L"1");
-			atom->setVar(L"mouse_drop_zone", L"0");
-			atom->setVar(L"mouse_opacity", L"1");
-			atom->setVar(L"mouse_over_pointer", L"0");
-			atom->setVar(L"name", L"null");
-			atom->setVar(L"opacity", L"0");
-			atom->setVar(L"overlays", L"list()");
-			atom->setVar(L"override", L"0");
-			atom->setVar(L"pixel_x", L"0");
-			atom->setVar(L"pixel_y", L"0");
-			atom->setVar(L"pixel_z", L"0");
-			atom->setVar(L"plane", L"0");
-			atom->setVar(L"suffix", L"null");
-			atom->setVar(L"transform", L"null");
-			atom->setVar(L"underlays", L"list()");
-			atom->setVar(L"verbs", L"list()");
+			ObjectTreeItem *atom = new ObjectTreeItem(datum, "/atom");
+			atom->setVar("alpha", "255");
+			atom->setVar("appearance_flags", "0");
+			atom->setVar("blend_mode", "0");
+			atom->setVar("color", "nul");
+			atom->setVar("density", "0");
+			atom->setVar("desc", "nul");
+			atom->setVar("dir", "2");
+			atom->setVar("gender", "neuter");
+			atom->setVar("icon", "nul");
+			atom->setVar("icon_state", "nul");
+			atom->setVar("infra_luminosity", "0");
+			atom->setVar("invisibility", "0");
+			atom->setVar("layer", "1");
+			atom->setVar("luminosity", "0");
+			atom->setVar("maptext", "nul");
+			atom->setVar("maptext_width", "32");
+			atom->setVar("maptext_height", "32");
+			atom->setVar("maptext_x", "0");
+			atom->setVar("maptext_y", "0");
+			atom->setVar("mouse_drag_pointer", "0");
+			atom->setVar("mouse_drop_pointer", "1");
+			atom->setVar("mouse_drop_zone", "0");
+			atom->setVar("mouse_opacity", "1");
+			atom->setVar("mouse_over_pointer", "0");
+			atom->setVar("name", "nul");
+			atom->setVar("opacity", "0");
+			atom->setVar("overlays", "list()");
+			atom->setVar("override", "0");
+			atom->setVar("pixel_x", "0");
+			atom->setVar("pixel_y", "0");
+			atom->setVar("pixel_z", "0");
+			atom->setVar("plane", "0");
+			atom->setVar("suffix", "nul");
+			atom->setVar("transform", "nul");
+			atom->setVar("underlays", "list()");
+			atom->setVar("verbs", "list()");
 			addItem(atom);
 
-			ObjectTreeItem *movable = new ObjectTreeItem(atom, L"/atom/movable");
-			movable->setVar(L"animate_movement", L"1");
-			movable->setVar(L"bound_x", L"0");
-			movable->setVar(L"bound_y", L"0");
-			movable->setVar(L"bound_width", L"32");
-			movable->setVar(L"bound_height", L"32");
-			movable->setVar(L"glide_size", L"0");
-			movable->setVar(L"screen_loc", L"null");
-			movable->setVar(L"step_size", L"32");
-			movable->setVar(L"step_x", L"0");
-			movable->setVar(L"step_y", L"0");
+			ObjectTreeItem *movable = new ObjectTreeItem(atom, "/atom/movable");
+			movable->setVar("animate_movement", "1");
+			movable->setVar("bound_x", "0");
+			movable->setVar("bound_y", "0");
+			movable->setVar("bound_width", "32");
+			movable->setVar("bound_height", "32");
+			movable->setVar("glide_size", "0");
+			movable->setVar("screen_loc", "nul");
+			movable->setVar("step_size", "32");
+			movable->setVar("step_x", "0");
+			movable->setVar("step_y", "0");
 			addItem(movable);
 
-			ObjectTreeItem *area = new ObjectTreeItem(atom, L"/area");
-			area->setVar(L"layer", L"1");
-			area->setVar(L"luminosity", L"1");
+			ObjectTreeItem *area = new ObjectTreeItem(atom, "/area");
+			area->setVar("layer", "1");
+			area->setVar("luminosity", "1");
 			addItem(area);
 
-			ObjectTreeItem *turf = new ObjectTreeItem(atom, L"/turf");
-			turf->setVar(L"layer", L"2");
+			ObjectTreeItem *turf = new ObjectTreeItem(atom, "/turf");
+			turf->setVar("layer", "2");
 			addItem(turf);
 
-			ObjectTreeItem *obj = new ObjectTreeItem(movable, L"/obj");
-			obj->setVar(L"layer", L"3");
+			ObjectTreeItem *obj = new ObjectTreeItem(movable, "/obj");
+			obj->setVar("layer", "3");
 			addItem(obj);
 
-			ObjectTreeItem *mob = new ObjectTreeItem(movable, L"/mob");
-			mob->setVar(L"ckey", L"null");
-			mob->setVar(L"density", L"1");
-			mob->setVar(L"key", L"null");
-			mob->setVar(L"layer", L"4");
-			mob->setVar(L"see_in_dark", L"2");
-			mob->setVar(L"see_infrared", L"0");
-			mob->setVar(L"see_invisible", L"0");
-			mob->setVar(L"sight", L"0");
+			ObjectTreeItem *mob = new ObjectTreeItem(movable, "/mob");
+			mob->setVar("ckey", "nul");
+			mob->setVar("density", "1");
+			mob->setVar("key", "nul");
+			mob->setVar("layer", "4");
+			mob->setVar("see_in_dark", "2");
+			mob->setVar("see_infrared", "0");
+			mob->setVar("see_invisible", "0");
+			mob->setVar("sight", "0");
 			addItem(mob);
 
-			ObjectTreeItem *world = new ObjectTreeItem(datum, L"/world");
-			world->setVar(L"turf", L"/turf");
-			world->setVar(L"mob", L"/mob");
-			world->setVar(L"area", L"/area");
+			ObjectTreeItem *world = new ObjectTreeItem(datum, "/world");
+			world->setVar("turf", "/turf");
+			world->setVar("mob", "/mob");
+			world->setVar("area", "/area");
+			addItem(world);
 
 			// Empty path, this will be resolved as project root by filePath.
-			fileDirs.push_back( &std::filesystem::path(L""));
+			fileDirs.push_back(new std::filesystem::path(""));
 
-			delete world;
+			//delete world;
 //JAVA TO C++ CONVERTER TODO TASK: A 'delete mob' statement was not added since mob was passed to a method or constructor. Handle memory management manually.
 //JAVA TO C++ CONVERTER TODO TASK: A 'delete obj' statement was not added since obj was passed to a method or constructor. Handle memory management manually.
 //JAVA TO C++ CONVERTER TODO TASK: A 'delete turf' statement was not added since turf was passed to a method or constructor. Handle memory management manually.
@@ -140,13 +149,13 @@ namespace BYOND
 			}
 
 			std::string parentPath;
-			if ((int)path.find(L"/") != (int)path.rfind(L"/"))
+			if ((int)path.find("/") != (int)path.rfind("/"))
 			{
-				parentPath = path.substr(0, (int)path.rfind(L"/"));
+				parentPath = path.substr(0, (int)path.rfind("/"));
 			}
 			else
 			{
-				parentPath = L"/datum";
+				parentPath = "/datum";
 			}
 			ObjectTreeItem *parentItem = getOrCreate(parentPath);
 			ObjectTreeItem *item = new ObjectTreeItem(parentItem, path);
@@ -173,21 +182,22 @@ namespace BYOND
 			items.emplace(item->path, item);
 		}
 
-		virtual void dumpTree(PrintStream *ps)
+		virtual void dumpTree()
 		{
 			for (auto item : items)
 			{
-				ps->println(item->second.path);
-				for (Entry<std::string, std::string> *var : *item->second.vars.entrySet())
+
+				spdlog::info(item.second->path);
+				for (auto var : item.second->vars)
 				{
-					ps->println(L"\t" + var.first + L" = " + var.second);
+					spdlog::info("\t" + var.first + " = " + var.second);
 				}
 			}
 		}
 
 		virtual ObjectTreeItem *getGlobal()
 		{
-			return items[L""];
+			return items[""];
 		}
 
 
@@ -197,110 +207,110 @@ namespace BYOND
 
 			ObjectTreeItem *global = getGlobal();
 
-			System::gc();
 
 			for (auto i : items)
 			{
-				i->second.subtypes->clear();
+				i.second->subtypes.clear();
 
-				for (Entry<std::string, std::string> *e : *i->second.vars.entrySet())
+				for (auto e : i.second->vars)
 				{
 					std::string val = e.second;
-					std::string origVal = L"";
+					std::string origVal = "";
 					try
 					{
 					while (origVal != val)
 					{
 						origVal = val;
 						// Trust me, this is the fastest way to parse the macros.
-						Matcher *m = Pattern::compile(L"(?<![\\d\\w\"/])\\w+(?![\\d\\w\"/])").matcher(val);
-						StringBuilder *outVal = new StringBuilder();
-						while (m->find())
+						std::smatch m;
+						std::stringstream outVal;
+						std::regex_search(val, m, std::regex("(?<![\\d\\w\"/])\\w+(?![\\d\\w\"/])"));
+						for (int i =0; i< m.size(); i++)
 						{
-							if (global->vars.find(m->group(0)) != global->vars.end())
+							if (global->vars.find(m.str(i)) != global->vars.end())
 							{
-								m->appendReplacement(outVal, global->vars[m->group(0)]);
+								std::string s = outVal.str();
+								std::replace(s.begin(), s.end(),s, global->vars.at(m.str(i)));
+								outVal.str(s);
 							}
 							else
 							{
-								m->appendReplacement(outVal, m->group(0));
+								std::string s = outVal.str();
+								std::replace(s.begin(), s.end(),s, m.str(i));
+								outVal.str(s);
 							}
 						}
-						m->appendTail(outVal);
-						val = outVal->toString();
+						val = outVal.str();
 
 						// Parse additions/subtractions.
-						m = Pattern::compile(macroRegex).matcher(val);
-						outVal = new StringBuilder();
-						while (m->find())
+						std::regex_search(val, m, std::regex(macroRegex));
+						outVal = std::stringstream();
+						for (int i =0; i< m.size(); i++)
 						{
-							switch (m->group(2))
-							{
-								// If group1 or group3 is a period then this is definitely not a macro and just an eager match.
-								// Didn't feel like fixing the regex above. So this is a temporary fix. -Rockdtben
-								case L"+":
-									if (!m->group(1).equals(L".") && !m->group(3).equals(L"."))
+							std::string expr = m.str(i+2);
+							// If group1 or group3 is a period then this is definitely not a macro and just an eager match.
+							// Didn't feel like fixing the regex above. So this is a temporary fix. -Rockdtben
+							if(expr == "+"){
+								if (m.str(i+1) != "." && m.str(i+3) != ".")
 									{
-										m->appendReplacement(outVal, (static_cast<Float>(m->group(1)) + static_cast<Float>(m->group(3))) + L"");
+										std::string s = outVal.str();
+										std::replace(s.begin(), s.end(), s, std::to_string(std::stof(m.str(i+1)) + std::stof(m.str(i+3))));
+										outVal.str(s);
 									}
-									break;
-								case L"-":
-									if (!m->group(1).equals(L".") && !m->group(3).equals(L"."))
+							}else if(expr == "-"){
+								if (m.str(i+1) != "." && m.str(i+3) != ".")
 									{
-										m->appendReplacement(outVal, (static_cast<Float>(m->group(1)) - static_cast<Float>(m->group(3))) + L"");
+										std::string s = outVal.str();
+										std::replace(s.begin(), s.end(), s, std::to_string(std::stof(m.str(i+1)) - std::stof(m.str(i+3))));
+										outVal.str(s);
 									}
-									break;
 							}
+								
 						}
-						m->appendTail(outVal);
-						val = outVal->toString();
+						val = outVal.str();
 
 						// Parse parentheses
-						m = Pattern::compile(L"\\(([\\d\\.]+)\\)").matcher(val);
-						outVal = new StringBuilder();
-						while (m->find())
+						std::regex_search(val, m, std::regex("\\(([\\d\\.]+)\\)"));
+						outVal = std::stringstream();
+						for (int i =0; i< m.size(); i++)
 						{
-							m->appendReplacement(outVal, m->group(1));
+							std::string s = outVal.str();
+								std::replace(s.begin(), s.end(), s, m.str(i+1));
+								outVal.str(s);
 						}
-						m->appendTail(outVal);
-						val = outVal->toString();
-
-//JAVA TO C++ CONVERTER TODO TASK: A 'delete outVal' statement was not added since outVal was passed to a method or constructor. Handle memory management manually.
+						val = outVal.str();
 					}
 					}
 					catch (const OutOfMemoryError &ex)
 					{
-						System::err::println(L"OUT OF MEMORY PROCESSING ITEM " + i->second.typeString() + L" VAR " + e.first + L" = " + e.second);
-						throw ex;
+						spdlog::error("OUT OF MEMORY PROCESSING ITEM " + i.second->typeString() + " VAR " + e.first + " = " + e.second);
 					}
 
-					i->second.setVar(e.first, val);
+					i.second->setVar(e.first, val);
 				}
 			}
-			System::gc();
 			// Assign parents/children
 			for (auto i : items)
 			{
-				ObjectTreeItem *parent = get(i->second.getVar(L"parentType"));
+				ObjectTreeItem *parent = get(i.second->getVar("parentType"));
 				if (parent != nullptr)
 				{
-					i->second->parent = parent;
-					parent->subtypes.push_back(i->second);
+					i.second->parent = parent;
+					parent->subtypes.push_back(i.second);
 				}
 			}
-			System::gc();
 			// Sort children
 			for (auto i : items)
 			{
-				i->second.subtypes.sort([&] (arg0, arg1)
+				std::sort(i.second->subtypes.begin(), i.second->subtypes.end(),[&] (ObjectTreeItem *arg0, ObjectTreeItem *arg1)
 				{
-				arg0::path::compareToIgnoreCase(arg1::path);
+				 std::strcmp(arg0->path.c_str(),arg1->path.c_str());
 				});
 			}
 
 			try
 			{
-				icon_size = std::stoi(get(L"/world")->getVar(L"icon_size"));
+				icon_size = std::stoi(get("/world")->getVar("icon_size"));
 			}
 			catch (const NumberFormatException &e)
 			{
@@ -308,25 +318,21 @@ namespace BYOND
 			}
 		}
 
-		void addTreeModelListener(TreeModelListener *arg0) override
+	
+		std::any getChild(std::any arg0, int arg1) 
 		{
-			// We don't change.
-		}
-
-		std::any getChild(std::any arg0, int arg1) override
-		{
-			if (obj::type() == typeid(com::github::tgstation::fastdmm::objtree::ObjectTree) && std::any_cast<com::github::tgstation::fastdmm::objtree::ObjectTree>(obj) == this)
+			if (arg0.type() == typeid(ObjectTree) && std::any_cast<ObjectTree *>(arg0) == this)
 			{
 				switch (arg1)
 				{
 				case 0:
-					return get(L"/area");
+					return get("/area");
 				case 1:
-					return get(L"/mob");
+					return get("/mob");
 				case 2:
-					return get(L"/obj");
+					return get("/obj");
 				case 3:
-					return get(L"/turf");
+					return get("/turf");
 				}
 			}
 			else if (arg0.type() == typeid(ObjectTreeItem))
@@ -337,42 +343,42 @@ namespace BYOND
 			return std::any();
 		}
 
-		int getChildCount(std::any arg0) override
+		int getChildCount(std::any arg0) 
 		{
-			if (obj::type() == typeid(com::github::tgstation::fastdmm::objtree::ObjectTree) && std::any_cast<com::github::tgstation::fastdmm::objtree::ObjectTree>(obj) == this)
+			if (arg0.type() == typeid(ObjectTree) && std::any_cast<ObjectTree *>(arg0) == this)
 			{
 				return 4;
 			}
 			if (arg0.type() == typeid(ObjectTreeItem))
 			{
-				return (std::any_cast<ObjectTreeItem*>(arg0)).subtypes->size();
+				return (std::any_cast<ObjectTreeItem*>(arg0))->subtypes.size();
 			}
 			return 0;
 		}
 
-		int getIndexOfChild(std::any arg0, std::any arg1) override
+		int getIndexOfChild(std::any arg0, std::any arg1) 
 		{
 			if (!(arg1.type() == typeid(ObjectTreeItem)))
 			{
 				return 0;
 			}
 			ObjectTreeItem *item = std::any_cast<ObjectTreeItem*>(arg1);
-			if (obj::type() == typeid(com::github::tgstation::fastdmm::objtree::ObjectTree) && std::any_cast<com::github::tgstation::fastdmm::objtree::ObjectTree>(obj) == this)
+			if (arg1.type() == typeid(BYOND::ObjectTree) && std::any_cast<ObjectTree *>(arg1) == this)
 			{
 //JAVA TO C++ CONVERTER NOTE: The following 'switch' operated on a string and was converted to C++ 'if-else' logic:
 //				switch(item.path)
 //ORIGINAL LINE: case "/area":
-				if (item->path == L"/area")
+				if (item->path == "/area")
 				{
 					return 0;
 				}
 //ORIGINAL LINE: case "/mob":
-				else if (item->path == L"/mob")
+				else if (item->path == "/mob")
 				{
 					return 1;
 				}
 //ORIGINAL LINE: case "/obj":
-				else if (item->path == L"/obj")
+				else if (item->path == "/obj")
 				{
 					return 2;
 				}
@@ -383,38 +389,34 @@ namespace BYOND
 			}
 			if (arg0.type() == typeid(ObjectTreeItem))
 			{
-				return VectorHelper::indexOf((std::any_cast<ObjectTreeItem*>(arg0)).subtypes, arg1);
+				std::vector<ObjectTreeItem*> subtypes = std::any_cast<ObjectTreeItem*>(arg0)->subtypes;
+				std::vector<ObjectTreeItem*>::iterator it = std::find(subtypes.begin(), subtypes.end(), arg1);
+				if (it != subtypes.end())
+					return std::distance(subtypes.begin(), it);
+				else
+					return -1;
 			}
 			return 0;
 		}
 
-		std::any getRoot() override
+		std::any getRoot() 
 		{
 			return this;
 		}
 
-		bool isLeaf(std::any arg0) override
+		bool isLeaf(std::any arg0) 
 		{
-			if (obj::type() == typeid(com::github::tgstation::fastdmm::objtree::ObjectTree) && std::any_cast<com::github::tgstation::fastdmm::objtree::ObjectTree>(obj) == this)
+			if (arg0.type() == typeid(ObjectTree) && std::any_cast<ObjectTree*>(arg0) == this)
 			{
 				return false;
 			}
 			if (arg0.type() == typeid(ObjectTreeItem))
 			{
-				return (std::any_cast<ObjectTreeItem*>(arg0)).subtypes::empty();
+				return (std::any_cast<ObjectTreeItem*>(arg0))->subtypes.empty();
 			}
 			return true;
 		}
 
-		void removeTreeModelListener(TreeModelListener *arg0) override
-		{
-			// We don't change
-		}
-
-		void valueForPathChanged(TreePath *arg0, std::any arg1) override
-		{
-			// Nope
-		}
 
 		virtual std::string toString()
 		{
@@ -429,20 +431,22 @@ namespace BYOND
 		 */
 		virtual std::string filePath(const std::string &filePath)
 		{
-			for (auto path : fileDirs)
+			std::stringstream ss;
+			for (std::filesystem::path* path : fileDirs)
 			{
-				Path *newPath = path->resolve(filePath);
-				Path *rootPath = Paths->get(dmePath).getParent();
-				File *newFile = rootPath->resolve(newPath).toFile();
+				std::filesystem::path newPath = (path->relative_path()).append(filePath);
+				std::filesystem::path rootPath = path->root_path();
 
+				
+				ss << newPath.relative_path();
 				// Ding ding ding we got a winner!
-				if (newFile->exists() && newFile->canRead())
+				if (newPath.has_filename())
 				{
-//JAVA TO C++ CONVERTER TODO TASK: There is no C++ equivalent to 'toString':
-					return newPath->toString();
+					
+					return ss.str();
 				}
 			}
-			throw FileNotFoundException();
+			spdlog::error("File not found: {}",ss.str());
 		}
 	};
 

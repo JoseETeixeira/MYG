@@ -101,7 +101,7 @@ private:
 	template<typename T>
 	static std::string toString(const T &subject)
 	{
-		std::wostringstream ss;
+		std::stringstream ss;
 		ss << subject;
 		return ss.str();
 	}
