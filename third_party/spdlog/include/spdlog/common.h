@@ -99,7 +99,7 @@ class sink;
 }
 
 #if defined(_WIN32) && defined(SPDLOG_WCHAR_FILENAMES)
-using filename_t = std::wstring;
+using filename_t = std::string;
 // allow macro expansion to occur in SPDLOG_FILENAME_T
 #    define SPDLOG_FILENAME_T_INNER(s) L##s
 #    define SPDLOG_FILENAME_T(s) SPDLOG_FILENAME_T_INNER(s)

@@ -1682,14 +1682,14 @@ namespace Catch {
 
 #ifdef CATCH_CONFIG_WCHAR
     template<>
-    struct StringMaker<std::wstring> {
-        static std::string convert(const std::wstring& wstr);
+    struct StringMaker<std::string> {
+        static std::string convert(const std::string& wstr);
     };
 
 # ifdef CATCH_CONFIG_CPP17_STRING_VIEW
     template<>
-    struct StringMaker<std::wstring_view> {
-        static std::string convert(std::wstring_view str);
+    struct StringMaker<std::string_view> {
+        static std::string convert(std::string_view str);
     };
 # endif
 
@@ -15116,7 +15116,7 @@ std::string StringMaker<char*>::convert(char* str) {
 }
 
 #ifdef CATCH_CONFIG_WCHAR
-std::string StringMaker<std::wstring>::convert(const std::wstring& wstr) {
+std::string StringMaker<std::string>::convert(const std::string& wstr) {
     std::string s;
     s.reserve(wstr.size());
     for (auto c : wstr) {
@@ -15126,21 +15126,21 @@ std::string StringMaker<std::wstring>::convert(const std::wstring& wstr) {
 }
 
 # ifdef CATCH_CONFIG_CPP17_STRING_VIEW
-std::string StringMaker<std::wstring_view>::convert(std::wstring_view str) {
-    return StringMaker<std::wstring>::convert(std::wstring(str));
+std::string StringMaker<std::string_view>::convert(std::string_view str) {
+    return StringMaker<std::string>::convert(std::string(str));
 }
 # endif
 
 std::string StringMaker<wchar_t const*>::convert(wchar_t const * str) {
     if (str) {
-        return ::Catch::Detail::stringify(std::wstring{ str });
+        return ::Catch::Detail::stringify(std::string{ str });
     } else {
         return{ "{null string}" };
     }
 }
 std::string StringMaker<wchar_t *>::convert(wchar_t * str) {
     if (str) {
-        return ::Catch::Detail::stringify(std::wstring{ str });
+        return ::Catch::Detail::stringify(std::string{ str });
     } else {
         return{ "{null string}" };
     }
