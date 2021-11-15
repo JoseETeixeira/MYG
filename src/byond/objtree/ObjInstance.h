@@ -2,19 +2,18 @@
 
 #include <string>
 #include "exceptionhelper.h"
-#include "color/color.hpp"
+#include "../../third_party/color/src/color/color.hpp"
 
 namespace BYOND
 {
 
 	class ObjInstance
 	{
-		using Color =  color::hsv<double> ;
 	public:
-		virtual std::wstring getVar(const std::wstring &key) = 0;
-		virtual std::wstring typeString() = 0;
-		virtual bool istype(const std::wstring &path) = 0;
-		virtual std::wstring toStringTGM() = 0;
+		virtual std::string getVar(const std::string& key) = 0;
+		virtual std::string typeString() = 0;
+		virtual bool istype(const std::string& path) = 0;
+		virtual std::string toStringTGM() = 0;
 
 	private:
 		int cachedDir = -1;
@@ -22,50 +21,56 @@ namespace BYOND
 		int cachedPixelY = -1234;
 		float cachedLayer = -1234;
 		int cachedPlane = -1234;
-		Color *cachedColor = nullptr;
-		std::wstring cachedIconState = L"";
-		std::wstring cachedIcon = L"";
+		color::rgb<double> cachedColor;
+		std::string cachedIconState = "";
+		std::string cachedIcon = "";
 
 	public:
 		virtual ~ObjInstance()
 		{
-			delete cachedColor;
+
 		}
 
-		virtual std::wstring getIcon()
+		virtual std::string getIcon()
 		{
-			if (cachedIcon == L"")
+			if (cachedIcon == "")
 			{
-				std::wstring var = getVar(L"icon");
-				if (var == L"")
+				std::string var = getVar("icon");
+				
+				if (var == "")
 				{
-					return cachedIcon = L"";
+					return cachedIcon = "";
 				}
-				Matcher *m = Pattern::compile(L"'(.+)'").matcher(var);
-				if (m->find())
+				std::smatch patternMatch;
+				std::regex_search(var, patternMatch, std::regex("'(.+)'"));
+
+				if (!patternMatch.empty())
 				{
-					cachedIcon = m->group(1);
+					cachedIcon = patternMatch[1];
 				}
 				else
 				{
-					cachedIcon = L"";
+					cachedIcon = "";
 				}
 			}
 			return cachedIcon;
 		}
 
-		virtual std::wstring getIconState()
+		virtual std::string getIconState()
 		{
-			if (cachedIconState == L"")
-			{
-				Matcher *m = Pattern::compile(L"\"(.+)\"").matcher(getVar(L"icon_state"));
-				if (m->find())
+			if (cachedIconState == "")
+			{	
+				std::string var = getVar("icon_state");
+				std::smatch patternMatch;
+				std::regex_search(var , patternMatch, std::regex("\"(.+)\""));
+
+				if (!patternMatch.empty())
 				{
-					cachedIconState = m->group(1);
+					cachedIconState = patternMatch[1];
 				}
 				else
 				{
-					cachedIconState = L"";
+					cachedIconState = "";
 				}
 			}
 			return cachedIconState;
@@ -77,10 +82,11 @@ namespace BYOND
 			{
 				try
 				{
-					cachedDir = std::stoi(getVar(L"dir"));
+					cachedDir = std::stoi(getVar("dir"));
 				}
-				catch (const NumberFormatException &e)
+				catch (const NumberFormatException& e)
 				{
+					spdlog::error("Number format exception on getDir()");
 					cachedDir = 2;
 				}
 			}
@@ -93,10 +99,11 @@ namespace BYOND
 			{
 				try
 				{
-					cachedPixelX = std::stoi(getVar(L"pixel_x"));
+					cachedPixelX = std::stoi(getVar("pixel_x"));
 				}
-				catch (const NumberFormatException &e)
+				catch (const NumberFormatException& e)
 				{
+					spdlog::error("Number format exception on getPixelX()");
 					cachedPixelX = 2;
 				}
 			}
@@ -109,10 +116,11 @@ namespace BYOND
 			{
 				try
 				{
-					cachedPixelY = std::stoi(getVar(L"pixel_y"));
+					cachedPixelY = std::stoi(getVar("pixel_y"));
 				}
-				catch (const NumberFormatException &e)
+				catch (const NumberFormatException& e)
 				{
+					spdlog::error("Number format exception on getPixelY()");
 					cachedPixelY = 2;
 				}
 			}
@@ -125,160 +133,363 @@ namespace BYOND
 			{
 				try
 				{
-					cachedLayer = std::stof(getVar(L"layer"));
+					cachedLayer = std::stof(getVar("layer"));
 				}
-				catch (const NumberFormatException &e)
+				catch (const NumberFormatException& e)
 				{
+					spdlog::error("Number format exception on getLayer()");
 					cachedLayer = 2;
 				}
 			}
 			return cachedLayer;
 		}
 
-		virtual Color *getColor()
+		virtual color::rgb<double> getColor()
 		{
-			if (cachedColor == nullptr)
+			
+			std::string var = getVar("color");
+			std::smatch patternMatch;
+			std::regex_search(var, patternMatch, std::regex("(#[\\d\\w][\\d\\w][\\d\\w][\\d\\w][\\d\\w][\\d\\w])"));
+			if (!patternMatch.empty())
 			{
-				std::wstring var = getVar(L"color");
-				Matcher *m = Pattern::compile(L"(#[\\d\\w][\\d\\w][\\d\\w][\\d\\w][\\d\\w][\\d\\w])").matcher(var);
-				if (m->find())
-				{
-					return cachedColor = Color::decode(m->group(1));
-				}
-				m = Pattern::compile(L"rgb ?\\( ?([\\d]+) ?, ?([\\d]+) ?, ?([\\d]+) ?\\)").matcher(var);
-				if (m->find())
-				{
-					int r = static_cast<int>(m->group(1));
-					int g = static_cast<int>(m->group(2));
-					int b = static_cast<int>(m->group(3));
-					if (r > 255)
-					{
-						r = 255;
-					}
-					if (g > 255)
-					{
-						g = 255;
-					}
-					if (b > 255)
-					{
-						b = 255;
-					}
-					return cachedColor = new Color(r, g, b);
-				}
-				m = Pattern::compile(L"\"(black|silver|grey|gray|white|maroon|red|purple|fuchsia|magenta|green|lime|olive|gold|yellow|navy|blue|teal|aqua|cyan)\"").matcher(var);
-				if (m->find())
-				{
-//JAVA TO C++ CONVERTER NOTE: The following 'switch' operated on a string and was converted to C++ 'if-else' logic:
-//					switch(m.group(1))
-//ORIGINAL LINE: case "black":
-					if (m->group(1) == L"black")
-					{
-						return cachedColor = Color::decode(L"#000000");
-					}
-//ORIGINAL LINE: case "silver":
-					else if (m->group(1) == L"silver")
-					{
-						return cachedColor = Color::decode(L"#C0C0C0");
-					}
-//ORIGINAL LINE: case "gray":
-					else if (m->group(1) == L"gray")
-					{
-						return cachedColor = Color::decode(L"#808080");
-					}
-//ORIGINAL LINE: case "grey":
-					else if (m->group(1) == L"grey")
-					{
-						return cachedColor = Color::decode(L"#808080");
-					}
-//ORIGINAL LINE: case "white":
-					else if (m->group(1) == L"white")
-					{
-						return cachedColor = Color::decode(L"#FFFFFF");
-					}
-//ORIGINAL LINE: case "maroon":
-					else if (m->group(1) == L"maroon")
-					{
-						return cachedColor = Color::decode(L"#800000");
-					}
-//ORIGINAL LINE: case "red":
-					else if (m->group(1) == L"red")
-					{
-						return cachedColor = Color::decode(L"#FF0000");
-					}
-//ORIGINAL LINE: case "purple":
-					else if (m->group(1) == L"purple")
-					{
-						return cachedColor = Color::decode(L"#800080");
-					}
-//ORIGINAL LINE: case "fuchsia":
-					else if (m->group(1) == L"fuchsia")
-					{
-						return cachedColor = Color::decode(L"#FF00FF");
-					}
-//ORIGINAL LINE: case "magenta":
-					else if (m->group(1) == L"magenta")
-					{
-						return cachedColor = Color::decode(L"#FF00FF");
-					}
-//ORIGINAL LINE: case "green":
-					else if (m->group(1) == L"green")
-					{
-						return cachedColor = Color::decode(L"#00C000");
-					}
-//ORIGINAL LINE: case "lime":
-					else if (m->group(1) == L"lime")
-					{
-						return cachedColor = Color::decode(L"#00FF00");
-					}
-//ORIGINAL LINE: case "olive":
-					else if (m->group(1) == L"olive")
-					{
-						return cachedColor = Color::decode(L"#808000");
-					}
-//ORIGINAL LINE: case "gold":
-					else if (m->group(1) == L"gold")
-					{
-						return cachedColor = Color::decode(L"#808000");
-					}
-//ORIGINAL LINE: case "yellow":
-					else if (m->group(1) == L"yellow")
-					{
-						return cachedColor = Color::decode(L"#FFFF00");
-					}
-//ORIGINAL LINE: case "navy":
-					else if (m->group(1) == L"navy")
-					{
-						return cachedColor = Color::decode(L"#000080");
-					}
-//ORIGINAL LINE: case "blue":
-					else if (m->group(1) == L"blue")
-					{
-						return cachedColor = Color::decode(L"#0000FF");
-					}
-//ORIGINAL LINE: case "teal":
-					else if (m->group(1) == L"teal")
-					{
-						return cachedColor = Color::decode(L"#008080");
-					}
-//ORIGINAL LINE: case "aqua":
-					else if (m->group(1) == L"aqua")
-					{
-						return cachedColor = Color::decode(L"#00FFFF");
-					}
-//ORIGINAL LINE: case "cyan":
-					else if (m->group(1) == L"cyan")
-					{
-						return cachedColor = Color::decode(L"#00FFFF");
-					}
-				}
-				if (var != L"" && var != L"null")
-				{
-					System::err::println(L"Unrecognized color " + var);
-				}
-				return cachedColor = new Color(255,255,255);
+				std::string match = patternMatch[1];
+				int r;
+				int g;
+				int bi;
+				sscanf(match.c_str() , "%02x%02x%02x", &r, &g, &bi);
+				double rd, gd, bd;
+				rd = (double) r;
+				gd = (double)g;
+				bd = (double) bi;
+				cachedColor = color::rgb<double>({ rd, gd, bd });
+				return cachedColor;
 			}
-			return cachedColor;
-		}
+			std::regex_search(var, patternMatch, std::regex("rgb ?\\( ?([\\d]+) ?, ?([\\d]+) ?, ?([\\d]+) ?\\)"));
+			if (!patternMatch.empty())
+			{
+				int r = std::stoi(patternMatch[1]);
+				int g = std::stoi(patternMatch[2]);
+				int bi = std::stoi(patternMatch[3]);
+				if (r > 255)
+				{
+					r = 255;
+				}
+				if (g > 255)
+				{
+					g = 255;
+				}
+				if (bi > 255)
+				{
+					bi = 255;
+				}
+				double rd, gd, bd;
+				rd = (double) r;
+				gd = (double)g;
+				bd = (double)bi;
+
+				cachedColor = color::rgb<double>({ rd, gd, bd });
+				return cachedColor;
+			}
+			std::regex_search(var, patternMatch, std::regex("\"(black|silver|grey|gray|white|maroon|red|purple|fuchsia|magenta|green|lime|olive|gold|yellow|navy|blue|teal|aqua|cyan)\""));
+			if (!patternMatch.empty())
+			{
+				std::string match = patternMatch[1];
+					//ORIGINAL LINE: case "black":
+				if (match == ("black"))
+					{
+						int r;
+						int g;
+						int bi;
+						sscanf("#000000", "%02x%02x%02x", &r, &g, &bi);
+						double rd, gd, bd;
+						rd = (double)r;
+						gd = (double)g;
+						bd = (double)bi;
+						cachedColor = color::rgb<double>({ rd, gd, bd });
+						return cachedColor;
+					}
+					//ORIGINAL LINE: case "silver":
+				if (match == ( "silver"))
+					{
+						int r;
+						int g;
+						int bi;
+						sscanf("#C0C0C0", "%02x%02x%02x", &r, &g, &bi);
+						double rd, gd, bd;
+						rd = (double) r;
+						gd = (double) g;
+						bd = (double) bi;
+						cachedColor = color::rgb<double>({ rd, gd, bd });
+						return cachedColor;
+					}
+					//ORIGINAL LINE: case "gray":
+				if (match == ( "gray"))
+					{
+						int r;
+						int g;
+						int bi;
+						sscanf("#808080", "%02x%02x%02x", &r, &g, &bi);
+						double rd, gd, bd;
+						rd = (double) r;
+						gd = (double) g;
+						bd = (double) bi;
+						cachedColor = color::rgb<double>({ rd, gd, bd });
+						return cachedColor;
+					}
+					//ORIGINAL LINE: case "grey":
+				if (match == ( "grey"))
+					{
+						int r;
+						int g;
+						int bi;
+						sscanf("#808080", "%02x%02x%02x", &r, &g, &bi);
+						double rd, gd, bd;
+						rd = (double) r;
+						gd = (double) g;
+						bd = (double) bi;
+						cachedColor = color::rgb<double>({ rd, gd, bd });
+						return cachedColor;
+
+					}
+					//ORIGINAL LINE: case "white":
+				if (match == ( "white"))
+					{
+						int r;
+						int g;
+						int bi;
+						sscanf("#FFFFFF", "%02x%02x%02x", &r, &g, &bi);
+						double rd, gd, bd;
+						rd = (double) r;
+						gd = (double) g;
+						bd = (double) bi;
+						cachedColor = color::rgb<double>({ rd, gd, bd });
+						return cachedColor;
+					}
+					//ORIGINAL LINE: case "maroon":
+				if (match == ( "maroon"))
+					{
+						int r;
+						int g;
+						int bi;
+						sscanf("#800000", "%02x%02x%02x", &r, &g, &bi);
+						double rd, gd, bd;
+						rd = (double) r;
+						gd = (double) g;
+						bd = (double) bi;
+						cachedColor = color::rgb<double>({ rd, gd, bd });
+						return cachedColor;
+
+					}
+					//ORIGINAL LINE: case "red":
+				if (match == ( "red"))
+					{
+						int r;
+						int g;
+						int bi;
+						sscanf("#FF0000", "%02x%02x%02x", &r, &g, &bi);
+						double rd, gd, bd;
+						rd = (double) r;
+						gd = (double) g;
+						bd = (double) bi;
+						cachedColor = color::rgb<double>({ rd, gd, bd });
+						return cachedColor;
+
+					}
+					//ORIGINAL LINE: case "purple":
+				if (match == ( "purple"))
+					{
+						int r;
+						int g;
+						int bi;
+						sscanf("#800080", "%02x%02x%02x", &r, &g, &bi);
+						double rd, gd, bd;
+						rd = (double) r;
+						gd = (double) g;
+						bd = (double) bi;
+						cachedColor = color::rgb<double>({ rd, gd, bd });
+						return cachedColor;
+					}
+					//ORIGINAL LINE: case "fuchsia":
+				if (match == ( "fuchsia"))
+					{
+						int r;
+						int g;
+						int bi;
+						sscanf("#FF00FF", "%02x%02x%02x", &r, &g, &bi);
+						double rd, gd, bd;
+						rd = (double) r;
+						gd = (double) g;
+						bd = (double) bi;
+						cachedColor = color::rgb<double>({ rd, gd, bd });
+						return cachedColor;
+					}
+					//ORIGINAL LINE: case "magenta":
+				if (match == ("magenta")) 
+				{
+					int r;
+					int g;
+					int bi;
+					sscanf("#FF00FF", "%02x%02x%02x", &r, &g, &bi);
+					double rd, gd, bd;
+					rd = (double) r;
+					gd = (double) g;
+					bd = (double) bi;
+					cachedColor = color::rgb<double>({ rd, gd, bd });
+					return cachedColor;
+				}
+						
+					//ORIGINAL LINE: case "green":
+				if (match == ( "green"))
+					{
+						int r;
+						int g;
+						int bi;
+						sscanf("#00C000", "%02x%02x%02x", &r, &g, &bi);
+						double rd, gd, bd;
+						rd = (double) r;
+						gd = (double) g;
+						bd = (double) bi;
+						cachedColor = color::rgb<double>({ rd, gd, bd });
+						return cachedColor;
+					}
+					//ORIGINAL LINE: case "lime":
+				if (match == ( "lime"))
+					{
+						int r;
+						int g;
+						int bi;
+						sscanf("#00FF00", "%02x%02x%02x", &r, &g, &bi);
+						double rd, gd, bd;
+						rd = (double) r;
+						gd = (double) g;
+						bd = (double) bi;
+						cachedColor = color::rgb<double>({ rd, gd, bd });
+						return cachedColor;
+					}
+					//ORIGINAL LINE: case "olive":
+				if (match == ( "olive"))
+					{
+						int r;
+						int g;
+						int bi;
+						sscanf("#808000", "%02x%02x%02x", &r, &g, &bi);
+						double rd, gd, bd;
+						rd = (double) r;
+						gd = (double) g;
+						bd = (double) bi;
+						cachedColor = color::rgb<double>({ rd, gd, bd });
+						return cachedColor;
+					}
+					//ORIGINAL LINE: case "gold":
+				if (match == ( "gold"))
+					{
+						int r;
+						int g;
+						int bi;
+						sscanf("#808000", "%02x%02x%02x", &r, &g, &bi);
+						double rd, gd, bd;
+						rd = (double) r;
+						gd = (double) g;
+						bd = (double) bi;
+						cachedColor = color::rgb<double>({ rd, gd, bd });
+						return cachedColor;
+					}
+					//ORIGINAL LINE: case "yellow":
+				if (match == ( "yellow"))
+					{
+						int r;
+						int g;
+						int bi;
+						sscanf("#FFFF00", "%02x%02x%02x", &r, &g, &bi);
+						double rd, gd, bd;
+						rd = (double) r;
+						gd = (double) g;
+						bd = (double) bi;
+						cachedColor = color::rgb<double>({ rd, gd, bd });
+						return cachedColor;
+					}
+					//ORIGINAL LINE: case "navy":
+				if (match == ( "navy"))
+					{
+						int r;
+						int g;
+						int bi;
+						sscanf("#000080", "%02x%02x%02x", &r, &g, &bi);
+						double rd, gd, bd;
+						rd = (double) r;
+						gd = (double) g;
+						bd = (double) bi;
+						cachedColor = color::rgb<double>({ rd, gd, bd });
+						return cachedColor;
+					}
+					//ORIGINAL LINE: case "blue":
+				if (match == ( "blue"))
+					{
+						int r;
+						int g;
+						int bi;
+						sscanf("#0000FF", "%02x%02x%02x", &r, &g, &bi);
+						double rd, gd, bd;
+						rd = (double) r;
+						gd = (double) g;
+						bd = (double) bi;
+						cachedColor = color::rgb<double>({ rd, gd, bd });
+						return cachedColor;
+					}
+					//ORIGINAL LINE: case "teal":
+				if( match == ( "teal"))
+					{
+						int r;
+						int g;
+						int bi;
+						sscanf("#008080", "%02x%02x%02x", &r, &g, &bi);
+						double rd, gd, bd;
+						rd = (double) r;
+						gd = (double) g;
+						bd = (double) bi;
+						cachedColor = color::rgb<double>({ rd, gd, bd });
+						return cachedColor;
+					}
+					//ORIGINAL LINE: case "aqua":
+				if (match == ( "aqua"))
+					{
+						int r;
+						int g;
+						int bi;
+						sscanf("#00FFFF", "%02x%02x%02x", &r, &g, &bi);
+						double rd, gd, bd;
+						rd = (double) r;
+						gd = (double) g;
+						bd = (double) bi;
+						cachedColor = color::rgb<double>({ rd, gd, bd });
+						return cachedColor;
+					}
+					//ORIGINAL LINE: case "cyan":
+				if (match == ( "cyan"))
+					{
+						int r;
+						int g;
+						int bi;
+						sscanf("#00FFFF", "%02x%02x%02x", &r, &g, &bi);
+						double rd, gd, bd;
+						rd = (double) r;
+						gd = (double) g;
+						bd = (double) bi;
+						cachedColor = color::rgb<double>({ rd, gd, bd });
+						return cachedColor;
+					}
+				}
+				if (var != "" && var != "null")
+				{
+					spdlog::error("Unrecognized color " + var);
+				}
+				cachedColor = color::rgb<double>({ 255.0, 255.0, 255.0 });
+				return cachedColor;
+					
+			}
+			
+		
+	
 
 		virtual int getPlane()
 		{
@@ -286,9 +497,9 @@ namespace BYOND
 			{
 				try
 				{
-					cachedPlane = std::stoi(getVar(L"plane"));
+					cachedPlane = std::stoi(getVar("plane"));
 				}
-				catch (const NumberFormatException &e)
+				catch (const NumberFormatException& e)
 				{
 					cachedPlane = 0;
 				}
@@ -297,4 +508,4 @@ namespace BYOND
 		}
 	};
 
-}
+};

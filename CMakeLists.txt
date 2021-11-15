@@ -13,13 +13,11 @@ set(GLFW_BUILD_TESTS OFF)
 
 add_subdirectory(third_party/glfw)
 add_subdirectory(third_party/imgui)
-add_subdirectory(third_party/spdlog)
 #add_subdirectory(third_party/ultralight)
 include_directories(third_party/spdlog/include)
 include_directories(third_party/glfw/include)
 include_directories(third_party/glfw/deps/glad)
 include_directories(third_party/imgui)
-include_directories(third_party/color/src)
 
 add_subdirectory(src/byond)
 

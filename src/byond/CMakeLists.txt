@@ -8,7 +8,8 @@ add_library(byond-core SHARED
 
 if(NOT TARGET spdlog)
     # Stand-alone build
-    find_package(spdlog REQUIRED)
+    SET(spdlog_DIR "../third_party/spdlog")
+    include_directories("../third_party/spdlog/include")
 endif()
 
 
@@ -16,9 +17,9 @@ set_target_properties(byond-core PROPERTIES VERSION ${PROJECT_VERSION})
 set_target_properties(byond-core PROPERTIES PUBLIC_HEADER library.h)
 
 target_include_directories(byond-core PRIVATE .)
-target_include_directories(byond-core PRIVATE "../third_party/color/src")
+target_include_directories(byond-core PRIVATE "../third_party/color/src", "../third_party/spdlog/src")
 
-target_link_libraries(byond-core PRIVATE spdlog::spdlog)
+target_link_libraries(byond-core PRIVATE)
 
 install(TARGETS byond-core 
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
