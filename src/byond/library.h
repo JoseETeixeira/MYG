@@ -5,6 +5,7 @@
 #include <string>
 #include <spdlog/spdlog.h>
 #include <thread>
+#include <mutex>
 #ifndef _BYOND_LIBRARY_H
 #define _BYOND_LIBRARY_H
 

@@ -2,12 +2,14 @@
 
 #include <string>
 #include "exceptionhelper.h"
+#include "color/color.hpp"
 
 namespace BYOND
 {
 
 	class ObjInstance
 	{
+		using Color =  color::hsv<double> ;
 	public:
 		virtual std::wstring getVar(const std::wstring &key) = 0;
 		virtual std::wstring typeString() = 0;
