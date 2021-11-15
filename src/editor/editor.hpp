@@ -12,6 +12,8 @@
 #include "TextEditor.h"
 #include "imgui_file_browser.h"
 #include "../../third_party/glfw/deps/glad/gl.h"
+#include "../byond/library.h"
+#include "../byond/stringhelper.h"
 #define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>
  
@@ -49,12 +51,14 @@ namespace myg{
             bool show_another_window = false;
             ImVec4 clear_color = ImVec4(0.07f,0.13f,0.17f,1.0f);
 
+            BYOND::Library library;
+
             void InitializeGLFW(bool fullscreen);
 
             void InitializeImGUI();
 
             std::string fileToEdit = "";
-            void setEditorFile(static const char* fileToEdit);
+            void setEditorFile(std::string fileToEdit);
 
 
             void MainLoop();

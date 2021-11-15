@@ -29,7 +29,7 @@ namespace BYOND
 	class ObjectTreeParser
 	{
 	public:
-        std::filesystem::path dme;
+		std::filesystem::path dme;
 		bool isCommenting = false;
 		bool inMultilineString = false;
 		int multilineStringDepth = 0;
@@ -39,19 +39,11 @@ namespace BYOND
 		int parenthesesDepth = 0;
 		std::vector<int> arrayDepth = std::vector<int>(50);
 
-		ObjectTree *tree;
+		ObjectTree* tree;
 
 		std::unordered_map<std::string, std::string> macros = std::unordered_map<std::string, std::string>();
 
-	private:
-//JAVA TO C++ CONVERTER TODO TASK: C++ does not allow initialization of static non-const/integral fields in their declarations - choose the conversion option for separate .h and .cpp files:
-		static inline std::regex QUOTES_PATTERN = std::regex("^\"(.*)\"$");
-//JAVA TO C++ CONVERTER TODO TASK: C++ does not allow initialization of static non-const/integral fields in their declarations - choose the conversion option for separate .h and .cpp files:
-		static inline std::regex DEFINE_PATTERN = std::regex("#define +([\\d\\w]+) +(.+)");
-//JAVA TO C++ CONVERTER TODO TASK: C++ does not allow initialization of static non-const/integral fields in their declarations - choose the conversion option for separate .h and .cpp files:
-		static inline std::regex UNDEF_PATTERN =  std::regex("#undef[ \\t]*([\\d\\w]+)");
-//JAVA TO C++ CONVERTER TODO TASK: C++ does not allow initialization of static non-const/integral fields in their declarations - choose the conversion option for separate .h and .cpp files:
-		static inline  std::regex MACRO_PATTERN = std::regex("(?<![\\d\\w\"])\\w+(?![\\d\\w\"])");
+
 
 	public:
 		virtual ~ObjectTreeParser()
@@ -64,7 +56,7 @@ namespace BYOND
 			tree = new ObjectTree();
 		}
 
-		ObjectTreeParser(ObjectTree *tree)
+		ObjectTreeParser(ObjectTree* tree)
 		{
 			this->tree = tree;
 		}
@@ -72,7 +64,7 @@ namespace BYOND
 		virtual void parseDME(std::filesystem::path file)
 		{
 			// Parse stddef.dm for macros and such.
-			
+
 			std::ifstream  tempVar(Util::getFile("../../resources/stddef.dm"));
 			doSubParse(tempVar, std::filesystem::path("../../resources/stddef.dm"));
 
@@ -82,53 +74,53 @@ namespace BYOND
 
 		std::string ReplaceAll(std::string str, const std::string& from, const std::string& to) {
 			size_t start_pos = 0;
-			while((start_pos = str.find(from, start_pos)) != std::string::npos) {
+			while ((start_pos = str.find(from, start_pos)) != std::string::npos) {
 				str.replace(start_pos, from.length(), to);
 				start_pos += to.length(); // Handles case where 'to' is a substring of 'from'
 			}
 			return str;
 		}
 
-		std::vector<std::string> split(const std::string& s,const  char* seperator)
+		std::vector<std::string> split(const std::string& s, const  char* seperator)
 		{
-		std::vector<std::string> output;
+			std::vector<std::string> output;
 
 			std::string::size_type prev_pos = 0, pos = 0;
 
-			while((pos = s.find(seperator, pos)) != std::string::npos)
+			while ((pos = s.find(seperator, pos)) != std::string::npos)
 			{
-				std::string substring( s.substr(prev_pos, pos-prev_pos) );
+				std::string substring(s.substr(prev_pos, pos - prev_pos));
 
 				output.push_back(substring);
 
 				prev_pos = ++pos;
 			}
 
-			output.push_back(s.substr(prev_pos, pos-prev_pos)); // Last word
+			output.push_back(s.substr(prev_pos, pos - prev_pos)); // Last word
 
 			return output;
 		}
 
-		static inline void ltrim(std::string &s) {
+		static inline void ltrim(std::string& s) {
 			s.erase(s.begin(), std::find_if(s.begin(), s.end(), [](unsigned char ch) {
 				return !std::isspace(ch);
-			}));
+				}));
 		}
 
 		// trim from end (in place)
-		static inline void rtrim(std::string &s) {
+		static inline void rtrim(std::string& s) {
 			s.erase(std::find_if(s.rbegin(), s.rend(), [](unsigned char ch) {
 				return !std::isspace(ch);
-			}).base(), s.end());
+				}).base(), s.end());
 		}
 
 		// trim from both ends (in place)
-		static inline void trim(std::string &s) {
+		static inline void trim(std::string& s) {
 			ltrim(s);
 			rtrim(s);
 		}
 
-		virtual void doParse(std::ifstream &br, std::filesystem::path currentFile, bool isMainFile)
+		virtual void doParse(std::ifstream& br, std::filesystem::path currentFile, bool isMainFile)
 		{
 			std::string line = "";
 			std::vector<std::string> lines;
@@ -138,7 +130,7 @@ namespace BYOND
 			while (std::getline(br, line))
 			{
 				line = stripComments(line);
-				line = ReplaceAll(line,"\\t"," ");
+				line = ReplaceAll(line, "\\t", " ");
 				if (!StringHelper::trim(line).empty())
 				{
 					if (StringHelper::endsWith(line, "\\"))
@@ -176,10 +168,10 @@ namespace BYOND
 			if (isMainFile)
 			{
 				spdlog::info("Object Tree Generation");
-				std::thread *t = new std::thread([&] ()
-				{
-					spdlog::info(currentFile.string());
-				});
+				std::thread* t = new std::thread([&]()
+					{
+						spdlog::info(currentFile.string());
+					});
 				t->join();
 
 				delete t;
@@ -195,8 +187,8 @@ namespace BYOND
 					if (line.rfind("#include", 0) == 0)
 					{
 						std::string path = "";
-						std::string includeData = split(line," ")[1];
-						if (includeData.rfind("\"", 0) == 0  || includeData.rfind("<", 0) == 0 )
+						std::string includeData = split(line, " ")[1];
+						if (includeData.rfind("\"", 0) == 0 || includeData.rfind("<", 0) == 0)
 						{
 							// "path\to\file.dm" OR <path\to\library.dme>
 							path = includeData.substr(1, (includeData.length() - 1) - 1);
@@ -213,30 +205,31 @@ namespace BYOND
 						if (StringHelper::endsWith(path, ".dm") || StringHelper::endsWith(path, ".dme"))
 						{
 							std::ifstream includeFile = std::ifstream(Util::getFile(currentFile.parent_path().filename().string()));
-							
+
 							doSubParse(includeFile, currentFile.parent_path().filename());
 
-//JAVA TO C++ CONVERTER TODO TASK: A 'delete includeFile' statement was not added since includeFile was passed to a method or constructor. Handle memory management manually.
+							//JAVA TO C++ CONVERTER TODO TASK: A 'delete includeFile' statement was not added since includeFile was passed to a method or constructor. Handle memory management manually.
 						}
 						if (isMainFile)
 						{
 							currentInclude++;
-							spdlog::info(currentInclude);
-							spdlog::info(currentFile.string());
+							
 						}
+						spdlog::info(currentInclude);
+						spdlog::info(currentFile.string());
 					}
 					else if (StringHelper::startsWith(line, "#define"))
 					{
 						std::smatch m;
-						std::regex_search(line, m,DEFINE_PATTERN);
+						std::regex_search(line, m, std::regex("#define +([\\d\\w]+) +(.+)"));
 						if (!m.empty())
 						{
-							std::string group = m.str(1);
+							std::string group = m[1];
 							if (group == "FILE_DIR")
 							{
-								std::string file_group = m.str(2);
+								std::string file_group = m[2];
 								std::smatch quotes;
-								std::regex_search(file_group, quotes,QUOTES_PATTERN);
+								std::regex_search(file_group, quotes, std::regex("^\"(.*)\"$"));
 								if (!quotes.empty())
 								{
 									// 2 ways this can't happen:
@@ -249,9 +242,9 @@ namespace BYOND
 							}
 							else
 							{
-								std::string group = m.str(1);
-								std::string value = m.str(2);
-								value = ReplaceAll(value,"$","\\$");
+								std::string group = m[1];
+								std::string value = m[2];
+								value = ReplaceAll(value, "$", "\\$");
 								macros.emplace(group, value);
 							}
 						}
@@ -259,10 +252,10 @@ namespace BYOND
 					else if (StringHelper::startsWith(line, "#undef"))
 					{
 						std::smatch m;
-						std::regex_search(line, m,UNDEF_PATTERN);
-						if (!m.empty() && macros.find(m.str(1)) != macros.end())
+						std::regex_search(line, m, std::regex("#undef[ \\t]*([\\d\\w]+)"));
+						if (!m.empty() && macros.find(m[1]) != macros.end())
 						{
-							macros.erase(m.str(1));
+							macros.erase(m[1]);
 						}
 					}
 
@@ -301,7 +294,7 @@ namespace BYOND
 					fullPath += c;
 				}
 				// Now, split it again, and rebuild it again, but only figure out how big the object itself is.
-				std::vector<std::string> divided = split(fullPath,"\\/");
+				std::vector<std::string> divided = split(fullPath, "\\/");
 				std::string affectedObjectPath = "";
 				for (auto item : divided)
 				{
@@ -326,14 +319,14 @@ namespace BYOND
 					}
 					affectedObjectPath += "/" + item;
 				}
-				ObjectTreeItem *item = tree->getOrCreate(affectedObjectPath);
+				ObjectTreeItem* item = tree->getOrCreate(affectedObjectPath);
 				if (fullPath.find("(") != std::string::npos && (int)fullPath.find("(") < (int)fullPath.rfind("/"))
 				{
 					continue;
 				}
-				fullPath = ReplaceAll(fullPath,"/tmp", ""); // Let's avoid giving a shit about whether the var is tmp, static, or global.
-				fullPath = ReplaceAll(fullPath,"/static", "");
-				fullPath = ReplaceAll(fullPath,"/global", "");
+				fullPath = ReplaceAll(fullPath, "/tmp", ""); // Let's avoid giving a shit about whether the var is tmp, static, or global.
+				fullPath = ReplaceAll(fullPath, "/static", "");
+				fullPath = ReplaceAll(fullPath, "/global", "");
 				// Parse the var definitions.
 				if (fullPath.find("var/") != std::string::npos || (fullPath.find("=") != std::string::npos && (fullPath.find("(") != std::string::npos || (int)fullPath.find("(") > (int)fullPath.find("="))))
 				{
@@ -350,7 +343,7 @@ namespace BYOND
 						{
 							origVal = val;
 							// Trust me, this is the fastest way to parse the macros.
-							Matcher *m = MACRO_PATTERN->getMatcher(val);
+							Matcher *m = std::regex("(?<![\\d\\w\"])\\w+(?![\\d\\w\"])")->getMatcher(val);
 							StringBuilder *outVal = new StringBuilder();
 							while (m->find())
 							{
@@ -403,15 +396,15 @@ namespace BYOND
 			parenthesesDepth = 0;
 			arrayDepth = std::vector<int>(50);
 
-//JAVA TO C++ CONVERTER TODO TASK: A 'delete lbl' statement was not added since lbl was passed to a method or constructor. Handle memory management manually.
-//JAVA TO C++ CONVERTER TODO TASK: A 'delete dpb' statement was not added since dpb was passed to a method or constructor. Handle memory management manually.
-			//delete runOn;
+			//JAVA TO C++ CONVERTER TODO TASK: A 'delete lbl' statement was not added since lbl was passed to a method or constructor. Handle memory management manually.
+			//JAVA TO C++ CONVERTER TODO TASK: A 'delete dpb' statement was not added since dpb was passed to a method or constructor. Handle memory management manually.
+						//delete runOn;
 		}
 
 	private:
-		void doSubParse(std::ifstream  &br, std::filesystem::path currentFile)
+		void doSubParse(std::ifstream& br, std::filesystem::path currentFile)
 		{
-			ObjectTreeParser *parser = new ObjectTreeParser(tree);
+			ObjectTreeParser* parser = new ObjectTreeParser(tree);
 			parser->macros = macros;
 			parser->doParse(br, currentFile, false);
 
@@ -419,7 +412,7 @@ namespace BYOND
 		}
 
 	public:
-		virtual std::string stripComments(const std::string &s)
+		virtual std::string stripComments(const std::string& s)
 		{
 			std::stringstream o;
 			for (int i = 0; i < s.length(); i++)
@@ -509,7 +502,7 @@ namespace BYOND
 			return o.str();
 		}
 
-		static std::string cleanPath(std::string &s)
+		static std::string cleanPath(std::string& s)
 		{
 			// Makes sure that paths start with a slash, and don't end with a slash.
 			if (!s.rfind("/", 0) == 0)

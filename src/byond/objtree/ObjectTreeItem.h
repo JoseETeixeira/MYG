@@ -6,6 +6,7 @@
 #include <vector>
 #include <algorithm>
 #include <list>
+#include "spdlog/spdlog.h"
 #include "../stringhelper.h"
 #include "../vectorhelper.h"
 #pragma once
@@ -15,7 +16,7 @@
 namespace BYOND
 {
 
-	class ObjectTreeItem : public ObjInstance, public std::list<ObjInstance*>
+	class ObjectTreeItem : public ObjInstance
 	{
 	public:
 		virtual ~ObjectTreeItem()
@@ -30,10 +31,10 @@ namespace BYOND
 			this->path = p;
 			this->parent = parent;
 			vars.emplace("type", path);
+			spdlog::info(p);
 			if (parent != nullptr)
 			{
 				parent->subtypes.push_back(this);
-				vars.emplace("parentType", parent->path);
 			}
 			instances.push_back(this);
 		}
@@ -99,13 +100,13 @@ namespace BYOND
 			return allVars;
 		}
 
-		std::string path = "";
+		std::string path = "" ;
 		std::vector<ObjectTreeItem*> subtypes;
 		ObjectTreeItem *parent = nullptr;
 		std::unordered_map<std::string, std::string> vars = std::unordered_map<std::string, std::string>();
-		std::vector<ObjInstance*> instances;
+		std::vector<ObjectTreeItem*> instances;
 
-		virtual void addInstance(ObjInstance *instance)
+		virtual void addInstance(ObjectTreeItem *instance)
 		{
 			if (std::find(instances.begin(), instances.end(), instance) != instances.end())
 			{
@@ -128,7 +129,7 @@ namespace BYOND
 //JAVA TO C++ CONVERTER TODO TASK: A 'delete event' statement was not added since event was passed to a method or constructor. Handle memory management manually.
 		}
 
-		virtual void removeInstance(ObjInstance *instance)
+		virtual void removeInstance(ObjectTreeItem *instance)
 		{
 			auto found = std::find(instances.begin(), instances.end(), instance);
 			if ( found == instances.end())

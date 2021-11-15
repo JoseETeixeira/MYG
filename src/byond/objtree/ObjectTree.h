@@ -141,7 +141,7 @@ namespace BYOND
 //JAVA TO C++ CONVERTER TODO TASK: A 'delete datum' statement was not added since datum was passed to a method or constructor. Handle memory management manually.
 		}
 
-		virtual ObjectTreeItem *getOrCreate(const std::string &path)
+		virtual ObjectTreeItem* getOrCreate(const std::string &path)
 		{
 			if (items.find(path) != items.end())
 			{
