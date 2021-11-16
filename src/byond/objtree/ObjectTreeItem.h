@@ -21,7 +21,7 @@ namespace BYOND
 	public:
 		~ObjectTreeItem()
 		{
-			delete parent;
+			//delete parent;
 		}
 
 

@@ -48,7 +48,7 @@ namespace BYOND
 	public:
 		virtual ~ObjectTreeParser()
 		{
-			delete tree;
+		
 		}
 
 		ObjectTreeParser()

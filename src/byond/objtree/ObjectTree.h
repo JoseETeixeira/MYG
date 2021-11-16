@@ -158,11 +158,11 @@ namespace BYOND
 				parentPath = "/datum";
 			}
 			ObjectTreeItem *parentItem = getOrCreate(parentPath);
-			ObjectTreeItem item(parentItem, path);
+			ObjectTreeItem item = ObjectTreeItem(parentItem, path);
 			items.emplace(path, &item);
 
 //JAVA TO C++ CONVERTER TODO TASK: A 'delete item' statement was not added since item was passed to a method or constructor. Handle memory management manually.
-			return &item;
+			return items[path];
 		}
 
 		virtual ObjectTreeItem *get(const std::string &path)
@@ -182,28 +182,34 @@ namespace BYOND
 			items.emplace(item->path, item);
 		}
 
-		virtual void dumpTree()
+		void dumpTree()
 		{
+			spdlog::info("Begin Tree dump");
 			for (auto item : items)
 			{
+				spdlog::info("Item {}",item.first);
 
-				std::stringstream itemp;
-				itemp << item.second->path.c_str();
-				spdlog::info(itemp.str());
+				//std::stringstream itemp;
+				//itemp << item.second->path.c_str();
+				//spdlog::info(itemp.str());
 				for (auto var : item.second->vars)
 				{
-					std::stringstream f ;
-					f << var.first.c_str();
-					std::stringstream  s ;
-					s << var.second.c_str();
-					spdlog::info("\t" + f.str() + " = " + s.str());
+				
+					spdlog::info("\t" + var.first + " = " + var.second);
 				}
 			}
 		}
 
 		virtual ObjectTreeItem *getGlobal()
 		{
-			return items[""];
+			if (items.find("") != items.end())
+			{
+				return items[""];
+			}
+			else
+			{
+				return nullptr;
+			}
 		}
 
 		std::string ReplaceAll(std::string str, const std::string& from, const std::string& to) {
@@ -228,6 +234,7 @@ namespace BYOND
 		virtual void completeTree()
 		{
 			// Clear children and parse expressions
+			spdlog::info("Globals");
 
 			ObjectTreeItem *global = getGlobal();
 
@@ -495,6 +502,7 @@ namespace BYOND
 			std::stringstream error;
 			error << filePath.c_str();
 			spdlog::error("File not found: {}",error.str());
+			return "";
 		}
 	};
 
