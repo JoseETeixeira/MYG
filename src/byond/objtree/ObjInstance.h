@@ -49,7 +49,7 @@ namespace BYOND
 
 				if (!patternMatch.empty())
 				{
-					cachedIcon = patternMatch.str(1);
+					cachedIcon = patternMatch[1].str();
 				}
 				else
 				{
@@ -69,7 +69,7 @@ namespace BYOND
 
 				if (!patternMatch.empty())
 				{
-					cachedIconState = patternMatch.str(1);
+					cachedIconState = patternMatch[1].str();
 				}
 				else
 				{
@@ -156,13 +156,14 @@ namespace BYOND
 			if (!patternMatch.empty())
 			{
 
-				std::string match = patternMatch.str(1);
+				std::string match = patternMatch[1].str();
 				std::stringstream mm;
 				mm << match.c_str();
 				int r;
 				int g;
 				int bi;
-				sscanf(mm.str().c_str() , "%02x%02x%02x", &r, &g, &bi);
+				std::string mmm = mm.str();
+				sscanf(mmm.c_str() , "%02x%02x%02x", &r, &g, &bi);
 				double rd, gd, bd;
 				rd = (double) r;
 				gd = (double)g;
@@ -173,9 +174,9 @@ namespace BYOND
 			std::regex_search(var, patternMatch, std::regex("rgb ?\\( ?([\\d]+) ?, ?([\\d]+) ?, ?([\\d]+) ?\\)"));
 			if (!patternMatch.empty())
 			{
-				int r = std::stoi(patternMatch.str(1));
-				int g = std::stoi(patternMatch.str(2));
-				int bi = std::stoi(patternMatch.str(3));
+				int r = std::stoi(patternMatch[1].str());
+				int g = std::stoi(patternMatch[2].str());
+				int bi = std::stoi(patternMatch[3].str());
 				if (r > 255)
 				{
 					r = 255;
