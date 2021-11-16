@@ -62,10 +62,10 @@ namespace BYOND
 		 */
 		virtual std::regex *getPattern()
 		{
-			if (cachedPattern->_Empty())
-			{
-				cachedPattern = new std::regex(regexp);
-			}
+			
+			
+			cachedPattern = new std::regex(regexp);
+			
 			return cachedPattern;
 		}
 

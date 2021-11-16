@@ -279,6 +279,249 @@ __/__/third_party/glfw/deps/tinycthread.c.s:
 	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/__/__/third_party/glfw/deps/tinycthread.c.s
 .PHONY : __/__/third_party/glfw/deps/tinycthread.c.s
 
+__/__/third_party/imgui/TextEditor.o: __/__/third_party/imgui/TextEditor.cpp.o
+
+.PHONY : __/__/third_party/imgui/TextEditor.o
+
+# target to build an object file
+__/__/third_party/imgui/TextEditor.cpp.o:
+	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/__/__/third_party/imgui/TextEditor.cpp.o
+.PHONY : __/__/third_party/imgui/TextEditor.cpp.o
+
+__/__/third_party/imgui/TextEditor.i: __/__/third_party/imgui/TextEditor.cpp.i
+
+.PHONY : __/__/third_party/imgui/TextEditor.i
+
+# target to preprocess a source file
+__/__/third_party/imgui/TextEditor.cpp.i:
+	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/__/__/third_party/imgui/TextEditor.cpp.i
+.PHONY : __/__/third_party/imgui/TextEditor.cpp.i
+
+__/__/third_party/imgui/TextEditor.s: __/__/third_party/imgui/TextEditor.cpp.s
+
+.PHONY : __/__/third_party/imgui/TextEditor.s
+
+# target to generate assembly for a file
+__/__/third_party/imgui/TextEditor.cpp.s:
+	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/__/__/third_party/imgui/TextEditor.cpp.s
+.PHONY : __/__/third_party/imgui/TextEditor.cpp.s
+
+__/__/third_party/imgui/imgui.o: __/__/third_party/imgui/imgui.cpp.o
+
+.PHONY : __/__/third_party/imgui/imgui.o
+
+# target to build an object file
+__/__/third_party/imgui/imgui.cpp.o:
+	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/__/__/third_party/imgui/imgui.cpp.o
+.PHONY : __/__/third_party/imgui/imgui.cpp.o
+
+__/__/third_party/imgui/imgui.i: __/__/third_party/imgui/imgui.cpp.i
+
+.PHONY : __/__/third_party/imgui/imgui.i
+
+# target to preprocess a source file
+__/__/third_party/imgui/imgui.cpp.i:
+	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/__/__/third_party/imgui/imgui.cpp.i
+.PHONY : __/__/third_party/imgui/imgui.cpp.i
+
+__/__/third_party/imgui/imgui.s: __/__/third_party/imgui/imgui.cpp.s
+
+.PHONY : __/__/third_party/imgui/imgui.s
+
+# target to generate assembly for a file
+__/__/third_party/imgui/imgui.cpp.s:
+	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/__/__/third_party/imgui/imgui.cpp.s
+.PHONY : __/__/third_party/imgui/imgui.cpp.s
+
+__/__/third_party/imgui/imgui_demo.o: __/__/third_party/imgui/imgui_demo.cpp.o
+
+.PHONY : __/__/third_party/imgui/imgui_demo.o
+
+# target to build an object file
+__/__/third_party/imgui/imgui_demo.cpp.o:
+	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/__/__/third_party/imgui/imgui_demo.cpp.o
+.PHONY : __/__/third_party/imgui/imgui_demo.cpp.o
+
+__/__/third_party/imgui/imgui_demo.i: __/__/third_party/imgui/imgui_demo.cpp.i
+
+.PHONY : __/__/third_party/imgui/imgui_demo.i
+
+# target to preprocess a source file
+__/__/third_party/imgui/imgui_demo.cpp.i:
+	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/__/__/third_party/imgui/imgui_demo.cpp.i
+.PHONY : __/__/third_party/imgui/imgui_demo.cpp.i
+
+__/__/third_party/imgui/imgui_demo.s: __/__/third_party/imgui/imgui_demo.cpp.s
+
+.PHONY : __/__/third_party/imgui/imgui_demo.s
+
+# target to generate assembly for a file
+__/__/third_party/imgui/imgui_demo.cpp.s:
+	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/__/__/third_party/imgui/imgui_demo.cpp.s
+.PHONY : __/__/third_party/imgui/imgui_demo.cpp.s
+
+__/__/third_party/imgui/imgui_draw.o: __/__/third_party/imgui/imgui_draw.cpp.o
+
+.PHONY : __/__/third_party/imgui/imgui_draw.o
+
+# target to build an object file
+__/__/third_party/imgui/imgui_draw.cpp.o:
+	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/__/__/third_party/imgui/imgui_draw.cpp.o
+.PHONY : __/__/third_party/imgui/imgui_draw.cpp.o
+
+__/__/third_party/imgui/imgui_draw.i: __/__/third_party/imgui/imgui_draw.cpp.i
+
+.PHONY : __/__/third_party/imgui/imgui_draw.i
+
+# target to preprocess a source file
+__/__/third_party/imgui/imgui_draw.cpp.i:
+	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/__/__/third_party/imgui/imgui_draw.cpp.i
+.PHONY : __/__/third_party/imgui/imgui_draw.cpp.i
+
+__/__/third_party/imgui/imgui_draw.s: __/__/third_party/imgui/imgui_draw.cpp.s
+
+.PHONY : __/__/third_party/imgui/imgui_draw.s
+
+# target to generate assembly for a file
+__/__/third_party/imgui/imgui_draw.cpp.s:
+	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/__/__/third_party/imgui/imgui_draw.cpp.s
+.PHONY : __/__/third_party/imgui/imgui_draw.cpp.s
+
+__/__/third_party/imgui/imgui_file_browser.o: __/__/third_party/imgui/imgui_file_browser.cpp.o
+
+.PHONY : __/__/third_party/imgui/imgui_file_browser.o
+
+# target to build an object file
+__/__/third_party/imgui/imgui_file_browser.cpp.o:
+	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/__/__/third_party/imgui/imgui_file_browser.cpp.o
+.PHONY : __/__/third_party/imgui/imgui_file_browser.cpp.o
+
+__/__/third_party/imgui/imgui_file_browser.i: __/__/third_party/imgui/imgui_file_browser.cpp.i
+
+.PHONY : __/__/third_party/imgui/imgui_file_browser.i
+
+# target to preprocess a source file
+__/__/third_party/imgui/imgui_file_browser.cpp.i:
+	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/__/__/third_party/imgui/imgui_file_browser.cpp.i
+.PHONY : __/__/third_party/imgui/imgui_file_browser.cpp.i
+
+__/__/third_party/imgui/imgui_file_browser.s: __/__/third_party/imgui/imgui_file_browser.cpp.s
+
+.PHONY : __/__/third_party/imgui/imgui_file_browser.s
+
+# target to generate assembly for a file
+__/__/third_party/imgui/imgui_file_browser.cpp.s:
+	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/__/__/third_party/imgui/imgui_file_browser.cpp.s
+.PHONY : __/__/third_party/imgui/imgui_file_browser.cpp.s
+
+__/__/third_party/imgui/imgui_impl_glfw.o: __/__/third_party/imgui/imgui_impl_glfw.cpp.o
+
+.PHONY : __/__/third_party/imgui/imgui_impl_glfw.o
+
+# target to build an object file
+__/__/third_party/imgui/imgui_impl_glfw.cpp.o:
+	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/__/__/third_party/imgui/imgui_impl_glfw.cpp.o
+.PHONY : __/__/third_party/imgui/imgui_impl_glfw.cpp.o
+
+__/__/third_party/imgui/imgui_impl_glfw.i: __/__/third_party/imgui/imgui_impl_glfw.cpp.i
+
+.PHONY : __/__/third_party/imgui/imgui_impl_glfw.i
+
+# target to preprocess a source file
+__/__/third_party/imgui/imgui_impl_glfw.cpp.i:
+	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/__/__/third_party/imgui/imgui_impl_glfw.cpp.i
+.PHONY : __/__/third_party/imgui/imgui_impl_glfw.cpp.i
+
+__/__/third_party/imgui/imgui_impl_glfw.s: __/__/third_party/imgui/imgui_impl_glfw.cpp.s
+
+.PHONY : __/__/third_party/imgui/imgui_impl_glfw.s
+
+# target to generate assembly for a file
+__/__/third_party/imgui/imgui_impl_glfw.cpp.s:
+	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/__/__/third_party/imgui/imgui_impl_glfw.cpp.s
+.PHONY : __/__/third_party/imgui/imgui_impl_glfw.cpp.s
+
+__/__/third_party/imgui/imgui_impl_opengl3.o: __/__/third_party/imgui/imgui_impl_opengl3.cpp.o
+
+.PHONY : __/__/third_party/imgui/imgui_impl_opengl3.o
+
+# target to build an object file
+__/__/third_party/imgui/imgui_impl_opengl3.cpp.o:
+	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/__/__/third_party/imgui/imgui_impl_opengl3.cpp.o
+.PHONY : __/__/third_party/imgui/imgui_impl_opengl3.cpp.o
+
+__/__/third_party/imgui/imgui_impl_opengl3.i: __/__/third_party/imgui/imgui_impl_opengl3.cpp.i
+
+.PHONY : __/__/third_party/imgui/imgui_impl_opengl3.i
+
+# target to preprocess a source file
+__/__/third_party/imgui/imgui_impl_opengl3.cpp.i:
+	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/__/__/third_party/imgui/imgui_impl_opengl3.cpp.i
+.PHONY : __/__/third_party/imgui/imgui_impl_opengl3.cpp.i
+
+__/__/third_party/imgui/imgui_impl_opengl3.s: __/__/third_party/imgui/imgui_impl_opengl3.cpp.s
+
+.PHONY : __/__/third_party/imgui/imgui_impl_opengl3.s
+
+# target to generate assembly for a file
+__/__/third_party/imgui/imgui_impl_opengl3.cpp.s:
+	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/__/__/third_party/imgui/imgui_impl_opengl3.cpp.s
+.PHONY : __/__/third_party/imgui/imgui_impl_opengl3.cpp.s
+
+__/__/third_party/imgui/imgui_tables.o: __/__/third_party/imgui/imgui_tables.cpp.o
+
+.PHONY : __/__/third_party/imgui/imgui_tables.o
+
+# target to build an object file
+__/__/third_party/imgui/imgui_tables.cpp.o:
+	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/__/__/third_party/imgui/imgui_tables.cpp.o
+.PHONY : __/__/third_party/imgui/imgui_tables.cpp.o
+
+__/__/third_party/imgui/imgui_tables.i: __/__/third_party/imgui/imgui_tables.cpp.i
+
+.PHONY : __/__/third_party/imgui/imgui_tables.i
+
+# target to preprocess a source file
+__/__/third_party/imgui/imgui_tables.cpp.i:
+	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/__/__/third_party/imgui/imgui_tables.cpp.i
+.PHONY : __/__/third_party/imgui/imgui_tables.cpp.i
+
+__/__/third_party/imgui/imgui_tables.s: __/__/third_party/imgui/imgui_tables.cpp.s
+
+.PHONY : __/__/third_party/imgui/imgui_tables.s
+
+# target to generate assembly for a file
+__/__/third_party/imgui/imgui_tables.cpp.s:
+	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/__/__/third_party/imgui/imgui_tables.cpp.s
+.PHONY : __/__/third_party/imgui/imgui_tables.cpp.s
+
+__/__/third_party/imgui/imgui_widgets.o: __/__/third_party/imgui/imgui_widgets.cpp.o
+
+.PHONY : __/__/third_party/imgui/imgui_widgets.o
+
+# target to build an object file
+__/__/third_party/imgui/imgui_widgets.cpp.o:
+	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/__/__/third_party/imgui/imgui_widgets.cpp.o
+.PHONY : __/__/third_party/imgui/imgui_widgets.cpp.o
+
+__/__/third_party/imgui/imgui_widgets.i: __/__/third_party/imgui/imgui_widgets.cpp.i
+
+.PHONY : __/__/third_party/imgui/imgui_widgets.i
+
+# target to preprocess a source file
+__/__/third_party/imgui/imgui_widgets.cpp.i:
+	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/__/__/third_party/imgui/imgui_widgets.cpp.i
+.PHONY : __/__/third_party/imgui/imgui_widgets.cpp.i
+
+__/__/third_party/imgui/imgui_widgets.s: __/__/third_party/imgui/imgui_widgets.cpp.s
+
+.PHONY : __/__/third_party/imgui/imgui_widgets.s
+
+# target to generate assembly for a file
+__/__/third_party/imgui/imgui_widgets.cpp.s:
+	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/__/__/third_party/imgui/imgui_widgets.cpp.s
+.PHONY : __/__/third_party/imgui/imgui_widgets.cpp.s
+
 editor.o: editor.cpp.o
 
 .PHONY : editor.o
@@ -331,6 +574,33 @@ help:
 	@echo "... __/__/third_party/glfw/deps/tinycthread.o"
 	@echo "... __/__/third_party/glfw/deps/tinycthread.i"
 	@echo "... __/__/third_party/glfw/deps/tinycthread.s"
+	@echo "... __/__/third_party/imgui/TextEditor.o"
+	@echo "... __/__/third_party/imgui/TextEditor.i"
+	@echo "... __/__/third_party/imgui/TextEditor.s"
+	@echo "... __/__/third_party/imgui/imgui.o"
+	@echo "... __/__/third_party/imgui/imgui.i"
+	@echo "... __/__/third_party/imgui/imgui.s"
+	@echo "... __/__/third_party/imgui/imgui_demo.o"
+	@echo "... __/__/third_party/imgui/imgui_demo.i"
+	@echo "... __/__/third_party/imgui/imgui_demo.s"
+	@echo "... __/__/third_party/imgui/imgui_draw.o"
+	@echo "... __/__/third_party/imgui/imgui_draw.i"
+	@echo "... __/__/third_party/imgui/imgui_draw.s"
+	@echo "... __/__/third_party/imgui/imgui_file_browser.o"
+	@echo "... __/__/third_party/imgui/imgui_file_browser.i"
+	@echo "... __/__/third_party/imgui/imgui_file_browser.s"
+	@echo "... __/__/third_party/imgui/imgui_impl_glfw.o"
+	@echo "... __/__/third_party/imgui/imgui_impl_glfw.i"
+	@echo "... __/__/third_party/imgui/imgui_impl_glfw.s"
+	@echo "... __/__/third_party/imgui/imgui_impl_opengl3.o"
+	@echo "... __/__/third_party/imgui/imgui_impl_opengl3.i"
+	@echo "... __/__/third_party/imgui/imgui_impl_opengl3.s"
+	@echo "... __/__/third_party/imgui/imgui_tables.o"
+	@echo "... __/__/third_party/imgui/imgui_tables.i"
+	@echo "... __/__/third_party/imgui/imgui_tables.s"
+	@echo "... __/__/third_party/imgui/imgui_widgets.o"
+	@echo "... __/__/third_party/imgui/imgui_widgets.i"
+	@echo "... __/__/third_party/imgui/imgui_widgets.s"
 	@echo "... editor.o"
 	@echo "... editor.i"
 	@echo "... editor.s"

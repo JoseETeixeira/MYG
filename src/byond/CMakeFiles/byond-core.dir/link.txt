@@ -1,0 +1,1 @@
+/usr/bin/c++ -fPIC -std=c++2a  -shared -Wl,-soname,libbyond-core.so.1.0.0 -o libbyond-core.so.1.0.0 CMakeFiles/byond-core.dir/library.cpp.o 

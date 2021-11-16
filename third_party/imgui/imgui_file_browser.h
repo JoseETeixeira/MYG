@@ -8,7 +8,7 @@ namespace fs = std::filesystem;
 
 namespace imgui_ext {
 
-    const struct file {
+    struct file {
         std::string alias;
         fs::path path;
     };

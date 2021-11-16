@@ -140,8 +140,11 @@ namespace myg{
 
     void Editor::setEditorFile(std::string fileToEdit){
          {
-            if(StringHelper::endsWith(fileToEdit, ".dme")){
-                library.openDME(fileToEdit);
+            std::wstringstream w;
+            w << fileToEdit.c_str();
+            if(StringHelper::endsWith(w.str(), L".dme")){
+                
+                library.openDME(w.str());
             }
             std::ifstream t(fileToEdit);
             if (t.good())

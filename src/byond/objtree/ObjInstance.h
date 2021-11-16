@@ -1,6 +1,7 @@
 #include <string>
-#include "exceptionhelper.h"
-#include "../../third_party/color/src/color/color.hpp"
+#include <regex>
+#include "../exceptionhelper.h"
+#include "../../../third_party/color/src/color/color.hpp"
 #pragma once
 
 
@@ -11,10 +12,10 @@ namespace BYOND
 	class ObjInstance
 	{
 	public:
-		virtual std::string getVar(const std::string& key) = 0;
-		virtual std::string typeString() = 0;
-		virtual bool istype(const std::string& path) = 0;
-		virtual std::string toStringTGM() = 0;
+		virtual std::wstring getVar(const std::wstring& key) = 0;
+		virtual std::wstring typeString() = 0;
+		virtual bool istype(const std::wstring& path) = 0;
+		virtual std::wstring toStringTGM() = 0;
 
 	private:
 		int cachedDir = -1;
@@ -23,8 +24,8 @@ namespace BYOND
 		float cachedLayer = -1234;
 		int cachedPlane = -1234;
 		color::rgb<double> cachedColor;
-		std::string cachedIconState = "";
-		std::string cachedIcon = "";
+		std::wstring cachedIconState = L"";
+		std::wstring cachedIcon = L"";
 
 
 	public:
@@ -33,18 +34,18 @@ namespace BYOND
 
 		}
 
-		virtual std::string getIcon()
+		virtual std::wstring getIcon()
 		{
-			if (cachedIcon == "")
+			if (cachedIcon == L"")
 			{
-				std::string var = getVar("icon");
+				std::wstring var = getVar(L"icon");
 				
-				if (var == "")
+				if (var == L"")
 				{
-					return cachedIcon = "";
+					return cachedIcon = L"";
 				}
-				std::smatch patternMatch;
-				std::regex_search(var, patternMatch, std::regex("'(.+)'"));
+				std::wsmatch patternMatch;
+				std::regex_search(var, patternMatch, std::wregex(L"'(.+)'"));
 
 				if (!patternMatch.empty())
 				{
@@ -52,19 +53,19 @@ namespace BYOND
 				}
 				else
 				{
-					cachedIcon = "";
+					cachedIcon = L"";
 				}
 			}
 			return cachedIcon;
 		}
 
-		virtual std::string getIconState()
+		virtual std::wstring getIconState()
 		{
-			if (cachedIconState == "")
+			if (cachedIconState == L"")
 			{	
-				std::string var = getVar("icon_state");
-				std::smatch patternMatch;
-				std::regex_search(var , patternMatch, std::regex("\"(.+)\""));
+				std::wstring var = getVar(L"icon_state");
+				std::wsmatch patternMatch;
+				std::regex_search(var , patternMatch, std::wregex(L"\"(.+)\""));
 
 				if (!patternMatch.empty())
 				{
@@ -72,7 +73,7 @@ namespace BYOND
 				}
 				else
 				{
-					cachedIconState = "";
+					cachedIconState = L"";
 				}
 			}
 			return cachedIconState;
@@ -84,7 +85,7 @@ namespace BYOND
 			{
 				try
 				{
-					cachedDir = std::stoi(getVar("dir"));
+					cachedDir = std::stoi(getVar(L"dir"));
 				}
 				catch (const NumberFormatException& e)
 				{
@@ -101,7 +102,7 @@ namespace BYOND
 			{
 				try
 				{
-					cachedPixelX = std::stoi(getVar("pixel_x"));
+					cachedPixelX = std::stoi(getVar(L"pixel_x"));
 				}
 				catch (const NumberFormatException& e)
 				{
@@ -118,7 +119,7 @@ namespace BYOND
 			{
 				try
 				{
-					cachedPixelY = std::stoi(getVar("pixel_y"));
+					cachedPixelY = std::stoi(getVar(L"pixel_y"));
 				}
 				catch (const NumberFormatException& e)
 				{
@@ -135,7 +136,7 @@ namespace BYOND
 			{
 				try
 				{
-					cachedLayer = std::stof(getVar("layer"));
+					cachedLayer = std::stof(getVar(L"layer"));
 				}
 				catch (const NumberFormatException& e)
 				{
@@ -149,16 +150,19 @@ namespace BYOND
 		virtual color::rgb<double> getColor()
 		{
 			
-			std::string var = getVar("color");
-			std::smatch patternMatch;
-			std::regex_search(var, patternMatch, std::regex("(#[\\d\\w][\\d\\w][\\d\\w][\\d\\w][\\d\\w][\\d\\w])"));
+			std::wstring var = getVar(L"color");
+			std::wsmatch patternMatch;
+			std::regex_search(var, patternMatch, std::wregex(L"(#[\\d\\w][\\d\\w][\\d\\w][\\d\\w][\\d\\w][\\d\\w])"));
 			if (!patternMatch.empty())
 			{
-				std::string match = patternMatch.str(1);
+
+				std::wstring match = patternMatch.str(1);
+				std::stringstream mm;
+				mm << match.c_str();
 				int r;
 				int g;
 				int bi;
-				sscanf(match.c_str() , "%02x%02x%02x", &r, &g, &bi);
+				sscanf(mm.str().c_str() , "%02x%02x%02x", &r, &g, &bi);
 				double rd, gd, bd;
 				rd = (double) r;
 				gd = (double)g;
@@ -166,7 +170,7 @@ namespace BYOND
 				cachedColor = color::rgb<double>({ rd, gd, bd });
 				return cachedColor;
 			}
-			std::regex_search(var, patternMatch, std::regex("rgb ?\\( ?([\\d]+) ?, ?([\\d]+) ?, ?([\\d]+) ?\\)"));
+			std::regex_search(var, patternMatch, std::wregex(L"rgb ?\\( ?([\\d]+) ?, ?([\\d]+) ?, ?([\\d]+) ?\\)"));
 			if (!patternMatch.empty())
 			{
 				int r = std::stoi(patternMatch.str(1));
@@ -192,12 +196,12 @@ namespace BYOND
 				cachedColor = color::rgb<double>({ rd, gd, bd });
 				return cachedColor;
 			}
-			std::regex_search(var, patternMatch, std::regex("\"(black|silver|grey|gray|white|maroon|red|purple|fuchsia|magenta|green|lime|olive|gold|yellow|navy|blue|teal|aqua|cyan)\""));
+			std::regex_search(var, patternMatch, std::wregex(L"\"(black|silver|grey|gray|white|maroon|red|purple|fuchsia|magenta|green|lime|olive|gold|yellow|navy|blue|teal|aqua|cyan)\""));
 			if (!patternMatch.empty())
 			{
-				std::string match = patternMatch[1];
+				std::wstring match = patternMatch[1];
 					//ORIGINAL LINE: case "black":
-				if (match == ("black"))
+				if (match == (L"black"))
 					{
 						int r;
 						int g;
@@ -211,7 +215,7 @@ namespace BYOND
 						return cachedColor;
 					}
 					//ORIGINAL LINE: case "silver":
-				if (match == ( "silver"))
+				if (match == ( L"silver"))
 					{
 						int r;
 						int g;
@@ -225,7 +229,7 @@ namespace BYOND
 						return cachedColor;
 					}
 					//ORIGINAL LINE: case "gray":
-				if (match == ( "gray"))
+				if (match == ( L"gray"))
 					{
 						int r;
 						int g;
@@ -239,7 +243,7 @@ namespace BYOND
 						return cachedColor;
 					}
 					//ORIGINAL LINE: case "grey":
-				if (match == ( "grey"))
+				if (match == ( L"grey"))
 					{
 						int r;
 						int g;
@@ -254,7 +258,7 @@ namespace BYOND
 
 					}
 					//ORIGINAL LINE: case "white":
-				if (match == ( "white"))
+				if (match == ( L"white"))
 					{
 						int r;
 						int g;
@@ -268,7 +272,7 @@ namespace BYOND
 						return cachedColor;
 					}
 					//ORIGINAL LINE: case "maroon":
-				if (match == ( "maroon"))
+				if (match == ( L"maroon"))
 					{
 						int r;
 						int g;
@@ -283,7 +287,7 @@ namespace BYOND
 
 					}
 					//ORIGINAL LINE: case "red":
-				if (match == ( "red"))
+				if (match == ( L"red"))
 					{
 						int r;
 						int g;
@@ -298,7 +302,7 @@ namespace BYOND
 
 					}
 					//ORIGINAL LINE: case "purple":
-				if (match == ( "purple"))
+				if (match == ( L"purple"))
 					{
 						int r;
 						int g;
@@ -312,7 +316,7 @@ namespace BYOND
 						return cachedColor;
 					}
 					//ORIGINAL LINE: case "fuchsia":
-				if (match == ( "fuchsia"))
+				if (match == ( L"fuchsia"))
 					{
 						int r;
 						int g;
@@ -326,7 +330,7 @@ namespace BYOND
 						return cachedColor;
 					}
 					//ORIGINAL LINE: case "magenta":
-				if (match == ("magenta")) 
+				if (match == (L"magenta")) 
 				{
 					int r;
 					int g;
@@ -341,7 +345,7 @@ namespace BYOND
 				}
 						
 					//ORIGINAL LINE: case "green":
-				if (match == ( "green"))
+				if (match == ( L"green"))
 					{
 						int r;
 						int g;
@@ -355,7 +359,7 @@ namespace BYOND
 						return cachedColor;
 					}
 					//ORIGINAL LINE: case "lime":
-				if (match == ( "lime"))
+				if (match == ( L"lime"))
 					{
 						int r;
 						int g;
@@ -369,7 +373,7 @@ namespace BYOND
 						return cachedColor;
 					}
 					//ORIGINAL LINE: case "olive":
-				if (match == ( "olive"))
+				if (match == ( L"olive"))
 					{
 						int r;
 						int g;
@@ -383,7 +387,7 @@ namespace BYOND
 						return cachedColor;
 					}
 					//ORIGINAL LINE: case "gold":
-				if (match == ( "gold"))
+				if (match == ( L"gold"))
 					{
 						int r;
 						int g;
@@ -397,7 +401,7 @@ namespace BYOND
 						return cachedColor;
 					}
 					//ORIGINAL LINE: case "yellow":
-				if (match == ( "yellow"))
+				if (match == ( L"yellow"))
 					{
 						int r;
 						int g;
@@ -411,7 +415,7 @@ namespace BYOND
 						return cachedColor;
 					}
 					//ORIGINAL LINE: case "navy":
-				if (match == ( "navy"))
+				if (match == ( L"navy"))
 					{
 						int r;
 						int g;
@@ -425,7 +429,7 @@ namespace BYOND
 						return cachedColor;
 					}
 					//ORIGINAL LINE: case "blue":
-				if (match == ( "blue"))
+				if (match == ( L"blue"))
 					{
 						int r;
 						int g;
@@ -439,7 +443,7 @@ namespace BYOND
 						return cachedColor;
 					}
 					//ORIGINAL LINE: case "teal":
-				if( match == ( "teal"))
+				if( match == ( L"teal"))
 					{
 						int r;
 						int g;
@@ -453,7 +457,7 @@ namespace BYOND
 						return cachedColor;
 					}
 					//ORIGINAL LINE: case "aqua":
-				if (match == ( "aqua"))
+				if (match == ( L"aqua"))
 					{
 						int r;
 						int g;
@@ -467,7 +471,7 @@ namespace BYOND
 						return cachedColor;
 					}
 					//ORIGINAL LINE: case "cyan":
-				if (match == ( "cyan"))
+				if (match == ( L"cyan"))
 					{
 						int r;
 						int g;
@@ -481,9 +485,9 @@ namespace BYOND
 						return cachedColor;
 					}
 				}
-				if (var != "" && var != "null")
+				if (var != L"" && var != L"null")
 				{
-					spdlog::error("Unrecognized color " + var);
+					spdlog::error("Unrecognized color ");
 				}
 				cachedColor = color::rgb<double>({ 255.0, 255.0, 255.0 });
 				return cachedColor;
@@ -499,7 +503,7 @@ namespace BYOND
 			{
 				try
 				{
-					cachedPlane = std::stoi(getVar("plane"));
+					cachedPlane = std::stoi(getVar(L"plane"));
 				}
 				catch (const NumberFormatException& e)
 				{

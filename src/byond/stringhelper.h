@@ -18,37 +18,37 @@
 class StringHelper
 {
 public:
-	static std::string toLower(std::string source)
+	static std::wstring toLower(std::wstring source)
 	{
 		std::transform(source.begin(), source.end(), source.begin(), [](unsigned char c){ return std::tolower(c); });
 		return source;
 	}
 
-	static std::string toUpper(std::string source)
+	static std::wstring toUpper(std::wstring source)
 	{
 		std::transform(source.begin(), source.end(), source.begin(), [](unsigned char c){ return std::toupper(c); });
 		return source;
 	}
 
-	static std::string trimStart(std::string source, const std::string &trimChars = " \t\n\r\v\f")
+	static std::wstring trimStart(std::wstring source, const std::wstring &trimChars = L" \t\n\r\v\f")
 	{
 		return source.erase(0, source.find_first_not_of(trimChars));
 	}
 
-	static std::string trimEnd(std::string source, const std::string &trimChars = " \t\n\r\v\f")
+	static std::wstring trimEnd(std::wstring source, const std::wstring &trimChars = L" \t\n\r\v\f")
 	{
 		return source.erase(source.find_last_not_of(trimChars) + 1);
 	}
 
-	static std::string trim(std::string source, const std::string &trimChars = " \t\n\r\v\f")
+	static std::wstring trim(std::wstring source, const std::wstring &trimChars = L" \t\n\r\v\f")
 	{
 		return trimStart(trimEnd(source, trimChars), trimChars);
 	}
 
-	static std::string replace(std::string source, const std::string &find, const std::string &replace)
+	static std::wstring replace(std::wstring source, const std::wstring &find, const std::wstring &replace)
 	{
 		std::size_t pos = 0;
-		while ((pos = source.find(find, pos)) != std::string::npos)
+		while ((pos = source.find(find, pos)) != std::wstring::npos)
 		{
 			source.replace(pos, find.length(), replace);
 			pos += replace.length();
@@ -56,7 +56,7 @@ public:
 		return source;
 	}
 
-	static bool startsWith(const std::string &source, const std::string &value)
+	static bool startsWith(const std::wstring &source, const std::wstring &value)
 	{
 		if (source.length() < value.length())
 			return false;
@@ -64,7 +64,7 @@ public:
 			return source.compare(0, value.length(), value) == 0;
 	}
 
-	static bool endsWith(const std::string &source, const std::string &value)
+	static bool endsWith(const std::wstring &source, const std::wstring &value)
 	{
 		if (source.length() < value.length())
 			return false;
@@ -72,11 +72,11 @@ public:
 			return source.compare(source.length() - value.length(), value.length(), value) == 0;
 	}
 
-	static std::vector<std::string> split(const std::string &source, char delimiter)
+	static std::vector<std::wstring> split(const std::wstring &source, wchar_t delimiter)
 	{
-		std::vector<std::string> output;
-		std::stringstream ss(source);
-		std::string nextItem;
+		std::vector<std::wstring> output;
+		std::wstringstream ss(source);
+		std::wstring nextItem;
 
 		while (std::getline(ss, nextItem, delimiter))
 		{
@@ -87,23 +87,23 @@ public:
 	}
 
 	template<typename T>
-	static std::string toString(const T &subject)
+	static std::wstring toString(const T &subject)
 	{
-		std::stringstream ss;
+		std::wstringstream ss;
 		ss << subject;
 		return ss.str();
 	}
 
 	template<typename T>
-	static T fromString(const std::string &subject)
+	static T fromString(const std::wstring &subject)
 	{
-		std::stringstream ss(subject);
+		std::wstringstream ss(subject);
 		T target;
 		ss >> target;
 		return target;
 	}
 
-	static bool isEmptyOrWhiteSpace(const std::string &source)
+	static bool isEmptyOrWhiteSpace(const std::wstring &source)
 	{
 		if (source.length() == 0)
 			return true;
@@ -120,32 +120,32 @@ public:
 	}
 
 	template<typename T>
-	static std::string formatSimple(const std::string &input, T arg)
+	static std::wstring formatSimple(const std::wstring &input, T arg)
 	{
-		std::stringstream ss;
-		std::size_t lastFormatChar = std::string::npos;
-		std::size_t percent = std::string::npos;
-		while ((percent = input.find('%', percent + 1)) != std::string::npos)
+		std::wstringstream ss;
+		std::size_t lastFormatChar = std::wstring::npos;
+		std::size_t percent = std::wstring::npos;
+		while ((percent = input.find(L'%', percent + 1)) != std::wstring::npos)
 		{
 			if (percent + 1 < input.length())
 			{
-				if (input[percent + 1] == '%')
+				if (input[percent + 1] == L'%')
 				{
 					percent++;
 					continue;
 				}
 
-				std::size_t formatEnd = std::string::npos;
-				std::string index;
+				std::size_t formatEnd = std::wstring::npos;
+				std::wstring index;
 				for (std::size_t i = percent + 1; i < input.length(); i++)
 				{
-					if (input[i] == 's')
+					if (input[i] == L's')
 					{
-						index = "1";
+						index = L"1";
 						formatEnd = i;
 						break;
 					}
-					else if (input[i] == '$' && i + 1 < input.length() && input[i + 1] == 's')
+					else if (input[i] == L'$' && i + 1 < input.length() && input[i + 1] == L's')
 					{
 						index = input.substr(percent + 1, i - percent - 1);
 						formatEnd = i + 1;
@@ -155,12 +155,12 @@ public:
 						break;					
 				}
 
-				if (formatEnd != std::string::npos)
+				if (formatEnd != std::wstring::npos)
 				{
 					ss << input.substr(lastFormatChar + 1, percent - lastFormatChar - 1);
 					lastFormatChar = formatEnd;
 
-					if (index == "1")
+					if (index == L"1")
 						ss << arg;
 					else
 						throw std::runtime_error("Only simple positional format specifiers are handled by the 'formatSimple' helper method.");
@@ -175,32 +175,32 @@ public:
 	}
 
 	template<typename T>
-	static std::string formatSimple(const std::string &input, const std::vector<T> &args)
+	static std::wstring formatSimple(const std::wstring &input, const std::vector<T> &args)
 	{
-		std::stringstream ss;
-		std::size_t lastFormatChar = std::string::npos;
-		std::size_t percent = std::string::npos;
-		while ((percent = input.find('%', percent + 1)) != std::string::npos)
+		std::wstringstream ss;
+		std::size_t lastFormatChar = std::wstring::npos;
+		std::size_t percent = std::wstring::npos;
+		while ((percent = input.find(L'%', percent + 1)) != std::wstring::npos)
 		{
 			if (percent + 1 < input.length())
 			{
-				if (input[percent + 1] == '%')
+				if (input[percent + 1] == L'%')
 				{
 					percent++;
 					continue;
 				}
 
-				std::size_t formatEnd = std::string::npos;
-				std::string index;
+				std::size_t formatEnd = std::wstring::npos;
+				std::wstring index;
 				for (std::size_t i = percent + 1; i < input.length(); i++)
 				{
-					if (input[i] == 's')
+					if (input[i] == L's')
 					{
-						index = "1";
+						index = L"1";
 						formatEnd = i;
 						break;
 					}
-					else if (input[i] == '$' && i + 1 < input.length() && input[i + 1] == 's')
+					else if (input[i] == L'$' && i + 1 < input.length() && input[i + 1] == L's')
 					{
 						index = input.substr(percent + 1, i - percent - 1);
 						formatEnd = i + 1;
@@ -210,7 +210,7 @@ public:
 						break;					
 				}
 
-				if (formatEnd != std::string::npos)
+				if (formatEnd != std::wstring::npos)
 				{
 					ss << input.substr(lastFormatChar + 1, percent - lastFormatChar - 1);
 					lastFormatChar = formatEnd;
@@ -226,32 +226,32 @@ public:
 	}
 
 	template<typename T1, typename T2>
-	static std::string formatSimple(const std::string &input, T1 arg1, T2 arg2)
+	static std::wstring formatSimple(const std::wstring &input, T1 arg1, T2 arg2)
 	{
-		std::stringstream ss;
-		std::size_t lastFormatChar = std::string::npos;
-		std::size_t percent = std::string::npos;
-		while ((percent = input.find('%', percent + 1)) != std::string::npos)
+		std::wstringstream ss;
+		std::size_t lastFormatChar = std::wstring::npos;
+		std::size_t percent = std::wstring::npos;
+		while ((percent = input.find(L'%', percent + 1)) != std::wstring::npos)
 		{
 			if (percent + 1 < input.length())
 			{
-				if (input[percent + 1] == '%')
+				if (input[percent + 1] == L'%')
 				{
 					percent++;
 					continue;
 				}
 
-				std::size_t formatEnd = std::string::npos;
-				std::string index;
+				std::size_t formatEnd = std::wstring::npos;
+				std::wstring index;
 				for (std::size_t i = percent + 1; i < input.length(); i++)
 				{
-					if (input[i] == 's')
+					if (input[i] == L's')
 					{
-						index = "1";
+						index = L"1";
 						formatEnd = i;
 						break;
 					}
-					else if (input[i] == '$' && i + 1 < input.length() && input[i + 1] == 's')
+					else if (input[i] == L'$' && i + 1 < input.length() && input[i + 1] == L's')
 					{
 						index = input.substr(percent + 1, i - percent - 1);
 						formatEnd = i + 1;
@@ -261,14 +261,14 @@ public:
 						break;					
 				}
 
-				if (formatEnd != std::string::npos)
+				if (formatEnd != std::wstring::npos)
 				{
 					ss << input.substr(lastFormatChar + 1, percent - lastFormatChar - 1);
 					lastFormatChar = formatEnd;
 
-					if (index == "1")
+					if (index == L"1")
 						ss << arg1;
-					else if (index == "2")
+					else if (index == L"2")
 						ss << arg2;
 					else
 						throw std::runtime_error("Only simple positional format specifiers are handled by the 'formatSimple' helper method.");
@@ -283,32 +283,32 @@ public:
 	}
 
 	template<typename T1, typename T2, typename T3>
-	static std::string formatSimple(const std::string &input, T1 arg1, T2 arg2, T3 arg3)
+	static std::wstring formatSimple(const std::wstring &input, T1 arg1, T2 arg2, T3 arg3)
 	{
-		std::stringstream ss;
-		std::size_t lastFormatChar = std::string::npos;
-		std::size_t percent = std::string::npos;
-		while ((percent = input.find('%', percent + 1)) != std::string::npos)
+		std::wstringstream ss;
+		std::size_t lastFormatChar = std::wstring::npos;
+		std::size_t percent = std::wstring::npos;
+		while ((percent = input.find(L'%', percent + 1)) != std::wstring::npos)
 		{
 			if (percent + 1 < input.length())
 			{
-				if (input[percent + 1] == '%')
+				if (input[percent + 1] == L'%')
 				{
 					percent++;
 					continue;
 				}
 
-				std::size_t formatEnd = std::string::npos;
-				std::string index;
+				std::size_t formatEnd = std::wstring::npos;
+				std::wstring index;
 				for (std::size_t i = percent + 1; i < input.length(); i++)
 				{
-					if (input[i] == 's')
+					if (input[i] == L's')
 					{
-						index = "1";
+						index = L"1";
 						formatEnd = i;
 						break;
 					}
-					else if (input[i] == '$' && i + 1 < input.length() && input[i + 1] == 's')
+					else if (input[i] == L'$' && i + 1 < input.length() && input[i + 1] == L's')
 					{
 						index = input.substr(percent + 1, i - percent - 1);
 						formatEnd = i + 1;
@@ -318,16 +318,16 @@ public:
 						break;					
 				}
 
-				if (formatEnd != std::string::npos)
+				if (formatEnd != std::wstring::npos)
 				{
 					ss << input.substr(lastFormatChar + 1, percent - lastFormatChar - 1);
 					lastFormatChar = formatEnd;
 
-					if (index == "1")
+					if (index == L"1")
 						ss << arg1;
-					else if (index == "2")
+					else if (index == L"2")
 						ss << arg2;
-					else if (index == "3")
+					else if (index == L"3")
 						ss << arg3;
 					else
 						throw std::runtime_error("Only simple positional format specifiers are handled by the 'formatSimple' helper method.");

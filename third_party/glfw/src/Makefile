@@ -171,21 +171,6 @@ glfw/fast:
 	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG && $(MAKE) -f third_party/glfw/src/CMakeFiles/glfw.dir/build.make third_party/glfw/src/CMakeFiles/glfw.dir/build
 .PHONY : glfw/fast
 
-# Convenience name for target.
-third_party/glfw/src/CMakeFiles/update_mappings.dir/rule:
-	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG && $(MAKE) -f CMakeFiles/Makefile2 third_party/glfw/src/CMakeFiles/update_mappings.dir/rule
-.PHONY : third_party/glfw/src/CMakeFiles/update_mappings.dir/rule
-
-# Convenience name for target.
-update_mappings: third_party/glfw/src/CMakeFiles/update_mappings.dir/rule
-
-.PHONY : update_mappings
-
-# fast build rule for target.
-update_mappings/fast:
-	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG && $(MAKE) -f third_party/glfw/src/CMakeFiles/update_mappings.dir/build.make third_party/glfw/src/CMakeFiles/update_mappings.dir/build
-.PHONY : update_mappings/fast
-
 context.o: context.c.o
 
 .PHONY : context.o
@@ -631,7 +616,6 @@ help:
 	@echo "... edit_cache"
 	@echo "... install/local"
 	@echo "... glfw"
-	@echo "... update_mappings"
 	@echo "... context.o"
 	@echo "... context.i"
 	@echo "... context.s"

@@ -17,30 +17,27 @@ namespace BYOND{
     
     class Library {
 
-    public:
-        std::ifstream dme;
+
     private:
         ObjectTreeParser parser;
             
     public:
-        void openDME(std::string filepath)
-            {
-                dme = std::ifstream(filepath );
+        void openDME(std::wstring filepath)
                
             
-                // PARSE TREE
-                try {
-                    parser.parseDME(filepath);
-                    parser.tree->completeTree();
-                }
-                catch (const std::runtime_error& ex) {
-                    spdlog::error(ex.what());
-                    parser.tree = nullptr;
-
-                }
-              
+            // PARSE TREE
+            try {
+                parser.parseDME(filepath);
+                parser.tree->completeTree();
+            }
+            catch (const std::runtime_error& ex) {
+                spdlog::error(ex.what());
+                parser.tree = nullptr;
 
             }
+              
+
+     
 
 
     };

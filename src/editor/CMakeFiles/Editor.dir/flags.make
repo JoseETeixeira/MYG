@@ -7,11 +7,11 @@ C_FLAGS =
 
 C_DEFINES = -D_CRT_SECURE_NO_WARNINGS
 
-C_INCLUDES = -I/home/eduardo/Desktop/BYOND/MYG.gg/MYG/third_party/glfw/include -I/home/eduardo/Desktop/BYOND/MYG.gg/MYG/third_party/glfw/deps/glad 
+C_INCLUDES = -I/home/eduardo/Desktop/BYOND/MYG.gg/MYG/third_party/spdlog/include -I/home/eduardo/Desktop/BYOND/MYG.gg/MYG/third_party/glfw/include -I/home/eduardo/Desktop/BYOND/MYG.gg/MYG/third_party/glfw/deps/glad -I/home/eduardo/Desktop/BYOND/MYG.gg/MYG/third_party/imgui 
 
 CXX_FLAGS = -std=c++2a   -std=gnu++2a
 
 CXX_DEFINES = -D_CRT_SECURE_NO_WARNINGS
 
-CXX_INCLUDES = -I/home/eduardo/Desktop/BYOND/MYG.gg/MYG/third_party/glfw/include -I/home/eduardo/Desktop/BYOND/MYG.gg/MYG/third_party/glfw/deps/glad 
+CXX_INCLUDES = -I/home/eduardo/Desktop/BYOND/MYG.gg/MYG/third_party/spdlog/include -I/home/eduardo/Desktop/BYOND/MYG.gg/MYG/third_party/glfw/include -I/home/eduardo/Desktop/BYOND/MYG.gg/MYG/third_party/glfw/deps/glad -I/home/eduardo/Desktop/BYOND/MYG.gg/MYG/third_party/imgui 
 

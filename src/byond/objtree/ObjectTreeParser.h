@@ -41,7 +41,7 @@ namespace BYOND
 
 		ObjectTree* tree;
 
-		std::unordered_map<std::string, std::string> macros = std::unordered_map<std::string, std::string>();
+		std::unordered_map<std::wstring, std::wstring> macros = std::unordered_map<std::wstring, std::wstring>();
 
 
 
@@ -64,32 +64,34 @@ namespace BYOND
 		virtual void parseDME(std::filesystem::path file)
 		{
 			// Parse stddef.dm for macros and such.
+			std::stringstream sstream;
+			sstream << L"stddef.dm";
 
-			std::ifstream  tempVar(Util::getFile("../../resources/stddef.dm"));
-			doSubParse(tempVar, std::filesystem::path("../../resources/stddef.dm"));
+			std::wifstream  tempVar(Util::getFile(sstream.str()));
+			doSubParse(tempVar, std::filesystem::path(L"stddef.dm"));
 
-			std::ifstream tempVar2(file.string());
+			std::wifstream tempVar2(file.string());
 			doParse(tempVar2, file, true);
 		}
 
-		std::string ReplaceAll(std::string str, const std::string& from, const std::string& to) {
+		std::wstring ReplaceAll(std::wstring str, const std::wstring& from, const std::wstring& to) {
 			size_t start_pos = 0;
-			while ((start_pos = str.find(from, start_pos)) != std::string::npos) {
+			while ((start_pos = str.find(from, start_pos)) != std::wstring::npos) {
 				str.replace(start_pos, from.length(), to);
 				start_pos += to.length(); // Handles case where 'to' is a substring of 'from'
 			}
 			return str;
 		}
 
-		std::vector<std::string> split(const std::string& s, const  char* seperator)
+		std::vector<std::wstring> split(const std::wstring& s, const  wchar_t* seperator)
 		{
-			std::vector<std::string> output;
+			std::vector<std::wstring> output;
 
-			std::string::size_type prev_pos = 0, pos = 0;
+			std::wstring::size_type prev_pos = 0, pos = 0;
 
-			while ((pos = s.find(seperator, pos)) != std::string::npos)
+			while ((pos = s.find(seperator, pos)) != std::wstring::npos)
 			{
-				std::string substring(s.substr(prev_pos, pos - prev_pos));
+				std::wstring substring(s.substr(prev_pos, pos - prev_pos));
 
 				output.push_back(substring);
 
@@ -101,39 +103,40 @@ namespace BYOND
 			return output;
 		}
 
-		static inline void ltrim(std::string& s) {
+		static inline void ltrim(std::wstring& s) {
 			s.erase(s.begin(), std::find_if(s.begin(), s.end(), [](unsigned char ch) {
 				return !std::isspace(ch);
 				}));
 		}
 
 		// trim from end (in place)
-		static inline void rtrim(std::string& s) {
+		static inline void rtrim(std::wstring& s) {
 			s.erase(std::find_if(s.rbegin(), s.rend(), [](unsigned char ch) {
 				return !std::isspace(ch);
 				}).base(), s.end());
 		}
 
 		// trim from both ends (in place)
-		static inline void trim(std::string& s) {
+		static inline void trim(std::wstring& s) {
 			ltrim(s);
 			rtrim(s);
 		}
 
-		virtual void doParse(std::ifstream& br, std::filesystem::path currentFile, bool isMainFile)
+		virtual void doParse(std::wifstream& br, std::filesystem::path currentFile, bool isMainFile)
 		{
-			std::string line = "";
-			std::vector<std::string> lines;
-			std::stringstream runOn;
+			std::wifstream wstream;
+			std::wstring line = L"";
+			std::vector<std::wstring> lines;
+			std::wstringstream runOn;
 			int includeCount = 0;
 			// This part turns spaces into tabs, strips all the comments, and puts multiline statements on one line.
 			while (std::getline(br, line))
 			{
 				line = stripComments(line);
-				line = ReplaceAll(line, "\\t", " ");
+				line = ReplaceAll(line, L"\\t", L" ");
 				if (!StringHelper::trim(line).empty())
 				{
-					if (StringHelper::endsWith(line, "\\"))
+					if (StringHelper::endsWith(line, L"\\"))
 					{
 						line = line.substr(0, line.length() - 1);
 						runOn << line;
@@ -141,7 +144,7 @@ namespace BYOND
 					else if (inMultilineString)
 					{
 						runOn << line;
-						runOn << "\\n";
+						runOn << L"\\n";
 					}
 					else if (parenthesisDepth > 0)
 					{
@@ -152,59 +155,63 @@ namespace BYOND
 						runOn << line;
 						line = runOn.str();
 						lines.push_back(line);
-						if (isMainFile && StringHelper::trim(line).rfind("#include", 0) == 0)
+						if (isMainFile && StringHelper::trim(line).find(L"#include", 0) == 0)
 						{
 							includeCount++;
 						}
 					}
 				}
 			}
-			br.close();
 
-			std::vector<std::string> pathTree;
+			std::vector<std::wstring> pathTree;
 
 			int currentInclude = 0;
 
 			if (isMainFile)
 			{
 				spdlog::info("Object Tree Generation");
-				std::thread* t = new std::thread([&]()
-					{
-						spdlog::info(currentFile.string());
-					});
-				t->join();
+			
+				spdlog::info(currentFile.string());
+				
 
-				delete t;
+				//delete t;
 			}
 
 			for (auto line1 : lines)
 			{
 				line = line1;
+				std::stringstream l;
+    			l << line.c_str();
+				spdlog::info("Line: {}", l.str());
 				// Process #include, #define, and #undef
-				if (StringHelper::trim(line).rfind("#", 0) == 0)
+				if (StringHelper::trim(line).find(L"#", 0) == 0)
 				{
 					line = StringHelper::trim(line);
-					if (line.rfind("#include", 0) == 0)
+					if (line.find(L"#include", 0) == 0)
 					{
-						std::string path = "";
-						std::string includeData = split(line, " ")[1];
-						if (includeData.rfind("\"", 0) == 0 || includeData.rfind("<", 0) == 0)
+						std::wstring path = L"";
+						std::wstring includeData = split(line, L" ")[1];
+						if (includeData.find(L"\"", 0) == 0 || includeData.find(L"<", 0) == 0)
 						{
 							// "path\to\file.dm" OR <path\to\library.dme>
 							path = includeData.substr(1, (includeData.length() - 1) - 1);
 						}
 						else
 						{
-							spdlog::error(currentFile.filename().string() + " has an invalid #include statement: " + line);
+							spdlog::error(currentFile.filename().string() + " has an invalid #include statement: ");
 							continue;
 						}
 						if (isMainFile)
 						{
+							std::stringstream ppp;
+    						ppp << path.c_str();
+							spdlog::info("Path : {}",ppp.str());
 							//lbl->setText(path);
 						}
-						if (StringHelper::endsWith(path, ".dm") || StringHelper::endsWith(path, ".dme"))
+						if (StringHelper::endsWith(path, L".dm") || StringHelper::endsWith(path, L".dme"))
 						{
-							std::ifstream includeFile = std::ifstream(Util::getFile(currentFile.parent_path().filename().string()));
+							//std::wstring cfile = .generic_wstring();
+							std::wifstream includeFile = std::wifstream(Util::getFile(currentFile.parent_path().filename().string()));
 
 							doSubParse(includeFile, currentFile.parent_path().filename());
 
@@ -218,18 +225,18 @@ namespace BYOND
 						spdlog::info(currentInclude);
 						spdlog::info(currentFile.string());
 					}
-					else if (StringHelper::startsWith(line, "#define"))
+					else if (StringHelper::startsWith(line, L"#define"))
 					{
-						std::smatch m;
-						std::regex_search(line, m, std::regex("#define +([\\d\\w]+) +(.+)"));
+						std::wsmatch m;
+						std::regex_search(line, m, std::wregex(L"#define +([\\d\\w]+) +(.+)"));
 						if (!m.empty())
 						{
-							std::string group = m[1];
-							if (group == "FILE_DIR")
+							std::wstring group = m[1].str();
+							if (group == L"FILE_DIR")
 							{
-								std::string file_group = m[2];
-								std::smatch quotes;
-								std::regex_search(file_group, quotes, std::regex("^\"(.*)\"$"));
+								std::wstring file_group = m[2].str();
+								std::wsmatch quotes;
+								std::regex_search(file_group, quotes, std::wregex(L"^\"(.*)\"$"));
 								if (!quotes.empty())
 								{
 									// 2 ways this can't happen:
@@ -242,20 +249,20 @@ namespace BYOND
 							}
 							else
 							{
-								std::string group = m[1];
-								std::string value = m[2];
-								value = ReplaceAll(value, "$", "\\$");
+								std::wstring group = m[1].str();
+								std::wstring value = m[2].str();
+								value = ReplaceAll(value, L"$", L"\\$");
 								macros.emplace(group, value);
 							}
 						}
 					}
-					else if (StringHelper::startsWith(line, "#undef"))
+					else if (StringHelper::startsWith(line, L"#undef"))
 					{
-						std::smatch m;
-						std::regex_search(line, m, std::regex("#undef[ \\t]*([\\d\\w]+)"));
-						if (!m.empty() && macros.find(m[1]) != macros.end())
+						std::wsmatch m;
+						std::regex_search(line, m, std::wregex(L"#undef[ \\t]*([\\d\\w]+)"));
+						if (!m.empty() && macros.find(m[1].str()) != macros.end())
 						{
-							macros.erase(m[1]);
+							macros.erase(macros[m[1].str()]);
 						}
 					}
 
@@ -265,7 +272,7 @@ namespace BYOND
 				int level = 0;
 				for (int j = 0; j < line.length(); j++)
 				{
-					if (line[j] == ' ')
+					if (line[j] == L' ')
 					{
 						level++;
 					}
@@ -277,7 +284,7 @@ namespace BYOND
 				// Rebuild the path tree.
 				for (int j = pathTree.size(); j <= level; j++)
 				{
-					pathTree.push_back("");
+					pathTree.push_back(L"");
 				}
 				trim(line);
 				pathTree[level] = cleanPath(line);
@@ -288,62 +295,62 @@ namespace BYOND
 						pathTree.erase(pathTree.begin() + j);
 					}
 				}
-				std::string fullPath = "";
+				std::wstring fullPath = L"";
 				for (auto c : pathTree)
 				{
 					fullPath += c;
 				}
 				// Now, split it again, and rebuild it again, but only figure out how big the object itself is.
-				std::vector<std::string> divided = split(fullPath, "\\/");
-				std::string affectedObjectPath = "";
+				std::vector<std::wstring> divided = split(fullPath, L"\\/");
+				std::wstring affectedObjectPath = L"";
 				for (auto item : divided)
 				{
 					if (item.empty())
 					{
 						continue;
 					}
-					if (StringHelper::toLower(item) == "static" || StringHelper::toLower(item) == ("global") || StringHelper::toLower(item) == ("tmp"))
+					if (StringHelper::toLower(item) == L"static" || StringHelper::toLower(item) == (L"global") || StringHelper::toLower(item) == (L"tmp"))
 					{
 						continue;
 					}
-					if (item == ("proc") || item == ("verb") || item == ("var"))
+					if (item == (L"proc") || item == (L"verb") || item == (L"var"))
 					{
 						break;
 					}
-					if (fullPath.find("=") != std::string::npos)
+					if (fullPath.find(L"=") != std::wstring::npos)
 					{
 						break;
 					}
-					if (fullPath.find("(") != std::string::npos) {
+					if (fullPath.find(L"(") != std::wstring::npos) {
 						break;
 					}
-					affectedObjectPath += "/" + item;
+					affectedObjectPath += L"/" + item;
 				}
 				ObjectTreeItem* item = tree->getOrCreate(affectedObjectPath);
-				if (fullPath.find("(") != std::string::npos && (int)fullPath.find("(") < (int)fullPath.rfind("/"))
+				if (fullPath.find(L"(") != std::wstring::npos && (int)fullPath.find(L"(") < (int)fullPath.find(L"/"))
 				{
 					continue;
 				}
-				fullPath = ReplaceAll(fullPath, "/tmp", ""); // Let's avoid giving a shit about whether the var is tmp, static, or global.
-				fullPath = ReplaceAll(fullPath, "/static", "");
-				fullPath = ReplaceAll(fullPath, "/global", "");
+				fullPath = ReplaceAll(fullPath, L"/tmp", L""); // Let's avoid giving a shit about whether the var is tmp, static, or global.
+				fullPath = ReplaceAll(fullPath, L"/static", L"");
+				fullPath = ReplaceAll(fullPath, L"/global", L"");
 				// Parse the var definitions.
-				if (fullPath.find("var/") != std::string::npos || (fullPath.find("=") != std::string::npos && (fullPath.find("(") != std::string::npos || (int)fullPath.find("(") > (int)fullPath.find("="))))
+				if (fullPath.find(L"var/") != std::wstring::npos || (fullPath.find(L"=") != std::wstring::npos && (fullPath.find(L"(") != std::wstring::npos || (int)fullPath.find(L"(") > (int)fullPath.find(L"="))))
 				{
-					std::string split = fullPath;
-					auto tempVar2 = split.rfind("/") + 1;
-					std::string varname = StringHelper::trim(split.substr(tempVar2, split.length() - (tempVar2)));
+					std::wstring split = fullPath;
+					auto tempVar2 = split.find(L"/") + 1;
+					std::wstring varname = StringHelper::trim(split.substr(tempVar2, split.length() - (tempVar2)));
 					if (split.size() > 1)
 					{
-						std::string val = StringHelper::trim(varname);
-						std::string origVal = "";
+						std::wstring val = StringHelper::trim(varname);
+						std::wstring origVal = L"";
 
 						/*
 						while (origVal != val)
 						{
 							origVal = val;
 							// Trust me, this is the fastest way to parse the macros.
-							Matcher *m = std::regex("(?<![\\d\\w\"])\\w+(?![\\d\\w\"])")->getMatcher(val);
+							Matcher *m = std:::wregex("(?<![\\d\\w\"])\\w+(?![\\d\\w\"])")->getMatcher(val);
 							StringBuilder *outVal = new StringBuilder();
 							while (m->find())
 							{
@@ -402,8 +409,9 @@ namespace BYOND
 		}
 
 	private:
-		void doSubParse(std::ifstream& br, std::filesystem::path currentFile)
+		void doSubParse(std::wifstream& br, std::filesystem::path currentFile)
 		{
+			spdlog::info("Subparse : {}",currentFile.string());
 			ObjectTreeParser* parser = new ObjectTreeParser(tree);
 			parser->macros = macros;
 			parser->doParse(br, currentFile, false);
@@ -412,85 +420,85 @@ namespace BYOND
 		}
 
 	public:
-		virtual std::string stripComments(const std::string& s)
+		virtual std::wstring stripComments(const std::wstring& s)
 		{
-			std::stringstream o;
+			std::wstringstream o;
 			for (int i = 0; i < s.length(); i++)
 			{
-				wchar_t pC = ' ';
+				wchar_t pC = L' ';
 				if (i - 1 >= 0)
 				{
 					pC = s[i - 1];
 				}
-				wchar_t ppC = ' ';
+				wchar_t ppC = L' ';
 				if (i - 2 >= 0)
 				{
 					ppC = s[i - 2];
 				}
 				wchar_t c = s[i];
-				wchar_t nC = ' ';
+				wchar_t nC = L' ';
 				if (i + 1 < s.length())
 				{
 					nC = s[i + 1];
 				}
 				if (!isCommenting)
 				{
-					if (c == '/' && nC == '/' && stringDepth == 0)
+					if (c == L'/' && nC == L'/' && stringDepth == 0)
 					{
 						break;
 					}
-					if (c == '/' && nC == '*' && stringDepth == 0)
+					if (c == L'/' && nC == L'*' && stringDepth == 0)
 					{
 						isCommenting = true;
 						continue;
 					}
-					if (c == '"' && nC == '}' && (pC != '\\' || ppC == '\\') && stringDepth == multilineStringDepth && inMultilineString)
+					if (c == L'"' && nC == L'}' && (pC != L'\\' || ppC == L'\\') && stringDepth == multilineStringDepth && inMultilineString)
 					{
 						inMultilineString = false;
 					}
-					if (c == '"' && (pC != '\\' || ppC == '\\') && stringDepth != stringExpDepth && (!inMultilineString || multilineStringDepth != stringDepth))
+					if (c == L'"' && (pC != L'\\' || ppC == L'\\') && stringDepth != stringExpDepth && (!inMultilineString || multilineStringDepth != stringDepth))
 					{
 						stringDepth--;
 					}
-					else if (c == '"' && stringDepth == stringExpDepth && (!inMultilineString || multilineStringDepth != stringDepth))
+					else if (c == L'"' && stringDepth == stringExpDepth && (!inMultilineString || multilineStringDepth != stringDepth))
 					{
 						stringDepth++;
-						if (pC == '{')
+						if (pC == L'{')
 						{
 							inMultilineString = true;
 							multilineStringDepth = stringDepth;
 						}
 					}
-					if (c == '[' && stringDepth == stringExpDepth)
+					if (c == L'[' && stringDepth == stringExpDepth)
 					{
 						arrayDepth[stringExpDepth]++;
 					}
-					else if (c == '[' && (pC != '\\' || ppC == '\\') && stringDepth != stringExpDepth)
+					else if (c == L'[' && (pC != L'\\' || ppC == L'\\') && stringDepth != stringExpDepth)
 					{
 						stringExpDepth++;
 					}
 
-					if (c == ']' && arrayDepth[stringExpDepth] != 0)
+					if (c == L']' && arrayDepth[stringExpDepth] != 0)
 					{
 						arrayDepth[stringExpDepth]--;
 					}
-					else if (c == ']' && stringDepth > 0 && stringDepth == stringExpDepth)
+					else if (c == L']' && stringDepth > 0 && stringDepth == stringExpDepth)
 					{
 						stringExpDepth--;
 					}
-					if (c == '(' && stringDepth == stringExpDepth)
+					if (c == L'(' && stringDepth == stringExpDepth)
 					{
 						parenthesisDepth++;
 					}
-					if (c == ')' && stringDepth == stringExpDepth)
+					if (c == L')' && stringDepth == stringExpDepth)
 					{
 						parenthesisDepth--;
 					}
-					o << std::to_string(c);
+					o.put(c);
 				}
 				else
 				{
-					if (c == '*' && nC == '/')
+					if (c == L'*' && nC == L'/')
 					{
 						isCommenting = false;
 						i++;
@@ -502,14 +510,14 @@ namespace BYOND
 			return o.str();
 		}
 
-		static std::string cleanPath(std::string& s)
+		static std::wstring cleanPath(std::wstring& s)
 		{
 			// Makes sure that paths start with a slash, and don't end with a slash.
-			if (!s.rfind("/", 0) == 0)
+			if (!s.find(L"/", 0) == 0)
 			{
-				s = "/" + s;
+				s = L"/" + s;
 			}
-			if (s.rfind("/", s.length()) == 0)
+			if (s.find(L"/", s.length()) == 0)
 			{
 				s = s.substr(0, s.length() - 1);
 			}

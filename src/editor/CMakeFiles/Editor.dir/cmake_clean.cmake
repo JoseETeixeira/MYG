@@ -5,6 +5,15 @@ file(REMOVE_RECURSE
   "CMakeFiles/Editor.dir/__/__/third_party/glfw/deps/glad_gl.c.o"
   "CMakeFiles/Editor.dir/__/__/third_party/glfw/deps/glad_vulkan.c.o"
   "CMakeFiles/Editor.dir/__/__/third_party/glfw/deps/tinycthread.c.o"
+  "CMakeFiles/Editor.dir/__/__/third_party/imgui/TextEditor.cpp.o"
+  "CMakeFiles/Editor.dir/__/__/third_party/imgui/imgui.cpp.o"
+  "CMakeFiles/Editor.dir/__/__/third_party/imgui/imgui_demo.cpp.o"
+  "CMakeFiles/Editor.dir/__/__/third_party/imgui/imgui_draw.cpp.o"
+  "CMakeFiles/Editor.dir/__/__/third_party/imgui/imgui_file_browser.cpp.o"
+  "CMakeFiles/Editor.dir/__/__/third_party/imgui/imgui_impl_glfw.cpp.o"
+  "CMakeFiles/Editor.dir/__/__/third_party/imgui/imgui_impl_opengl3.cpp.o"
+  "CMakeFiles/Editor.dir/__/__/third_party/imgui/imgui_tables.cpp.o"
+  "CMakeFiles/Editor.dir/__/__/third_party/imgui/imgui_widgets.cpp.o"
   "CMakeFiles/Editor.dir/editor.cpp.o"
 )
 
