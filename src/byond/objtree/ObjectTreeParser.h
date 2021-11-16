@@ -122,15 +122,15 @@ namespace BYOND
 			rtrim(s);
 		}
 
-		virtual void doParse(std::ifstream& br, std::filesystem::path currentFile, bool isMainFile)
+		virtual void doParse(std::ifstream &br, std::filesystem::path currentFile, bool isMainFile)
 		{
-			std::ifstream wstream;
+			std::ifstream wstream(currentFile.string());
 			std::string line = "";
 			std::vector<std::string> lines;
 			std::stringstream runOn;
 			int includeCount = 0;
 			// This part turns spaces into tabs, strips all the comments, and puts multiline statements on one line.
-			while (std::getline(br, line))
+			while (std::getline(wstream, line))
 			{
 				line = stripComments(line);
 				line = ReplaceAll(line, "\\t", " ");
@@ -209,14 +209,16 @@ namespace BYOND
 						ppp << path.c_str();
 						spdlog::info("Path : {}",path);
 
-						if (StringHelper::endswith(path,".dm")|| StringHelper::endswith(path,".dme") )
+						if (StringHelper::endsWith(path,".dm")|| StringHelper::endsWith(path,".dme") )
 						{
-							spdlog::info("is dm/dme: {}",currentFile.parent_path().filename().string());
+							std::filesystem::path fspath = path;
+							spdlog::info("is dm/dme: {}",fspath.filename().string());
 							//std::string cfile = .generic_wstring();
-							std::ifstream includeFile = std::ifstream(currentFile.parent_path().filename().string());
+							std::filesystem::path cfile = currentFile.root_path().string() + currentFile.relative_path().string()+fspath.string();
+							std::ifstream includeFile = std::ifstream(cfile);
 
-							doSubParse(includeFile, currentFile.parent_path().filename());
-
+							doSubParse(includeFile, cfile);
+							//doParse(includeFile,cfile,false);
 							//JAVA TO C++ CONVERTER TODO TASK: A 'delete includeFile' statement was not added since includeFile was passed to a method or constructor. Handle memory management manually.
 						}
 						if (isMainFile)
@@ -315,7 +317,7 @@ namespace BYOND
 					{
 						continue;
 					}
-					if (StringHelper::toLower(item) == "static" || StringHelper::toLower(item) == ("globa") || StringHelper::toLower(item) == ("tmp"))
+					if (StringHelper::toLower(item) == "static" || StringHelper::toLower(item) == ("global") || StringHelper::toLower(item) == ("tmp"))
 					{
 						continue;
 					}
@@ -339,7 +341,7 @@ namespace BYOND
 				}
 				fullPath = ReplaceAll(fullPath, "/tmp", ""); // Let's avoid giving a shit about whether the var is tmp, static, or global.
 				fullPath = ReplaceAll(fullPath, "/static", "");
-				fullPath = ReplaceAll(fullPath, "/globa", "");
+				fullPath = ReplaceAll(fullPath, "/global", "");
 				// Parse the var definitions.
 				if (fullPath.find("var/") != std::string::npos || (fullPath.find("=") != std::string::npos && (fullPath.find("(") != std::string::npos || (int)fullPath.find("(") > (int)fullPath.find("="))))
 				{
@@ -350,6 +352,7 @@ namespace BYOND
 					{
 						std::string val = StringHelper::trim(varname);
 						std::string origVal = "";
+						spdlog::info("Varname: {}", val);
 
 						/*
 						while (origVal != val)
@@ -415,14 +418,17 @@ namespace BYOND
 		}
 
 	private:
-		void doSubParse(std::ifstream& br, std::filesystem::path currentFile)
+		virtual void doSubParse(std::ifstream &br, std::filesystem::path currentFile)
 		{
+
 			spdlog::info("Subparse : {}",currentFile.string());
 			ObjectTreeParser* parser = new ObjectTreeParser(tree);
+		
+			br = std::ifstream(currentFile.string());
 			parser->macros = macros;
 			parser->doParse(br, currentFile, false);
 
-			delete parser;
+			
 		}
 
 	public:
