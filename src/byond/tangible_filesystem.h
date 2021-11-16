@@ -33,19 +33,19 @@ public:
 		return std::filesystem::is_directory(pathFromString(path));
 	}
 
-	static std::wstring getFullPath(const std::string &path)
+	static std::string getFullPath(const std::string &path)
 	{
-		return std::filesystem::absolute(pathFromString(path)).generic_wstring();
+		return std::filesystem::absolute(pathFromString(path)).generic_string();
 	}
 
-	static std::wstring getFileName(const std::string &path)
+	static std::string getFileName(const std::string &path)
 	{
-		return std::filesystem::path(pathFromString(path)).filename().generic_wstring();
+		return std::filesystem::path(pathFromString(path)).filename().generic_string();
 	}
 
-	static std::wstring getDirectoryName(const std::string &path)
+	static std::string getDirectoryName(const std::string &path)
 	{
-		return std::filesystem::path(pathFromString(path)).parent_path().generic_wstring();
+		return std::filesystem::path(pathFromString(path)).parent_path().generic_string();
 	}
 
 	static wchar_t preferredSeparator()

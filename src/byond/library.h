@@ -22,7 +22,7 @@ namespace BYOND{
         ObjectTreeParser parser;
             
     public:
-        void openDME(std::wstring filepath)
+        void openDME(std::string filepath)
                
             
             // PARSE TREE

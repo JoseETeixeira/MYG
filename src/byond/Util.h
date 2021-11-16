@@ -40,9 +40,9 @@ namespace BYOND
 		 * @return a {@link InputStream} representation of the file passed
 		 */
 	public:
-		static std::wifstream getFile(const std::string &path)
+		static std::ifstream getFile(const std::string &path)
 		{
-			return  std::wifstream(path); 
+			return  std::ifstream(path); 
 		}
 
 		/**
@@ -52,11 +52,12 @@ namespace BYOND
 		 * @return a {@code byte[]} representation of a file.
 		 * @throws IOException
 		 */
-		static std::vector<signed char> getFileAsBytes(const std::wstring &path)
+		/*
+		static std::vector<signed char> getFileAsBytes(const std::string &path)
 		{
 			std::stringstream sstream;
 			sstream << path.c_str();
-			std::wifstream inputStream = getFile(sstream.str());
+			std::ifstream inputStream = getFile(sstream.str());
 			
 			inputStream.seekg(0, std::ios_base::end);
 			size_t length = inputStream.tellg();
@@ -70,7 +71,7 @@ namespace BYOND
 
 		
 			return std::vector<signed char>();
-		}
+		}*/
 
 		/**
 		 * Determines if Windows file system is in use.
@@ -88,13 +89,13 @@ namespace BYOND
 		 * @param path the path to be changed, null ignored
 		 * @return the updated path
 		 */
-		static std::wstring separatorsToUnix(const std::wstring &path)
+		static std::string separatorsToUnix(const std::string &path)
 		{
-			if (path == L"" || path.find(WINDOWS_SEPARATOR) == std::wstring::npos)
+			if (path == "" || path.find(WINDOWS_SEPARATOR) == std::string::npos)
 			{
 				return path;
 			}
-			std::wstring p = path;
+			std::string p = path;
 			return p.replace(WINDOWS_SEPARATOR,UNIX_SEPARATOR,path);
 		}
 
@@ -104,13 +105,13 @@ namespace BYOND
 		 * @param path the path to be changed, null ignored
 		 * @return the updated path
 		 */
-		static std::wstring separatorsToWindows(const std::wstring &path)
+		static std::string separatorsToWindows(const std::string &path)
 		{
-			if (path == L"" || path.find(UNIX_SEPARATOR) == std::wstring::npos)
+			if (path == "" || path.find(UNIX_SEPARATOR) == std::string::npos)
 			{
 				return path;
 			}
-			std::wstring p = path;
+			std::string p = path;
 			return p.replace(UNIX_SEPARATOR,WINDOWS_SEPARATOR,path);
 		}
 
@@ -120,11 +121,11 @@ namespace BYOND
 		 * @param path the path to be changed, null ignored
 		 * @return the updated path
 		 */
-		static std::wstring separatorsToSystem(const std::wstring &path)
+		static std::string separatorsToSystem(const std::string &path)
 		{
-			if (path == L"")
+			if (path == "")
 			{
-				return L"";
+				return "";
 			}
 			if (isWindowsSystem())
 			{

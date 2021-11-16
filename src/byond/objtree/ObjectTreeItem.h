@@ -25,17 +25,17 @@ namespace BYOND
 		}
 
 
-		ObjectTreeItem(ObjectTreeItem *parent, const std::wstring &p):
+		ObjectTreeItem(ObjectTreeItem *parent, const std::string &p):
 			parent(parent)
 		{
 			path = StringHelper::trim(p);
 			this->path = p;
 			this->parent = parent;
-			vars.emplace(L"type", path);
-			std::wstring pp = p.c_str();
+			vars.emplace("type", path);
+			std::string pp = p.c_str();
 			std::stringstream ppp;
 			ppp << pp.c_str();
-			spdlog::info(ppp.str());
+			spdlog::info(path);
 			if (parent != nullptr)
 			{
 				parent->subtypes.push_back(this);
@@ -43,14 +43,14 @@ namespace BYOND
 			instances.push_back(this);
 		}
 
-		ObjectTreeItem(const std::wstring &path)
+		ObjectTreeItem(const std::string &path)
 		{
 			this->path = path;
-			vars.emplace(L"type", path);
+			vars.emplace("type", path);
 			instances.push_back(this);
 		}
 
-		bool istype(const std::wstring &path) override
+		bool istype(const std::string &path) override
 		{
 			if (this->path == path)
 			{
@@ -63,20 +63,20 @@ namespace BYOND
 			return false;
 		}
 
-		virtual void setVar(const std::wstring &key, const std::wstring &value)
+		virtual void setVar(const std::string &key, const std::string &value)
 		{
 			vars.emplace(key, value);
 		}
 
-		virtual void setVar(const std::wstring &key)
+		virtual void setVar(const std::string &key)
 		{
 			if (vars.find(key) == vars.end())
 			{
-				vars.emplace(key, L"null");
+				vars.emplace(key, "nu");
 			}
 		}
 
-		std::wstring getVar(const std::wstring &key) override
+		std::string getVar(const std::string &key) override
 		{
 			if (vars.find(key) != vars.end())
 			{
@@ -86,12 +86,12 @@ namespace BYOND
 			{
 				return parent->getVar(key);
 			}
-			return L"";
+			return "";
 		}
 
-		virtual std::unordered_map<std::wstring, std::wstring> getAllVars()
+		virtual std::unordered_map<std::string, std::string> getAllVars()
 		{
-			std::unordered_map<std::wstring, std::wstring> allVars = std::unordered_map<std::wstring, std::wstring>();
+			std::unordered_map<std::string, std::string> allVars = std::unordered_map<std::string, std::string>();
 			if (parent != nullptr)
 			{
 				for(auto &var : parent->getAllVars()){
@@ -104,10 +104,10 @@ namespace BYOND
 			return allVars;
 		}
 
-		std::wstring path = L"" ;
+		std::string path = "" ;
 		std::vector<ObjectTreeItem*> subtypes;
 		ObjectTreeItem *parent = nullptr;
-		std::unordered_map<std::wstring, std::wstring> vars = std::unordered_map<std::wstring, std::wstring>();
+		std::unordered_map<std::string, std::string> vars = std::unordered_map<std::string, std::string>();
 		std::vector<ObjectTreeItem*> instances;
 
 		virtual void addInstance(ObjectTreeItem *instance)
@@ -146,7 +146,7 @@ namespace BYOND
 //JAVA TO C++ CONVERTER TODO TASK: A 'delete event' statement was not added since event was passed to a method or constructor. Handle memory management manually.
 		}
 
-		virtual std::wstring parentlessName()
+		virtual std::string parentlessName()
 		{
 			if (StringHelper::startsWith(path, parent->path))
 			{
@@ -158,17 +158,17 @@ namespace BYOND
 			}
 		}
 
-		std::wstring typeString() override
+		std::string typeString() override
 		{
 			return path;
 		}
 
-		virtual std::wstring toString()
+		virtual std::string toString()
 		{
 			return path;
 		}
 
-		std::wstring toStringTGM() override
+		std::string toStringTGM() override
 		{
 			return path;
 		}
