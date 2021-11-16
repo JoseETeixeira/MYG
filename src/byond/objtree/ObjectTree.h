@@ -231,6 +231,8 @@ namespace BYOND
 
 			ObjectTreeItem *global = getGlobal();
 
+			spdlog::info("Got global");
+
 
 			for (auto i : items)
 			{
@@ -238,8 +240,11 @@ namespace BYOND
 
 				for (auto e : i.second->vars)
 				{
-					std::string val = e.second;
+					std::stringstream ss;
+					ss << e.second.c_str();
+					std::string val = ss.str();
 					std::string origVal = "";
+					spdlog::info("Val: {}",val);
 					try
 					{
 					while (origVal != val)
@@ -251,46 +256,48 @@ namespace BYOND
 						std::regex_search(val, m, std::regex("(?<![\\d\\w\"/])\\w+(?![\\d\\w\"/])"));
 						for (int i =0; i< m.size(); i++)
 						{
-							if (global->vars.find(m.str(i)) != global->vars.end())
+							if (global->vars.find(m[i].str()) != global->vars.end())
 							{
+								spdlog::info("Entered if");
 								std::string s = outVal.str();
-								std::string varsAtI = global->vars.at(m.str(i));
+								std::string varsAtI = global->vars.at(m[i].str());
 								s = ReplaceAll(s, varsAtI,"");
 								//std::replace(s.begin(), s.end(),s,varsAtI );
 								outVal.str(s);
 							}
 							else
 							{
+								spdlog::info("Entered else");
 								std::string s = outVal.str();
-								std::string varsAtI = m.str(i);
+								std::string varsAtI = m[i].str();
 								s = ReplaceAll(s, varsAtI, "");
 								//std::replace(s.begin(), s.end(),s, m.str(i));
 								outVal.str(s);
 							}
 						}
 						val = outVal.str();
-
+						/*
 						// Parse additions/subtractions.
 						std::regex_search(val, m, std::regex(macroRegex));
 						outVal = std::stringstream();
 						for (int i =0; i< m.size(); i++)
 						{
-							std::string expr = m.str(i+2);
+							std::string expr = m[i+2].str();
 							// If group1 or group3 is a period then this is definitely not a macro and just an eager match.
 							// Didn't feel like fixing the regex above. So this is a temporary fix. -Rockdtben
 							if(expr == "+"){
-								if (m.str(i+1) != "." && m.str(i+3) != ".")
+								if (m[i+1].str() != "." && m[i+3].str() != ".")
 									{
 										std::string s = outVal.str();
-										std::string varsAtI = std::to_string(std::stof(m.str(i + 1)) + std::stof(m.str(i + 3)));
+										std::string varsAtI = std::to_string(std::stof(m[i+1].str()) + std::stof(m[i+3].str()));
 										s = ReplaceAll(s, varsAtI, "");
 										outVal.str(s);
 									}
 							}else if(expr == "-"){
-								if (m.str(i+1) != "." && m.str(i+3) != ".")
+								if (m[i+1].str() != "." && m[i+3].str() != ".")
 									{
 										std::string s = outVal.str();
-										std::string varsAtI = std::to_string(std::stof(m.str(i + 1)) - std::stof(m.str(i + 3)));
+										std::string varsAtI = std::to_string(std::stof(m[i+1].str()) - std::stof(m[i+3].str()));
 										s = ReplaceAll(s, varsAtI, "");
 										outVal.str(s);
 									}
@@ -298,14 +305,14 @@ namespace BYOND
 								
 						}
 						val = outVal.str();
-
+						*/
 						// Parse parentheses
 						std::regex_search(val, m, std::regex("\\(([\\d\\.]+)\\)"));
 						outVal = std::stringstream();
 						for (int i =0; i< m.size(); i++)
 						{
 							std::string s = outVal.str();
-							std::string varsAtI = m.str(i+1);
+							std::string varsAtI = m[i+1].str();
 							s = ReplaceAll(s, varsAtI, "");
 								
 								outVal.str(s);

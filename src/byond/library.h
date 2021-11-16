@@ -19,22 +19,25 @@ namespace BYOND{
 
 
     private:
-        ObjectTreeParser parser;
+        ObjectTreeParser* parser;
+        ObjectTree* tree;
             
     public:
-        void openDME(std::string filepath)
-               
-            
+        void openDME(std::string filepath) {
+            tree = new ObjectTree();
+            parser = new ObjectTreeParser(tree);
             // PARSE TREE
             try {
-                parser.parseDME(filepath);
-                parser.tree->completeTree();
+                parser->parseDME(filepath);
+                //spdlog::info("Tree dump: {}", tree->get(".")->path);
             }
             catch (const std::runtime_error& ex) {
                 spdlog::error(ex.what());
-                parser.tree = nullptr;
+                tree = nullptr;
 
             }
+        }
+
               
 
      
