@@ -29,6 +29,7 @@ namespace BYOND{
             parser->parseDME(filepath);
             spdlog::info("Tree size: {}", parser->tree->items.size());
             parser->tree->completeTree();
+            parser->tree->dumpTree();
                 //tree->completeTree();
                 //spdlog::info("Tree dump: {}", tree->get(".")->path);
             

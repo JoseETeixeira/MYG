@@ -251,18 +251,20 @@ namespace BYOND
 					ss << e.second.c_str();
 					std::string val = ss.str();
 					std::string origVal = "";
-					spdlog::info("Val: {}",val);
-					try
-					{
+					spdlog::info("Var: {}",e.first);
+					
 					while (origVal != val)
 					{
 						origVal = val;
 						// Trust me, this is the fastest way to parse the macros.
+						spdlog::info("START REGEX 1");
 						std::smatch m;
 						std::stringstream outVal;
-						std::regex_search(val, m, std::regex("(?<![\\d\\w\"/])\\w+(?![\\d\\w\"/])"));
+						std::regex_search(val, m, std::regex("\\(?<![\\d\\w\"/]\\)\\w+\\(?![\\d\\w\"/]\\)"));
+						spdlog::info("END REGEX 1");
 						for (int i =0; i< m.size(); i++)
 						{
+							spdlog::info("FOR LOOP REGEX 1");
 							if (global->vars.find(m[i].str()) != global->vars.end())
 							{
 								spdlog::info("Entered if");
@@ -314,10 +316,13 @@ namespace BYOND
 						val = outVal.str();
 						*/
 						// Parse parentheses
+						spdlog::info("START REGEX 2");
 						std::regex_search(val, m, std::regex("\\(([\\d\\.]+)\\)"));
-						outVal = std::stringstream();
+						spdlog::info("END REGEX 2");
+						outVal.str(std::string());
 						for (int i =0; i< m.size(); i++)
 						{
+							spdlog::info("REGEX 2 LOOP ");
 							std::string s = outVal.str();
 							std::string varsAtI = m[i+1].str();
 							s = ReplaceAll(s, varsAtI, "");
@@ -326,24 +331,16 @@ namespace BYOND
 						}
 						val = outVal.str();
 					}
-					}
-					catch (const OutOfMemoryError &ex)
-					{
-						std::stringstream ff;
-						std::stringstream ss;
-						std::stringstream ppp;
-						ff << e.first.c_str();
-						ss << e.second.c_str();
-						ppp << i.second->typeString().c_str();
-						spdlog::error("OUT OF MEMORY PROCESSING ITEM " + ppp.str() + " VAR " + ff.str() + " = " + ss.str());
-					}
+					
 
 					i.second->setVar(e.first, val);
 				}
 			}
+			spdlog::info("Assigning parents/children");
 			// Assign parents/children
 			for (auto i : items)
 			{
+				spdlog::info("{}",i.first);
 				ObjectTreeItem *parent = get(i.second->getVar("parentType"));
 				if (parent != nullptr)
 				{
@@ -363,14 +360,8 @@ namespace BYOND
 			*/
 			
 
-			try
-			{
-				icon_size = std::stoi(get("/world")->getVar("icon_size"));
-			}
-			catch (const NumberFormatException &e)
-			{
-				icon_size = 32;
-			}
+			icon_size = std::stoi(get("/world")->getVar("icon_size"));
+			
 		}
 
 	
