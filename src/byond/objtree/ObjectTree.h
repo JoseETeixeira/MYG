@@ -31,7 +31,7 @@ namespace BYOND
 		// List of all FILE_DIR definitions.
 		// Linked list because it only really gets used for iteration and I'm too lazy to estimate the directory count
 		// So it doesn't reallocate the array a billion times.
-		std::list<std::filesystem::path *> fileDirs = std::list<std::filesystem::path*>();
+		std::list<std::filesystem::path > fileDirs = std::list<std::filesystem::path>();
 
 		//Node<ObjectTreeItem> root = Node<ObjectTreeItem>(ObjectTreeItem(nullptr,""));
 
@@ -129,7 +129,7 @@ namespace BYOND
 			addItem(world);
 
 			// Empty path, this will be resolved as project root by filePath.
-			fileDirs.push_back(new std::filesystem::path(""));
+			fileDirs.push_back(std::filesystem::path(""));
 
 			//delete world;
 //JAVA TO C++ CONVERTER TODO TASK: A 'delete mob' statement was not added since mob was passed to a method or constructor. Handle memory management manually.
@@ -472,10 +472,10 @@ namespace BYOND
 		virtual std::wstring filePath(const std::wstring &filePath)
 		{
 			std::wstringstream ss;
-			for (std::filesystem::path* path : fileDirs)
+			for (std::filesystem::path path : fileDirs)
 			{
-				std::filesystem::path newPath = (path->relative_path()).append(filePath);
-				std::filesystem::path rootPath = path->root_path();
+				std::filesystem::path newPath = (path.relative_path()).append(filePath);
+				std::filesystem::path rootPath = path.root_path();
 				
 				ss << newPath.relative_path();
 				// Ding ding ding we got a winner!

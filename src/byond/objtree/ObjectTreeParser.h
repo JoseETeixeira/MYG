@@ -186,9 +186,11 @@ namespace BYOND
 				// Process #include, #define, and #undef
 				if (StringHelper::trim(line).find(L"#", 0) == 0)
 				{
+					spdlog::info("is define or include");
 					line = StringHelper::trim(line);
 					if (line.find(L"#include", 0) == 0)
 					{
+						spdlog::info("is include");
 						std::wstring path = L"";
 						std::wstring includeData = split(line, L" ")[1];
 						if (includeData.find(L"\"", 0) == 0 || includeData.find(L"<", 0) == 0)
@@ -201,17 +203,16 @@ namespace BYOND
 							spdlog::error(currentFile.filename().string() + " has an invalid #include statement: ");
 							continue;
 						}
-						if (isMainFile)
+
+						std::stringstream ppp;
+						ppp << path.c_str();
+						spdlog::info("Path : {}",ppp.str());
+
+						if (path.find(L".dm",path.length()) == 0 || path.find(L".dme",path.length()) == 0 )
 						{
-							std::stringstream ppp;
-    						ppp << path.c_str();
-							spdlog::info("Path : {}",ppp.str());
-							//lbl->setText(path);
-						}
-						if (StringHelper::endsWith(path, L".dm") || StringHelper::endsWith(path, L".dme"))
-						{
+							spdlog::info("is dm/dme: {}",currentFile.parent_path().filename().string());
 							//std::wstring cfile = .generic_wstring();
-							std::wifstream includeFile = std::wifstream(Util::getFile(currentFile.parent_path().filename().string()));
+							std::wifstream includeFile = std::wifstream(currentFile.parent_path().filename().string());
 
 							doSubParse(includeFile, currentFile.parent_path().filename());
 
@@ -225,8 +226,9 @@ namespace BYOND
 						spdlog::info(currentInclude);
 						spdlog::info(currentFile.string());
 					}
-					else if (StringHelper::startsWith(line, L"#define"))
+					else if (line.find(L"#define", 0) == 0)
 					{
+						spdlog::info("Is define");
 						std::wsmatch m;
 						std::regex_search(line, m, std::wregex(L"#define +([\\d\\w]+) +(.+)"));
 						if (!m.empty())
@@ -234,16 +236,19 @@ namespace BYOND
 							std::wstring group = m[1].str();
 							if (group == L"FILE_DIR")
 							{
+								spdlog::info("Is FILE FIR");
 								std::wstring file_group = m[2].str();
 								std::wsmatch quotes;
 								std::regex_search(file_group, quotes, std::wregex(L"^\"(.*)\"$"));
 								if (!quotes.empty())
 								{
 									// 2 ways this can't happen:
-									//std::string quotes_group = quotes.str(1);
+									std::wstring quotes_group = quotes[1];
+									std::stringstream ss;
+									ss << quotes_group.c_str();
 									// Somebody intentionally placed broken FILE_DIR defines.
 									// It's the . FILE_DIR, which has no quotes, and we don't need.
-									//tree->fileDirs.push_back(std::filesystem::path(Util::separatorsToSystem(quotes_group)));
+									tree->fileDirs.push_back(std::filesystem::path(ss.str()));
 								}
 
 							}
@@ -256,7 +261,7 @@ namespace BYOND
 							}
 						}
 					}
-					else if (StringHelper::startsWith(line, L"#undef"))
+					else if (line.find(L"#undef",0) == 0)
 					{
 						std::wsmatch m;
 						std::regex_search(line, m, std::wregex(L"#undef[ \\t]*([\\d\\w]+)"));
