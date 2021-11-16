@@ -213,8 +213,8 @@ namespace BYOND
 						{
 							std::filesystem::path fspath = path;
 							spdlog::info("is dm/dme: {}",fspath.filename().string());
-							//std::string cfile = .generic_wstring();
-							std::filesystem::path cfile = currentFile.root_path().string() + currentFile.relative_path().string()+fspath.string();
+							std::string sfile = ReplaceAll(currentFile.relative_path().string(),currentFile.filename().string(), "/");
+							std::filesystem::path cfile = currentFile.root_path().string() + sfile + fspath.string();
 							std::ifstream includeFile = std::ifstream(cfile);
 
 							doSubParse(includeFile, cfile);
