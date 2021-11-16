@@ -160,6 +160,7 @@ namespace BYOND
 							includeCount++;
 						}
 					}
+					runOn.str(std::string());
 				}
 			}
 
@@ -208,7 +209,7 @@ namespace BYOND
 						ppp << path.c_str();
 						spdlog::info("Path : {}",path);
 
-						if (path.find(".dm",path.length()) == 0 || path.find(".dme",path.length()) == 0 )
+						if (StringHelper::endswith(path,".dm")|| StringHelper::endswith(path,".dme") )
 						{
 							spdlog::info("is dm/dme: {}",currentFile.parent_path().filename().string());
 							//std::string cfile = .generic_wstring();

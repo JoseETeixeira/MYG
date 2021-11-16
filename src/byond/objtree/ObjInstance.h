@@ -486,7 +486,7 @@ namespace BYOND
 						return cachedColor;
 					}
 				}
-				if (var != "" && var != "nu")
+				if (var != "" && var != "null")
 				{
 					spdlog::error("Unrecognized color ");
 				}

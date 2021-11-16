@@ -43,25 +43,25 @@ namespace BYOND
 			// Default datums
 
 			ObjectTreeItem *datum = new ObjectTreeItem(nullptr, "/datum");
-			datum->setVar("tag","nu");
+			datum->setVar("tag","null");
 			addItem(datum);
 
 			ObjectTreeItem *atom = new ObjectTreeItem(datum, "/atom");
 			atom->setVar("alpha", "255");
 			atom->setVar("appearance_flags", "0");
 			atom->setVar("blend_mode", "0");
-			atom->setVar("color", "nu");
+			atom->setVar("color", "null");
 			atom->setVar("density", "0");
-			atom->setVar("desc", "nu");
+			atom->setVar("desc", "null");
 			atom->setVar("dir", "2");
 			atom->setVar("gender", "neuter");
-			atom->setVar("icon", "nu");
-			atom->setVar("icon_state", "nu");
+			atom->setVar("icon", "null");
+			atom->setVar("icon_state", "null");
 			atom->setVar("infra_luminosity", "0");
 			atom->setVar("invisibility", "0");
 			atom->setVar("layer", "1");
 			atom->setVar("luminosity", "0");
-			atom->setVar("maptext", "nu");
+			atom->setVar("maptext", "null");
 			atom->setVar("maptext_width", "32");
 			atom->setVar("maptext_height", "32");
 			atom->setVar("maptext_x", "0");
@@ -71,7 +71,7 @@ namespace BYOND
 			atom->setVar("mouse_drop_zone", "0");
 			atom->setVar("mouse_opacity", "1");
 			atom->setVar("mouse_over_pointer", "0");
-			atom->setVar("name", "nu");
+			atom->setVar("name", "null");
 			atom->setVar("opacity", "0");
 			atom->setVar("overlays", "list()");
 			atom->setVar("override", "0");
@@ -79,8 +79,8 @@ namespace BYOND
 			atom->setVar("pixel_y", "0");
 			atom->setVar("pixel_z", "0");
 			atom->setVar("plane", "0");
-			atom->setVar("suffix", "nu");
-			atom->setVar("transform", "nu");
+			atom->setVar("suffix", "null");
+			atom->setVar("transform", "null");
 			atom->setVar("underlays", "list()");
 			atom->setVar("verbs", "list()");
 			addItem(atom);
@@ -92,7 +92,7 @@ namespace BYOND
 			movable->setVar("bound_width", "32");
 			movable->setVar("bound_height", "32");
 			movable->setVar("glide_size", "0");
-			movable->setVar("screen_loc", "nu");
+			movable->setVar("screen_loc", "null");
 			movable->setVar("step_size", "32");
 			movable->setVar("step_x", "0");
 			movable->setVar("step_y", "0");
@@ -112,9 +112,9 @@ namespace BYOND
 			addItem(obj);
 
 			ObjectTreeItem *mob = new ObjectTreeItem(movable, "/mob");
-			mob->setVar("ckey", "nu");
+			mob->setVar("ckey", "null");
 			mob->setVar("density", "1");
-			mob->setVar("key", "nu");
+			mob->setVar("key", "null");
 			mob->setVar("layer", "4");
 			mob->setVar("see_in_dark", "2");
 			mob->setVar("see_infrared", "0");
