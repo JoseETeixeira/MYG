@@ -359,8 +359,10 @@ namespace BYOND
 			}
 			*/
 			
-
-			icon_size = std::stoi(get("/world")->getVar("icon_size"));
+			std::stringstream intValue(get("/world")->getVar("icon_size"));
+			int number = 0;
+			intValue >> number;
+			icon_size = number;
 			
 		}
 
