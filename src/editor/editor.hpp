@@ -6,24 +6,25 @@
 #include <streambuf>
 
 #pragma once
+
+#include "../../third_party/glfw/deps/glad/gl.h"
+
+#define GLFW_INCLUDE_NONE
+#include <GLFW/glfw3.h>
 #include "imgui.h"
 #include "imgui_impl_glfw.h"
 #include "imgui_impl_opengl3.h"
-#include "TextEditor.h"
-#include "imgui_file_browser.h"
-#include "../../third_party/glfw/deps/glad/gl.h"
-#include "../byond/library.h"
-#include "../byond/stringhelper.h"
-#define GLFW_INCLUDE_NONE
-#include <GLFW/glfw3.h>
- 
+#include "code_editor_interface.h"
+
 #if defined(_MSC_VER) && (_MSC_VER >= 1900) && !defined(IMGUI_DISABLE_WIN32_FUNCTIONS)
 #pragma comment(lib, "legacy_stdio_definitions")
 #endif
  
 
 
-namespace myg{
+namespace MYG{
+
+    class CodeEditorInterface;
 
     static void error_callback(int error, const char* description)
     {
@@ -41,30 +42,27 @@ namespace myg{
         private:
             GLFWwindow* window;
 
-            TextEditor editor;
+           
 
             int xpos,ypos,width,height;
 
             const char* glsl_version = "#version 130";
+            
 
-            bool show_demo_window = true;
-            bool show_another_window = false;
-            ImVec4 clear_color = ImVec4(0.07f,0.13f,0.17f,1.0f);
+            CodeEditorInterface *codeInterface = nullptr;
 
-            BYOND::Library library;
+            ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
 
             void InitializeGLFW(bool fullscreen);
 
             void InitializeImGUI();
-
-            std::string fileToEdit = "";
-            void setEditorFile(std::string fileToEdit);
 
 
             void MainLoop();
 
 
         public:
+
             Editor();
             ~Editor();
 
