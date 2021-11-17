@@ -166,8 +166,8 @@ namespace BYOND
 				parentPath = "/datum";
 			}
 			ObjectTreeItem *parentItem = getOrCreate(parentPath);
-			ObjectTreeItem item = ObjectTreeItem(parentItem, path);
-			items.emplace(path, &item);
+			ObjectTreeItem *item = new ObjectTreeItem(parentItem, path);
+			items.emplace(path, item);
 
 //JAVA TO C++ CONVERTER TODO TASK: A 'delete item' statement was not added since item was passed to a method or constructor. Handle memory management manually.
 			return items[path];

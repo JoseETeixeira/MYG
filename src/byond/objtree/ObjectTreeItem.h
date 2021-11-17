@@ -65,28 +65,52 @@ namespace BYOND
 
 		virtual void setVar(const std::string &key, const std::string &value)
 		{
-			vars.emplace(key, value);
+			
+			vars.try_emplace(key, value);
+			
+			
+		
 		}
 
 		virtual void setVar(const std::string &key)
 		{
 			if (vars.find(key) == vars.end())
 			{
-				vars.emplace(key, "null");
+				vars.try_emplace(key, "null");
 			}
 		}
 
-		std::string getVar(const std::string &key) override
+		virtual std::string getVar(const std::string &key) 
 		{
-			if (vars.find(key) != vars.end())
-			{
-				return vars[key];
+			std::string ret = "";
+			try{
+				if(key == "parentType"){
+					if(parent != nullptr)
+						return parent->getVar("type");
+					return "";
+				}
+				else if(!key.empty()){
+					if(!vars.empty()){
+						std::string current_value = vars.at(key);
+						if(!current_value.empty()){
+							return current_value;
+						}
+					}
+					
+					if(parent != nullptr)
+						return parent->getVar(key);
+				}else{
+					return "";
+				}
+				
+				
+			}catch(...){
+				spdlog::error("getVar problem at var {}",key);
+				return "";
 			}
-			if (parent != nullptr)
-			{
-				return parent->getVar(key);
-			}
-			return "";
+			
+
+			
 		}
 
 		virtual std::unordered_map<std::string, std::string> getAllVars()

@@ -343,13 +343,11 @@ namespace BYOND
 					{
 						break;
 					}
-					if (fullPath.find("=") != std::string::npos)
+					if (fullPath.find("=") != std::string::npos || fullPath.find("(") != std::string::npos)
 					{
 						break;
 					}
-					if (fullPath.find("(") != std::string::npos) {
-						break;
-					}
+					
 					affectedObjectPath += "/" + item;
 				}
 				ObjectTreeItem* item = tree->getOrCreate(affectedObjectPath);
@@ -361,7 +359,7 @@ namespace BYOND
 				fullPath = ReplaceAll(fullPath, "/static", "");
 				fullPath = ReplaceAll(fullPath, "/global", "");
 				// Parse the var definitions.
-				if (fullPath.find("var/") != std::string::npos || (fullPath.find("=") != std::string::npos && (fullPath.find("(") != std::string::npos || (int)fullPath.find("(") > (int)fullPath.find("="))))
+				if (fullPath.find("var/") != std::string::npos || (fullPath.find("=") != std::string::npos && (fullPath.find("(") == std::string::npos || (int)fullPath.find("(") > (int)fullPath.find("="))))
 				{
 					std::vector<std::string> splits = split(fullPath, "=");
 					//auto tempVar2 = split.find("/") + 1;
@@ -370,42 +368,42 @@ namespace BYOND
 					std::string varname = tmpvar;
 					if (splits.size() > 1)
 					{
+						
 						std::string val = StringHelper::trim(splits[1]);
 						std::string origVal = "";
-						spdlog::info("Varname: {}", val);
+						spdlog::info("Varname: {}", varname);
 
+						origVal = val;
+						// Trust me, this is the fastest way to parse the macros.
 						
-						while (origVal != val)
-						{
+						
+						while (strcmp(origVal.c_str(),val.c_str()) != 0) {
 							origVal = val;
 							// Trust me, this is the fastest way to parse the macros.
-							std::smatch matcher;
-							std::regex_search(val, matcher, std::regex("(?<![\\d\\w\"])\\w+(?![\\d\\w\"])"));
+							std::smatch m;
+							std::regex_search(val, m, std::regex("(?![\\d\\w\"])\\w+(?![\\d\\w\"])"));
 							std::stringstream outVal;
-							for(int i = 0; i <  matcher.size() ; i++)
-							{
-							
-								if (macros.find(matcher[i].str()) != macros.end())
-								{
-									std::string s = outVal.str();
+							while (m.size() > 0) {
+								std::string mz = m[0].str();
+								std::string sov = outVal.str();
+								if (macros.find(mz)!= macros.end())
+									std::regex_search(sov, m, std::regex(macros[mz]));
 									
-									std::string macrosAtI = macros.at(matcher[i].str());
-									s = ReplaceAll(s, macrosAtI,"");
-									outVal.str(s);
-								}
-								else
-								{
-									std::string s = outVal.str();
-									std::string macrosAtI = matcher[i].str();
-									s = ReplaceAll(s, macrosAtI,"");
-									outVal.str(s);
+								else{
+									std::string s = mz;
+								
+									std::regex_search(sov, m, std::regex(s));
 								}
 							}
-							
 							val = outVal.str();
 						}
+					
+						
+						spdlog::info("Varname/Val: {}/{}",varname,val);
+					
 						
 						
+						/*
 						// Parse additions.
 						std::smatch m;
 						std::regex_search(val, m, std::regex("([\\d\\.]+)[ \\t]*\\+[ \\t]*([\\d\\.]+)"));
@@ -432,8 +430,9 @@ namespace BYOND
 						}
 						
 						val = outVal.str();
+						*/
 						
-
+						//item->vars[varname] = val;
 						item->setVar(varname, val);
 					}
 					else
@@ -467,6 +466,7 @@ namespace BYOND
 			br = std::ifstream(currentFile.string());
 			parser->macros = macros;
 			parser->doParse(br, currentFile, false);
+			delete parser;
 
 			
 		}
