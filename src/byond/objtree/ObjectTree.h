@@ -65,6 +65,7 @@ namespace BYOND
 			atom->setVar("gender", "neuter");
 			atom->setVar("icon", "null");
 			atom->setVar("icon_state", "null");
+			atom->setVar("icon_size", "32");
 			atom->setVar("infra_luminosity", "0");
 			atom->setVar("invisibility", "0");
 			atom->setVar("layer", "1");
@@ -190,7 +191,7 @@ namespace BYOND
 			items.emplace(item->path, item);
 		}
 
-		void dumpTree()
+		virtual void dumpTree()
 		{
 			spdlog::info("Begin Tree dump");
 			for (auto item : items)
