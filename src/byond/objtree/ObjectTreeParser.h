@@ -214,20 +214,25 @@ namespace BYOND
 							std::filesystem::path fspath = path;
 							spdlog::info("is dm/dme: {}",fspath.filename().string());
 							std::filesystem::path cfile;
+							
+							std::string sfile = ReplaceAll(currentFile.relative_path().string(),currentFile.filename().string(),"");
+							std::string scfile = currentFile.root_path().string() + sfile + fspath.string();
+
 							#ifdef __GNUC__
 								#define LINUX
 							#else
 								#define WINDOWS
 							#endif
 							#ifdef WINDOWS
-								std::string sfile = ReplaceAll(currentFile.relative_path().string(),currentFile.filename().string(), "\\");
-								cfile = currentFile.root_path().string() + sfile + fspath.string();
+								scfile = ReplaceAll(scfile,"/", "\\");
 							#endif
 							#ifdef LINUX
-								std::string sfile = ReplaceAll(currentFile.relative_path().string(),currentFile.filename().string(), "/");
-								cfile = currentFile.root_path().string() + sfile + fspath.string();
+								scfile = ReplaceAll(scfile,"\\","/");
 							#endif
-							std::ifstream includeFile = std::ifstream(cfile);
+
+							cfile = scfile;
+							spdlog::info(cfile.string());
+;							std::ifstream includeFile = std::ifstream(cfile);
 							doSubParse(includeFile, cfile);
 							//doParse(includeFile,cfile,false);
 							//JAVA TO C++ CONVERTER TODO TASK: A 'delete includeFile' statement was not added since includeFile was passed to a method or constructor. Handle memory management manually.
