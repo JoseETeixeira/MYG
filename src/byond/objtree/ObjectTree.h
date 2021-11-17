@@ -37,6 +37,14 @@ namespace BYOND
 
 		int icon_size = 0;
 
+		struct less_than_key
+		{
+			inline bool operator() (const ObjectTreeItem* struct1, const ObjectTreeItem* struct2)
+			{
+				return (strcmp(struct1->path.c_str(),struct2->path.c_str()) < 0);
+			}
+		};
+
 
 		ObjectTree()
 		{
@@ -285,10 +293,10 @@ namespace BYOND
 							}
 						}
 						val = outVal.str();
-						/*
+						
 						// Parse additions/subtractions.
 						std::regex_search(val, m, std::regex(macroRegex));
-						outVal = std::stringstream();
+						outVal.str(std::string());
 						for (int i =0; i< m.size(); i++)
 						{
 							std::string expr = m[i+2].str();
@@ -298,7 +306,8 @@ namespace BYOND
 								if (m[i+1].str() != "." && m[i+3].str() != ".")
 									{
 										std::string s = outVal.str();
-										std::string varsAtI = std::to_string(std::stof(m[i+1].str()) + std::stof(m[i+3].str()));
+										float sum = std::stof(m[i+1].str()) + std::stof(m[i+3].str());
+										std::string varsAtI = std::to_string(sum);
 										s = ReplaceAll(s, varsAtI, "");
 										outVal.str(s);
 									}
@@ -306,7 +315,8 @@ namespace BYOND
 								if (m[i+1].str() != "." && m[i+3].str() != ".")
 									{
 										std::string s = outVal.str();
-										std::string varsAtI = std::to_string(std::stof(m[i+1].str()) - std::stof(m[i+3].str()));
+										float subtraction = std::stof(m[i+1].str()) - std::stof(m[i+3].str());
+										std::string varsAtI = std::to_string(subtraction);
 										s = ReplaceAll(s, varsAtI, "");
 										outVal.str(s);
 									}
@@ -314,7 +324,7 @@ namespace BYOND
 								
 						}
 						val = outVal.str();
-						*/
+						
 						// Parse parentheses
 						spdlog::info("START REGEX 2");
 						std::regex_search(val, m, std::regex("\\(([\\d\\.]+)\\)"));
@@ -349,15 +359,15 @@ namespace BYOND
 				}
 			}
 			// Sort children
-			/*
+			
 			for (auto i : items)
 			{
-				std::sort(i.second->subtypes.begin(), i.second->subtypes.end(),[&] (ObjectTreeItem *arg0, ObjectTreeItem *arg1)
+				std::sort(i.second->subtypes.begin(), i.second->subtypes.end(), [&](const ObjectTreeItem* struct1, const ObjectTreeItem* struct2)
 				{
-				 std::strcmp(arg0->path.c_str(),arg1->path.c_str());
+					return (strcmp(struct1->path.c_str(), struct2->path.c_str()) < 0);
 				});
 			}
-			*/
+			
 			
 			std::stringstream intValue(get("/world")->getVar("icon_size"));
 			int number = 0;
