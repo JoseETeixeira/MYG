@@ -138,7 +138,8 @@ namespace MYG{
 
         ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
 
-        codeInterface = new CodeEditorInterface(window,xpos,ypos,width,height);
+        codeInterface = new CodeEditorInterface(window,library,xpos,ypos,width,height);
+        mapInterface = new MapEditorInterface(window,library,xpos,ypos,width,height);
         
     }
 
@@ -232,6 +233,8 @@ namespace MYG{
            
             codeInterface->mainLoop();
 
+            mapInterface->mainLoop();
+
     
 
 
@@ -254,7 +257,7 @@ namespace MYG{
 
     Editor::~Editor(){
         delete codeInterface;
-
+        delete mapInterface;
         //Delete the window before ending the program
         glfwDestroyWindow(window);
         //Terminate GLFW before ending
@@ -263,6 +266,7 @@ namespace MYG{
     }
 
     Editor::Editor(){
+        library = new BYOND::Library();
         //We initialize GLFW with the default false value for fullscreen (editor does not go fullscreen)
         InitializeGLFW(false);
         InitializeImGUI();

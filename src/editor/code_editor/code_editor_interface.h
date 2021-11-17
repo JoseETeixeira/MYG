@@ -24,18 +24,19 @@ class CodeEditorInterface{
 private:
    
     std::string fileToEdit = "";
-    BYOND::Library library;
+    BYOND::Library *library;
     GLFWwindow* window;
     
 
 public:
+    
     imgui_ext::file_browser *fileBrowser;
     TextEditor editor;
     int xpos,ypos,width,height;
     ImVec4 clear_color = ImVec4(0.07f,0.13f,0.17f,1.0f);
    
-    CodeEditorInterface( GLFWwindow* window,int xpos,int ypos,int width,int height):
-    window(window),xpos(xpos),ypos(ypos),width(width),height(height)
+    CodeEditorInterface( GLFWwindow* window,BYOND::Library *library,int xpos,int ypos,int width,int height):
+    window(window), library(library),xpos(xpos),ypos(ypos),width(width),height(height)
     {
         auto lang = TextEditor::LanguageDefinition::DM();
 
@@ -66,7 +67,7 @@ public:
             w << fileToEdit.c_str();
             if(StringHelper::endsWith(w.str(), ".dme")){
                 
-                library.openDME(w.str());
+                library->openDME(w.str());
             }
             std::ifstream t(fileToEdit);
             if (t.good())
@@ -88,6 +89,8 @@ public:
 
             // Had to use this awkward approach to get the menu item to open the pop-up modal.
 
+
+            //FILE AND OBJECT BROWSER
             std::string path;
             if (fileBrowser->render(true, path)) {
                 // The "path" string will hold a valid file path here.

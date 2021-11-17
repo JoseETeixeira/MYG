@@ -36,7 +36,7 @@ file(GLOB IMGUI_SOURCE_FILES "../../third_party/imgui/*.cpp" )
 
 # Font Awesome
 
-file(GLOB FA_HEADER_FILES "../../third_party/fonts/*" )
+file(GLOB FA_HEADER_FILES "../../third_party/fonts/*.h" )
 
 add_executable(Editor ${MAIN_CPP} ${SOURCE} ${GLAD_SOURCE} ${FA_HEADER_FILES} ${MAIN_HEADER} ${GLAD_HEADERS} ${IMGUI_HEADER_FILES} ${IMGUI_SOURCE_FILES})
 

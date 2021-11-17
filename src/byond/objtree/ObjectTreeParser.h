@@ -227,15 +227,15 @@ namespace BYOND
 				line = line1;
 				std::stringstream l;
     			l << line.c_str();
-				spdlog::info("Line: {}", line);
+				//spdlog::info("Line: {}", line);
 				// Process #include, #define, and #undef
 				if (StringHelper::trim(line).find("#", 0) == 0)
 				{
-					spdlog::info("is define or include");
+					//spdlog::info("is define or include");
 					line = StringHelper::trim(line);
 					if (line.find("#include", 0) == 0)
 					{
-						spdlog::info("is include");
+						//spdlog::info("is include");
 						std::string path = "";
 						std::string includeData = split(line, " ")[1];
 						if (includeData.find("\"", 0) == 0 || includeData.find("<", 0) == 0)
@@ -251,12 +251,12 @@ namespace BYOND
 
 						std::stringstream ppp;
 						ppp << path.c_str();
-						spdlog::info("Path : {}",path);
+						//spdlog::info("Path : {}",path);
 
 						if (StringHelper::endsWith(path,".dm")|| StringHelper::endsWith(path,".dme") )
 						{
 							std::filesystem::path fspath = path;
-							spdlog::info("is dm/dme: {}",fspath.filename().string());
+							//spdlog::info("is dm/dme: {}",fspath.filename().string());
 							std::filesystem::path cfile;
 							
 							std::string sfile = ReplaceAll(currentFile.relative_path().string(),currentFile.filename().string(),"");
@@ -275,7 +275,7 @@ namespace BYOND
 							#endif
 
 							cfile = scfile;
-							spdlog::info(cfile.string());
+							//spdlog::info(cfile.string());
 							std::ifstream includeFile = std::ifstream(cfile);
 
 						
@@ -294,7 +294,7 @@ namespace BYOND
 							currentInclude++;
 							
 						}
-						spdlog::info(currentInclude);
+						//spdlog::info(currentInclude);
 						spdlog::info(currentFile.string());
 					}
 					else if (line.find("#define", 0) == 0)
@@ -421,7 +421,7 @@ namespace BYOND
 						
 						std::string val = StringHelper::trim(splits[1]);
 						std::string origVal = "";
-						spdlog::info("Varname: {}", varname);
+						//spdlog::info("Varname: {}", varname);
 
 						origVal = val;
 						// Trust me, this is the fastest way to parse the macros.
@@ -449,7 +449,7 @@ namespace BYOND
 						}
 					
 						
-						spdlog::info("Varname/Val: {}/{}",varname,val);
+						//spdlog::info("Varname/Val: {}/{}",varname,val);
 					
 						
 						

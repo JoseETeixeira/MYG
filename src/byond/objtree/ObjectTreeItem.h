@@ -84,12 +84,12 @@ namespace BYOND
 		{
 			std::string ret = "";
 			try{
-				if(key == "parentType"){
-					if(parent != nullptr)
-						return parent->getVar("type");
-					return "";
-				}
-				else if(!key.empty()){
+				//if(key == "parentType"){
+				//	if(parent != nullptr)
+					//	return parent->getVar("type");
+				//	return "";
+				//}
+				if(!key.empty()){
 					if(!vars.empty()){
 						std::string current_value = vars.at(key);
 						if(!current_value.empty()){

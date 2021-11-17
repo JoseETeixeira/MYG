@@ -15,6 +15,9 @@
 #include "imgui_impl_glfw.h"
 #include "imgui_impl_opengl3.h"
 #include "code_editor/code_editor_interface.h"
+#include "map_editor/map_editor_interface.h"
+#include "../byond/library.h"
+#include "../byond/stringhelper.h"
 
 #if defined(_MSC_VER) && (_MSC_VER >= 1900) && !defined(IMGUI_DISABLE_WIN32_FUNCTIONS)
 #pragma comment(lib, "legacy_stdio_definitions")
@@ -25,6 +28,7 @@
 namespace MYG{
 
     class CodeEditorInterface;
+    class MapEditorInterface;
 
     static void error_callback(int error, const char* description)
     {
@@ -43,6 +47,7 @@ namespace MYG{
             GLFWwindow* window;
 
            
+            BYOND::Library *library;
 
             int xpos,ypos,width,height;
 
@@ -50,6 +55,8 @@ namespace MYG{
             
 
             CodeEditorInterface *codeInterface = nullptr;
+
+            MapEditorInterface *mapInterface = nullptr;
 
             ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
 

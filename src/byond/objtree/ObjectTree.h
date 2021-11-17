@@ -266,17 +266,17 @@ namespace BYOND
 					{
 						origVal = val;
 						// Trust me, this is the fastest way to parse the macros.
-						spdlog::info("START REGEX 1");
+						//spdlog::info("START REGEX 1");
 						std::smatch m;
 						std::stringstream outVal;
 						std::regex_search(val, m, std::regex("\\(?<![\\d\\w\"/]\\)\\w+\\(?![\\d\\w\"/]\\)"));
-						spdlog::info("END REGEX 1");
+						//spdlog::info("END REGEX 1");
 						for (int i =0; i< m.size(); i++)
 						{
-							spdlog::info("FOR LOOP REGEX 1");
+							//spdlog::info("FOR LOOP REGEX 1");
 							if (global->vars.find(m[i].str()) != global->vars.end())
 							{
-								spdlog::info("Entered if");
+								//spdlog::info("Entered if");
 								std::string s = outVal.str();
 								std::string varsAtI = global->vars.at(m[i].str());
 								s = ReplaceAll(s, varsAtI,"");
@@ -285,7 +285,7 @@ namespace BYOND
 							}
 							else
 							{
-								spdlog::info("Entered else");
+								//spdlog::info("Entered else");
 								std::string s = outVal.str();
 								std::string varsAtI = m[i].str();
 								s = ReplaceAll(s, varsAtI, "");
@@ -327,13 +327,13 @@ namespace BYOND
 						val = outVal.str();
 						
 						// Parse parentheses
-						spdlog::info("START REGEX 2");
+						//spdlog::info("START REGEX 2");
 						std::regex_search(val, m, std::regex("\\(([\\d\\.]+)\\)"));
-						spdlog::info("END REGEX 2");
+						//spdlog::info("END REGEX 2");
 						outVal.str(std::string());
 						for (int i =0; i< m.size(); i++)
 						{
-							spdlog::info("REGEX 2 LOOP ");
+							//spdlog::info("REGEX 2 LOOP ");
 							std::string s = outVal.str();
 							std::string varsAtI = m[i+1].str();
 							s = ReplaceAll(s, varsAtI, "");
@@ -351,7 +351,7 @@ namespace BYOND
 			// Assign parents/children
 			for (auto i : items)
 			{
-				spdlog::info("{}",i.first);
+				//spdlog::info("{}",i.first);
 				ObjectTreeItem *parent = get(i.second->getVar("parentType"));
 				if (parent != nullptr)
 				{
