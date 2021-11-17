@@ -65,7 +65,6 @@ namespace BYOND
 			atom->setVar("gender", "neuter");
 			atom->setVar("icon", "null");
 			atom->setVar("icon_state", "null");
-			atom->setVar("icon_size", "32");
 			atom->setVar("infra_luminosity", "0");
 			atom->setVar("invisibility", "0");
 			atom->setVar("layer", "1");
@@ -135,6 +134,7 @@ namespace BYOND
 			world->setVar("turf", "/turf");
 			world->setVar("mob", "/mob");
 			world->setVar("area", "/area");
+			world->setVar("icon_size", "32");
 			addItem(world);
 
 			// Empty path, this will be resolved as project root by filePath.
