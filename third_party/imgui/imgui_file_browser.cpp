@@ -8,10 +8,11 @@ using namespace imgui_ext;
 
 static void get_files_in_path(const fs::path& path, std::vector<file>& files) {
     files.clear();
-
+    std::string space = "\n";
     if (path.has_parent_path()) {
         std::string separator = " ";
-        std::string pathdirectory = ICON_FA_ARROW_ALT_CIRCLE_UP + separator + "...";
+        
+        std::string pathdirectory = space + ICON_FA_ARROW_ALT_CIRCLE_UP + separator + "...";
         files.push_back({
             pathdirectory,
             path.parent_path()
@@ -22,14 +23,14 @@ static void get_files_in_path(const fs::path& path, std::vector<file>& files) {
         const fs::path& dirPath = dirEntry.path();
         std::string separator = " ";
         if(std::filesystem::is_directory(dirEntry)){
-            std::string pathdirectory = ICON_FA_FOLDER + separator + dirPath.filename().string();
+            std::string pathdirectory = space + ICON_FA_FOLDER + separator + dirPath.filename().string();
             files.push_back({
                 pathdirectory,
                 dirPath
             });
         }
         else if(dirEntry.path().string().rfind(".dm")!= std::string::npos ){
-            std::string pathdirectory = ICON_FA_FILE_ALT + separator + dirPath.filename().string();
+            std::string pathdirectory = space + ICON_FA_FILE_ALT + separator + dirPath.filename().string();
             files.push_back({
                 pathdirectory,
                 dirPath
@@ -37,7 +38,7 @@ static void get_files_in_path(const fs::path& path, std::vector<file>& files) {
         }
 
         else if(dirEntry.path().string().rfind(".dmi")!= std::string::npos ){
-            std::string pathdirectory = ICON_FA_FILE_IMAGE + separator + dirPath.filename().string();
+            std::string pathdirectory = space + ICON_FA_FILE_IMAGE + separator + dirPath.filename().string();
             files.push_back({
                 pathdirectory,
                 dirPath
@@ -45,7 +46,7 @@ static void get_files_in_path(const fs::path& path, std::vector<file>& files) {
         }
 
         else if(dirEntry.path().string().rfind(".dme")!= std::string::npos ){
-            std::string pathdirectory = ICON_FA_GLOBE + separator + dirPath.filename().string();
+            std::string pathdirectory = space + ICON_FA_GLOBE + separator + dirPath.filename().string();
             files.push_back({
                 pathdirectory,
                 dirPath
@@ -53,7 +54,7 @@ static void get_files_in_path(const fs::path& path, std::vector<file>& files) {
         }
 
         else{
-            std::string pathdirectory = ICON_FA_FILE + separator + dirPath.filename().string();
+            std::string pathdirectory = space +ICON_FA_FILE + separator + dirPath.filename().string();
             files.push_back({
                 pathdirectory,
                 dirPath
@@ -124,7 +125,7 @@ const bool file_browser::render(const bool isVisible, std::string& outPath) {
     bool isOpen = true;
     if (ImGui::Begin(m_title, &isOpen)) {
 
-        if (ImGui::ListBox("##", &m_selection, vector_file_items_getter, &m_filesInScope, m_filesInScope.size(), 30)) {
+        if (ImGui::ListBox("##", &m_selection, vector_file_items_getter, &m_filesInScope, m_filesInScope.size(), 20)) {
 
             //Update current path to the selected list item.
             m_currentPath = m_filesInScope[m_selection].path;
@@ -147,7 +148,7 @@ const bool file_browser::render(const bool isVisible, std::string& outPath) {
 
         //Auto resize text wrap to popup width.
 
-        ImGui::TextWrapped(m_currentPath.string().data());
+        ImGui::Text(m_currentPath.string().data());
 
 
         ImGui::End();

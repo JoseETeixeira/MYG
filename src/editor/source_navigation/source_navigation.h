@@ -49,15 +49,14 @@ public:
 
     void mainLoop(){
 
-            static ImGuiTabBarFlags tab_bar_flags = ImGuiTabBarFlags_AutoSelectNewTabs | ImGuiTabBarFlags_Reorderable | ImGuiTabBarFlags_FittingPolicyResizeDown;
+            static ImGuiTabBarFlags tab_bar_flags =   ImGuiTabBarFlags_None;
             ImGui::BeginTabBar("MYG Explorer",tab_bar_flags);
             
 
            if (ImGui::BeginTabItem("File Explorer", &fileExplorerOpen, ImGuiTabItemFlags_None))
             {
-                fileExplorerOpen = true;
-                objectExplorerOpen = false;
-                if (fileBrowser->render(true, path)) {
+               
+                if (fileBrowser->render(fileExplorerOpen, path)) {
                     // The "path" string will hold a valid file path here.
                     fileToEdit = path;
 
@@ -67,8 +66,7 @@ public:
 
             if (ImGui::BeginTabItem("Object Explorer", &objectExplorerOpen, ImGuiTabItemFlags_None))
             {
-                fileExplorerOpen = false;
-                objectExplorerOpen = true;
+                
                 
                 if (ImGui::TreeNode("Basic trees"))
                 {
