@@ -94,7 +94,7 @@ file_browser::file_browser(const char* title) :
     // merge in icons from Font Awesome
     static const ImWchar icons_ranges[] = { ICON_MIN_FA, ICON_MAX_FA, 0 };
     ImFontConfig icons_config; icons_config.MergeMode = true; icons_config.PixelSnapH = true;
-    io.Fonts->AddFontFromFileTTF("third_party/imgui/fa-solid-900.ttf", 16.0f, &icons_config, icons_ranges );
+    io.Fonts->AddFontFromFileTTF(FONT_ICON_FILE_NAME_FAS, 16.0f, &icons_config, icons_ranges );
     io.Fonts->Build();
 
 }

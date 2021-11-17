@@ -80,12 +80,12 @@ namespace BYOND
 			this->tree = tree;
 		}
 
-		static void *doSubParseThread(void *subparseWrapper){
+		static void doSubParseThread(void *subparseWrapper){
 			ThreadWrapper *wrapper = static_cast<ThreadWrapper*>(subparseWrapper);
 			wrapper->parser->doSubParse(*wrapper->tempVar, *wrapper->path); 
 		}
 
-		static void *doParseThread(void *subparseWrapper){
+		static void doParseThread(void *subparseWrapper){
 			ThreadWrapper *wrapper = static_cast<ThreadWrapper*>(subparseWrapper);
 			wrapper->parser->doParse(*wrapper->tempVar, *wrapper->path,true); 
 		}
