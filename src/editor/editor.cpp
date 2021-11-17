@@ -137,8 +137,9 @@ namespace MYG{
        
 
         ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
-
-        codeInterface = new CodeEditorInterface(window,library,xpos,ypos,width,height);
+        
+        sourceInterface = new SourceNavigationInterface(window,library,xpos,ypos,width,height);
+        codeInterface = new CodeEditorInterface(window,xpos,ypos,width,height);
         mapInterface = new MapEditorInterface(window,library,xpos,ypos,width,height);
         
     }
@@ -147,6 +148,10 @@ namespace MYG{
 
     void Editor::MainLoop(){
         //Main while loop
+
+        if(!sourceInterface->fileToEdit.empty()){{
+            codeInterface->setEditorFile(sourceInterface->fileToEdit);
+        }}
     
         while(!glfwWindowShouldClose(window)){
             // Poll and handle events (inputs, window resize, etc.)
@@ -230,6 +235,7 @@ namespace MYG{
                 ImGui::EndMenuBar();
             }
 
+            sourceInterface->mainLoop();
            
             codeInterface->mainLoop();
 

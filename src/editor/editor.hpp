@@ -16,6 +16,7 @@
 #include "imgui_impl_opengl3.h"
 #include "code_editor/code_editor_interface.h"
 #include "map_editor/map_editor_interface.h"
+#include "source_navigation/source_navigation.h"
 #include "../byond/library.h"
 #include "../byond/stringhelper.h"
 
@@ -29,6 +30,7 @@ namespace MYG{
 
     class CodeEditorInterface;
     class MapEditorInterface;
+    class SourceNavigationInterface;
 
     static void error_callback(int error, const char* description)
     {
@@ -53,6 +55,8 @@ namespace MYG{
 
             const char* glsl_version = "#version 130";
             
+
+            SourceNavigationInterface *sourceInterface = nullptr;
 
             CodeEditorInterface *codeInterface = nullptr;
 
