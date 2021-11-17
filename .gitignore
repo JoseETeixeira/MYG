@@ -2,6 +2,8 @@
 *.vcxproj.filters
 *.sln
 CMakeFiles/*
+build/*
+src/byond/CMakeFiles/*
 *.exe
 *.tlog
 *.log
@@ -10,6 +12,7 @@ CMakeFiles/*
 *.stamp.depend
 *.opendb
 *.db
+*.o
 *.db-wal
 *.db-shm
 *.ipch
