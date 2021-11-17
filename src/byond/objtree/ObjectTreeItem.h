@@ -38,7 +38,7 @@ namespace BYOND
 			spdlog::info(path);
 			if (parent != nullptr)
 			{
-				parent->subtypes.push_back(this);
+				parent->subtypes.push_back(this); 
 			}
 			instances.push_back(this);
 		}
@@ -72,7 +72,7 @@ namespace BYOND
 		{
 			if (vars.find(key) == vars.end())
 			{
-				vars.emplace(key, "nu");
+				vars.emplace(key, "null");
 			}
 		}
 
