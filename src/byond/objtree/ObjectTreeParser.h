@@ -19,7 +19,25 @@
 
 namespace BYOND
 {
+	class ObjectTreeParser;
 
+	class ThreadWrapper{
+		public:
+			std::ifstream *tempVar;
+			std::filesystem::path *path;
+			bool* isMainFile;
+			ObjectTreeParser *parser;
+
+			ThreadWrapper(ObjectTreeParser *parser,std::ifstream *tempVar, std::filesystem::path* path, bool* isMainFile = nullptr): 
+			parser(parser),
+			tempVar(tempVar),
+			path(path),
+			isMainFile(isMainFile)
+			{
+
+			}
+
+	};
 
 	// Ah, the parser. It looks like it was written by 2 people: One that knows regex, and one that doesn't.
 	// Part of it was written before I had any clue how to regex, and the other part was after.
@@ -29,6 +47,7 @@ namespace BYOND
 	class ObjectTreeParser
 	{
 	public:
+		int _numPartitions = 42;
 		std::filesystem::path dme;
 		bool isCommenting = false;
 		bool inMultilineString = false;
@@ -61,6 +80,16 @@ namespace BYOND
 			this->tree = tree;
 		}
 
+		static void *doSubParseThread(void *subparseWrapper){
+			ThreadWrapper *wrapper = static_cast<ThreadWrapper*>(subparseWrapper);
+			wrapper->parser->doSubParse(*wrapper->tempVar, *wrapper->path); 
+		}
+
+		static void *doParseThread(void *subparseWrapper){
+			ThreadWrapper *wrapper = static_cast<ThreadWrapper*>(subparseWrapper);
+			wrapper->parser->doParse(*wrapper->tempVar, *wrapper->path,true); 
+		}
+
 		virtual void parseDME(std::filesystem::path file)
 		{
 			// Parse stddef.dm for macros and such.
@@ -68,10 +97,23 @@ namespace BYOND
 			sstream << "stddef.dm";
 
 			std::ifstream  tempVar(Util::getFile(sstream.str()));
-			doSubParse(tempVar, std::filesystem::path("stddef.dm"));
 
+			std::filesystem::path currentp = std::filesystem::path("stddef.dm");
+
+			ThreadWrapper *subparseWrapper = new ThreadWrapper(this,&tempVar,&currentp);
+			void* voidsubwrapper = static_cast<void*>(subparseWrapper);
+			std::thread t1(doSubParseThread, voidsubwrapper);
+
+			t1.join();
+			
 			std::ifstream tempVar2(file.string());
-			doParse(tempVar2, file, true);
+			ThreadWrapper *parseWrapper = new ThreadWrapper(this,&tempVar2,&file);
+			void* voidwrapper = static_cast<void*>(parseWrapper);
+			std::thread t2(doParseThread, voidwrapper);
+
+			t2.join();
+
+			
 		}
 
 		std::string ReplaceAll(std::string str, const std::string& from, const std::string& to) {
@@ -235,7 +277,15 @@ namespace BYOND
 							cfile = scfile;
 							spdlog::info(cfile.string());
 							std::ifstream includeFile = std::ifstream(cfile);
-							doSubParse(includeFile, cfile);
+
+						
+							ThreadWrapper *parseWrapper = new ThreadWrapper(this,&includeFile,&cfile);
+							void* voidwrapper = static_cast<void*>(parseWrapper);
+							std::thread t3(doSubParseThread, voidwrapper);
+
+							t3.join();
+
+			
 							//doParse(includeFile,cfile,false);
 							//JAVA TO C++ CONVERTER TODO TASK: A 'delete includeFile' statement was not added since includeFile was passed to a method or constructor. Handle memory management manually.
 						}
