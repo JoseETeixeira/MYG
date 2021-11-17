@@ -154,13 +154,15 @@ namespace BYOND
 					{
 						runOn << line;
 						line = runOn.str();
+						runOn.str(std::string());
 						lines.push_back(line);
 						if (isMainFile && StringHelper::trim(line).find("#include", 0) == 0)
 						{
 							includeCount++;
 						}
+						
 					}
-					runOn.str(std::string());
+					
 				}
 			}
 
@@ -232,7 +234,7 @@ namespace BYOND
 
 							cfile = scfile;
 							spdlog::info(cfile.string());
-;							std::ifstream includeFile = std::ifstream(cfile);
+							std::ifstream includeFile = std::ifstream(cfile);
 							doSubParse(includeFile, cfile);
 							//doParse(includeFile,cfile,false);
 							//JAVA TO C++ CONVERTER TODO TASK: A 'delete includeFile' statement was not added since includeFile was passed to a method or constructor. Handle memory management manually.
@@ -351,7 +353,7 @@ namespace BYOND
 					affectedObjectPath += "/" + item;
 				}
 				ObjectTreeItem* item = tree->getOrCreate(affectedObjectPath);
-				if (fullPath.find("(") != std::string::npos && (int)fullPath.find("(") < (int)fullPath.find("/"))
+				if (fullPath.find("(") != std::string::npos && (int)fullPath.find("(") < (int)fullPath.rfind("/"))
 				{
 					continue;
 				}
@@ -361,12 +363,14 @@ namespace BYOND
 				// Parse the var definitions.
 				if (fullPath.find("var/") != std::string::npos || (fullPath.find("=") != std::string::npos && (fullPath.find("(") != std::string::npos || (int)fullPath.find("(") > (int)fullPath.find("="))))
 				{
-					std::string split = fullPath;
-					auto tempVar2 = split.find("/") + 1;
-					std::string varname = StringHelper::trim(split.substr(tempVar2, split.length() - (tempVar2)));
-					if (split.size() > 1)
+					std::vector<std::string> splits = split(fullPath, "=");
+					//auto tempVar2 = split.find("/") + 1;
+					std::string tmpvar = splits[0].substr(splits[0].rfind("/") + 1, splits[0].length());
+					trim(tmpvar);
+					std::string varname = tmpvar;
+					if (splits.size() > 1)
 					{
-						std::string val = StringHelper::trim(varname);
+						std::string val = StringHelper::trim(splits[1]);
 						std::string origVal = "";
 						spdlog::info("Varname: {}", val);
 
