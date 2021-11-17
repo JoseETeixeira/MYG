@@ -1,6 +1,7 @@
 #include "imgui_file_browser.h"
-
+#include "../fonts/IconsFontAwesome5.h"
 #include <limits>
+#include <functional>
 #include "imgui.h"
 
 using namespace imgui_ext;
@@ -49,6 +50,14 @@ file_browser::file_browser(const char* title) :
     m_selection(0),
     m_currentPath(fs::current_path()),
     m_currentPathIsDir(true) {
+    ImGuiIO& io = ImGui::GetIO();
+    io.Fonts->AddFontDefault();
+
+    // merge in icons from Font Awesome
+    static const ImWchar icons_ranges[] = { ICON_MIN_FA, ICON_MAX_FA, 0 };
+    ImFontConfig icons_config; icons_config.MergeMode = true; icons_config.PixelSnapH = true;
+    io.Fonts->AddFontFromFileTTF("third_party/imgui/fa-solid-900.ttf", 16.0f, &icons_config, icons_ranges );
+    io.Fonts->Build();
 
 }
 
@@ -75,55 +84,55 @@ const bool file_browser::render(const bool isVisible, std::string& outPath) {
     }
 
     bool isOpen = true;
-    if (ImGui::Begin(m_title, &isOpen)) {
 
-        if (ImGui::ListBox("##", &m_selection, vector_file_items_getter, &m_filesInScope, m_filesInScope.size(), 30)) {
-
-            //Update current path to the selected list item.
-            m_currentPath = m_filesInScope[m_selection].path;
-            m_currentPathIsDir = fs::is_directory(m_currentPath);
-
-            //If the selection is a directory, repopulate the list with the contents of that directory.
-            if (m_currentPathIsDir) {
-                get_files_in_path(m_currentPath, m_filesInScope);
+        static int selection_mask = (1 << 2);
+        int node_clicked = -1;
+       std::function<void(const std::filesystem::path &, unsigned int, unsigned int &)> functor = [&](
+                const std::filesystem::path &path,
+                unsigned int depth, unsigned int &idx) {
+                for (auto p : m_filesInScope) {
+                    ImGuiTreeNodeFlags node_flags =
+                        ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_OpenOnDoubleClick |
+                        ((selection_mask & (1 << idx)) ? ImGuiTreeNodeFlags_Selected : 0);
+                    if (std::filesystem::is_directory(p.path)) {
+                        using namespace std::string_literals;
+                        std::string s = ICON_FA_FOLDER + " "s + p.path.filename().string().c_str();
+                        if (ImGui::TreeNodeEx((void *)(intptr_t)idx, node_flags, "%s", s.c_str())) {
+                            if (ImGui::IsItemClicked() || ImGui::IsItemFocused())
+                                node_clicked = idx;
+                            functor(p.path, depth + 1, ++idx);
+                            ImGui::TreePop();
+                        }
+                    } else {
+                        node_flags |= ImGuiTreeNodeFlags_Leaf | ImGuiTreeNodeFlags_NoTreePushOnOpen;
+                        if (depth > 0) {
+                            ImGui::Indent();
+                        }
+                        ImGui::TreeNodeEx((void *)(intptr_t)idx, node_flags, "%s",
+                                          p.path.filename().string().c_str());
+                        if (ImGui::IsItemClicked() || ImGui::IsItemFocused())
+                            node_clicked = idx;
+                        if (depth > 0) {
+                            ImGui::Unindent();
+                        }
+                    }
+                    ++idx;
+                }
+                depth -= 1;
+            };
+            unsigned int idx = 0u;
+            functor(std::filesystem::current_path(), 0u, idx);
+            if (node_clicked != -1) {
+                // Update selection state. Process outside of tree loop to avoid visual inconsistencies during the clicking-frame.
+                if (ImGui::GetIO().KeyCtrl)
+                    selection_mask ^= (1 << node_clicked);          // CTRL+click to toggle
+                else //if (!(selection_mask & (1 << node_clicked))) // Depending on selection behavior you want, this commented bit preserve selection when clicking on item that is part of the selection
+                    selection_mask = (1 << node_clicked);           // Click to single-select
             }
 
-        }
-
-        //Auto resize text wrap to popup width.
-
-        ImGui::TextWrapped(m_currentPath.string().data());
 
 
-        // Make the "Select" button look / act disabled if the current selection is a directory.
-        if (m_currentPathIsDir) {
 
-            static const ImVec4 disabledColor = { 0.3f, 0.3f, 0.3f, 1.0f };
-
-            ImGui::PushStyleColor(ImGuiCol_Button, disabledColor);
-            ImGui::PushStyleColor(ImGuiCol_ButtonActive, disabledColor);
-            ImGui::PushStyleColor(ImGuiCol_ButtonHovered, disabledColor);
-
-            ImGui::Button("Select",ImVec2(100,50));
-
-            ImGui::PopStyleColor();
-            ImGui::PopStyleColor();
-            ImGui::PopStyleColor();
-
-        } else {
-
-            if (ImGui::Button("Select")) {
-                ImGui::CloseCurrentPopup();
-
-                outPath = m_currentPath.string();
-                result = true;
-            }
-
-        }
-
-        ImGui::End();
-
-    }
 
     return result;
 }

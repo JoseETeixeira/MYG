@@ -6,6 +6,8 @@
 
 #include "editor.hpp"
 
+#include "../../third_party/fonts/IconsFontAwesome5.h"
+
 
 namespace MYG{
     
@@ -131,6 +133,9 @@ namespace MYG{
         //io.Fonts->AddFontFromFileTTF("../../misc/fonts/ProggyTiny.ttf", 10.0f);
         //ImFont* font = io.Fonts->AddFontFromFileTTF("c:\\Windows\\Fonts\\ArialUni.ttf", 18.0f, NULL, io.Fonts->GetGlyphRangesJapanese());
         //IM_ASSERT(font != NULL);
+
+       
+
         ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
 
         codeInterface = new CodeEditorInterface(window,xpos,ypos,width,height);
@@ -226,6 +231,8 @@ namespace MYG{
 
            
             codeInterface->mainLoop();
+
+    
 
 
 

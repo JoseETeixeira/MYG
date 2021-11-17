@@ -34,7 +34,11 @@ find_library(imgui ../../third_party/imgui)
 file(GLOB IMGUI_HEADER_FILES "../../third_party/imgui/*.h" )
 file(GLOB IMGUI_SOURCE_FILES "../../third_party/imgui/*.cpp" )
 
-add_executable(Editor ${MAIN_CPP} ${SOURCE} ${GLAD_SOURCE} ${MAIN_HEADER} ${GLAD_HEADERS} ${IMGUI_HEADER_FILES} ${IMGUI_SOURCE_FILES})
+# Font Awesome
+
+file(GLOB FA_HEADER_FILES "../../third_party/fonts/*" )
+
+add_executable(Editor ${MAIN_CPP} ${SOURCE} ${GLAD_SOURCE} ${FA_HEADER_FILES} ${MAIN_HEADER} ${GLAD_HEADERS} ${IMGUI_HEADER_FILES} ${IMGUI_SOURCE_FILES})
 
 
     

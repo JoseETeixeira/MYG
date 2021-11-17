@@ -29,6 +29,7 @@ private:
     
 
 public:
+    imgui_ext::file_browser *fileBrowser;
     TextEditor editor;
     int xpos,ypos,width,height;
     ImVec4 clear_color = ImVec4(0.07f,0.13f,0.17f,1.0f);
@@ -54,6 +55,7 @@ public:
         //bpts.insert(24);
         //bpts.insert(47);
         //editor.SetBreakpoints(bpts);
+        fileBrowser = new imgui_ext::file_browser("File Explorer");
 
 
     }
@@ -82,12 +84,12 @@ public:
             auto cpos = editor.GetCursorPosition();
 
             ImGui::Begin("File Explorer");
-            static imgui_ext::file_browser fileBrowser("File Explorer");
+            
 
             // Had to use this awkward approach to get the menu item to open the pop-up modal.
 
             std::string path;
-            if (fileBrowser.render(true, path)) {
+            if (fileBrowser->render(true, path)) {
                 // The "path" string will hold a valid file path here.
                 fileToEdit = path;
                 setEditorFile(fileToEdit.c_str());
