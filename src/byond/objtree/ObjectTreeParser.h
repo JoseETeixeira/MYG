@@ -354,45 +354,65 @@ namespace BYOND
 						std::string origVal = "";
 						spdlog::info("Varname: {}", val);
 
-						/*
+						
 						while (origVal != val)
 						{
 							origVal = val;
 							// Trust me, this is the fastest way to parse the macros.
-							Matcher *m = std:::wregex("(?<![\\d\\w\"])\\w+(?![\\d\\w\"])")->getMatcher(val);
-							StringBuilder *outVal = new StringBuilder();
-							while (m->find())
+							std::smatch matcher;
+							std::regex_search(val, matcher, std::regex("(?<![\\d\\w\"])\\w+(?![\\d\\w\"])"));
+							std::stringstream outVal;
+							for(int i = 0; i <  matcher.size() ; i++)
 							{
-								if (macros.find(m->group(0)) != macros.end())
+							
+								if (macros.find(matcher[i].str()) != macros.end())
 								{
-									m->appendReplacement(outVal, macros[m->group(0)]);
+									std::string s = outVal.str();
+									
+									std::string macrosAtI = macros.at(matcher[i].str());
+									s = ReplaceAll(s, macrosAtI,"");
+									outVal.str(s);
 								}
 								else
 								{
-									m->appendReplacement(outVal, m->group(0));
+									std::string s = outVal.str();
+									std::string macrosAtI = matcher[i].str();
+									s = ReplaceAll(s, macrosAtI,"");
+									outVal.str(s);
 								}
 							}
-							m->appendTail(outVal);
-							val = outVal->toString();
-
-//JAVA TO C++ CONVERTER TODO TASK: A 'delete outVa' statement was not added since outVal was passed to a method or constructor. Handle memory management manually.
-						}*/
-						/*// Parse additions.
-						Matcher m = Pattern.compile("([\\d\\.]+)[ \\t]*\\+[ \\t]*([\\d\\.]+)").matcher(val);
-						StringBuffer outVal = new StringBuffer();
-						while(m.find()) {
-							m.appendReplacement(outVal, (Float.parseFloat(m.group(1)) + Float.parseFloat(m.group(2)))+"");
+							
+							val = outVal.str();
 						}
-						m.appendTail(outVal);
-						val = outVal.toString();
+						
+						
+						// Parse additions.
+						std::smatch m;
+						std::regex_search(val, m, std::regex("([\\d\\.]+)[ \\t]*\\+[ \\t]*([\\d\\.]+)"));
+						std::stringstream outVal;
+						for (int i =0; i< m.size(); i++){
+							std::string s = outVal.str();
+							float sum = std::stof(m[i + 1].str()) + std::stof(m[i + 2].str());
+							std::string macrosAtI = std::to_string(sum);
+							s = ReplaceAll(s, macrosAtI,"");
+							outVal.str(s);
+						}
+						
+						val = outVal.str();
 						// Parse subtractions.
-						m = Pattern.compile("([\\d\\.]+)[ \\t]*\\-[ \\t]*([\\d\\.]+)").matcher(val);
-						outVal = new StringBuffer();
-						while(m.find()) {
-							m.appendReplacement(outVal, (Float.parseFloat(m.group(1)) - Float.parseFloat(m.group(2)))+"");
+						
+						std::regex_search(val, m, std::regex("([\\d\\.]+)[ \\t]*\\-[ \\t]*([\\d\\.]+)"));
+						outVal.str(std::string());
+						for (int i =0; i< m.size(); i++){
+							std::string s = outVal.str();
+							float subtraction = std::stof(m[i + 1].str()) + std::stof(m[i + 2].str());
+							std::string macrosAtI = std::to_string(subtraction);
+							s = ReplaceAll(s, macrosAtI,"");
+							outVal.str(s);
 						}
-						m.appendTail(outVal);
-						val = outVal.toString();*/
+						
+						val = outVal.str();
+						
 
 						item->setVar(varname, val);
 					}
