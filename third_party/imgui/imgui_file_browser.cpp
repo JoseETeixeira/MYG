@@ -10,18 +10,56 @@ static void get_files_in_path(const fs::path& path, std::vector<file>& files) {
     files.clear();
 
     if (path.has_parent_path()) {
+        std::string separator = " ";
+        std::string pathdirectory = ICON_FA_ARROW_ALT_CIRCLE_UP + separator + "...";
         files.push_back({
-            "..",
+            pathdirectory,
             path.parent_path()
         });
     }
 
     for (const fs::directory_entry& dirEntry : fs::directory_iterator(path)) {
         const fs::path& dirPath = dirEntry.path();
-        files.push_back({
-            dirPath.filename().string(),
-            dirPath
-        });
+        std::string separator = " ";
+        if(std::filesystem::is_directory(dirEntry)){
+            std::string pathdirectory = ICON_FA_FOLDER + separator + dirPath.filename().string();
+            files.push_back({
+                pathdirectory,
+                dirPath
+            });
+        }
+        else if(dirEntry.path().string().rfind(".dm")!= std::string::npos ){
+            std::string pathdirectory = ICON_FA_FILE_ALT + separator + dirPath.filename().string();
+            files.push_back({
+                pathdirectory,
+                dirPath
+            });
+        }
+
+        else if(dirEntry.path().string().rfind(".dmi")!= std::string::npos ){
+            std::string pathdirectory = ICON_FA_FILE_IMAGE + separator + dirPath.filename().string();
+            files.push_back({
+                pathdirectory,
+                dirPath
+            });
+        }
+
+        else if(dirEntry.path().string().rfind(".dme")!= std::string::npos ){
+            std::string pathdirectory = ICON_FA_GLOBE + separator + dirPath.filename().string();
+            files.push_back({
+                pathdirectory,
+                dirPath
+            });
+        }
+
+        else{
+            std::string pathdirectory = ICON_FA_FILE + separator + dirPath.filename().string();
+            files.push_back({
+                pathdirectory,
+                dirPath
+            });
+        }
+
     }
 }
 
@@ -84,54 +122,37 @@ const bool file_browser::render(const bool isVisible, std::string& outPath) {
     }
 
     bool isOpen = true;
+    if (ImGui::Begin(m_title, &isOpen)) {
 
-        static int selection_mask = (1 << 2);
-        int node_clicked = -1;
-       std::function<void(const std::filesystem::path &, unsigned int, unsigned int &)> functor = [&](
-                const std::filesystem::path &path,
-                unsigned int depth, unsigned int &idx) {
-                for (auto p : m_filesInScope) {
-                    ImGuiTreeNodeFlags node_flags =
-                        ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_OpenOnDoubleClick |
-                        ((selection_mask & (1 << idx)) ? ImGuiTreeNodeFlags_Selected : 0);
-                    if (std::filesystem::is_directory(p.path)) {
-                        using namespace std::string_literals;
-                        std::string s = ICON_FA_FOLDER + " "s + p.path.filename().string().c_str();
-                        if (ImGui::TreeNodeEx((void *)(intptr_t)idx, node_flags, "%s", s.c_str())) {
-                            if (ImGui::IsItemClicked() || ImGui::IsItemFocused())
-                                node_clicked = idx;
-                            functor(p.path, depth + 1, ++idx);
-                            ImGui::TreePop();
-                        }
-                    } else {
-                        node_flags |= ImGuiTreeNodeFlags_Leaf | ImGuiTreeNodeFlags_NoTreePushOnOpen;
-                        if (depth > 0) {
-                            ImGui::Indent();
-                        }
-                        ImGui::TreeNodeEx((void *)(intptr_t)idx, node_flags, "%s",
-                                          p.path.filename().string().c_str());
-                        if (ImGui::IsItemClicked() || ImGui::IsItemFocused())
-                            node_clicked = idx;
-                        if (depth > 0) {
-                            ImGui::Unindent();
-                        }
-                    }
-                    ++idx;
+        if (ImGui::ListBox("##", &m_selection, vector_file_items_getter, &m_filesInScope, m_filesInScope.size(), 30)) {
+
+            //Update current path to the selected list item.
+            m_currentPath = m_filesInScope[m_selection].path;
+            m_currentPathIsDir = fs::is_directory(m_currentPath);
+
+            //If the selection is a directory, repopulate the list with the contents of that directory.
+            if (m_currentPathIsDir) {
+
+                get_files_in_path(m_currentPath, m_filesInScope);
+            }else{
+                if (ImGui::IsItemClicked() || ImGui::IsItemFocused()){
+                    outPath = m_currentPath.string();
+                    result = true;
                 }
-                depth -= 1;
-            };
-            unsigned int idx = 0u;
-            functor(std::filesystem::current_path(), 0u, idx);
-            if (node_clicked != -1) {
-                // Update selection state. Process outside of tree loop to avoid visual inconsistencies during the clicking-frame.
-                if (ImGui::GetIO().KeyCtrl)
-                    selection_mask ^= (1 << node_clicked);          // CTRL+click to toggle
-                else //if (!(selection_mask & (1 << node_clicked))) // Depending on selection behavior you want, this commented bit preserve selection when clicking on item that is part of the selection
-                    selection_mask = (1 << node_clicked);           // Click to single-select
+
             }
 
 
+        }
 
+        //Auto resize text wrap to popup width.
+
+        ImGui::TextWrapped(m_currentPath.string().data());
+
+
+        ImGui::End();
+
+    }
 
 
     return result;
