@@ -11,7 +11,7 @@ static void get_files_in_path(const fs::path& path, std::vector<file>& files) {
     std::string space = "\n";
     if (path.has_parent_path()) {
         std::string separator = " ";
-        
+
         std::string pathdirectory = space + ICON_FA_ARROW_ALT_CIRCLE_UP + separator + "...";
         files.push_back({
             pathdirectory,
@@ -123,7 +123,7 @@ const bool file_browser::render(const bool isVisible, std::string& outPath) {
     }
 
     bool isOpen = true;
-    if (ImGui::Begin(m_title, &isOpen)) {
+    if (ImGui::Begin(m_title, &isOpen),modal_flags) {
 
         if (ImGui::ListBox("##", &m_selection, vector_file_items_getter, &m_filesInScope, m_filesInScope.size(), 20)) {
 
