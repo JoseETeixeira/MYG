@@ -43,7 +43,7 @@ namespace MYG{
         if (ImGui::BeginTabItem("Object Explorer", &shouldOpen, ImGuiTabItemFlags_None))
         {
             
-            if (objects->render(shouldOpen)) {
+            if (objects->render(fileExplorerOpen)) {
                
             }
             ImGui::EndTabItem();
