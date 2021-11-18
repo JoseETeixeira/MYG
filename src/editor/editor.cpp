@@ -264,6 +264,7 @@ namespace MYG{
     }
 
     Editor::~Editor(){
+        delete sourceInterface;
         delete codeInterface;
         delete mapInterface;
         //Delete the window before ending the program

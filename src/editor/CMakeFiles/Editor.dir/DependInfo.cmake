@@ -35,6 +35,7 @@ set(CMAKE_DEPENDS_CHECK_CXX
   "/home/eduardo/Desktop/BYOND/MYG.gg/MYG/third_party/imgui/imgui_tables.cpp" "/home/eduardo/Desktop/BYOND/MYG.gg/MYG/src/editor/CMakeFiles/Editor.dir/__/__/third_party/imgui/imgui_tables.cpp.o"
   "/home/eduardo/Desktop/BYOND/MYG.gg/MYG/third_party/imgui/imgui_widgets.cpp" "/home/eduardo/Desktop/BYOND/MYG.gg/MYG/src/editor/CMakeFiles/Editor.dir/__/__/third_party/imgui/imgui_widgets.cpp.o"
   "/home/eduardo/Desktop/BYOND/MYG.gg/MYG/src/editor/editor.cpp" "/home/eduardo/Desktop/BYOND/MYG.gg/MYG/src/editor/CMakeFiles/Editor.dir/editor.cpp.o"
+  "/home/eduardo/Desktop/BYOND/MYG.gg/MYG/src/editor/source_navigation/source_navigation.cpp" "/home/eduardo/Desktop/BYOND/MYG.gg/MYG/src/editor/CMakeFiles/Editor.dir/source_navigation/source_navigation.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 

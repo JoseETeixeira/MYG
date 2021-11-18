@@ -57,6 +57,8 @@ mutex
 -
 objtree/ObjectTreeParser.h
 /home/eduardo/Desktop/BYOND/MYG.gg/MYG/src/byond/objtree/ObjectTreeParser.h
+objtree/ObjectTree.h
+/home/eduardo/Desktop/BYOND/MYG.gg/MYG/src/byond/objtree/ObjectTree.h
 
 /home/eduardo/Desktop/BYOND/MYG.gg/MYG/src/byond/objtree/ObjInstance.h
 string
@@ -67,6 +69,8 @@ regex
 /home/eduardo/Desktop/BYOND/MYG.gg/MYG/src/byond/exceptionhelper.h
 ../../../third_party/color/src/color/color.hpp
 /home/eduardo/Desktop/BYOND/MYG.gg/MYG/third_party/color/src/color/color.hpp
+spdlog/spdlog.h
+/home/eduardo/Desktop/BYOND/MYG.gg/MYG/src/byond/objtree/spdlog/spdlog.h
 
 /home/eduardo/Desktop/BYOND/MYG.gg/MYG/src/byond/objtree/ObjectTree.h
 ObjectTreeItem.h

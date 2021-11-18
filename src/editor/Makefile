@@ -549,6 +549,33 @@ editor.cpp.s:
 	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/editor.cpp.s
 .PHONY : editor.cpp.s
 
+source_navigation/source_navigation.o: source_navigation/source_navigation.cpp.o
+
+.PHONY : source_navigation/source_navigation.o
+
+# target to build an object file
+source_navigation/source_navigation.cpp.o:
+	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/source_navigation/source_navigation.cpp.o
+.PHONY : source_navigation/source_navigation.cpp.o
+
+source_navigation/source_navigation.i: source_navigation/source_navigation.cpp.i
+
+.PHONY : source_navigation/source_navigation.i
+
+# target to preprocess a source file
+source_navigation/source_navigation.cpp.i:
+	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/source_navigation/source_navigation.cpp.i
+.PHONY : source_navigation/source_navigation.cpp.i
+
+source_navigation/source_navigation.s: source_navigation/source_navigation.cpp.s
+
+.PHONY : source_navigation/source_navigation.s
+
+# target to generate assembly for a file
+source_navigation/source_navigation.cpp.s:
+	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/source_navigation/source_navigation.cpp.s
+.PHONY : source_navigation/source_navigation.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -604,6 +631,9 @@ help:
 	@echo "... editor.o"
 	@echo "... editor.i"
 	@echo "... editor.s"
+	@echo "... source_navigation/source_navigation.o"
+	@echo "... source_navigation/source_navigation.i"
+	@echo "... source_navigation/source_navigation.s"
 .PHONY : help
 
 

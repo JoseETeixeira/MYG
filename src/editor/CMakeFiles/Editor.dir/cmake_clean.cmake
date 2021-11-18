@@ -15,6 +15,7 @@ file(REMOVE_RECURSE
   "CMakeFiles/Editor.dir/__/__/third_party/imgui/imgui_tables.cpp.o"
   "CMakeFiles/Editor.dir/__/__/third_party/imgui/imgui_widgets.cpp.o"
   "CMakeFiles/Editor.dir/editor.cpp.o"
+  "CMakeFiles/Editor.dir/source_navigation/source_navigation.cpp.o"
 )
 
 # Per-language clean rules from dependency scanning.

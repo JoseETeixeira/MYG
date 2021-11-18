@@ -2,6 +2,7 @@
 #include <regex>
 #include "../exceptionhelper.h"
 #include "../../../third_party/color/src/color/color.hpp"
+#include "spdlog/spdlog.h"
 #pragma once
 
 

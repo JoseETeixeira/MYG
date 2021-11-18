@@ -70,9 +70,22 @@ src/editor/CMakeFiles/Editor.dir/editor.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Editor.dir/editor.cpp.s"
 	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG/src/editor && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/eduardo/Desktop/BYOND/MYG.gg/MYG/src/editor/editor.cpp -o CMakeFiles/Editor.dir/editor.cpp.s
 
+src/editor/CMakeFiles/Editor.dir/source_navigation/source_navigation.cpp.o: src/editor/CMakeFiles/Editor.dir/flags.make
+src/editor/CMakeFiles/Editor.dir/source_navigation/source_navigation.cpp.o: src/editor/source_navigation/source_navigation.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/eduardo/Desktop/BYOND/MYG.gg/MYG/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object src/editor/CMakeFiles/Editor.dir/source_navigation/source_navigation.cpp.o"
+	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG/src/editor && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Editor.dir/source_navigation/source_navigation.cpp.o -c /home/eduardo/Desktop/BYOND/MYG.gg/MYG/src/editor/source_navigation/source_navigation.cpp
+
+src/editor/CMakeFiles/Editor.dir/source_navigation/source_navigation.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Editor.dir/source_navigation/source_navigation.cpp.i"
+	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG/src/editor && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/eduardo/Desktop/BYOND/MYG.gg/MYG/src/editor/source_navigation/source_navigation.cpp > CMakeFiles/Editor.dir/source_navigation/source_navigation.cpp.i
+
+src/editor/CMakeFiles/Editor.dir/source_navigation/source_navigation.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Editor.dir/source_navigation/source_navigation.cpp.s"
+	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG/src/editor && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/eduardo/Desktop/BYOND/MYG.gg/MYG/src/editor/source_navigation/source_navigation.cpp -o CMakeFiles/Editor.dir/source_navigation/source_navigation.cpp.s
+
 src/editor/CMakeFiles/Editor.dir/__/__/third_party/glfw/deps/getopt.c.o: src/editor/CMakeFiles/Editor.dir/flags.make
 src/editor/CMakeFiles/Editor.dir/__/__/third_party/glfw/deps/getopt.c.o: third_party/glfw/deps/getopt.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/eduardo/Desktop/BYOND/MYG.gg/MYG/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building C object src/editor/CMakeFiles/Editor.dir/__/__/third_party/glfw/deps/getopt.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/eduardo/Desktop/BYOND/MYG.gg/MYG/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building C object src/editor/CMakeFiles/Editor.dir/__/__/third_party/glfw/deps/getopt.c.o"
 	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG/src/editor && /usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/Editor.dir/__/__/third_party/glfw/deps/getopt.c.o   -c /home/eduardo/Desktop/BYOND/MYG.gg/MYG/third_party/glfw/deps/getopt.c
 
 src/editor/CMakeFiles/Editor.dir/__/__/third_party/glfw/deps/getopt.c.i: cmake_force
@@ -85,7 +98,7 @@ src/editor/CMakeFiles/Editor.dir/__/__/third_party/glfw/deps/getopt.c.s: cmake_f
 
 src/editor/CMakeFiles/Editor.dir/__/__/third_party/glfw/deps/glad_gl.c.o: src/editor/CMakeFiles/Editor.dir/flags.make
 src/editor/CMakeFiles/Editor.dir/__/__/third_party/glfw/deps/glad_gl.c.o: third_party/glfw/deps/glad_gl.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/eduardo/Desktop/BYOND/MYG.gg/MYG/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building C object src/editor/CMakeFiles/Editor.dir/__/__/third_party/glfw/deps/glad_gl.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/eduardo/Desktop/BYOND/MYG.gg/MYG/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building C object src/editor/CMakeFiles/Editor.dir/__/__/third_party/glfw/deps/glad_gl.c.o"
 	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG/src/editor && /usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/Editor.dir/__/__/third_party/glfw/deps/glad_gl.c.o   -c /home/eduardo/Desktop/BYOND/MYG.gg/MYG/third_party/glfw/deps/glad_gl.c
 
 src/editor/CMakeFiles/Editor.dir/__/__/third_party/glfw/deps/glad_gl.c.i: cmake_force
@@ -98,7 +111,7 @@ src/editor/CMakeFiles/Editor.dir/__/__/third_party/glfw/deps/glad_gl.c.s: cmake_
 
 src/editor/CMakeFiles/Editor.dir/__/__/third_party/glfw/deps/glad_vulkan.c.o: src/editor/CMakeFiles/Editor.dir/flags.make
 src/editor/CMakeFiles/Editor.dir/__/__/third_party/glfw/deps/glad_vulkan.c.o: third_party/glfw/deps/glad_vulkan.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/eduardo/Desktop/BYOND/MYG.gg/MYG/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building C object src/editor/CMakeFiles/Editor.dir/__/__/third_party/glfw/deps/glad_vulkan.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/eduardo/Desktop/BYOND/MYG.gg/MYG/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building C object src/editor/CMakeFiles/Editor.dir/__/__/third_party/glfw/deps/glad_vulkan.c.o"
 	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG/src/editor && /usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/Editor.dir/__/__/third_party/glfw/deps/glad_vulkan.c.o   -c /home/eduardo/Desktop/BYOND/MYG.gg/MYG/third_party/glfw/deps/glad_vulkan.c
 
 src/editor/CMakeFiles/Editor.dir/__/__/third_party/glfw/deps/glad_vulkan.c.i: cmake_force
@@ -111,7 +124,7 @@ src/editor/CMakeFiles/Editor.dir/__/__/third_party/glfw/deps/glad_vulkan.c.s: cm
 
 src/editor/CMakeFiles/Editor.dir/__/__/third_party/glfw/deps/tinycthread.c.o: src/editor/CMakeFiles/Editor.dir/flags.make
 src/editor/CMakeFiles/Editor.dir/__/__/third_party/glfw/deps/tinycthread.c.o: third_party/glfw/deps/tinycthread.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/eduardo/Desktop/BYOND/MYG.gg/MYG/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building C object src/editor/CMakeFiles/Editor.dir/__/__/third_party/glfw/deps/tinycthread.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/eduardo/Desktop/BYOND/MYG.gg/MYG/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building C object src/editor/CMakeFiles/Editor.dir/__/__/third_party/glfw/deps/tinycthread.c.o"
 	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG/src/editor && /usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/Editor.dir/__/__/third_party/glfw/deps/tinycthread.c.o   -c /home/eduardo/Desktop/BYOND/MYG.gg/MYG/third_party/glfw/deps/tinycthread.c
 
 src/editor/CMakeFiles/Editor.dir/__/__/third_party/glfw/deps/tinycthread.c.i: cmake_force
@@ -124,7 +137,7 @@ src/editor/CMakeFiles/Editor.dir/__/__/third_party/glfw/deps/tinycthread.c.s: cm
 
 src/editor/CMakeFiles/Editor.dir/__/__/third_party/imgui/TextEditor.cpp.o: src/editor/CMakeFiles/Editor.dir/flags.make
 src/editor/CMakeFiles/Editor.dir/__/__/third_party/imgui/TextEditor.cpp.o: third_party/imgui/TextEditor.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/eduardo/Desktop/BYOND/MYG.gg/MYG/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object src/editor/CMakeFiles/Editor.dir/__/__/third_party/imgui/TextEditor.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/eduardo/Desktop/BYOND/MYG.gg/MYG/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object src/editor/CMakeFiles/Editor.dir/__/__/third_party/imgui/TextEditor.cpp.o"
 	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG/src/editor && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Editor.dir/__/__/third_party/imgui/TextEditor.cpp.o -c /home/eduardo/Desktop/BYOND/MYG.gg/MYG/third_party/imgui/TextEditor.cpp
 
 src/editor/CMakeFiles/Editor.dir/__/__/third_party/imgui/TextEditor.cpp.i: cmake_force
@@ -137,7 +150,7 @@ src/editor/CMakeFiles/Editor.dir/__/__/third_party/imgui/TextEditor.cpp.s: cmake
 
 src/editor/CMakeFiles/Editor.dir/__/__/third_party/imgui/imgui.cpp.o: src/editor/CMakeFiles/Editor.dir/flags.make
 src/editor/CMakeFiles/Editor.dir/__/__/third_party/imgui/imgui.cpp.o: third_party/imgui/imgui.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/eduardo/Desktop/BYOND/MYG.gg/MYG/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object src/editor/CMakeFiles/Editor.dir/__/__/third_party/imgui/imgui.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/eduardo/Desktop/BYOND/MYG.gg/MYG/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object src/editor/CMakeFiles/Editor.dir/__/__/third_party/imgui/imgui.cpp.o"
 	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG/src/editor && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Editor.dir/__/__/third_party/imgui/imgui.cpp.o -c /home/eduardo/Desktop/BYOND/MYG.gg/MYG/third_party/imgui/imgui.cpp
 
 src/editor/CMakeFiles/Editor.dir/__/__/third_party/imgui/imgui.cpp.i: cmake_force
@@ -150,7 +163,7 @@ src/editor/CMakeFiles/Editor.dir/__/__/third_party/imgui/imgui.cpp.s: cmake_forc
 
 src/editor/CMakeFiles/Editor.dir/__/__/third_party/imgui/imgui_demo.cpp.o: src/editor/CMakeFiles/Editor.dir/flags.make
 src/editor/CMakeFiles/Editor.dir/__/__/third_party/imgui/imgui_demo.cpp.o: third_party/imgui/imgui_demo.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/eduardo/Desktop/BYOND/MYG.gg/MYG/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object src/editor/CMakeFiles/Editor.dir/__/__/third_party/imgui/imgui_demo.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/eduardo/Desktop/BYOND/MYG.gg/MYG/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object src/editor/CMakeFiles/Editor.dir/__/__/third_party/imgui/imgui_demo.cpp.o"
 	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG/src/editor && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Editor.dir/__/__/third_party/imgui/imgui_demo.cpp.o -c /home/eduardo/Desktop/BYOND/MYG.gg/MYG/third_party/imgui/imgui_demo.cpp
 
 src/editor/CMakeFiles/Editor.dir/__/__/third_party/imgui/imgui_demo.cpp.i: cmake_force
@@ -163,7 +176,7 @@ src/editor/CMakeFiles/Editor.dir/__/__/third_party/imgui/imgui_demo.cpp.s: cmake
 
 src/editor/CMakeFiles/Editor.dir/__/__/third_party/imgui/imgui_draw.cpp.o: src/editor/CMakeFiles/Editor.dir/flags.make
 src/editor/CMakeFiles/Editor.dir/__/__/third_party/imgui/imgui_draw.cpp.o: third_party/imgui/imgui_draw.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/eduardo/Desktop/BYOND/MYG.gg/MYG/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object src/editor/CMakeFiles/Editor.dir/__/__/third_party/imgui/imgui_draw.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/eduardo/Desktop/BYOND/MYG.gg/MYG/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object src/editor/CMakeFiles/Editor.dir/__/__/third_party/imgui/imgui_draw.cpp.o"
 	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG/src/editor && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Editor.dir/__/__/third_party/imgui/imgui_draw.cpp.o -c /home/eduardo/Desktop/BYOND/MYG.gg/MYG/third_party/imgui/imgui_draw.cpp
 
 src/editor/CMakeFiles/Editor.dir/__/__/third_party/imgui/imgui_draw.cpp.i: cmake_force
@@ -176,7 +189,7 @@ src/editor/CMakeFiles/Editor.dir/__/__/third_party/imgui/imgui_draw.cpp.s: cmake
 
 src/editor/CMakeFiles/Editor.dir/__/__/third_party/imgui/imgui_file_browser.cpp.o: src/editor/CMakeFiles/Editor.dir/flags.make
 src/editor/CMakeFiles/Editor.dir/__/__/third_party/imgui/imgui_file_browser.cpp.o: third_party/imgui/imgui_file_browser.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/eduardo/Desktop/BYOND/MYG.gg/MYG/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object src/editor/CMakeFiles/Editor.dir/__/__/third_party/imgui/imgui_file_browser.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/eduardo/Desktop/BYOND/MYG.gg/MYG/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object src/editor/CMakeFiles/Editor.dir/__/__/third_party/imgui/imgui_file_browser.cpp.o"
 	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG/src/editor && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Editor.dir/__/__/third_party/imgui/imgui_file_browser.cpp.o -c /home/eduardo/Desktop/BYOND/MYG.gg/MYG/third_party/imgui/imgui_file_browser.cpp
 
 src/editor/CMakeFiles/Editor.dir/__/__/third_party/imgui/imgui_file_browser.cpp.i: cmake_force
@@ -189,7 +202,7 @@ src/editor/CMakeFiles/Editor.dir/__/__/third_party/imgui/imgui_file_browser.cpp.
 
 src/editor/CMakeFiles/Editor.dir/__/__/third_party/imgui/imgui_impl_glfw.cpp.o: src/editor/CMakeFiles/Editor.dir/flags.make
 src/editor/CMakeFiles/Editor.dir/__/__/third_party/imgui/imgui_impl_glfw.cpp.o: third_party/imgui/imgui_impl_glfw.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/eduardo/Desktop/BYOND/MYG.gg/MYG/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object src/editor/CMakeFiles/Editor.dir/__/__/third_party/imgui/imgui_impl_glfw.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/eduardo/Desktop/BYOND/MYG.gg/MYG/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building CXX object src/editor/CMakeFiles/Editor.dir/__/__/third_party/imgui/imgui_impl_glfw.cpp.o"
 	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG/src/editor && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Editor.dir/__/__/third_party/imgui/imgui_impl_glfw.cpp.o -c /home/eduardo/Desktop/BYOND/MYG.gg/MYG/third_party/imgui/imgui_impl_glfw.cpp
 
 src/editor/CMakeFiles/Editor.dir/__/__/third_party/imgui/imgui_impl_glfw.cpp.i: cmake_force
@@ -202,7 +215,7 @@ src/editor/CMakeFiles/Editor.dir/__/__/third_party/imgui/imgui_impl_glfw.cpp.s: 
 
 src/editor/CMakeFiles/Editor.dir/__/__/third_party/imgui/imgui_impl_opengl3.cpp.o: src/editor/CMakeFiles/Editor.dir/flags.make
 src/editor/CMakeFiles/Editor.dir/__/__/third_party/imgui/imgui_impl_opengl3.cpp.o: third_party/imgui/imgui_impl_opengl3.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/eduardo/Desktop/BYOND/MYG.gg/MYG/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building CXX object src/editor/CMakeFiles/Editor.dir/__/__/third_party/imgui/imgui_impl_opengl3.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/eduardo/Desktop/BYOND/MYG.gg/MYG/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Building CXX object src/editor/CMakeFiles/Editor.dir/__/__/third_party/imgui/imgui_impl_opengl3.cpp.o"
 	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG/src/editor && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Editor.dir/__/__/third_party/imgui/imgui_impl_opengl3.cpp.o -c /home/eduardo/Desktop/BYOND/MYG.gg/MYG/third_party/imgui/imgui_impl_opengl3.cpp
 
 src/editor/CMakeFiles/Editor.dir/__/__/third_party/imgui/imgui_impl_opengl3.cpp.i: cmake_force
@@ -215,7 +228,7 @@ src/editor/CMakeFiles/Editor.dir/__/__/third_party/imgui/imgui_impl_opengl3.cpp.
 
 src/editor/CMakeFiles/Editor.dir/__/__/third_party/imgui/imgui_tables.cpp.o: src/editor/CMakeFiles/Editor.dir/flags.make
 src/editor/CMakeFiles/Editor.dir/__/__/third_party/imgui/imgui_tables.cpp.o: third_party/imgui/imgui_tables.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/eduardo/Desktop/BYOND/MYG.gg/MYG/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Building CXX object src/editor/CMakeFiles/Editor.dir/__/__/third_party/imgui/imgui_tables.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/eduardo/Desktop/BYOND/MYG.gg/MYG/CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Building CXX object src/editor/CMakeFiles/Editor.dir/__/__/third_party/imgui/imgui_tables.cpp.o"
 	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG/src/editor && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Editor.dir/__/__/third_party/imgui/imgui_tables.cpp.o -c /home/eduardo/Desktop/BYOND/MYG.gg/MYG/third_party/imgui/imgui_tables.cpp
 
 src/editor/CMakeFiles/Editor.dir/__/__/third_party/imgui/imgui_tables.cpp.i: cmake_force
@@ -228,7 +241,7 @@ src/editor/CMakeFiles/Editor.dir/__/__/third_party/imgui/imgui_tables.cpp.s: cma
 
 src/editor/CMakeFiles/Editor.dir/__/__/third_party/imgui/imgui_widgets.cpp.o: src/editor/CMakeFiles/Editor.dir/flags.make
 src/editor/CMakeFiles/Editor.dir/__/__/third_party/imgui/imgui_widgets.cpp.o: third_party/imgui/imgui_widgets.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/eduardo/Desktop/BYOND/MYG.gg/MYG/CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Building CXX object src/editor/CMakeFiles/Editor.dir/__/__/third_party/imgui/imgui_widgets.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/eduardo/Desktop/BYOND/MYG.gg/MYG/CMakeFiles --progress-num=$(CMAKE_PROGRESS_15) "Building CXX object src/editor/CMakeFiles/Editor.dir/__/__/third_party/imgui/imgui_widgets.cpp.o"
 	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG/src/editor && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Editor.dir/__/__/third_party/imgui/imgui_widgets.cpp.o -c /home/eduardo/Desktop/BYOND/MYG.gg/MYG/third_party/imgui/imgui_widgets.cpp
 
 src/editor/CMakeFiles/Editor.dir/__/__/third_party/imgui/imgui_widgets.cpp.i: cmake_force
@@ -242,6 +255,7 @@ src/editor/CMakeFiles/Editor.dir/__/__/third_party/imgui/imgui_widgets.cpp.s: cm
 # Object files for target Editor
 Editor_OBJECTS = \
 "CMakeFiles/Editor.dir/editor.cpp.o" \
+"CMakeFiles/Editor.dir/source_navigation/source_navigation.cpp.o" \
 "CMakeFiles/Editor.dir/__/__/third_party/glfw/deps/getopt.c.o" \
 "CMakeFiles/Editor.dir/__/__/third_party/glfw/deps/glad_gl.c.o" \
 "CMakeFiles/Editor.dir/__/__/third_party/glfw/deps/glad_vulkan.c.o" \
@@ -260,6 +274,7 @@ Editor_OBJECTS = \
 Editor_EXTERNAL_OBJECTS =
 
 bin/Editor: src/editor/CMakeFiles/Editor.dir/editor.cpp.o
+bin/Editor: src/editor/CMakeFiles/Editor.dir/source_navigation/source_navigation.cpp.o
 bin/Editor: src/editor/CMakeFiles/Editor.dir/__/__/third_party/glfw/deps/getopt.c.o
 bin/Editor: src/editor/CMakeFiles/Editor.dir/__/__/third_party/glfw/deps/glad_gl.c.o
 bin/Editor: src/editor/CMakeFiles/Editor.dir/__/__/third_party/glfw/deps/glad_vulkan.c.o
@@ -279,7 +294,7 @@ bin/Editor: /usr/lib/x86_64-linux-gnu/librt.so
 bin/Editor: /usr/lib/x86_64-linux-gnu/libm.so
 bin/Editor: /usr/lib/x86_64-linux-gnu/libX11.so
 bin/Editor: src/editor/CMakeFiles/Editor.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/eduardo/Desktop/BYOND/MYG.gg/MYG/CMakeFiles --progress-num=$(CMAKE_PROGRESS_15) "Linking CXX executable ../../bin/Editor"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/eduardo/Desktop/BYOND/MYG.gg/MYG/CMakeFiles --progress-num=$(CMAKE_PROGRESS_16) "Linking CXX executable ../../bin/Editor"
 	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG/src/editor && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/Editor.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

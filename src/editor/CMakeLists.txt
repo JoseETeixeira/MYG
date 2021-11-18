@@ -23,7 +23,7 @@ file(GLOB BASE_HEADERS "*.hpp" "*.h")
 file(GLOB GLAD_HEADERS "../../third_party/glfw/deps/*.h" )
 file(GLOB GLAD_SOURCE "../../third_party/glfw/deps/*.c" )
 
-file(GLOB SOURCE *.cpp ${BASE_HEADERS} ${EDITOR_FOLDER}/*.cpp )
+file(GLOB SOURCE *.cpp ${BASE_HEADERS} ${EDITOR_FOLDER}/*.cpp ${EDITOR_FOLDER}/source_navigation/*.cpp  ${EDITOR_FOLDER}/map_editor/*.cpp ${EDITOR_FOLDER}/code_editor/*.cpp)
 SET(MAIN_CPP ${EDITOR_FOLDER}/editor.cpp)
 SET(MAIN_HEADER ${EDITOR_FOLDER}/editor.hpp)
 
