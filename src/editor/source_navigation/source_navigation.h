@@ -13,6 +13,7 @@
 #include "TextEditor.h"
 #include "imgui_file_browser.h"
 #include "../../byond/objtree/ObjectTree.h"
+#include "../../byond/objtree/ObjectTreeItem.h"
 #include "../../byond/library.h"
 #include "../../byond/stringhelper.h"
 #include "imgui_file_browser.h"
@@ -41,7 +42,7 @@ public:
     ImVec4 textColor;
 
     SourceNavigationInterface( GLFWwindow* window,BYOND::Library* library,int xpos,int ypos,int width,int height);
-   
+    void RenderObjectTree(std::vector<BYOND::ObjectTreeItem*> subtypes, int &i,int &selection_mask,int &node_clicked);
 
     void mainLoop();
 
