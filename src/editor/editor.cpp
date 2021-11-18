@@ -171,7 +171,7 @@ namespace MYG{
             
             ImGui::SetNextWindowPos(ImVec2(0.0f, 0.0f));
 
-            ImGui::Begin("MYG Maker", nullptr, ImGuiWindowFlags_HorizontalScrollbar | ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoCollapse);
+            ImGui::Begin("MYG Maker", nullptr, ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoCollapse);
             ImGui::SetWindowSize(ImVec2(width, height));
 
 

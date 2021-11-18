@@ -29,6 +29,7 @@ public:
     
    
     TextEditor editor;
+    std::string currentFile = "";
     int xpos,ypos,width,height;
     ImVec4 clear_color = ImVec4(0.07f,0.13f,0.17f,1.0f);
    
@@ -60,18 +61,22 @@ public:
 
     void setEditorFile(std::string fileToEdit){
          {
+             if(currentFile != fileToEdit){
+                 currentFile = fileToEdit;
+                std::ifstream t(fileToEdit);
+                if (t.good())
+                {
+                    std::string str((std::istreambuf_iterator<char>(t)), std::istreambuf_iterator<char>());
+                    editor.SetText(str);
+                }
+             }
             /*std::stringstream w;
             w << fileToEdit.c_str();
             if(StringHelper::endsWith(w.str(), ".dme")){
                 
                 library->openDME(w.str());
             }*/
-            std::ifstream t(fileToEdit);
-            if (t.good())
-            {
-                std::string str((std::istreambuf_iterator<char>(t)), std::istreambuf_iterator<char>());
-                editor.SetText(str);
-            }
+            
         }
     }
 
@@ -79,22 +84,22 @@ public:
 
            
 
-            auto cpos = editor.GetCursorPosition();
+            
             std::string name = "DM Editor";
             if (!fileToEdit.empty()) {
                 name = fileToEdit;
            }
 
-            ImGui::Begin(name.c_str(), nullptr, ImGuiWindowFlags_HorizontalScrollbar | ImGuiWindowFlags_MenuBar);
-            ImGui::SetWindowSize(ImVec2(width*0.8, height*0.8), ImGuiCond_FirstUseEver);
+            ImGui::Begin(name.c_str(), nullptr, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoScrollbar);
+            ImGui::SetWindowSize(ImVec2(width*0.8, height*0.6));
             
-
+            auto cpos = editor.GetCursorPosition();
             ImGui::Text("%6d/%-6d %6d lines  | %s | %s | %s | %s", cpos.mLine + 1, cpos.mColumn + 1, editor.GetTotalLines(),
                 editor.IsOverwrite() ? "Ovr" : "Ins",
                 editor.CanUndo() ? "*" : " ",
                 editor.GetLanguageDefinition().mName.c_str(), fileToEdit.c_str());
 
-            editor.Render("TextEditor");
+            editor.Render("DM Editor");
             ImGui::End();
 
           

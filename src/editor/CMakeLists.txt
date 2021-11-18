@@ -19,7 +19,7 @@ SET(EDITOR_FOLDER ${CMAKE_CURRENT_SOURCE_DIR})
 message(STATUS "Generating project file for example in ${EXAMPLE_FOLDER}")
 # Main
 
-file(GLOB BASE_HEADERS "*.hpp" "*.h")
+file(GLOB BASE_HEADERS "*.hpp" "*.h" "source_navigation/*.h" "map_editor/*.h" "code_editor/*.h")
 file(GLOB GLAD_HEADERS "../../third_party/glfw/deps/*.h" )
 file(GLOB GLAD_SOURCE "../../third_party/glfw/deps/*.c" )
 

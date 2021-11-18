@@ -1,16 +1,19 @@
 #include "source_navigation.h"
 #include <sstream>
 
+
 namespace MYG{
 
     SourceNavigationInterface::SourceNavigationInterface( GLFWwindow* window,BYOND::Library* library,int xpos,int ypos,int width,int height):
     window(window), library(library),xpos(xpos),ypos(ypos),width(width),height(height)
     {
        fileBrowser = new imgui_ext::file_browser("File Explorer");
-
+       objects = new ObjectExplorer("Object Explorer",this->library);
+        textColor = ImVec4(0.90f, 0.90f, 0.90f, 0.90f);
 
     }
 
+   
     void SourceNavigationInterface::mainLoop(){
         
         static ImGuiTabBarFlags tab_bar_flags =   ImGuiTabBarFlags_None;
@@ -36,38 +39,17 @@ namespace MYG{
             ImGui::EndTabItem();
         }
 
-        if (ImGui::BeginTabItem("Object Explorer", &objectExplorerOpen, ImGuiTabItemFlags_None))
+        bool shouldOpen = library->isDone();
+        if (ImGui::BeginTabItem("Object Explorer", &shouldOpen, ImGuiTabItemFlags_None))
         {
-
             
-
-                BYOND::ObjectTree *tree = library->getTree();
-                int i =0;
-                for(auto item : tree->items){
-                    
-                    if (ImGui::TreeNode((void*)(intptr_t)i, "%s",item.first.c_str()))
-                    {
-                        for (auto var : item.second->instances)
-                        {
-                        
-                            ImGui::Text(item.second->path.c_str());
-                            //ImGui::SameLine();
-                            //if (ImGui::SmallButton("button")) {}
-                            ImGui::TreePop();
-                        }
-                        
-                    }
-                    i++;
-                }
- 
-           
-            
-                
-                
-
+            if (objects->render(shouldOpen)) {
+               
+            }
             ImGui::EndTabItem();
         }
 
+       
 
         //FILE AND OBJECT BROWSER
         

@@ -415,6 +415,13 @@ namespace BYOND
 			return 0;
 		}
 
+		int getAbsoluteChildCount(ObjectTreeItem* root) 
+		{
+			
+			return root->subtypes.size();
+		
+		}
+
 		int getIndexOfChild(std::any arg0, std::any arg1) 
 		{
 			if (!(arg1.type() == typeid(ObjectTreeItem)))
