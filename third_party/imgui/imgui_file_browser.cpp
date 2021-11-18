@@ -123,7 +123,7 @@ const bool file_browser::render(const bool isVisible, std::string& outPath) {
     }
 
     bool isOpen = true;
-    if (ImGui::Begin(m_title, &isOpen),modal_flags) {
+
 
         if (ImGui::ListBox("##", &m_selection, vector_file_items_getter, &m_filesInScope, m_filesInScope.size(), 20)) {
 
@@ -144,14 +144,12 @@ const bool file_browser::render(const bool isVisible, std::string& outPath) {
             }
 
 
-        }
+
 
         //Auto resize text wrap to popup width.
 
         ImGui::Text(m_currentPath.string().data());
 
-
-        ImGui::End();
 
     }
 

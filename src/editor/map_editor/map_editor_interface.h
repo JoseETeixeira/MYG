@@ -10,8 +10,7 @@
 #include "imgui.h"
 #include "imgui_impl_glfw.h"
 #include "imgui_impl_opengl3.h"
-#include "TextEditor.h"
-#include "imgui_file_browser.h"
+
 #include "../../byond/library.h"
 #include "../../byond/stringhelper.h"
 
@@ -45,32 +44,6 @@ public:
     void mainLoop(){
 
            
-
-            ImGui::Begin("Object Explorer");
-            
-
-            if (ImGui::TreeNode("Basic trees"))
-            {
-                for (int i = 0; i < 5; i++)
-                {
-                    // Use SetNextItemOpen() so set the default state of a node to be open. We could
-                    // also use TreeNodeEx() with the ImGuiTreeNodeFlags_DefaultOpen flag to achieve the same thing!
-                    if (i == 0)
-                        ImGui::SetNextItemOpen(true, ImGuiCond_Once);
-
-                    if (ImGui::TreeNode((void*)(intptr_t)i, "Child %d", i))
-                    {
-                        ImGui::Text("blah blah");
-                        ImGui::SameLine();
-                        if (ImGui::SmallButton("button")) {}
-                        ImGui::TreePop();
-                    }
-                }
-                ImGui::TreePop();
-            }
-
-       
-            ImGui::End();
 
             ImGui::Begin("Map Editor", nullptr, ImGuiWindowFlags_HorizontalScrollbar | ImGuiWindowFlags_MenuBar);
             ImGui::SetWindowSize(ImVec2(width*0.8, height*0.8), ImGuiCond_FirstUseEver);
