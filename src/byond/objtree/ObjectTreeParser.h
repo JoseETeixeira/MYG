@@ -398,7 +398,7 @@ namespace BYOND
 						break;
 					}
 					
-					affectedObjectPath += "/" + item;
+					affectedObjectPath += item;
 				}
 				ObjectTreeItem* item = tree->getOrCreate(affectedObjectPath);
 				if (fullPath.find("(") != std::string::npos && (int)fullPath.find("(") < (int)fullPath.rfind("/"))

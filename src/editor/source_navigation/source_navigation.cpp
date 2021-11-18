@@ -44,37 +44,43 @@ namespace MYG{
         bool shouldOpen = library->isDone();
         static int selection_mask = 0x02;
         if(ImGui::BeginTabItem("Objects", &shouldOpen, ImGuiTabItemFlags_None)){
-            if (ImGui::TreeNodeEx("Root", ImGuiTreeNodeFlags_Selected, "Non-leaf node"))
-        {   
-                ImGui::Indent();
-                ImGui::Text("Leaf Node");
+            
+            if (ImGui::TreeNodeEx("Root", ImGuiTreeNodeFlags_Selected, "/mob"))
+            {   
+                for(auto item : library->getTree()->get("/mob")->subtypes){
+                    ImGui::Indent();
 
-                    int node_clicked = -1;
-                    for (int i = 0; i < 5; i++)
-                    {
-                        ImGuiTreeNodeFlags node_flags = ((selection_mask & (1 << i)) ? ImGuiTreeNodeFlags_Selected : 0) | ImGuiTreeNodeFlags_OpenOnDoubleClick;
-                        bool opened = ImGui::TreeNodeEx((void*)(intptr_t)i, node_flags, "Selectable Child %d", i);
-                        if (ImGui::IsItemClicked()) 
-                            node_clicked = i;
-                        if (opened)
+                    ImGui::Text(item->path.c_str());
+
+                        int node_clicked = -1;
+                        for (int i = 0; i < 5; i++)
                         {
-                            ImGui::Text("blah blah");
-                            ImGui::TreePop();
+                            ImGuiTreeNodeFlags node_flags = ((selection_mask & (1 << i)) ? ImGuiTreeNodeFlags_Selected : 0) | ImGuiTreeNodeFlags_OpenOnDoubleClick;
+                            bool opened = ImGui::TreeNodeEx((void*)(intptr_t)i, node_flags, "Selectable Child %d", i);
+                            if (ImGui::IsItemClicked()) 
+                                node_clicked = i;
+                            if (opened)
+                            {
+                                ImGui::Text("blah blah");
+                                ImGui::TreePop();
+                            }
                         }
-                    }
-                    if (node_clicked != -1)
-                    {
-                        // Update selection state. Process outside of tree loop to avoid visual inconsistencies during the clicking-frame.
-                        if (ImGui::GetIO().KeyCtrl)
-                            selection_mask ^= (1 << node_clicked);  // CTRL+click to toggle
-                        else
-                            selection_mask = (1 << node_clicked);   // Click to single-select
-                    }
-                
-                ImGui::Unindent();
+                        if (node_clicked != -1)
+                        {
+                            // Update selection state. Process outside of tree loop to avoid visual inconsistencies during the clicking-frame.
+                            if (ImGui::GetIO().KeyCtrl)
+                                selection_mask ^= (1 << node_clicked);  // CTRL+click to toggle
+                            else
+                                selection_mask = (1 << node_clicked);   // Click to single-select
+                        }
+                    
+                    ImGui::Unindent();
+                    
+                }
                 ImGui::TreePop();
-            //ImGui::TreePop();
-        }
+            }
+        
+            
     
 
          ImGui::EndTabItem();
