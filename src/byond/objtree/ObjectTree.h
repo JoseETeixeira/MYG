@@ -260,7 +260,7 @@ namespace BYOND
 					ss << e.second.c_str();
 					std::string val = ss.str();
 					std::string origVal = "";
-					spdlog::info("Var: {}",e.first);
+					//spdlog::info("Var: {}",e.first);
 					
 					while (origVal != val)
 					{
@@ -357,6 +357,9 @@ namespace BYOND
 				{
 					i.second->parent = parent;
 					parent->subtypes.push_back(i.second);
+				}
+				else{
+					spdlog::info("Empty Parent type: FIRST {}, SECOND {}",i.first,i.second->path);
 				}
 			}
 			// Sort children

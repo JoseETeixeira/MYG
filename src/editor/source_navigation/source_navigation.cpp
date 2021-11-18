@@ -101,6 +101,18 @@ namespace MYG{
                 ImGui::TreePop();
             }
 
+            if (ImGui::TreeNodeEx("Datum", ImGuiTreeNodeFlags_Selected, "/datum"))
+            {   
+ 
+                
+                RenderObjectTree(library->getTree()->get("/datum")->subtypes,i,selection_mask,node_clicked);
+                
+
+                
+                ImGui::TreePop();
+            }
+
+
             if (ImGui::TreeNodeEx("Mobs", ImGuiTreeNodeFlags_Selected, "/mob"))
             {   
  

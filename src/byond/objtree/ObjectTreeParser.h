@@ -357,6 +357,8 @@ namespace BYOND
 						break;
 					}
 				}
+
+				//TODO: CHECK PATH TREE
 				// Rebuild the path tree.
 				for (int j = pathTree.size(); j <= level; j++)
 				{
@@ -368,7 +370,7 @@ namespace BYOND
 				{
 					for (int j = pathTree.size() - 1; j > level; j--)
 					{
-						pathTree.erase(pathTree.begin() + j);
+						pathTree.erase(pathTree.end() - j);
 					}
 				}
 				std::string fullPath = "";

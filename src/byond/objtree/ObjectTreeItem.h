@@ -86,7 +86,7 @@ namespace BYOND
 			try{
 				if(key == "parentType"){
 					if(parent != nullptr)
-						return parent->getVar("type");
+						return parent->path;
 					return "";
 				}
 				if(!key.empty()){
