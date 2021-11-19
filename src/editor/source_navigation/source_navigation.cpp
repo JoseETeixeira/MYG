@@ -13,17 +13,16 @@ namespace MYG{
 
     }
 
-    /*
+    
 
-    void SourceNavigationInterface::RenderObjectTree(std::vector<BYOND::ObjectTreeItem*> subtypes, int &i,int &selection_mask,int &node_clicked){
-        ImGui::Indent();
-        for(auto item : subtypes){
-            
+    void SourceNavigationInterface::RenderObjectTree(std::vector<BYOND::DME_Tree_Item*>  items, int &i,int &selection_mask,int &node_clicked){
+        
+        for(auto item : items){
 
-            if(item->subtypes.size() == 0){
-                
-                ImGuiTreeNodeFlags node_flags = ((selection_mask & (1 << (i))) ? ImGuiTreeNodeFlags_Selected : 0) | ImGuiTreeNodeFlags_OpenOnDoubleClick;
-                bool opened = ImGui::TreeNodeEx((void*)(intptr_t)(i), node_flags, "%s", item->path.c_str());
+            if(item->getChildren().size() == 0){
+                ImGui::Indent();
+                 ImGuiTreeNodeFlags node_flags = ((selection_mask & (1 << (i))) ? ImGuiTreeNodeFlags_Selected : 0) | ImGuiTreeNodeFlags_OpenOnDoubleClick;
+                bool opened = ImGui::TreeNodeEx((void*)(intptr_t)(i), node_flags, "%s", item->getName().c_str());
                 if (ImGui::IsItemClicked()) 
                     node_clicked = (i);
                 if (opened)
@@ -41,20 +40,18 @@ namespace MYG{
                         selection_mask = (1 << node_clicked);   // Click to single-select
                 }
                 i++;
+                ImGui::Unindent();
             }else{
-                //Recursive
-                if(item->parent != nullptr && item->parent->path.find(item->path) != std::string::npos){
-                    RenderObjectTree(item->subtypes,i,selection_mask,node_clicked);
-                    
-                    i++;
-                }
-                
+                RenderObjectTree(item->getChildren(),i,selection_mask,node_clicked);
             }
+            
+           
+            
 
         }
-        ImGui::Unindent();
+       
     }
-    */
+    
    
     void SourceNavigationInterface::mainLoop(){
         
@@ -83,92 +80,24 @@ namespace MYG{
             ImGui::EndTabItem();
         }
         
-        /*
+        
 
         bool shouldOpen = library->isDone();
         static int selection_mask = 0x02;
         if(ImGui::BeginTabItem("Objects", &shouldOpen, ImGuiTabItemFlags_None)){
             int i = 0;
             int node_clicked = -1;
-            
-
-            if (ImGui::TreeNodeEx("Area", ImGuiTreeNodeFlags_Selected, "/area"))
-            {   
- 
-                
-                RenderObjectTree(library->getTree()->get("/area")->subtypes,i,selection_mask,node_clicked);
-                
-
-                
-                ImGui::TreePop();
-            }
-
-            if (ImGui::TreeNodeEx("Datum", ImGuiTreeNodeFlags_Selected, "/datum"))
-            {   
- 
-                
-                RenderObjectTree(library->getTree()->get("/datum")->subtypes,i,selection_mask,node_clicked);
-                
-
-                
-                ImGui::TreePop();
-            }
-
-
-            if (ImGui::TreeNodeEx("Mobs", ImGuiTreeNodeFlags_Selected, "/mob"))
-            {   
- 
-                
-                RenderObjectTree(library->getTree()->get("/mob")->subtypes,i,selection_mask,node_clicked);
-                
-
-                
-                ImGui::TreePop();
-            }
-
-            if (ImGui::TreeNodeEx("Obj", ImGuiTreeNodeFlags_Selected, "/obj"))
-            {   
- 
-                
-                RenderObjectTree(library->getTree()->get("/obj")->subtypes,i,selection_mask,node_clicked);
-                
-
-                
-                ImGui::TreePop();
-            }
-
-            if (ImGui::TreeNodeEx("Turf", ImGuiTreeNodeFlags_Selected, "/turf"))
-            {   
- 
-                
-                RenderObjectTree(library->getTree()->get("/turf")->subtypes,i,selection_mask,node_clicked);
-                
-
-                
-                ImGui::TreePop();
-            }
-
-            for(auto item: library->getTree()->items){
-                if(!item.first.empty() && (item.second->parent == nullptr || (item.second->parent->path.empty()) || item.second->parent->path == "/" )){
-                    if (ImGui::TreeNodeEx(item.second->path.c_str(), ImGuiTreeNodeFlags_Selected, item.second->path.c_str()))
-                        {   
-            
-                            
-                            RenderObjectTree(item.second->subtypes,i,selection_mask,node_clicked);
-                            
-
-                            
-                            ImGui::TreePop();
-                        }
-                }
-            }
-        
-            
+            BYOND::DME_Tree *tree = library->getTree();
+            BYOND::DME_Tree_Item *root = tree->rootNode;
+            std::vector<BYOND::DME_Tree_Item*> root_children = root->getChildren();
+            spdlog::info(root_children.size());
+            RenderObjectTree(root_children,i,selection_mask,node_clicked);
+                     
     
 
          ImGui::EndTabItem();
         }
-        */
+        
         
         ImGui::EndTabBar();
         ImGui::End();

@@ -18,11 +18,15 @@ namespace BYOND{
 
     class DME_Tree{
 
-       	// region Byond Builtins
+	public:
 
+       	std::vector<std::filesystem::path*> fileDirs;
+		std::unordered_map<std::string, std::string> macros;
+		std::unordered_map<std::string, DME_Tree_Item*> pathCache;
+		DME_Tree_Item *rootNode = new DME_Tree_Item(nullptr, "");
 		// Catch-all for other stuff
 	private:
-		DME_Tree_Item *rootNode = new DME_Tree_Item(nullptr, "");
+		
 
 		DME_Tree_Item *datum = new DME_Tree_Item(rootNode, "datum");
 
@@ -42,9 +46,7 @@ namespace BYOND{
 
 		// endregion
 
-		std::vector<std::filesystem::path*> fileDirs;
-		std::unordered_map<std::string, std::string> macros;
-		std::unordered_map<std::string, DME_Tree_Item*> pathCache;
+		
 
 		std::vector<DME_Tree_Listener*> listeners = std::vector<DME_Tree_Listener*>();
 
@@ -155,7 +157,7 @@ namespace BYOND{
 					// Iterates through the path, getting or creating children as it goes.
 					// Remember, DME_Tree_Item::new automatically adds the new node to its parent
 					std::optional<DME_Tree_Item*> optNode = currentNode->getChild(splitPath[i]);
-					if (optNode)
+					if (optNode.has_value())
 					{
 						currentNode = optNode.value();
 					}
