@@ -13,6 +13,7 @@ namespace MYG{
 
     }
 
+    /*
 
     void SourceNavigationInterface::RenderObjectTree(std::vector<BYOND::ObjectTreeItem*> subtypes, int &i,int &selection_mask,int &node_clicked){
         ImGui::Indent();
@@ -53,7 +54,7 @@ namespace MYG{
         }
         ImGui::Unindent();
     }
-
+    */
    
     void SourceNavigationInterface::mainLoop(){
         
@@ -82,6 +83,7 @@ namespace MYG{
             ImGui::EndTabItem();
         }
         
+        /*
 
         bool shouldOpen = library->isDone();
         static int selection_mask = 0x02;
@@ -166,7 +168,7 @@ namespace MYG{
 
          ImGui::EndTabItem();
         }
-        
+        */
         
         ImGui::EndTabBar();
         ImGui::End();

@@ -12,16 +12,14 @@
 #include "imgui_impl_opengl3.h"
 #include "TextEditor.h"
 #include "imgui_file_browser.h"
-#include "../../byond/objtree/ObjectTree.h"
-#include "../../byond/objtree/ObjectTreeItem.h"
+#include "../../byond/tree/DME_tree.h"
+#include "../../byond/tree/DME_tree_item.h"
 #include "../../byond/library.h"
-#include "../../byond/stringhelper.h"
+#include "../../byond/utils/string_helper.h"
 #include "imgui_file_browser.h"
 
 
 namespace MYG{
-
-class BYOND::Library;
 
 class SourceNavigationInterface{
 
@@ -42,7 +40,7 @@ public:
     ImVec4 textColor;
 
     SourceNavigationInterface( GLFWwindow* window,BYOND::Library* library,int xpos,int ypos,int width,int height);
-    void RenderObjectTree(std::vector<BYOND::ObjectTreeItem*> subtypes, int &i,int &selection_mask,int &node_clicked);
+    void RenderObjectTree(std::vector<BYOND::DME_Tree_Item*> subtypes, int &i,int &selection_mask,int &node_clicked);
 
     void mainLoop();
 

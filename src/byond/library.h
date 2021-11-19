@@ -1,18 +1,18 @@
-#include <stdexcept>
-#include <fstream>
+#include "spdlog/spdlog.h"
+#include <filesystem>
 #include <iostream>
 #include <sstream>
-#include <string>
-#include "spdlog/spdlog.h" 
-#include <thread>
-#include <mutex>
+#include <fstream>
 #ifndef _BYOND_LIBRARY_H
 #define _BYOND_LIBRARY_H
 
 #pragma once
 
-#include "objtree/ObjectTreeParser.h"
-#include "objtree/ObjectTree.h"
+
+#include "parser/DME_parser.h"
+
+
+
 
 namespace BYOND{
     
@@ -20,54 +20,56 @@ namespace BYOND{
 
 
     private:
-        ObjectTreeParser* parser;
         std::string currentDME = "";
         bool done = false;
+        BYOND::DME_Parser *parser;
         
             
     public:
     
+        Library(){};
+
+        /**
+         * @brief Opens the DME file passed if it's different from the current one and parses it
+         * 
+         * @param filepath 
+         */
         void openDME(std::string filepath) {
+            spdlog::info("Opening DME");
 
-            if(currentDME != filepath ){
-                delete parser;
 
-                currentDME = filepath;
-                parser = new ObjectTreeParser();
-                // PARSE TREE
-            
-                parser->parseDME(filepath);
-                //spdlog::info("Tree size: {}", parser->tree->items.size());
-                parser->tree->completeTree();
-                done = true;
+            //TODO: Do parse
+            std::ifstream dmeFile(filepath);
+            std::filesystem::path p = filepath;
+            parser = new BYOND::DME_Parser(&dmeFile,&p);
 
-            }
-            
-            // parser->tree->dumpTree();
-                //tree->completeTree();
-                //spdlog::info("Tree dump: {}", tree->get(".")->path);
-            
+            spdlog::info("Parser created");
+
+            parser->parseSynchronously();
+
+            spdlog::info("Parsing done");
+
+            done = true;
+
             
         }
 
+        //TODO: Get Tree
+
+
+
+        /**
+         * @brief informs if the current DME file has finished being parsed
+         * 
+         * @return true 
+         * @return false 
+         */
         bool isDone(){
+            
             return done == true;
         }
 
-        ObjectTree* getTree(){
-            if(parser !=nullptr ){
-                if(parser->tree != nullptr){
-                    return parser->tree;
-                }
-                else{
-                    spdlog::error("Parser tree not loaded");
-                    return nullptr;
-                }
-            }else{
-                spdlog::error("No DME file loaded");
-                return nullptr;
-            }
-        }
+       
 
 
 

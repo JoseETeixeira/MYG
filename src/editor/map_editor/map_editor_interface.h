@@ -12,7 +12,7 @@
 #include "imgui_impl_opengl3.h"
 
 #include "../../byond/library.h"
-#include "../../byond/stringhelper.h"
+#include "../../byond/utils/string_helper.h"
 
 
 

@@ -18,7 +18,7 @@
 #include "map_editor/map_editor_interface.h"
 #include "source_navigation/source_navigation.h"
 #include "../byond/library.h"
-#include "../byond/stringhelper.h"
+#include "../byond/utils/string_helper.h"
 
 #if defined(_MSC_VER) && (_MSC_VER >= 1900) && !defined(IMGUI_DISABLE_WIN32_FUNCTIONS)
 #pragma comment(lib, "legacy_stdio_definitions")
@@ -49,7 +49,7 @@ namespace MYG{
             GLFWwindow* window;
 
            
-            BYOND::Library *library;
+            BYOND::Library library;
 
             int xpos,ypos,width,height;
 

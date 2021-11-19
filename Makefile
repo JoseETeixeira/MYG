@@ -157,6 +157,19 @@ depend:
 .PHONY : depend
 
 #=============================================================================
+# Target rules for targets named clean-all
+
+# Build rule for target.
+clean-all: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 clean-all
+.PHONY : clean-all
+
+# fast build rule for target.
+clean-all/fast:
+	$(MAKE) -f CMakeFiles/clean-all.dir/build.make CMakeFiles/clean-all.dir/build
+.PHONY : clean-all/fast
+
+#=============================================================================
 # Target rules for targets named uninstall
 
 # Build rule for target.
@@ -233,6 +246,7 @@ help:
 	@echo "... list_install_components"
 	@echo "... rebuild_cache"
 	@echo "... edit_cache"
+	@echo "... clean-all"
 	@echo "... uninstall"
 	@echo "... glfw"
 	@echo "... imgui"

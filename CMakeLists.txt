@@ -23,3 +23,8 @@ add_subdirectory(src/byond)
 
 add_subdirectory(src/editor)
 
+add_custom_target(clean-all
+   COMMAND ${CMAKE_BUILD_TOOL} clean
+   COMMAND ${CMAKE_COMMAND} -P clean.cmake
+)
+

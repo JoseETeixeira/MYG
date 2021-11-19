@@ -38,6 +38,13 @@ file(GLOB IMGUI_SOURCE_FILES "../../third_party/imgui/*.cpp" )
 
 file(GLOB FA_HEADER_FILES "../../third_party/fonts/*.h" )
 
+## BYOND
+
+find_library(byond-core byond)
+
+file(GLOB BYOND_HEADER_FILES "byond/*.h" "byond/utils/*.h" "byond/parser/*.h" "byond/tree/*.h" )
+file(GLOB BYOND_SOURCE_FILES "byond/*.cpp" )
+
 add_executable(Editor ${MAIN_CPP} ${SOURCE} ${GLAD_SOURCE} ${FA_HEADER_FILES} ${MAIN_HEADER} ${GLAD_HEADERS} ${IMGUI_HEADER_FILES} ${IMGUI_SOURCE_FILES})
 
 
