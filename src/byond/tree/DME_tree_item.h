@@ -14,7 +14,7 @@ namespace BYOND{
 
 class DME_Tree_Item{
 
-	private:
+	public:
 		DME_Tree_Item *parent;
 		std::string name;
 
@@ -53,7 +53,10 @@ class DME_Tree_Item{
 
 			if (parent != nullptr)
 			{
-				add(*parent->children,this);
+				parent->children->push_back(this);
+				std::sort(parent->children->begin(),parent->children->end(),[&](const DME_Tree_Item *obj1, const DME_Tree_Item *obj2){
+                	return obj1->name.compare(obj2->name);
+            	});
 			}
 		}
 
@@ -104,7 +107,7 @@ class DME_Tree_Item{
 			return *children;
 		}
 
-		std::optional<DME_Tree_Item*> getChild(const std::string &name)
+		DME_Tree_Item* getChild(const std::string &name)
 		{
            
             for(auto child : *children){
@@ -113,7 +116,7 @@ class DME_Tree_Item{
                 }
             }
         
-            return std::nullopt;
+            return nullptr;
 		}
 
 		/**

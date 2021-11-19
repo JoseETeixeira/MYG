@@ -15,9 +15,33 @@ namespace MYG{
 
     
 
-    void SourceNavigationInterface::RenderObjectTree(std::vector<BYOND::DME_Tree_Item*>  items, int &i,int &selection_mask,int &node_clicked){
+    void SourceNavigationInterface::RenderObjectTree(BYOND::DME_Tree_Item*  root, int &i,int &selection_mask,int &node_clicked){
         
-        for(auto item : items){
+        if(root->getChildren().size() == 0){
+                ImGui::Indent();
+                ImGuiTreeNodeFlags node_flags = ((selection_mask & (1 << (i))) ? ImGuiTreeNodeFlags_Selected : 0) | ImGuiTreeNodeFlags_OpenOnDoubleClick;
+                bool opened = ImGui::TreeNodeEx((void*)(intptr_t)(i), node_flags, "%s", root->getName().c_str());
+                if (ImGui::IsItemClicked()) 
+                    node_clicked = (i);
+                if (opened)
+                {
+                    ImGui::Text("blah blah");
+                    ImGui::TreePop();
+                }
+                
+                if (node_clicked != -1)
+                {
+                    // Update selection state. Process outside of tree loop to avoid visual inconsistencies during the clicking-frame.
+                    if (ImGui::GetIO().KeyCtrl)
+                        selection_mask ^= (1 << node_clicked);  // CTRL+click to toggle
+                    else
+                        selection_mask = (1 << node_clicked);   // Click to single-select
+                }
+                i++;
+                ImGui::Unindent();
+        }else{
+             for(auto item : root->getChildren()){
+            //spdlog::info(item->getChildren().size());
 
             if(item->getChildren().size() == 0){
                 ImGui::Indent();
@@ -42,14 +66,23 @@ namespace MYG{
                 i++;
                 ImGui::Unindent();
             }else{
-                RenderObjectTree(item->getChildren(),i,selection_mask,node_clicked);
+                RenderObjectTree(item,i,selection_mask,node_clicked);
             }
             
            
+        }
+       
             
 
         }
        
+    }
+
+    void printTree(BYOND::DME_Tree_Item *root ){
+        for(auto child : root->getChildren()){
+            spdlog::info(child->getName());
+            printTree(child);
+        }
     }
     
    
@@ -89,9 +122,10 @@ namespace MYG{
             int node_clicked = -1;
             BYOND::DME_Tree *tree = library->getTree();
             BYOND::DME_Tree_Item *root = tree->rootNode;
-            std::vector<BYOND::DME_Tree_Item*> root_children = root->getChildren();
-            spdlog::info(root_children.size());
-            RenderObjectTree(root_children,i,selection_mask,node_clicked);
+            printTree(root);
+            //spdlog::info(root_children.size());
+
+            RenderObjectTree(root,i,selection_mask,node_clicked);
                      
     
 

@@ -40,7 +40,7 @@ public:
     ImVec4 textColor;
 
     SourceNavigationInterface( GLFWwindow* window,BYOND::Library* library,int xpos,int ypos,int width,int height);
-    void RenderObjectTree(std::vector<BYOND::DME_Tree_Item*>  items, int &i,int &selection_mask,int &node_clicked);
+    void RenderObjectTree(BYOND::DME_Tree_Item  *items, int &i,int &selection_mask,int &node_clicked);
 
     void mainLoop();
 

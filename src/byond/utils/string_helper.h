@@ -86,6 +86,42 @@ public:
 		return output;
 	}
 
+	static std::vector<std::string> splitPath(std::string *path)
+		{
+			std::stringstream *splitPathBuffer = new std::stringstream();
+			splitPathBuffer->str(std::string());
+			std::vector<std::string> pathSections;
+
+			for (int i = 0; i < path->size(); i++)
+			{
+				if (std::isalnum(path->at(i)) || path->at(i) == '_')
+				{
+					*splitPathBuffer << path->at(i);
+				}
+				else
+				{
+					if (path->at(i) == '/')
+					{
+						pathSections.push_back(splitPathBuffer->str());
+						splitPathBuffer->str(std::string());
+					}
+					else
+					{
+						*splitPathBuffer << (path->substr(i, path->length() - i));
+						pathSections.push_back(splitPathBuffer->str());
+						return pathSections;
+					}
+				}
+			}
+			std::string tmpstring = splitPathBuffer->str();
+			if (tmpstring.length() > 0)
+			{
+				pathSections.push_back(tmpstring);
+			}
+
+			return pathSections;
+		}
+
 	template<typename T>
 	static std::string toString(const T &subject)
 	{
@@ -117,6 +153,15 @@ public:
 
 			return true;
 		}
+	}
+
+	static std::string ReplaceAll(std::string str, const std::string& from, const std::string& to) {
+		size_t start_pos = 0;
+		while((start_pos = str.find(from, start_pos)) != std::string::npos) {
+			str.replace(start_pos, from.length(), to);
+			start_pos += to.length(); // Handles case where 'to' is a substring of 'from'
+		}
+		return str;
 	}
 
 	template<typename T>

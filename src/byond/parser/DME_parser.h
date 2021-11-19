@@ -297,7 +297,7 @@ private:
 								parseStack.push_back(ParseLevel::DOUBLE_QUOTES);
 								continue;
 							}
-							else if (currentLine[i] == L'\'')
+							else if (currentLine[i] == '\'')
 							{
 								parseStack.push_back(ParseLevel::SINGLE_QUOTES);
 								continue;
@@ -368,12 +368,22 @@ private:
 							std::string includedPath = matcher[1].str();
 							if (StringHelper::endsWith(includedPath, ".dm") || StringHelper::endsWith(includedPath, ".dme"))
 							{
+								std::string dmPath = currentFile.parent_path().string() + "/"+includedPath;
+								std::string system_agnostic_path;
+								#ifdef __linux__ 
+									system_agnostic_path = StringHelper::ReplaceAll(dmPath,"\\","/");
+								#elif _WIN32
+									system_agnostic_path = StringHelper::ReplaceAll(dmPath,"/","\\");
+								#else
+									system_agnostic_path = StringHelper::ReplaceAll(dmPath,"\\","/");
+								#endif
 
-								std::ifstream includedFile = std::ifstream(currentFile.parent_path().filename());
-								if (includedFile.good())
+								spdlog::info("Checking included DM file {}", system_agnostic_path);
+								std::ifstream *includedFile = new std::ifstream(system_agnostic_path);
+								if (includedFile->good())
 								{
-									spdlog::info("Parsing included DM file {}", currentFile.parent_path().filename().string());
-									subParse(tree, &includedFile, std::filesystem::path(currentFile.parent_path().filename()));
+									spdlog::info("Parsing included DM file {}", includedPath);
+									subParse(tree, includedFile, std::filesystem::path(currentFile.parent_path().filename()));
 								}
 
 							}
@@ -480,9 +490,8 @@ private:
 					for (auto i = pathList.begin(); i != pathList.end(); ++i){
 						std::string tempstring;
 						for (auto j = i->begin(); j!= i->end(); ++j)
-							tempstring += *j;
-						pathBuilder += tempstring;
-						pathBuilder += "/";
+							tempstring += *j+ "/";
+						pathBuilder += tempstring ;
 					}
 						
 

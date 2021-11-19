@@ -6,7 +6,7 @@
 #include <filesystem>
 #include <optional>
 #include "../utils/string_helper.h"
-
+#include "spdlog/spdlog.h"
 #pragma once
 #include "DME_tree_item.h"
 #include "DME_tree_listener.h"
@@ -102,7 +102,14 @@ namespace BYOND{
 				return current;
 			}
 
+			//TODO: fix split path
+			spdlog::info("TIMMED PATH: {}",trimmedPath);
 			std::vector<std::string> splitPath = split(trimmedPath,"/");
+
+			for(auto s : splitPath){
+				spdlog::info("SPLIT PATH: {}",s);
+			}
+
 			int startIndex = 0;
 
 			if (splitPath[0].empty())
@@ -110,11 +117,15 @@ namespace BYOND{
 				startIndex++;
 			}
 
+			spdlog::info("SPLIT PATH SIZE: {}",splitPath.size());
+
 			if (splitPath.size() > startIndex)
 			{
 				DME_Tree_Item *currentNode;
 
 				std::string startNodeName = splitPath[startIndex];
+
+				spdlog::info("START NODE NAME: {}",startNodeName);
 
 				if (startNodeName == "datum")
 				{
@@ -156,14 +167,14 @@ namespace BYOND{
 				{
 					// Iterates through the path, getting or creating children as it goes.
 					// Remember, DME_Tree_Item::new automatically adds the new node to its parent
-					std::optional<DME_Tree_Item*> optNode = currentNode->getChild(splitPath[i]);
-					if (optNode.has_value())
+					DME_Tree_Item* optNode = currentNode->getChild(splitPath[i]);
+					if (optNode != nullptr)
 					{
-						currentNode = optNode.value();
+						currentNode = optNode;
 					}
 					else
 					{
-						DME_Tree_Item *newNode = currentNode = new DME_Tree_Item(currentNode, splitPath[i]);
+						DME_Tree_Item *newNode = new DME_Tree_Item(currentNode, splitPath[i]);
                         for(auto listener : listeners){
                             listener->onNodeAdded(newNode);
                         }
