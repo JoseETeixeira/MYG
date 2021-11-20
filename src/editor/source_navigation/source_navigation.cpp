@@ -15,130 +15,60 @@ namespace MYG{
 
     
 
-    void SourceNavigationInterface::RenderObjectTree(BYOND::DME_Tree_Item*  root, int &i,int &selection_mask,int &node_clicked){
+    void SourceNavigationInterface::RenderObjectTree(MYG::DefaultMutableTreeNode<BYOND::DME_Tree_Item *>  *root, int &i,int &selection_mask,int &node_clicked){
         
-        if(!root->getName().empty()){
-            ImGui::Indent();
+            
 
-            ImGuiTreeNodeFlags node_flags = ((selection_mask & (1 << (i))) ? ImGuiTreeNodeFlags_Selected : 0) | ImGuiTreeNodeFlags_OpenOnDoubleClick;
-            bool opened = ImGui::TreeNodeEx((void*)(intptr_t)(i), node_flags, "%s", root->getName().c_str());
-            if (ImGui::IsItemClicked()) 
-                    node_clicked = (i);
-            if (opened)
-            {
-                ImGui::Text(root->getName().c_str());
-                ImGui::TreePop();
-            }
-            if (node_clicked != -1)
+            if(!root->data.empty()){
+                ImGui::Indent();
+                ImGuiTreeNodeFlags node_flags = ((selection_mask & (1 << (i))) ? ImGuiTreeNodeFlags_Selected : 0) | ImGuiTreeNodeFlags_OpenOnDoubleClick;
+                bool opened = ImGui::TreeNodeEx((void*)(intptr_t)(i), node_flags, "%s", root->data.c_str());
+                if (ImGui::IsItemClicked()) 
+                        node_clicked = (i);
+                if (opened)
+                {
+                    ImGui::TreePop();
+                }
+                if (node_clicked != -1)
                     {
-                        // Update selection state. Process outside of tree loop to avoid visual inconsistencies during the clicking-frame.
-                        if (ImGui::GetIO().KeyCtrl)
+                        /**
+                         *  if (ImGui::GetIO().KeyCtrl)
                             selection_mask ^= (1 << node_clicked);  // CTRL+click to toggle
-                        else
-                            selection_mask = (1 << node_clicked);   // Click to single-select
+                        * 
+                        */
+                        selection_mask = (1 << node_clicked);   // Click to single-select
                     }
-            i++;
-            if(root->getChildren().size() > 0){
-                
-                for(auto item : root->getChildren()){
+
+                    
+                for(auto item : root->children){
                 //spdlog::info(item->getChildren().size());
 
-                if(!item->getName().empty()){
-                     if(item->getChildren().size() == 0){
-                    ImGui::Indent();
-                    ImGuiTreeNodeFlags node_flags = ((selection_mask & (1 << (i))) ? ImGuiTreeNodeFlags_Selected : 0) | ImGuiTreeNodeFlags_OpenOnDoubleClick;
-                    bool opened = ImGui::TreeNodeEx((void*)(intptr_t)(i), node_flags, "%s", item->getName().c_str());
-                    if (ImGui::IsItemClicked()) 
-                        node_clicked = (i);
-                    if (opened)
-                    {
-                        ImGui::Text("blah blah");
-                        ImGui::TreePop();
-                    }
-                    
-                    if (node_clicked != -1)
-                    {
-                        // Update selection state. Process outside of tree loop to avoid visual inconsistencies during the clicking-frame.
-                        if (ImGui::GetIO().KeyCtrl)
-                            selection_mask ^= (1 << node_clicked);  // CTRL+click to toggle
-                        else
-                            selection_mask = (1 << node_clicked);   // Click to single-select
-                    }
                     i++;
-                    ImGui::Unindent();
-                }else{
                     RenderObjectTree(item,i,selection_mask,node_clicked);
-                }
-                
-                }else{
-                    RenderObjectTree(item,i,selection_mask,node_clicked);
-                }
-
-               
-            
-            }
-        
-                
-
-            }
-            ImGui::Unindent();
-        }else{
-            
-        if(root->getChildren().size() > 0){
-               
-             for(auto item : root->getChildren()){
-            //spdlog::info(item->getChildren().size());
-
-           if(!item->getName().empty()){
-                     if(item->getChildren().size() == 0){
-                    ImGui::Indent();
-                    ImGuiTreeNodeFlags node_flags = ((selection_mask & (1 << (i))) ? ImGuiTreeNodeFlags_Selected : 0) | ImGuiTreeNodeFlags_OpenOnDoubleClick;
-                    bool opened = ImGui::TreeNodeEx((void*)(intptr_t)(i), node_flags, "%s", item->getName().c_str());
-                    if (ImGui::IsItemClicked()) 
-                        node_clicked = (i);
-                    if (opened)
-                    {
-                        ImGui::Text("blah blah");
-                        ImGui::TreePop();
-                    }
                     
-                    if (node_clicked != -1)
-                    {
-                        // Update selection state. Process outside of tree loop to avoid visual inconsistencies during the clicking-frame.
-                        if (ImGui::GetIO().KeyCtrl)
-                            selection_mask ^= (1 << node_clicked);  // CTRL+click to toggle
-                        else
-                            selection_mask = (1 << node_clicked);   // Click to single-select
-                    }
-                    i++;
-                    ImGui::Unindent();
-                }else{
-                    RenderObjectTree(item,i,selection_mask,node_clicked);
-                }
-                
-                }else{
-                    RenderObjectTree(item,i,selection_mask,node_clicked);
-                }
             
+                    
+
+                }
+                ImGui::Unindent();
+            }
+
            
-        }
-       
-            
-
-        }
-
-        }
+        
         
        
     }
 
-    void printTree(BYOND::DME_Tree_Item *root ){
-        spdlog::info("Printing: {}",root->getName());
-        for(auto child : root->getChildren()){
-            spdlog::info(child->getName());
-            printTree(child);
+        std::string printTree(MYG::DefaultMutableTreeNode<BYOND::DME_Tree_Item *>  *node){
+            std::string tree = "{";
+            tree += node->data;
+            spdlog::info("Node: {}",node->data);
+            for(MYG::DefaultMutableTreeNode<BYOND::DME_Tree_Item *> * child : node->children){
+                tree += printTree(child);
+            }
+            tree += "}";
+            return tree;
         }
-    }
     
    
     void SourceNavigationInterface::mainLoop(){
@@ -168,6 +98,8 @@ namespace MYG{
             ImGui::EndTabItem();
         }
         
+
+        
         
 
         bool shouldOpen = library->isDone();
@@ -175,12 +107,10 @@ namespace MYG{
         if(ImGui::BeginTabItem("Objects", &shouldOpen, ImGuiTabItemFlags_None)){
             int i = 0;
             int node_clicked = -1;
-            BYOND::DME_Tree *tree = library->getTree();
-            BYOND::DME_Tree_Item *root = tree->rootNode;
-            printTree(root);
-            //spdlog::info(root_children.size());
+            DME_Tree_Tree_Model *tree = library->getTree();
+            //spdlog::info(printTree(tree->getRoot()));
 
-            RenderObjectTree(root,i,selection_mask,node_clicked);
+            RenderObjectTree(tree->getRoot(),i,selection_mask,node_clicked);
                      
     
 

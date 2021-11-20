@@ -54,9 +54,7 @@ class DME_Tree_Item{
 			if (parent != nullptr)
 			{
 				parent->children->push_back(this);
-				std::sort(parent->children->begin(),parent->children->end(),[&](const DME_Tree_Item *obj1, const DME_Tree_Item *obj2){
-                	return obj1->name.compare(obj2->name);
-            	});
+	
 			}
 		}
 

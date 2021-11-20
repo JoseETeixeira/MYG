@@ -11,6 +11,7 @@
 
 #include "parser/DME_parser.h"
 #include "tree/DME_tree.h"
+#include "../editor/source_navigation/tree/DME_Tree_Model.h"
 
 
 
@@ -24,6 +25,7 @@ namespace BYOND{
         std::string currentDME = "";
         bool done = false;
         BYOND::DME_Parser *parser;
+        MYG::DME_Tree_Tree_Model *treeModel;
         
             
     public:
@@ -42,11 +44,14 @@ namespace BYOND{
                 //TODO: Do parse
                 std::ifstream dmeFile(filepath);
                 std::filesystem::path p = filepath;
-                parser = new BYOND::DME_Parser(&dmeFile,&p);
+                parser = new BYOND::DME_Parser(&p);
 
                 spdlog::info("Parser created");
 
-                parser->parseSynchronously();
+                treeModel = new MYG::DME_Tree_Tree_Model(parser->tree);
+                spdlog::info("Tree model listener created");
+
+                parser->parseDME();
 
                 spdlog::info("Parsing done");
 
@@ -55,8 +60,8 @@ namespace BYOND{
             }
         }
 
-        DME_Tree *getTree(){
-            return parser->tree;
+        MYG::DME_Tree_Tree_Model *getTree(){
+            return this->treeModel;
         }
 
         std::unordered_map<std::string, DME_Tree_Item*> getTreeItems(DME_Tree *tree){

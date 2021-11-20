@@ -7,13 +7,16 @@
 #include <string>
 #include <vector>
 #include <list>
+#include <deque>
 #include <cctype>
 #include <stdexcept>
 #include <utility>
 #include <regex>
+#include <algorithm>
 #include <filesystem>
 #include <iostream>
 #include <sstream>
+#include <unordered_map>
 #include <fstream>
 #include <future>
 #include <thread>
@@ -21,716 +24,624 @@
 #include "../utils/string_helper.h"
 #include "../utils/string_builder.h"
 #include "../utils/util.h"
+#include "../utils/cached_pattern.h"
 #include "spdlog/spdlog.h"
 
 
 namespace BYOND{
 
+	class DME_Parser;
+
+class ThreadWrapper{
+	public:
+		std::ifstream *tempVar;
+		std::filesystem::path *path;
+		bool* isMainFile;
+		DME_Parser *parser;
+
+		ThreadWrapper(DME_Parser *parser,std::ifstream *tempVar, std::filesystem::path* path, bool* isMainFile = nullptr): 
+		parser(parser),
+		tempVar(tempVar),
+		path(path),
+		isMainFile(isMainFile)
+		{
+
+		}
+
+};
+
 
 class DME_Parser{
 
-enum class ParseLevel
-    {
-        SINGLE_QUOTES,
-        DOUBLE_QUOTES,
-        INDEX,
-        STRING_INLINE,
-        MULTILINE_STRING,
-        PARENS,
-        BASE
-    };
+ 	public:
+		int _numPartitions = 42;
+		std::filesystem::path* dmepath;
+		std::ifstream dme;
+		bool isCommenting = false;
+		bool inMultilineString = false;
+		int multilineStringDepth = 0;
+		int parenthesisDepth = 0;
+		int stringDepth = 0;
+		int stringExpDepth = 0;
+		int parenthesesDepth = 0;
+		std::vector<int> arrayDepth = std::vector<int>(50);
 
-public:
-		DME_Tree *tree;
+		DME_Tree* tree;
 
-private:
-		std::ifstream* dme;
+		std::unordered_map<std::string, std::string> macros = std::unordered_map<std::string, std::string>();
 
-		
 
-        std::filesystem::path path;
-
-		/**
-		 * Group 1 is file to include
-		 */
-		static inline std::regex *INCLUDE_PATTERN = new std::regex ("\\s*?#include\\s+\"(.+)\"\\s*");
-
-		/**
-		 * Group 1 is the name of the macro
-		 * Group 2 is the value of the macro
-		 */
-		static inline std::regex  *DEFINE_PATTERN = new std::regex ("\\s*?as#define\\s+([^\\s]+)\\s+(.+)\\s*");
-
-		/**
-		 * Group 1 is the macro to undefine
-		 */
-		static inline std::regex  *UNDEF_PATTERN = new std::regex ("\\s*?#undef\\s+([^\\s]+)\\s*");
-
-		/**
-		 * Group 1 is the name of the proc
-		 * Group 2 is the parameters
-		 */
-		static inline std::regex  *PROC_PATTERN = new std::regex ("^\\s*?(?:proc/)?([\\w/]+?)\\s*\\((.*)\\)\\s*");
-
-		/**
-		 * Group 1 is the type and flags and name of the var
-		 * Group 2 is what was assigned
-		 */
-		static inline std::regex  *VAR_PATTERN = new std::regex ("^\\s*?(?:var/)?([\\w/]+)\\s*=\\s*(.+)");
 
 	public:
 		virtual ~DME_Parser()
 		{
-			//delete dme;
-			delete tree;
+
 		}
 
-		DME_Parser(std::ifstream *dme,std::filesystem::path *path, DME_Tree *tree):dme(dme)
+		DME_Parser(std::filesystem::path *path, DME_Tree *tree)
 		{
-			this->path = *path;
+			this->dme = std::ifstream(*path);
+			this->dmepath = path;
 			this->tree = tree;
 		}
 
-		DME_Parser(std::ifstream *dme,std::filesystem::path *path):dme(dme)
+		DME_Parser(std::filesystem::path *path)
 		{
-            this->path = *path;
+			this->dme = std::ifstream(*path);
+            this->dmepath = path;
 			this->tree = new DME_Tree();
 		}
 
-		/*
-		virtual std::future<DME_Tree*> *parse()
-		{
-            std::promise<DME_Tree*> future;
-            std::thread* t;
 
-			try
-			{
-				// Begin by parsing stddef.dm, then parse the DME
-                std::ifstream *stddef = new std::ifstream("stddef.dm");
-				subParse(tree,stddef, nullptr);
-				t = new std::thread( [&future,this]{ 
-                    std::ifstream *tempVar = new std::ifstream(dme);
-                    subParse(tree, tempVar, path);
-                    future.set_value_at_thread_exit(tree);
-                
-                });
-
-                t->detach();
-			}
-			catch (const IOException &e)
-			{
-				spdlog::error(e.what());
-			}
-
-			delete t;
-			return &future.get_future();
-		}
-		
-		*/
-
-		virtual DME_Tree *parseSynchronously()
-		{
-			spdlog::info("Enter parse sync");
-			try
-			{
-				spdlog::info("Begin DME parse");
-				// Begin by parsing stddef.dm, then parse the DME
-				//subParse(tree, new BufferedReader(new InputStreamReader(this.getClass().getResourceAsStream("/stddef.dm"))), null);
-				std::ifstream *stddef = new std::ifstream("stddef.dm");
-				subParse(tree,stddef, std::filesystem::path(""));
-
-                subParse(tree, dme, path);
-			}
-			catch (const IOException &e)
-			{
-				spdlog::error(e.what());
-			}
-			return tree;
+		static void doSubParseThread(void *subparseWrapper){
+			ThreadWrapper *wrapper = static_cast<ThreadWrapper*>(subparseWrapper);
+			wrapper->parser->doSubParse(*wrapper->tempVar, *wrapper->path); 
 		}
 
-		/**
-		 * Parses an individual file.
-		 *
-		 * @param reader The reader of the file
-		 * @throws IOException If an IOException occurs reading from the buffer
-		 */
-	private:
-		void subParse(DME_Tree *tree, std::ifstream* reader, std::filesystem::path currentFile)
+		static void doParseThread(void *subparseWrapper){
+			ThreadWrapper *wrapper = static_cast<ThreadWrapper*>(subparseWrapper);
+			wrapper->parser->doParse(*wrapper->tempVar, *wrapper->path,true); 
+		}
+
+		virtual void parseDME()
 		{
-			std::vector<std::string> lines; // Relatively small, so ArrayList will outperform LinkedList
-			std::stringstream *lineBuffer = new std::stringstream(); // Buffer for multilines and incomplete parens
+			// Parse stddef.dm for macros and such.
+			std::stringstream sstream;
+			sstream << "stddef.dm";
 
-			std::list<ParseLevel> parseStack; // Stack for nested operations
-			parseStack.push_back(ParseLevel::BASE);
+			std::ifstream  tempVar(Util::getFile(sstream.str()));
 
-			// Variables for parsing the var defs - this could get ugly
-			std::vector<std::vector<std::string>> pathList; // Keeps track of the current path sections - explained later
-			int indentDepth; // For parsing tabs
-			int lowestProcDepth = -1; // Lowest indent depth for the current proc, or -1 if no proc
-			std::stringstream *fullPathBuilder = new std::stringstream(); // Builds the full path of a line
-			std::vector<std::string> splitLine; // For storing the line split on '/'
-			std::vector<std::string> subPath; // The part of the path given in the current line
-			std::string restOfTheLine; // The part of the line that doesn't define the path
+			std::filesystem::path currentp = std::filesystem::path("stddef.dm");
 
-			bool inComment = false; // Flag for a multiline comment
+			ThreadWrapper *subparseWrapper = new ThreadWrapper(this,&tempVar,&currentp);
+			void* voidsubwrapper = static_cast<void*>(subparseWrapper);
+			std::thread t1(doSubParseThread, voidsubwrapper);
 
-			std::string currentLine; // Current line
-			int lineCount = 0; // Current line #
-			while (std::getline(*reader, currentLine))
+			t1.join();
+
+			std::ifstream tempVar2(dmepath->string());
+			ThreadWrapper *parseWrapper = new ThreadWrapper(this,&tempVar2,dmepath);
+			void* voidwrapper = static_cast<void*>(parseWrapper);
+			std::thread t2(doParseThread, voidwrapper);
+
+			t2.join();
+
+
+		}
+
+		std::string ReplaceAll(std::string str, const std::string& from, const std::string& to) {
+			size_t start_pos = 0;
+			while ((start_pos = str.find(from, start_pos)) != std::string::npos) {
+				str.replace(start_pos, from.length(), to);
+				start_pos += to.length(); // Handles case where 'to' is a substring of 'from'
+			}
+			return str;
+		}
+
+		std::vector<std::string> split(const std::string& s, const  char* seperator)
+		{
+			std::vector<std::string> output;
+
+			std::string::size_type prev_pos = 0, pos = 0;
+
+			while ((pos = s.find(seperator, pos)) != std::string::npos)
 			{
-				lineCount++;
-				std::string space = "#";
+				std::string substring(s.substr(prev_pos, pos - prev_pos));
 
-				if (beginsAfterSpaces(&currentLine,&space ))
-				{
-					// Preprocessor statement, so buffer verbatim
-					lines.push_back(currentLine);
-					continue;
-				}
+				output.push_back(substring);
 
-				// Iterate over every character for initial parse
-				for (int i = 0; i < currentLine.length(); i++)
+				prev_pos = ++pos;
+			}
+
+			output.push_back(s.substr(prev_pos, pos - prev_pos)); // Last word
+
+			return output;
+		}
+
+		static inline void ltrim(std::string& s) {
+			s.erase(s.begin(), std::find_if(s.begin(), s.end(), [](unsigned char ch) {
+				return !std::isspace(ch);
+				}));
+		}
+
+		// trim from end (in place)
+		static inline void rtrim(std::string& s) {
+			s.erase(std::find_if(s.rbegin(), s.rend(), [](unsigned char ch) {
+				return !std::isspace(ch);
+				}).base(), s.end());
+		}
+
+		// trim from both ends (in place)
+		static inline void trim(std::string& s) {
+			ltrim(s);
+			rtrim(s);
+		}
+
+		virtual void doParse(std::ifstream &br, std::filesystem::path currentFile, bool isMainFile)
+		{
+			std::ifstream wstream(currentFile.string());
+			std::string line = "";
+			std::vector<std::string> lines;
+			std::stringstream runOn;
+			int includeCount = 0;
+			// This part turns spaces into tabs, strips all the comments, and puts multiline statements on one line.
+			while (std::getline(wstream, line))
+			{
+				line = stripComments(line);
+				line = ReplaceAll(line, "\\t", " ");
+				if (!StringHelper::trim(line).empty())
 				{
-					//Check for end of multiline comment
-					if (inComment)
+					if (StringHelper::endsWith(line, "\\"))
 					{
-						std::string sequence = "*/";
-						if (checkSequence(&sequence, &currentLine, i))
-						{
-							inComment = false;
-							i++;
-						}
+						line = line.substr(0, line.length() - 1);
+						runOn << line;
+					}
+					else if (inMultilineString)
+					{
+						runOn << line;
+						runOn << "\\n";
+					}
+					else if (parenthesisDepth > 0)
+					{
+						runOn << line;
 					}
 					else
 					{
-						ParseLevel depth = parseStack.back();
-
-						// Comment Checks - Comments don't occur in strings, including single-quote ones (files)
-						if (depth != ParseLevel::SINGLE_QUOTES && depth != ParseLevel::DOUBLE_QUOTES && depth != ParseLevel::MULTILINE_STRING)
+						runOn << line;
+						line = runOn.str();
+						runOn.str(std::string());
+						lines.push_back(line);
+						if (isMainFile && StringHelper::trim(line).find("#include", 0) == 0)
 						{
-							std::string sequence = "/*";
-							if (checkSequence(&sequence, &currentLine, i))
-							{
-								inComment = true;
-								i++;
-								continue;
-							}
-							std::string second_sequence = "//";
-							if (checkSequence(&second_sequence, &currentLine, i))
-							{
-								break;
-							}
+							includeCount++;
 						}
 
-						// Not a comment, so buffer the character then check the expression stack
-						*lineBuffer << currentLine[i];
-
-						// String escapes first
-						if (depth == ParseLevel::SINGLE_QUOTES || depth == ParseLevel::DOUBLE_QUOTES || depth == ParseLevel::MULTILINE_STRING)
-						{
-							if (currentLine[i] == '\\')
-							{
-								i++;
-								continue;
-							}
-						}
-
-						// Expression end testing
-						switch (depth)
-						{
-							case BYOND::DME_Parser::ParseLevel::PARENS:
-								if (currentLine[i] == ')')
-								{
-									parseStack.pop_back();
-									continue;
-								}
-								break;
-							case BYOND::DME_Parser::ParseLevel::INDEX:
-							case BYOND::DME_Parser::ParseLevel::STRING_INLINE:
-								if (currentLine[i] == ']')
-								{
-									parseStack.pop_back();
-									continue;
-								}
-								break;
-							case BYOND::DME_Parser::ParseLevel::SINGLE_QUOTES:
-								if (currentLine[i] == '\'')
-								{
-									parseStack.pop_back();
-									continue;
-								}
-								break;
-							case BYOND::DME_Parser::ParseLevel::DOUBLE_QUOTES:
-								if (currentLine[i] == ('\"'))
-								{
-									parseStack.pop_back();
-									continue;
-								}
-								break;
-							case BYOND::DME_Parser::ParseLevel::MULTILINE_STRING:
-								std::string sequence = "\"}";
-								if (checkSequence(&sequence, &currentLine, i))
-								{
-									i++;
-									parseStack.pop_back();
-									continue;
-								}
-								break;
-						}
-						// Expression begin testing
-						if (depth == ParseLevel::BASE || depth == ParseLevel::PARENS || depth == ParseLevel::INDEX || depth == ParseLevel::STRING_INLINE)
-						{
-							std::string sequence = "{\"";
-							
-							if (currentLine[i] == '(')
-							{
-								parseStack.push_back(ParseLevel::PARENS);
-								continue;
-							}
-							else if (currentLine[i] == '[')
-							{
-								parseStack.push_back(ParseLevel::INDEX);
-								continue;
-							}
-							else if (currentLine[i] == '\"')
-							{
-								parseStack.push_back(ParseLevel::DOUBLE_QUOTES);
-								continue;
-							}
-							else if (currentLine[i] == '\'')
-							{
-								parseStack.push_back(ParseLevel::SINGLE_QUOTES);
-								continue;
-							}
-							
-							else if (checkSequence(&sequence, &currentLine, i))
-							{
-								i++;
-								parseStack.push_back(ParseLevel::MULTILINE_STRING);
-								continue;
-							}
-						}
-						// String embeds
-						if (depth == ParseLevel::DOUBLE_QUOTES || depth == ParseLevel::MULTILINE_STRING)
-						{
-							if (currentLine[i] == '[')
-							{
-								parseStack.push_back(ParseLevel::STRING_INLINE);
-							}
-						}
 					}
-				}
-				// End of character loop - check multiline string, hanging parens, and linebreak escapes before storing line
-				if (parseStack.back() == ParseLevel::BASE)
-				{
 
-				if ((*lineBuffer >> std::ws).peek() != std::char_traits<char>::eof()) {
-						lines.push_back(lineBuffer->str());
-				}
-			
-				lineBuffer->str(std::string());
-				}
-				else if (parseStack.back() == ParseLevel::MULTILINE_STRING)
-				{
-					*lineBuffer << "\n";
-				}
-				else if (!(parseStack.back() == ParseLevel::PARENS || StringHelper::endsWith(currentLine, "\\")))
-				{
-
-					spdlog::error("Bad line state after parsing line {}: "+ std::to_string(lineCount) + "discarding line. Last parse state: {}", currentFile.relative_path().string(), parseStack.back());
-					lineBuffer->str(std::string());
 				}
 			}
 
-			lineCount = 0;
+			std::vector<std::string> pathTree;
 
-			// All lines validated and processed - parse tree now
-			for (auto line : lines)
+			int currentInclude = 0;
+
+			if (isMainFile)
 			{
-				if (isBlank(&line))
-				{
-					continue;
-				}
+				spdlog::info("Object Tree Generation");
 
-				std::string space = "#";
-				std::string define = "#define";
-				std::string undefine = "#undef";
-				if (beginsAfterSpaces(&line, &space))
+				spdlog::info(currentFile.string());
+
+
+				//delete t;
+			}
+
+			for (auto line1 : lines)
+			{
+				line = line1;
+				std::stringstream l;
+    			l << line.c_str();
+				//spdlog::info("Line: {}", line);
+				// Process #include, #define, and #undef
+				if (StringHelper::trim(line).find("#", 0) == 0)
 				{
-					std::string include = "#include";
-					// Preprocessor directives first, these short-circuit all other line processing
-					if (beginsAfterSpaces(&line, &include))
+					//spdlog::info("is define or include");
+					line = StringHelper::trim(line);
+					if (line.find("#include", 0) == 0)
 					{
-						std::smatch matcher;
-						std::regex_search(line,matcher,*INCLUDE_PATTERN);
-						if (!matcher.empty())
+						//spdlog::info("is include");
+						std::string path = "";
+						std::string includeData = split(line, " ")[1];
+						if (includeData.find("\"", 0) == 0 || includeData.find("<", 0) == 0)
 						{
-							std::string includedPath = matcher[1].str();
-							if (StringHelper::endsWith(includedPath, ".dm") || StringHelper::endsWith(includedPath, ".dme"))
-							{
-								std::string dmPath = currentFile.parent_path().string() + "/"+includedPath;
-								std::string system_agnostic_path;
-								#ifdef __linux__ 
-									system_agnostic_path = StringHelper::ReplaceAll(dmPath,"\\","/");
-								#elif _WIN32
-									system_agnostic_path = StringHelper::ReplaceAll(dmPath,"/","\\");
-								#else
-									system_agnostic_path = StringHelper::ReplaceAll(dmPath,"\\","/");
-								#endif
-
-								spdlog::info("Checking included DM file {}", system_agnostic_path);
-								std::ifstream *includedFile = new std::ifstream(system_agnostic_path);
-								if (includedFile->good())
-								{
-									spdlog::info("Parsing included DM file {}", includedPath);
-									subParse(tree, includedFile, std::filesystem::path(currentFile.parent_path().filename()));
-								}
-
-							}
-							else
-							{
-								spdlog::error(currentFile.string() + " includes non-DM file " + includedPath + ", ignoring");
-							}
+							// "path\to\file.dm" OR <path\to\library.dme>
+							path = includeData.substr(1, (includeData.length() - 1) - 1);
 						}
-					}
-					else if (beginsAfterSpaces(&line, &define))
-					{
-						std::smatch matcher;
-						std::regex_search(line,matcher,*DEFINE_PATTERN);
-						if (!matcher.empty())
+						else
 						{
-							std::string defineName = matcher[1].str();
-							if (defineName == "FILE_DIR")
-							{
-								std::filesystem::path *filedir = new std::filesystem::path(matcher[2].str());
-								tree->addFileDir(filedir);
-								// TODO: FILE_DIR
-							}
-							else
-							{
-								tree->addMacro(matcher[1].str(), matcher[2].str());
-							}
-						}
-					}
-					else if (beginsAfterSpaces(&line, &undefine))
-					{
-						std::smatch matcher;
-						std::regex_search(line,matcher,*UNDEF_PATTERN);
-						if (!matcher.empty())
-						{
-							tree->removeMacro(matcher[1].str());
-						}
-					}
-					continue;
-				}
-				// Not a preprocessor statement, process normally.
-
-				// Indent processing: pathList is a list of String lists. Each String list represents a subsection of
-				// a path, like ["obj", "machinery", "vending"] for example. For each tab indent, a new String list
-				// is added to the list at the corresponding spot. For example:
-				/*
-				/obj/machinery      pathList: {["obj", "machinery"]}
-				    atmospherics    pathList: {["obj", "machinery"], ["atmospherics"]}
-				        binary      pathList: {["obj", "machinery"], ["atmospherics"], ["binary"]}
-				 */
-
-				fullPathBuilder->str(std::string());
-				indentDepth = getIndentDepth(&line);
-				if (indentDepth <= lowestProcDepth)
-				{
-					lowestProcDepth = -1;
-				}
-
-				if (!(lowestProcDepth >= 0 && indentDepth >= lowestProcDepth))
-				{
-					// Clears the path list down to the current level
-					for (int i = pathList.size() - 1; i >= indentDepth; i--)
-					{
-						pathList.erase(pathList.begin() + i);
-					}
-					// Ensures enough nodes are present for the current indent
-
-					subPath = std::vector<std::string>();
-
-					splitLine = splitPath(&line);
-
-					for (auto pathSequence : splitLine)
-					{
-						std::string pathSection;
-						for (auto i = pathSequence.begin(); i != pathSequence.end(); ++i)
-							pathSection += *i;
-						if (pathSection.empty() || pathSection == "const" || pathSection == "static" || pathSection == "global" || pathSection == "tmp")
-						{
+							spdlog::error(currentFile.filename().string() + " has an invalid #include statement: ");
 							continue;
 						}
-						std::smatch matcher;
-						std::regex_search(pathSection,matcher,*PROC_PATTERN);
-						if (!matcher.empty())
+
+						std::stringstream ppp;
+						ppp << path.c_str();
+						//spdlog::info("Path : {}",path);
+
+						if (StringHelper::endsWith(path,".dm")|| StringHelper::endsWith(path,".dme") )
 						{
-							if (lowestProcDepth < 0)
+							std::filesystem::path fspath = path;
+							//spdlog::info("is dm/dme: {}",fspath.filename().string());
+							std::filesystem::path cfile;
+
+							std::string sfile = ReplaceAll(currentFile.relative_path().string(),currentFile.filename().string(),"");
+							std::string scfile = currentFile.root_path().string() + sfile + fspath.string();
+
+							#ifdef __GNUC__
+								#define LINUX
+							#else
+								#define WINDOWS
+							#endif
+							#ifdef WINDOWS
+								scfile = ReplaceAll(scfile,"/", "\\");
+							#endif
+							#ifdef LINUX
+								scfile = ReplaceAll(scfile,"\\","/");
+							#endif
+
+							cfile = scfile;
+							//spdlog::info(cfile.string());
+							std::ifstream includeFile = std::ifstream(cfile);
+
+
+							ThreadWrapper *parseWrapper = new ThreadWrapper(this,&includeFile,&cfile);
+							void* voidwrapper = static_cast<void*>(parseWrapper);
+							std::thread t3(doSubParseThread, voidwrapper);
+
+							t3.join();
+
+
+							//doParse(includeFile,cfile,false);
+							//JAVA TO C++ CONVERTER TODO TASK: A 'delete includeFile' statement was not added since includeFile was passed to a method or constructor. Handle memory management manually.
+						}
+						if (isMainFile)
+						{
+							currentInclude++;
+
+						}
+						//spdlog::info(currentInclude);
+						spdlog::info(currentFile.string());
+					}
+					else if (line.find("#define", 0) == 0)
+					{
+						spdlog::info("Is define");
+						std::smatch m;
+						std::regex_search(line, m, std::regex("#define +([\\d\\w]+) +(.+)"));
+						if (!m.empty())
+						{
+							std::string group = m[1].str();
+							if (group == "FILE_DIR")
 							{
-								lowestProcDepth = indentDepth;
+								spdlog::info("Is FILE FIR");
+								std::string file_group = m[2].str();
+								std::smatch quotes;
+								std::regex_search(file_group, quotes, std::regex("^\"(.*)\"$"));
+								if (!quotes.empty())
+								{
+									// 2 ways this can't happen:
+									std::string quotes_group = quotes[1];
+									std::stringstream ss;
+									ss << quotes_group.c_str();
+									// Somebody intentionally placed broken FILE_DIR defines.
+									// It's the . FILE_DIR, which has no quotes, and we don't need.
+									std::filesystem::path* filedirpath = new std::filesystem::path(ss.str());
+									tree->fileDirs.push_back(filedirpath);
+								}
+
 							}
-							break;
+							else
+							{
+								std::string group = m[1].str();
+								std::string value = m[2].str();
+								value = ReplaceAll(value, "$", "\\$");
+								macros.emplace(group, value);
+							}
 						}
-						if (pathSection.find("var") != std::string::npos || pathSection.find("=") != std::string::npos)
+					}
+					else if (line.find("#undef",0) == 0)
+					{
+						std::smatch m;
+						std::regex_search(line, m, std::regex("#undef[ \\t]*([\\d\\w]+)"));
+						if (!m.empty() && macros.find(m[1].str()) != macros.end())
 						{
-							break;
+							macros.erase(macros[m[1].str()]);
 						}
-						subPath.push_back(StringHelper::trim(pathSection));
 					}
-					for (int i = pathList.size(); i <= indentDepth; i++)
-					{
-						pathList.push_back(std::vector<std::string>());
-					}
-					pathList[indentDepth] = subPath;
 
-					// The full path of the line, tabs and the current stuff
-					std::string pathBuilder;
-					for (auto i = pathList.begin(); i != pathList.end(); ++i){
-						std::string tempstring;
-						for (auto j = i->begin(); j!= i->end(); ++j)
-							tempstring += *j+ "/";
-						pathBuilder += tempstring ;
-					}
-						
-
-					*fullPathBuilder << pathBuilder;
-					
-					// The actual "meat" of the line, with no directory
-					restOfTheLine = splitLine[splitLine.size() - 1];
-					std::smatch matcher;
-					std::regex_search(restOfTheLine,matcher,*VAR_PATTERN);
-					if (!matcher.empty())
+					continue;
+				}
+				// How far is this line indented?
+				int level = 0;
+				for (int j = 0; j < line.length(); j++)
+				{
+					if (line[j] == ' ')
 					{
-						//System.out.println("Var found in " + fullPathBuilder + ": " + matcher.group(1) + " = " + matcher.group(2));
-						std::string varName = StringHelper::trim(matcher[1].str());
-						std::string varVal = StringHelper::trim(matcher[2].str());
-						tree->getOrCreateDME_Tree_Item(StringHelper::trim(fullPathBuilder->str()))->setVar(varName, varVal);
+						level++;
+					}
+					else
+					{
+						break;
 					}
 				}
 
-				lineCount++;
-			}
+				//TODO: CHECK PATH TREE
+				// Rebuild the path tree.
+				for (int j = pathTree.size(); j <= level; j++)
+				{
+					pathTree.push_back("");
+				}
+				trim(line);
+				pathTree[level] = cleanPath(line);
+				if (pathTree.size() > level + 1)
+				{
+					for (int j = pathTree.size() - 1; j > level; j--)
+					{
+						pathTree.erase(pathTree.end() - j);
+					}
+				}
+				std::string fullPath = "";
+				for (auto c : pathTree)
+				{
+					fullPath += c;
+				}
+				// Now, split it again, and rebuild it again, but only figure out how big the object itself is.
+				std::vector<std::string> divided = split(fullPath, "\\/");
+				std::string affectedObjectPath = "";
+				for (auto item : divided)
+				{
+					if (item.empty())
+					{
+						continue;
+					}
+					if (StringHelper::toLower(item) == "static" || StringHelper::toLower(item) == ("global") || StringHelper::toLower(item) == ("tmp"))
+					{
+						continue;
+					}
+					if (item == ("proc") || item == ("verb") || item == ("var"))
+					{
+						break;
+					}
+					if (fullPath.find("=") != std::string::npos || fullPath.find("(") != std::string::npos)
+					{
+						break;
+					}
 
-			delete fullPathBuilder;
-//JAVA TO C++ CONVERTER TODO TASK: A 'delete lineBuffer' statement was not added since lineBuffer was passed to a method or constructor. Handle memory management manually.
+					affectedObjectPath += item;
+				}
+				DME_Tree_Item* item = tree->getOrCreateDME_Tree_Item(affectedObjectPath);
+				if (fullPath.find("(") != std::string::npos && (int)fullPath.find("(") < (int)fullPath.rfind("/"))
+				{
+					continue;
+				}
+				fullPath = ReplaceAll(fullPath, "/tmp", ""); // Let's avoid giving a shit about whether the var is tmp, static, or global.
+				fullPath = ReplaceAll(fullPath, "/static", "");
+				fullPath = ReplaceAll(fullPath, "/global", "");
+				// Parse the var definitions.
+				if (fullPath.find("var/") != std::string::npos || (fullPath.find("=") != std::string::npos && (fullPath.find("(") == std::string::npos || (int)fullPath.find("(") > (int)fullPath.find("="))))
+				{
+					std::vector<std::string> splits = split(fullPath, "=");
+					//auto tempVar2 = split.find("/") + 1;
+					std::string tmpvar = splits[0].substr(splits[0].rfind("/") + 1, splits[0].length());
+					trim(tmpvar);
+					std::string varname = tmpvar;
+					if (splits.size() > 1)
+					{
+
+						std::string val = StringHelper::trim(splits[1]);
+						std::string origVal = "";
+						//spdlog::info("Varname: {}", varname);
+
+						origVal = val;
+						// Trust me, this is the fastest way to parse the macros.
+
+
+						while (strcmp(origVal.c_str(),val.c_str()) != 0) {
+							origVal = val;
+							// Trust me, this is the fastest way to parse the macros.
+							std::smatch m;
+							std::regex_search(val, m, std::regex("(?![\\d\\w\"])\\w+(?![\\d\\w\"])"));
+							std::stringstream outVal;
+							while (m.size() > 0) {
+								std::string mz = m[0].str();
+								std::string sov = outVal.str();
+								if (macros.find(mz)!= macros.end())
+									std::regex_search(sov, m, std::regex(macros[mz]));
+
+								else{
+									std::string s = mz;
+
+									std::regex_search(sov, m, std::regex(s));
+								}
+							}
+							val = outVal.str();
+						}
+
+
+						//spdlog::info("Varname/Val: {}/{}",varname,val);
+
+
+
+						/*
+						// Parse additions.
+						std::smatch m;
+						std::regex_search(val, m, std::regex("([\\d\\.]+)[ \\t]*\\+[ \\t]*([\\d\\.]+)"));
+						std::stringstream outVal;
+						for (int i =0; i< m.size(); i++){
+							std::string s = outVal.str();
+							float sum = std::stof(m[i + 1].str()) + std::stof(m[i + 2].str());
+							std::string macrosAtI = std::to_string(sum);
+							s = ReplaceAll(s, macrosAtI,"");
+							outVal.str(s);
+						}
+						
+						val = outVal.str();
+						// Parse subtractions.
+						
+						std::regex_search(val, m, std::regex("([\\d\\.]+)[ \\t]*\\-[ \\t]*([\\d\\.]+)"));
+						outVal.str(std::string());
+						for (int i =0; i< m.size(); i++){
+							std::string s = outVal.str();
+							float subtraction = std::stof(m[i + 1].str()) + std::stof(m[i + 2].str());
+							std::string macrosAtI = std::to_string(subtraction);
+							s = ReplaceAll(s, macrosAtI,"");
+							outVal.str(s);
+						}
+						
+						val = outVal.str();
+						*/
+
+						//item->vars[varname] = val;
+						item->setVar(varname, val);
+					}
+					else
+					{
+						item->setVar(varname,"null");
+					}
+				}
+			}
+			// Reset variables
+			isCommenting = false;
+			inMultilineString = false;
+			multilineStringDepth = 0;
+			parenthesisDepth = 0;
+			stringDepth = 0;
+			stringExpDepth = 0;
+			parenthesesDepth = 0;
+			arrayDepth = std::vector<int>(50);
+
+			//JAVA TO C++ CONVERTER TODO TASK: A 'delete lb' statement was not added since lbl was passed to a method or constructor. Handle memory management manually.
+			//JAVA TO C++ CONVERTER TODO TASK: A 'delete dpb' statement was not added since dpb was passed to a method or constructor. Handle memory management manually.
+						//delete runOn;
 		}
 
-		// A few utilities to make code more concise
-
-//JAVA TO C++ CONVERTER TODO TASK: C++ does not allow initialization of static non-const/integral fields in their declarations - choose the conversion option for separate .h and .cpp files:
-		static inline std::stringstream *splitPathBuffer = new std::stringstream();
-
-		/**
-		 * Splits the given line into its path segments, and the remainder of the line as the last element.
-		 *
-		 * @param path Path to split
-		 * @return An array of path segments and then the line
-		 */
-		static std::vector<std::string> splitPath(std::string *path)
+	private:
+		virtual void doSubParse(std::ifstream &br, std::filesystem::path currentFile)
 		{
-			splitPathBuffer->str(std::string());
-			std::vector<std::string> pathSections;
 
-			for (int i = 0; i < path->size(); i++)
+			spdlog::info("Subparse : {}",currentFile.string());
+			DME_Parser* parser = new DME_Parser(&currentFile,tree);
+
+			br = std::ifstream(currentFile.string());
+			parser->macros = macros;
+			parser->doParse(br, currentFile, false);
+			delete parser;
+
+
+		}
+
+	public:
+		virtual std::string stripComments(const std::string& s)
+		{
+			std::stringstream o;
+			for (int i = 0; i < s.length(); i++)
 			{
-				if (std::isalnum(path->at(i)) || path->at(i) == '_')
+				wchar_t pC = ' ';
+				if (i - 1 >= 0)
 				{
-					*splitPathBuffer << path->at(i);
+					pC = s[i - 1];
+				}
+				wchar_t ppC = ' ';
+				if (i - 2 >= 0)
+				{
+					ppC = s[i - 2];
+				}
+				wchar_t c = s[i];
+				wchar_t nC = ' ';
+				if (i + 1 < s.length())
+				{
+					nC = s[i + 1];
+				}
+				if (!isCommenting)
+				{
+					if (c == '/' && nC == '/' && stringDepth == 0)
+					{
+						break;
+					}
+					if (c == '/' && nC == '*' && stringDepth == 0)
+					{
+						isCommenting = true;
+						continue;
+					}
+					if (c == '"' && nC == '}' && (pC != '\\' || ppC == '\\') && stringDepth == multilineStringDepth && inMultilineString)
+					{
+						inMultilineString = false;
+					}
+					if (c == '"' && (pC != '\\' || ppC == '\\') && stringDepth != stringExpDepth && (!inMultilineString || multilineStringDepth != stringDepth))
+					{
+						stringDepth--;
+					}
+					else if (c == '"' && stringDepth == stringExpDepth && (!inMultilineString || multilineStringDepth != stringDepth))
+					{
+						stringDepth++;
+						if (pC == '{')
+						{
+							inMultilineString = true;
+							multilineStringDepth = stringDepth;
+						}
+					}
+					if (c == '[' && stringDepth == stringExpDepth)
+					{
+						arrayDepth[stringExpDepth]++;
+					}
+					else if (c == '[' && (pC != '\\' || ppC == '\\') && stringDepth != stringExpDepth)
+					{
+						stringExpDepth++;
+					}
+
+					if (c == ']' && arrayDepth[stringExpDepth] != 0)
+					{
+						arrayDepth[stringExpDepth]--;
+					}
+					else if (c == ']' && stringDepth > 0 && stringDepth == stringExpDepth)
+					{
+						stringExpDepth--;
+					}
+					if (c == '(' && stringDepth == stringExpDepth)
+					{
+						parenthesisDepth++;
+					}
+					if (c == ')' && stringDepth == stringExpDepth)
+					{
+						parenthesisDepth--;
+					}
+					o.put(c);
 				}
 				else
 				{
-					if (path->at(i) == '/')
+					if (c == '*' && nC == '/')
 					{
-						pathSections.push_back(splitPathBuffer->str());
-						splitPathBuffer->str(std::string());
-					}
-					else
-					{
-						*splitPathBuffer << (path->substr(i, path->length() - i));
-						pathSections.push_back(splitPathBuffer->str());
-						return pathSections;
+						isCommenting = false;
+						i++;
 					}
 				}
-			}
-			std::string tmpstring = splitPathBuffer->str();
-			if (tmpstring.length() > 0)
-			{
-				pathSections.push_back(tmpstring);
+
 			}
 
-			return pathSections;
+			return o.str();
 		}
 
-
-		// The following methods are static methods designed to (hopefully) perform faster
-		// than what you could get with Java String methods, since they're slightly more
-		// purpose-built. Testing should be done.
-
-		/**
-		 * Checks if the sequence of characters <code>subString</code> is present at index <code>index</code> in string <code>fullString</code>.
-		 *
-		 * @param fullString The full string
-		 * @param subString  The subsequence to check
-		 * @param index      Where to subString
-		 * @return <code>true</code> if the sequence of characters in <code>subString</code> is present at index <code>index</code> in <code>fullString</code>, else false
-		 */
-		static bool checkSequence(std::string *subString, std::string *fullString, int index)
+		static std::string cleanPath(std::string& s)
 		{
-			if (index < 0 || index > fullString->size() - subString->size())
+			// Makes sure that paths start with a slash, and don't end with a slash.
+			if (!s.find("/", 0) == 0)
 			{
-				return false;
+				s = "/" + s;
 			}
-			for (int i = 0; i < subString->size(); i++)
+			if (s.find("/", s.length()) == 0)
 			{
-				if (!(subString->at(i) == fullString->at(i + index)))
-				{
-					return false;
-				}
+				s = s.substr(0, s.length() - 1);
 			}
-			return true;
+			return s;
 		}
-
-		/**
-		 * A replacement for <code>string.trim().isEmpty()</code> that doesn't allocate a new string.
-		 *
-		 * @param str String to check
-		 * @return <code>true</code> if the string is empty, <code>false</code> if it isn't.
-		 */
-		static bool isBlank(std::string *str)
-		{
-			for (int i = 0; i < str->size(); i++)
-			{
-				if (!std::isspace(str->at(i)))
-				{
-					return false;
-				}
-			}
-			return true;
-		}
-
-		/**
-		 * A replacement for <code>string.trim().beginsWith()</code> that doesn't allocate a new string.
-		 *
-		 * @param str String to check
-		 * @param beg Beginning to look for
-		 * @return <code>true</code> if <code>str</code>'s first non-whitespace characters are <code>beg</code>
-		 */
-		static bool beginsAfterSpaces(std::string *str, std::string *beg)
-		{
-			int i;
-			for (i = 0; i < str->size(); i++)
-			{
-				if (str->at(i) != ' ' && str->at(i) != '\t')
-				{
-					break;
-				}
-			}
-			if (i + beg->size() > str->size())
-			{
-				return false;
-			}
-			for (int j = 0; j < beg->size(); j++)
-			{
-				if (str->at(i + j) != beg->at(j))
-				{
-					return false;
-				}
-			}
-			return true;
-		}
-
-		/**
-		 * Returns the amount of tabs at the beginning of the line
-		 *
-		 * @param line String to check the indent depth of
-		 * @return Amount of tabs before the first character or end of the given string
-		 */
-		int getIndentDepth(std::string *line)
-		{
-			int i;
-			for (i = 0; i < line->size(); i++)
-			{
-				if (!(line->at(i) == '\t'))
-				{
-					break;
-				}
-			}
-			return i;
-		}
-
-		/**
-		 * Used to keep track of expressions and such in the initial parse
-		 */
-	private:
-		
-
-		class ParseLevelHelper
-		{
-		private:
-			static std::vector<std::pair<ParseLevel, std::string>> pairs()
-			{
-				return
-				{
-					{ParseLevel::SINGLE_QUOTES, "SINGLE_QUOTES"},
-					{ParseLevel::DOUBLE_QUOTES, "DOUBLE_QUOTES"},
-					{ParseLevel::INDEX, "INDEX"},
-					{ParseLevel::STRING_INLINE, "STRING_INLINE"},
-					{ParseLevel::MULTILINE_STRING, "MULTILINE_STRING"},
-					{ParseLevel::PARENS, "PARENS"},
-					{ParseLevel::BASE, "BASE"}
-				};
-			}
-
-		public:
-			static std::vector<ParseLevel> values()
-			{
-				std::vector<ParseLevel> temp;
-				for (auto pair : pairs())
-				{
-					temp.push_back(pair.first);
-				}
-				return temp;
-			}
-
-			static std::string enumName(ParseLevel value)
-			{
-				for (auto pair : pairs())
-				{
-					if (pair.first == value)
-						return pair.second;
-				}
-
-				throw std::runtime_error("Enum not found.");
-			}
-
-			static int ordinal(ParseLevel value)
-			{
-				std::vector<std::pair<ParseLevel, std::string>> temp = pairs();
-				for (std::size_t i = 0; i < temp.size(); i++)
-				{
-					if (temp[i].first == value)
-						return i;
-				}
-
-				throw std::runtime_error("Enum not found.");
-			}
-
-			static ParseLevel enumFromString(std::string value)
-			{
-				for (auto pair : pairs())
-				{
-					if (pair.second == value)
-						return pair.first;
-				}
-
-				throw std::runtime_error("Enum not found.");
-			}
-		};
-
-
-};
+	};
 
 
 };

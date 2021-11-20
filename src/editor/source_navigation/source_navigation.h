@@ -16,6 +16,8 @@
 #include "../../byond/tree/DME_tree_item.h"
 #include "../../byond/library.h"
 #include "../../byond/utils/string_helper.h"
+#include "tree/DME_Tree_Model.h"
+#include "tree/DME_Tree_Node.h"
 #include "imgui_file_browser.h"
 
 
@@ -40,7 +42,7 @@ public:
     ImVec4 textColor;
 
     SourceNavigationInterface( GLFWwindow* window,BYOND::Library* library,int xpos,int ypos,int width,int height);
-    void RenderObjectTree(BYOND::DME_Tree_Item  *items, int &i,int &selection_mask,int &node_clicked);
+    void RenderObjectTree(MYG::DefaultMutableTreeNode<BYOND::DME_Tree_Item *> *items, int &i,int &selection_mask,int &node_clicked);
 
     void mainLoop();
 

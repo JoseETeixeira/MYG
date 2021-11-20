@@ -23,10 +23,11 @@ namespace BYOND{
        	std::vector<std::filesystem::path*> fileDirs;
 		std::unordered_map<std::string, std::string> macros;
 		std::unordered_map<std::string, DME_Tree_Item*> pathCache;
-		DME_Tree_Item *rootNode = new DME_Tree_Item(nullptr, "");
+		
 		// Catch-all for other stuff
 	private:
 		
+		DME_Tree_Item* rootNode = new DME_Tree_Item(nullptr, "");
 
 		DME_Tree_Item *datum = new DME_Tree_Item(rootNode, "datum");
 
