@@ -19,7 +19,7 @@ namespace MYG{
         
             
 
-            if(!root->data.empty()){
+            if(!root->data.empty() && (root->data!= "var" && root->data!= "/var" && root->data!= "proc" && root->data!= "/proc" && root->data!= "verb" && root->data!= "/verb") ){
                 ImGui::Indent();
                 ImGuiTreeNodeFlags node_flags = ((selection_mask & (1 << (i))) ? ImGuiTreeNodeFlags_Selected : 0) | ImGuiTreeNodeFlags_OpenOnDoubleClick;
                 bool opened = ImGui::TreeNodeEx((void*)(intptr_t)(i), node_flags, "%s", root->data.c_str());

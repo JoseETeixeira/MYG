@@ -69,7 +69,25 @@ class DME_Parser{
 		DME_Tree* tree;
 
 		std::unordered_map<std::string, std::string> macros = std::unordered_map<std::string, std::string>();
+	private:
+			int indentDepth; // For parsing tabs
+			int lowestProcDepth = -1; // Lowest indent depth for the current proc, or -1 if no proc
+			std::vector<std::vector<std::string>> pathList; // Keeps track of the current path sections - explained later
+			std::stringstream *fullPathBuilder = new std::stringstream(); // Builds the full path of a line
+			std::vector<std::string> splitLine; // For storing the line split on '/'
+			std::vector<std::string> subPath; // The part of the path given in the current line
+			std::string restOfTheLine; // The part of the line that doesn't define the path
+			/**
+			 * Group 1 is the name of the proc
+			 * Group 2 is the parameters
+			 */
+			static inline std::regex  *PROC_PATTERN = new std::regex ("^\\s*?(?:proc/)?([\\w/]+?)\\s*\\((.*)\\)\\s*");
 
+			/**
+			 * Group 1 is the type and flags and name of the var
+			 * Group 2 is what was assigned
+			 */
+			static inline std::regex  *VAR_PATTERN = new std::regex ("^\\s*?(?:var/)?([\\w/]+)\\s*=\\s*(.+)");
 
 
 	public:
@@ -125,7 +143,8 @@ class DME_Parser{
 			std::thread t2(doParseThread, voidwrapper);
 
 			t2.join();
-
+			
+			tree->completeTree();
 
 		}
 
@@ -358,153 +377,87 @@ class DME_Parser{
 
 					continue;
 				}
-				// How far is this line indented?
-				int level = getIndentDepth(&line);
 
-				//TODO: CHECK PATH TREE
-				// Rebuild the path tree.
-				for (int j = pathTree.size(); j <= level; j++)
+				fullPathBuilder->str(std::string());
+				indentDepth = getIndentDepth(&line);
+				if (indentDepth <= lowestProcDepth)
 				{
-					pathTree.push_back("");
+					lowestProcDepth = -1;
 				}
-				trim(line);
-				pathTree[level] = cleanPath(line);
-				if (pathTree.size() > level + 1)
+
+				if (!(lowestProcDepth >= 0 && indentDepth >= lowestProcDepth))
 				{
-					for (int j = pathTree.size() - 1; j > level; j--)
+					// Clears the path list down to the current level
+					for (int i = pathList.size() - 1; i >= indentDepth; i--)
 					{
-						pathTree.erase(pathTree.end() - j);
+						pathList.erase(pathList.begin() + i);
 					}
-				}
-				std::string fullPath = "";
-				for (auto c : pathTree)
-				{
-					fullPath += c;
-				}
-				// Now, split it again, and rebuild it again, but only figure out how big the object itself is.
-				std::vector<std::string> divided = split(fullPath, "\\/");
-				std::string affectedObjectPath = "";
-				for (auto item : divided)
-				{
-					if (item.empty())
+					// Ensures enough nodes are present for the current indent
+
+					subPath = std::vector<std::string>();
+
+					splitLine = splitPath(&line);
+
+					for (auto pathSequence : splitLine)
 					{
-						continue;
-					}
-					if (StringHelper::toLower(item) == "static" || StringHelper::toLower(item) == ("global") || StringHelper::toLower(item) == ("tmp"))
-					{
-						continue;
-					}
-					if (item == ("proc") || item == ("verb") || item == ("var") || item == ("/proc") || item == ("/verb") || item == ("/var"))
-					{
-						break;
-					}
-					if (fullPath.find("=") != std::string::npos || fullPath.find("(") != std::string::npos)
-					{
-						break;
-					}
-
-					affectedObjectPath += item;
-				}
-				DME_Tree_Item* item = tree->getOrCreateDME_Tree_Item(affectedObjectPath);
-				if (fullPath.find("(") != std::string::npos && (int)fullPath.find("(") < (int)fullPath.rfind("/"))
-				{
-					continue;
-				}
-				fullPath = ReplaceAll(fullPath, "/tmp", ""); // Let's avoid giving a shit about whether the var is tmp, static, or global.
-				fullPath = ReplaceAll(fullPath, "/static", "");
-				fullPath = ReplaceAll(fullPath, "/global", "");
-				// Parse the var definitions.
-				if (fullPath.find("var/") != std::string::npos || fullPath.find("/var/") != std::string::npos || (fullPath.find("=") != std::string::npos && (fullPath.find("(") == std::string::npos || (int)fullPath.find("(") > (int)fullPath.find("="))))
-				{
-					std::vector<std::string> splits = split(fullPath, "=");
-					//auto tempVar2 = split.find("/") + 1;
-					std::string tmpvar = splits[0].substr(splits[0].rfind("/") + 1, splits[0].length());
-					trim(tmpvar);
-					std::string varname = tmpvar;
-					if (splits.size() > 1)
-					{
-
-						std::string val = StringHelper::trim(splits[1]);
-						std::string origVal = "";
-						//spdlog::info("Varname: {}", varname);
-
-						origVal = val;
-						// Trust me, this is the fastest way to parse the macros.
-
-
-						while (strcmp(origVal.c_str(),val.c_str()) != 0) {
-							origVal = val;
-							// Trust me, this is the fastest way to parse the macros.
-							std::smatch m;
-							std::regex_search(val, m, std::regex("(?![\\d\\w\"])\\w+(?![\\d\\w\"])"));
-							std::stringstream outVal;
-							while (m.size() > 0) {
-								std::string mz = m[0].str();
-								std::string sov = outVal.str();
-								if (macros.find(mz)!= macros.end())
-									std::regex_search(sov, m, std::regex(macros[mz]));
-
-								else{
-									std::string s = mz;
-
-									std::regex_search(sov, m, std::regex(s));
-								}
+						std::string pathSection;
+						for (auto i = pathSequence.begin(); i != pathSequence.end(); ++i)
+							pathSection += *i;
+						if (pathSection.empty() || pathSection == "const" || pathSection == "static" || pathSection == "global" || pathSection == "tmp")
+						{
+							continue;
+						}
+						std::smatch matcher;
+						std::regex_search(pathSection,matcher,*PROC_PATTERN);
+						if (!matcher.empty())
+						{
+							if (lowestProcDepth < 0)
+							{
+								lowestProcDepth = indentDepth;
 							}
-							val = outVal.str();
+							break;
 						}
-
-
-						//spdlog::info("Varname/Val: {}/{}",varname,val);
-
-
-
-						/*
-						// Parse additions.
-						std::smatch m;
-						std::regex_search(val, m, std::regex("([\\d\\.]+)[ \\t]*\\+[ \\t]*([\\d\\.]+)"));
-						std::stringstream outVal;
-						for (int i =0; i< m.size(); i++){
-							std::string s = outVal.str();
-							float sum = std::stof(m[i + 1].str()) + std::stof(m[i + 2].str());
-							std::string macrosAtI = std::to_string(sum);
-							s = ReplaceAll(s, macrosAtI,"");
-							outVal.str(s);
+						if (pathSection.find("var") != std::string::npos || pathSection.find("=") != std::string::npos)
+						{
+							break;
 						}
-						
-						val = outVal.str();
-						// Parse subtractions.
-						
-						std::regex_search(val, m, std::regex("([\\d\\.]+)[ \\t]*\\-[ \\t]*([\\d\\.]+)"));
-						outVal.str(std::string());
-						for (int i =0; i< m.size(); i++){
-							std::string s = outVal.str();
-							float subtraction = std::stof(m[i + 1].str()) + std::stof(m[i + 2].str());
-							std::string macrosAtI = std::to_string(subtraction);
-							s = ReplaceAll(s, macrosAtI,"");
-							outVal.str(s);
-						}
-						
-						val = outVal.str();
-						*/
-
-						//item->vars[varname] = val;
-						item->setVar(varname, val);
+						subPath.push_back(StringHelper::trim(pathSection));
 					}
-					else
+					for (int i = pathList.size(); i <= indentDepth; i++)
 					{
-						item->setVar(varname,"null");
+						pathList.push_back(std::vector<std::string>());
+					}
+					pathList[indentDepth] = subPath;
+
+					// The full path of the line, tabs and the current stuff
+					std::string pathBuilder;
+					for (auto i = pathList.begin(); i != pathList.end(); ++i){
+						std::string tempstring;
+						for (auto j = i->begin(); j!= i->end(); ++j)
+							tempstring += *j+ "/";
+						pathBuilder += tempstring ;
+					}
+						
+
+					*fullPathBuilder << pathBuilder;
+					
+					// The actual "meat" of the line, with no directory
+					restOfTheLine = splitLine[splitLine.size() - 1];
+					std::smatch matcher;
+					std::regex_search(restOfTheLine,matcher,*VAR_PATTERN);
+					if (!matcher.empty())
+					{
+						//System.out.println("Var found in " + fullPathBuilder + ": " + matcher.group(1) + " = " + matcher.group(2));
+						std::string varName = StringHelper::trim(matcher[1].str());
+						std::string varVal = StringHelper::trim(matcher[2].str());
+						tree->getOrCreateDME_Tree_Item(StringHelper::trim(fullPathBuilder->str()))->setVar(varName, varVal);
 					}
 				}
 			}
-			// Reset variables
-			isCommenting = false;
-			inMultilineString = false;
-			multilineStringDepth = 0;
-			parenthesisDepth = 0;
-			stringDepth = 0;
-			stringExpDepth = 0;
-			parenthesesDepth = 0;
-			arrayDepth = std::vector<int>(50);
+
+			delete fullPathBuilder;
+			
+			
 
 			//JAVA TO C++ CONVERTER TODO TASK: A 'delete lb' statement was not added since lbl was passed to a method or constructor. Handle memory management manually.
 			//JAVA TO C++ CONVERTER TODO TASK: A 'delete dpb' statement was not added since dpb was passed to a method or constructor. Handle memory management manually.
@@ -524,6 +477,49 @@ class DME_Parser{
 			delete parser;
 
 
+		}
+
+		static inline std::stringstream *splitPathBuffer = new std::stringstream();
+
+		/**
+		 * Splits the given line into its path segments, and the remainder of the line as the last element.
+		 *
+		 * @param path Path to split
+		 * @return An array of path segments and then the line
+		 */
+		static std::vector<std::string> splitPath(std::string *path)
+		{
+			splitPathBuffer->str(std::string());
+			std::vector<std::string> pathSections;
+
+			for (int i = 0; i < path->size(); i++)
+			{
+				if (std::isalnum(path->at(i)) || path->at(i) == '_')
+				{
+					*splitPathBuffer << path->at(i);
+				}
+				else
+				{
+					if (path->at(i) == '/')
+					{
+						pathSections.push_back(splitPathBuffer->str());
+						splitPathBuffer->str(std::string());
+					}
+					else
+					{
+						*splitPathBuffer << (path->substr(i, path->length() ));
+						pathSections.push_back(splitPathBuffer->str());
+						return pathSections;
+					}
+				}
+			}
+			std::string tmpstring = splitPathBuffer->str();
+			if (tmpstring.length() > 0)
+			{
+				pathSections.push_back(tmpstring);
+			}
+
+			return pathSections;
 		}
 
 	public:
@@ -619,12 +615,11 @@ class DME_Parser{
 
 		static std::string cleanPath(std::string& s)
 		{
-			// Makes sure that paths start with a slash, and don't end with a slash.
-			if (!s.find("/", 0) == 0)
+			if (!StringHelper::startsWith(s, "/"))
 			{
 				s = "/" + s;
 			}
-			if (s.find("/", s.length()) == 0)
+			if (StringHelper::endsWith(s, "/"))
 			{
 				s = s.substr(0, s.length() - 1);
 			}

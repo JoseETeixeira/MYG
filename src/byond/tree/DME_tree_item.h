@@ -34,9 +34,7 @@ class DME_Tree_Item{
             // add room at the end:
             v.push_back(elem);
             // find the position for the element
-            std::sort(v.begin(),v.end(),[&](const DME_Tree_Item *obj1, const DME_Tree_Item *obj2){
-                return obj1->name.compare(obj2->name);
-            });
+            
         };
 
 
