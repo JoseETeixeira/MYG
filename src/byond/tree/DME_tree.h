@@ -29,21 +29,21 @@ namespace BYOND{
 		
 		DME_Tree_Item* rootNode = new DME_Tree_Item(nullptr, "");
 
-		DME_Tree_Item *datum = new DME_Tree_Item(rootNode, "datum");
+		DME_Tree_Item *datum = new DME_Tree_Item(rootNode, "/datum");
 
-		DME_Tree_Item *atom = new DME_Tree_Item(datum, "atom");
+		DME_Tree_Item *atom = new DME_Tree_Item(datum, "/atom");
 
-		DME_Tree_Item *movable = new DME_Tree_Item(atom, "movable");
+		DME_Tree_Item *movable = new DME_Tree_Item(atom, "/movable");
 
-		DME_Tree_Item *area = new DME_Tree_Item(atom, "area");
+		DME_Tree_Item *area = new DME_Tree_Item(atom, "/area");
 
-		DME_Tree_Item *turf = new DME_Tree_Item(atom, "turf");
+		DME_Tree_Item *turf = new DME_Tree_Item(atom, "/turf");
 
-		DME_Tree_Item *obj = new DME_Tree_Item(movable, "obj");
+		DME_Tree_Item *obj = new DME_Tree_Item(movable, "/obj");
 
-		DME_Tree_Item *mob = new DME_Tree_Item(movable, "mob");
+		DME_Tree_Item *mob = new DME_Tree_Item(movable, "/mob");
 
-		DME_Tree_Item *world = new DME_Tree_Item(datum, "world");
+		DME_Tree_Item *world = new DME_Tree_Item(datum, "/world");
 
 		// endregion
 
@@ -128,32 +128,32 @@ namespace BYOND{
 
 				spdlog::info("START NODE NAME: {}",startNodeName);
 
-				if (startNodeName == "datum")
+				if (startNodeName == "/datum")
 				{
 						currentNode = datum;
 				}
 
-				else if (startNodeName == "atom")
+				else if (startNodeName == "/atom")
 				{
 						currentNode = atom;
 				}
 
-				else if (startNodeName == "area")
+				else if (startNodeName == "/area")
 				{
 						currentNode = area;
 				}
 
-				else if (startNodeName == "turf")
+				else if (startNodeName == "/turf")
 				{
 						currentNode = turf;
 				}
 
-				else if (startNodeName == "obj")
+				else if (startNodeName == "/obj")
 				{
 						currentNode = obj;
 				}
 
-				else if (startNodeName == "mob")
+				else if (startNodeName == "/mob")
 				{
 						currentNode = mob;
 				}
@@ -291,6 +291,8 @@ namespace BYOND{
 			world->setVar("turf", "/turf");
 			world->setVar("mob", "/mob");
 			world->setVar("area", "/area");
+			world->setVar("icon_size", "32");
+
 		}
 
     };
