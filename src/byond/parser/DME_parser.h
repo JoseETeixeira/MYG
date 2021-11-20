@@ -359,18 +359,7 @@ class DME_Parser{
 					continue;
 				}
 				// How far is this line indented?
-				int level = 0;
-				for (int j = 0; j < line.length(); j++)
-				{
-					if (line[j] == ' ')
-					{
-						level++;
-					}
-					else
-					{
-						break;
-					}
-				}
+				int level = getIndentDepth(&line);
 
 				//TODO: CHECK PATH TREE
 				// Rebuild the path tree.
@@ -405,7 +394,7 @@ class DME_Parser{
 					{
 						continue;
 					}
-					if (item == ("proc") || item == ("verb") || item == ("var"))
+					if (item == ("proc") || item == ("verb") || item == ("var") || item == ("/proc") || item == ("/verb") || item == ("/var"))
 					{
 						break;
 					}
@@ -425,7 +414,7 @@ class DME_Parser{
 				fullPath = ReplaceAll(fullPath, "/static", "");
 				fullPath = ReplaceAll(fullPath, "/global", "");
 				// Parse the var definitions.
-				if (fullPath.find("var/") != std::string::npos || (fullPath.find("=") != std::string::npos && (fullPath.find("(") == std::string::npos || (int)fullPath.find("(") > (int)fullPath.find("="))))
+				if (fullPath.find("var/") != std::string::npos || fullPath.find("/var/") != std::string::npos || (fullPath.find("=") != std::string::npos && (fullPath.find("(") == std::string::npos || (int)fullPath.find("(") > (int)fullPath.find("="))))
 				{
 					std::vector<std::string> splits = split(fullPath, "=");
 					//auto tempVar2 = split.find("/") + 1;
@@ -640,6 +629,19 @@ class DME_Parser{
 				s = s.substr(0, s.length() - 1);
 			}
 			return s;
+		}
+
+		int getIndentDepth(std::string *line)
+		{
+			int i;
+			for (i = 0; i < line->size(); i++)
+			{
+				if (!(line->at(i) == '\t'))
+				{
+					break;
+				}
+			}
+			return i;
 		}
 	};
 
