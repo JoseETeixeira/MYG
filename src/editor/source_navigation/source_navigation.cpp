@@ -19,37 +19,33 @@ namespace MYG{
         
             
 
-            if(!root->data.empty() && (root->data.find("var")==std::string::npos && root->data.find("/var")==std::string::npos && root->data.find("proc")==std::string::npos && root->data.find("/proc")==std::string::npos && root->data.find("verb")==std::string::npos && root->data.find("/verb")==std::string::npos && root->data.find("const")==std::string::npos && root->data.find("/const")==std::string::npos ) ){
+            if(!root->data.empty()){
+               
                 ImGui::Indent();
-                ImGuiTreeNodeFlags node_flags = ((selection_mask & (1 << (i))) ? ImGuiTreeNodeFlags_Selected : 0) | ImGuiTreeNodeFlags_OpenOnDoubleClick;
+                ImGuiTreeNodeFlags node_flags = ((selection_mask == i) ? ImGuiTreeNodeFlags_Selected : 0);
                 bool opened = ImGui::TreeNodeEx((void*)(intptr_t)(i), node_flags, "%s", root->data.c_str());
                 if (ImGui::IsItemClicked()) 
                         node_clicked = (i);
                 if (opened)
                 {
+                    if(root->children.size() > 0){
+                         for (auto item : root->children) {
+                            //spdlog::info(item->getChildren().size());
+
+                            i++;
+                            RenderObjectTree(item, i, selection_mask, node_clicked);
+                            
+
+
+
+                        }
+                    }
+                   
                     ImGui::TreePop();
                 }
-                if (node_clicked != -1)
-                    {
-                        /**
-                         *  if (ImGui::GetIO().KeyCtrl)
-                            selection_mask ^= (1 << node_clicked);  // CTRL+click to toggle
-                        * 
-                        */
-                        selection_mask = (1 << node_clicked);   // Click to single-select
-                    }
-
+                
                     
-                for(auto item : root->children){
-                //spdlog::info(item->getChildren().size());
-
-                    i++;
-                    RenderObjectTree(item,i,selection_mask,node_clicked);
-                    
-            
-                    
-
-                }
+               
                 ImGui::Unindent();
             }
 
@@ -103,14 +99,24 @@ namespace MYG{
         
 
         bool shouldOpen = library->isDone();
-        static int selection_mask = 0x02;
+        static int selection_mask = 0;
         if(ImGui::BeginTabItem("Objects", &shouldOpen, ImGuiTabItemFlags_None)){
             int i = 0;
             int node_clicked = -1;
             DME_Tree_Tree_Model *tree = library->getTree();
             //spdlog::info(printTree(tree->getRoot()));
 
-            RenderObjectTree(tree->getRoot(),i,selection_mask,node_clicked);
+            RenderObjectTree(tree->getRoot()->children[1],i,selection_mask,node_clicked);
+            if (node_clicked != -1)
+            {
+                /**
+                 *  if (ImGui::GetIO().KeyCtrl)
+                    selection_mask ^= (1 << node_clicked);  // CTRL+click to toggle
+                * 
+                */
+                selection_mask = node_clicked;   // Click to single-select
+            }
+
                      
     
 

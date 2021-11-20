@@ -161,7 +161,7 @@ class DME_Parser{
 
 			t2.join();
 			
-			tree->completeTree();
+			//tree->completeTree();
 
 		}
 

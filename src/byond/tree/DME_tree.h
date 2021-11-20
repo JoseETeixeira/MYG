@@ -5,6 +5,7 @@
 #include <vector>
 #include <filesystem>
 #include <optional>
+#include <map>
 #include <regex>
 #include "../utils/string_helper.h"
 #include "spdlog/spdlog.h"
@@ -27,6 +28,8 @@ namespace BYOND{
 		
 		// Catch-all for other stuff
 	private:
+
+
 		
 		DME_Tree_Item* rootNode = new DME_Tree_Item(nullptr, "");
 
@@ -47,6 +50,8 @@ namespace BYOND{
 		DME_Tree_Item *world = new DME_Tree_Item(datum, "world");
 
 		int icon_size = 0;
+		
+		std::vector<DME_Tree_Item*> createdNodes;
 
 		// endregion
 
@@ -158,7 +163,22 @@ namespace BYOND{
 				}
 				else
 				{
-						currentNode = datum;
+					bool found = false;
+					for (auto i : createdNodes) {
+						if (i->name == startNodeName) {
+							found = true;
+							currentNode = i;
+						}
+					}
+					if (!found) {
+						DME_Tree_Item* item = new DME_Tree_Item(datum, startNodeName);
+						createdNodes.push_back(item);
+						currentNode = item;
+						for (auto listener : listeners) {
+							listener->onNodeAdded(item);
+						}
+					}
+						
 				}
 
 				startIndex++;
@@ -198,6 +218,11 @@ namespace BYOND{
 		virtual DME_Tree_Item *getRootNode()
 		{
 			return datum;
+		}
+
+		virtual DME_Tree_Item *getAtomNode()
+		{
+			return atom;
 		}
 
 		virtual void addListener(DME_Tree_Listener *listener)
