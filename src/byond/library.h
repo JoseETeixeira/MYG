@@ -1,17 +1,18 @@
-#include "spdlog/spdlog.h"
-#include <filesystem>
-#include <iostream>
-#include <sstream>
-#include <fstream>
+
 #ifndef _BYOND_LIBRARY_H
 #define _BYOND_LIBRARY_H
 
 #pragma once
 
-
+#include "spdlog/spdlog.h"
+#include <filesystem>
+#include <iostream>
+#include <sstream>
+#include <fstream>
 #include "parser/DME_parser.h"
 #include "tree/DME_tree.h"
 #include "../editor/source_navigation/tree/DME_Tree_Model.h"
+#include <thread>
 
 
 
@@ -41,17 +42,20 @@ namespace BYOND{
             spdlog::info("Opening DME");
 
             if(filepath != currentDME){
-                //TODO: Do parse
-                std::ifstream dmeFile(filepath);
-                std::filesystem::path p = filepath;
-                parser = new BYOND::DME_Parser(&p);
+               
 
-                spdlog::info("Parser created");
+                std::thread t([this, filepath]{
+                    std::ifstream dmeFile(filepath);
+                    std::filesystem::path p = filepath;
+                    BYOND::DME_Parser *parser = new BYOND::DME_Parser(&p);
+                    treeModel = new MYG::DME_Tree_Tree_Model(parser->tree);
+                    spdlog::info("Tree model listener created");
+                    parser->parseDME();
+                    this->parser = parser;
+                });
 
-                treeModel = new MYG::DME_Tree_Tree_Model(parser->tree);
-                spdlog::info("Tree model listener created");
-
-                parser->parseDME();
+                t.detach();
+                
 
                 spdlog::info("Parsing done");
 

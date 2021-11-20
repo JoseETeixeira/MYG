@@ -77,6 +77,23 @@ class DME_Parser{
 			std::vector<std::string> splitLine; // For storing the line split on '/'
 			std::vector<std::string> subPath; // The part of the path given in the current line
 			std::string restOfTheLine; // The part of the line that doesn't define the path
+
+			/**
+			 * Group 1 is file to include
+			 */
+			static inline std::regex *INCLUDE_PATTERN = new std::regex ("\\s*?#include\\s+\"(.+)\"\\s*");
+
+			/**
+			 * Group 1 is the name of the macro
+			 * Group 2 is the value of the macro
+			 */
+			static inline std::regex  *DEFINE_PATTERN = new std::regex ("\\s*?as#define\\s+([^\\s]+)\\s+(.+)\\s*");
+
+			/**
+			 * Group 1 is the macro to undefine
+			 */
+			static inline std::regex  *UNDEF_PATTERN = new std::regex ("\\s*?#undef\\s+([^\\s]+)\\s*");
+			
 			/**
 			 * Group 1 is the name of the proc
 			 * Group 2 is the parameters
@@ -261,120 +278,80 @@ class DME_Parser{
     			l << line.c_str();
 				//spdlog::info("Line: {}", line);
 				// Process #include, #define, and #undef
-				if (StringHelper::trim(line).find("#", 0) == 0)
+				if (isBlank(&line))
 				{
-					//spdlog::info("is define or include");
-					line = StringHelper::trim(line);
-					if (line.find("#include", 0) == 0)
+					continue;
+				}
+
+				std::string space = "#";
+				std::string define = "#define";
+				std::string undefine = "#undef";
+				if (beginsAfterSpaces(&line, &space))
+				{
+					std::string include = "#include";
+					// Preprocessor directives first, these short-circuit all other line processing
+					if (beginsAfterSpaces(&line, &include))
 					{
-						//spdlog::info("is include");
-						std::string path = "";
-						std::string includeData = split(line, " ")[1];
-						if (includeData.find("\"", 0) == 0 || includeData.find("<", 0) == 0)
+						std::smatch matcher;
+						std::regex_search(line,matcher,*INCLUDE_PATTERN);
+						if (!matcher.empty())
 						{
-							// "path\to\file.dm" OR <path\to\library.dme>
-							path = includeData.substr(1, (includeData.length() - 1) - 1);
-						}
-						else
-						{
-							spdlog::error(currentFile.filename().string() + " has an invalid #include statement: ");
-							continue;
-						}
-
-						std::stringstream ppp;
-						ppp << path.c_str();
-						//spdlog::info("Path : {}",path);
-
-						if (StringHelper::endsWith(path,".dm")|| StringHelper::endsWith(path,".dme") )
-						{
-							std::filesystem::path fspath = path;
-							//spdlog::info("is dm/dme: {}",fspath.filename().string());
-							std::filesystem::path cfile;
-
-							std::string sfile = ReplaceAll(currentFile.relative_path().string(),currentFile.filename().string(),"");
-							std::string scfile = currentFile.root_path().string() + sfile + fspath.string();
-
-							#ifdef __GNUC__
-								#define LINUX
-							#else
-								#define WINDOWS
-							#endif
-							#ifdef WINDOWS
-								scfile = ReplaceAll(scfile,"/", "\\");
-							#endif
-							#ifdef LINUX
-								scfile = ReplaceAll(scfile,"\\","/");
-							#endif
-
-							cfile = scfile;
-							//spdlog::info(cfile.string());
-							std::ifstream includeFile = std::ifstream(cfile);
-
-
-							ThreadWrapper *parseWrapper = new ThreadWrapper(this,&includeFile,&cfile);
-							void* voidwrapper = static_cast<void*>(parseWrapper);
-							std::thread t3(doSubParseThread, voidwrapper);
-
-							t3.join();
-
-
-							//doParse(includeFile,cfile,false);
-							//JAVA TO C++ CONVERTER TODO TASK: A 'delete includeFile' statement was not added since includeFile was passed to a method or constructor. Handle memory management manually.
-						}
-						if (isMainFile)
-						{
-							currentInclude++;
-
-						}
-						//spdlog::info(currentInclude);
-						spdlog::info(currentFile.string());
-					}
-					else if (line.find("#define", 0) == 0)
-					{
-						spdlog::info("Is define");
-						std::smatch m;
-						std::regex_search(line, m, std::regex("#define +([\\d\\w]+) +(.+)"));
-						if (!m.empty())
-						{
-							std::string group = m[1].str();
-							if (group == "FILE_DIR")
+							std::string includedPath = matcher[1].str();
+							if (StringHelper::endsWith(includedPath, ".dm") || StringHelper::endsWith(includedPath, ".dme"))
 							{
-								spdlog::info("Is FILE FIR");
-								std::string file_group = m[2].str();
-								std::smatch quotes;
-								std::regex_search(file_group, quotes, std::regex("^\"(.*)\"$"));
-								if (!quotes.empty())
-								{
-									// 2 ways this can't happen:
-									std::string quotes_group = quotes[1];
-									std::stringstream ss;
-									ss << quotes_group.c_str();
-									// Somebody intentionally placed broken FILE_DIR defines.
-									// It's the . FILE_DIR, which has no quotes, and we don't need.
-									std::filesystem::path* filedirpath = new std::filesystem::path(ss.str());
-									tree->fileDirs.push_back(filedirpath);
-								}
+								std::string dmPath = currentFile.parent_path().string() + "/"+includedPath;
+								std::string system_agnostic_path;
+								#ifdef __linux__ 
+									system_agnostic_path = StringHelper::ReplaceAll(dmPath,"\\","/");
+								#elif _WIN32
+									system_agnostic_path = StringHelper::ReplaceAll(dmPath,"/","\\");
+								#else
+									system_agnostic_path = StringHelper::ReplaceAll(dmPath,"\\","/");
+								#endif
+
+								spdlog::info("Checking included DM file {}", system_agnostic_path);
+								std::ifstream *includedFile = new std::ifstream(system_agnostic_path);
+								
+								spdlog::info("Parsing included DM file {}", system_agnostic_path);
+								std::filesystem::path *include_path = new std::filesystem::path(system_agnostic_path);
+								doSubParse(*includedFile,*include_path);
+							
 
 							}
 							else
 							{
-								std::string group = m[1].str();
-								std::string value = m[2].str();
-								value = ReplaceAll(value, "$", "\\$");
-								macros.emplace(group, value);
+								spdlog::error(currentFile.string() + " includes non-DM file " + includedPath + ", ignoring");
 							}
 						}
 					}
-					else if (line.find("#undef",0) == 0)
+					else if (beginsAfterSpaces(&line, &define))
 					{
-						std::smatch m;
-						std::regex_search(line, m, std::regex("#undef[ \\t]*([\\d\\w]+)"));
-						if (!m.empty() && macros.find(m[1].str()) != macros.end())
+						std::smatch matcher;
+						std::regex_search(line,matcher,*DEFINE_PATTERN);
+						if (!matcher.empty())
 						{
-							macros.erase(macros[m[1].str()]);
+							std::string defineName = matcher[1].str();
+							if (defineName == "FILE_DIR")
+							{
+								std::filesystem::path *filedir = new std::filesystem::path(matcher[2].str());
+								tree->addFileDir(filedir);
+								// TODO: FILE_DIR
+							}
+							else
+							{
+								tree->addMacro(matcher[1].str(), matcher[2].str());
+							}
 						}
 					}
-
+					else if (beginsAfterSpaces(&line, &undefine))
+					{
+						std::smatch matcher;
+						std::regex_search(line,matcher,*UNDEF_PATTERN);
+						if (!matcher.empty())
+						{
+							tree->removeMacro(matcher[1].str());
+						}
+					}
 					continue;
 				}
 
@@ -447,7 +424,6 @@ class DME_Parser{
 					std::regex_search(restOfTheLine,matcher,*VAR_PATTERN);
 					if (!matcher.empty())
 					{
-						//System.out.println("Var found in " + fullPathBuilder + ": " + matcher.group(1) + " = " + matcher.group(2));
 						std::string varName = StringHelper::trim(matcher[1].str());
 						std::string varVal = StringHelper::trim(matcher[2].str());
 						tree->getOrCreateDME_Tree_Item(StringHelper::trim(fullPathBuilder->str()))->setVar(varName, varVal);
@@ -457,14 +433,60 @@ class DME_Parser{
 
 			delete fullPathBuilder;
 			
-			
-
-			//JAVA TO C++ CONVERTER TODO TASK: A 'delete lb' statement was not added since lbl was passed to a method or constructor. Handle memory management manually.
-			//JAVA TO C++ CONVERTER TODO TASK: A 'delete dpb' statement was not added since dpb was passed to a method or constructor. Handle memory management manually.
-						//delete runOn;
 		}
 
 	private:
+
+	/**
+		 * A replacement for <code>string.trim().isEmpty()</code> that doesn't allocate a new string.
+		 *
+		 * @param str String to check
+		 * @return <code>true</code> if the string is empty, <code>false</code> if it isn't.
+		 */
+		static bool isBlank(std::string *str)
+		{
+			for (int i = 0; i < str->size(); i++)
+			{
+				if (!std::isspace(str->at(i)))
+				{
+					return false;
+				}
+			}
+			return true;
+		}
+
+		/**
+		 * A replacement for <code>string.trim().beginsWith()</code> that doesn't allocate a new string.
+		 *
+		 * @param str String to check
+		 * @param beg Beginning to look for
+		 * @return <code>true</code> if <code>str</code>'s first non-whitespace characters are <code>beg</code>
+		 */
+		static bool beginsAfterSpaces(std::string *str, std::string *beg)
+		{
+			int i;
+			for (i = 0; i < str->size(); i++)
+			{
+				if (str->at(i) != ' ' && str->at(i) != '\t')
+				{
+					break;
+				}
+			}
+			if (i + beg->size() > str->size())
+			{
+				return false;
+			}
+			for (int j = 0; j < beg->size(); j++)
+			{
+				if (str->at(i + j) != beg->at(j))
+				{
+					return false;
+				}
+			}
+			return true;
+		}
+
+
 		virtual void doSubParse(std::ifstream &br, std::filesystem::path currentFile)
 		{
 
