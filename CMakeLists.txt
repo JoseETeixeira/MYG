@@ -19,7 +19,7 @@ include_directories(third_party/spdlog/include)
 include_directories(third_party/glfw/include)
 include_directories(third_party/glfw/deps/glad)
 include_directories(third_party/imgui)
-include_directories(third_party/opencv)
+#include_directories(third_party/opencv)
 
 
 add_subdirectory(src/byond)
