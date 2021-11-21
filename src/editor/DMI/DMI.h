@@ -30,6 +30,8 @@ public:
 
         Vec size() const;
 
+        std::vector<std::vector<Image>> images;
+
     protected:
         static const char *dirname(unsigned d);
         static int dirnum(const std::string name);
@@ -37,7 +39,7 @@ public:
         void write_frames(unsigned dir, std::filesystem::path path);
         void reduplicate();
 
-        std::vector<std::vector<Image>> images;
+        
     };
 
     void load(std::filesystem::path fname);

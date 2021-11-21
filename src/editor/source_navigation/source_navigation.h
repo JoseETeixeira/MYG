@@ -20,6 +20,8 @@
 #include "tree/DME_Tree_Node.h"
 #include "imgui_file_browser.h"
 #include "../DMI/DMI.h"
+#include <filesystem>
+#include <map>
 
 namespace MYG{
 
@@ -34,6 +36,8 @@ private:
     ImVec4 clear_color = ImVec4(0.07f,0.13f,0.17f,1.0f);
     imgui_ext::file_browser *fileBrowser;
     std::string path;
+    std::map<std::string,DMI*> icons;
+    std::string dmePath = "";
 
     bool fileExplorerOpen = true;
 
@@ -43,6 +47,7 @@ public:
 
     SourceNavigationInterface( GLFWwindow* window,BYOND::Library* library,int xpos,int ypos,int width,int height);
     void RenderObjectTree(MYG::DefaultMutableTreeNode<BYOND::DME_Tree_Item *> *items, int &i,int &selection_mask,int &node_clicked);
+    void drawIcon(DMI::State& dmi);
 
     void mainLoop();
 

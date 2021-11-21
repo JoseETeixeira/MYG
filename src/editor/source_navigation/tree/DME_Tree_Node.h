@@ -15,18 +15,18 @@ namespace MYG
         
     public:
         // member vars
-        std::string data;
+        BYOND::DME_Tree_Item* data;
         std::vector<DefaultMutableTreeNode<T>*> children;
         DefaultMutableTreeNode<T> *parent;
         
         // constructor
-        DefaultMutableTreeNode(std::string data): data(data),parent(nullptr) {}
+        DefaultMutableTreeNode(BYOND::DME_Tree_Item* data): data(data),parent(nullptr) {}
 
         void add(DefaultMutableTreeNode<T> *newChild){
             newChild->parent = this;
             children.push_back(newChild);
             std::sort(children.begin(),children.end(),[&]( DefaultMutableTreeNode<T> *obj1,  DefaultMutableTreeNode<T> *obj2){
-                return obj1->data.compare(obj2->data) > 0;
+                return obj1->data->name.compare(obj2->data->name) > 0;
             });
 
         }
@@ -45,7 +45,7 @@ namespace MYG
 			delete node;
 		}
 
-		DME_Tree_Tree_Node(BYOND::DME_Tree_Item *node) : DefaultMutableTreeNode<BYOND::DME_Tree_Item*>(node->getName())
+		DME_Tree_Tree_Node(BYOND::DME_Tree_Item *node) : DefaultMutableTreeNode<BYOND::DME_Tree_Item*>(node)
 		{
 			this->node = node;
 		}

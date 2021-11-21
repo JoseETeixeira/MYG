@@ -27,7 +27,6 @@ namespace BYOND{
         bool done = false;
         BYOND::DME_Parser *parser;
         MYG::DME_Tree_Tree_Model *treeModel;
-        
             
     public:
     
@@ -66,6 +65,10 @@ namespace BYOND{
 
         MYG::DME_Tree_Tree_Model *getTree(){
             return this->treeModel;
+        }
+
+        DME_Tree *getMainTree(){
+            return this->parser->tree;
         }
 
         std::unordered_map<std::string, DME_Tree_Item*> getTreeItems(DME_Tree *tree){
