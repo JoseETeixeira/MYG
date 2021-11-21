@@ -1,0 +1,69 @@
+{
+	"sources" : 
+	[
+		{
+			"file" : "C:/Users/Eduardo/OneDrive/Ambiente de Trabalho/BYOND/MYG/third_party/opencv/modules/photo/perf/opencl/perf_denoising.cpp",
+			"labels" : 
+			[
+				"Main",
+				"opencv_photo",
+				"PerfTest"
+			]
+		},
+		{
+			"file" : "C:/Users/Eduardo/OneDrive/Ambiente de Trabalho/BYOND/MYG/third_party/opencv/modules/photo/perf/perf_cuda.cpp",
+			"labels" : 
+			[
+				"Main",
+				"opencv_photo",
+				"PerfTest"
+			]
+		},
+		{
+			"file" : "C:/Users/Eduardo/OneDrive/Ambiente de Trabalho/BYOND/MYG/third_party/opencv/modules/photo/perf/perf_inpaint.cpp",
+			"labels" : 
+			[
+				"Main",
+				"opencv_photo",
+				"PerfTest"
+			]
+		},
+		{
+			"file" : "C:/Users/Eduardo/OneDrive/Ambiente de Trabalho/BYOND/MYG/third_party/opencv/modules/photo/perf/perf_main.cpp",
+			"labels" : 
+			[
+				"Main",
+				"opencv_photo",
+				"PerfTest"
+			]
+		},
+		{
+			"file" : "C:/Users/Eduardo/OneDrive/Ambiente de Trabalho/BYOND/MYG/third_party/opencv/modules/photo/perf/perf_precomp.hpp",
+			"labels" : 
+			[
+				"Main",
+				"opencv_photo",
+				"PerfTest"
+			]
+		},
+		{
+			"file" : "C:/Users/Eduardo/OneDrive/Ambiente de Trabalho/BYOND/MYG/third_party/modules/photo/opencv_perf_photo_pch.cpp",
+			"labels" : 
+			[
+				"Main",
+				"opencv_photo",
+				"PerfTest"
+			]
+		}
+	],
+	"target" : 
+	{
+		"labels" : 
+		[
+			"Main",
+			"opencv_photo",
+			"PerfTest"
+		],
+		"name" : "opencv_perf_photo"
+	}
+}

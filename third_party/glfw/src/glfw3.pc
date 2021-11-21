@@ -1,13 +1,13 @@
-prefix=/usr/local
+prefix=C:/Program Files (x86)/MYG
 exec_prefix=${prefix}
-includedir=/usr/local/include
-libdir=/home/eduardo/Desktop/BYOND/MYG.gg/MYG/libs
+includedir=C:/Program Files (x86)/MYG/include
+libdir=C:/Users/Eduardo/OneDrive/Ambiente de Trabalho/BYOND/MYG/libs
 
 Name: GLFW
 Description: A multi-platform library for OpenGL, window and input
 Version: 3.3.5
 URL: https://www.glfw.org/
-Requires.private:  x11
+Requires.private: 
 Libs: -L${libdir} -lglfw3
-Libs.private:  -lrt -lm -ldl
+Libs.private:  -lgdi32
 Cflags: -I${includedir}

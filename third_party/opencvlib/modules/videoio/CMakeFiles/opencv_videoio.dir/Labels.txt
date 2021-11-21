@@ -1,0 +1,97 @@
+# Target labels
+ Main
+ opencv_videoio
+ Module
+# Source files and their labels
+C:/Users/Eduardo/OneDrive/Ambiente de Trabalho/BYOND/MYG/third_party/opencv/modules/videoio/include/opencv2/videoio.hpp
+ Main
+ opencv_videoio
+ Module
+C:/Users/Eduardo/OneDrive/Ambiente de Trabalho/BYOND/MYG/third_party/opencv/modules/videoio/include/opencv2/videoio/cap_ios.h
+ Main
+ opencv_videoio
+ Module
+C:/Users/Eduardo/OneDrive/Ambiente de Trabalho/BYOND/MYG/third_party/opencv/modules/videoio/include/opencv2/videoio/container_avi.private.hpp
+ Main
+ opencv_videoio
+ Module
+C:/Users/Eduardo/OneDrive/Ambiente de Trabalho/BYOND/MYG/third_party/opencv/modules/videoio/include/opencv2/videoio/legacy/constants_c.h
+ Main
+ opencv_videoio
+ Module
+C:/Users/Eduardo/OneDrive/Ambiente de Trabalho/BYOND/MYG/third_party/opencv/modules/videoio/include/opencv2/videoio/registry.hpp
+ Main
+ opencv_videoio
+ Module
+C:/Users/Eduardo/OneDrive/Ambiente de Trabalho/BYOND/MYG/third_party/opencv/modules/videoio/include/opencv2/videoio/videoio.hpp
+ Main
+ opencv_videoio
+ Module
+C:/Users/Eduardo/OneDrive/Ambiente de Trabalho/BYOND/MYG/third_party/opencv/modules/videoio/include/opencv2/videoio/videoio_c.h
+ Main
+ opencv_videoio
+ Module
+C:/Users/Eduardo/OneDrive/Ambiente de Trabalho/BYOND/MYG/third_party/opencv/modules/videoio/src/cap_dshow.hpp
+ Main
+ opencv_videoio
+ Module
+C:/Users/Eduardo/OneDrive/Ambiente de Trabalho/BYOND/MYG/third_party/opencv/modules/videoio/src/precomp.hpp
+ Main
+ opencv_videoio
+ Module
+C:/Users/Eduardo/OneDrive/Ambiente de Trabalho/BYOND/MYG/third_party/opencv/modules/videoio/src/videoio_registry.cpp
+ Main
+ opencv_videoio
+ Module
+C:/Users/Eduardo/OneDrive/Ambiente de Trabalho/BYOND/MYG/third_party/opencv/modules/videoio/src/videoio_c.cpp
+ Main
+ opencv_videoio
+ Module
+C:/Users/Eduardo/OneDrive/Ambiente de Trabalho/BYOND/MYG/third_party/opencv/modules/videoio/src/cap.cpp
+ Main
+ opencv_videoio
+ Module
+C:/Users/Eduardo/OneDrive/Ambiente de Trabalho/BYOND/MYG/third_party/opencv/modules/videoio/src/cap_images.cpp
+ Main
+ opencv_videoio
+ Module
+C:/Users/Eduardo/OneDrive/Ambiente de Trabalho/BYOND/MYG/third_party/opencv/modules/videoio/src/cap_mjpeg_encoder.cpp
+ Main
+ opencv_videoio
+ Module
+C:/Users/Eduardo/OneDrive/Ambiente de Trabalho/BYOND/MYG/third_party/opencv/modules/videoio/src/cap_mjpeg_decoder.cpp
+ Main
+ opencv_videoio
+ Module
+C:/Users/Eduardo/OneDrive/Ambiente de Trabalho/BYOND/MYG/third_party/opencv/modules/videoio/src/backend_plugin.cpp
+ Main
+ opencv_videoio
+ Module
+C:/Users/Eduardo/OneDrive/Ambiente de Trabalho/BYOND/MYG/third_party/opencv/modules/videoio/src/backend_static.cpp
+ Main
+ opencv_videoio
+ Module
+C:/Users/Eduardo/OneDrive/Ambiente de Trabalho/BYOND/MYG/third_party/opencv/modules/videoio/src/container_avi.cpp
+ Main
+ opencv_videoio
+ Module
+C:/Users/Eduardo/OneDrive/Ambiente de Trabalho/BYOND/MYG/third_party/opencv/modules/videoio/src/cap_dshow.cpp
+ Main
+ opencv_videoio
+ Module
+C:/Users/Eduardo/OneDrive/Ambiente de Trabalho/BYOND/MYG/third_party/opencv/modules/videoio/src/cap_msmf.hpp
+ Main
+ opencv_videoio
+ Module
+C:/Users/Eduardo/OneDrive/Ambiente de Trabalho/BYOND/MYG/third_party/opencv/modules/videoio/src/cap_msmf.cpp
+ Main
+ opencv_videoio
+ Module
+C:/Users/Eduardo/OneDrive/Ambiente de Trabalho/BYOND/MYG/third_party/cvconfig.h
+C:/Users/Eduardo/OneDrive/Ambiente de Trabalho/BYOND/MYG/third_party/opencv2/opencv_modules.hpp
+C:/Users/Eduardo/OneDrive/Ambiente de Trabalho/BYOND/MYG/third_party/modules/videoio/opencv_videoio_pch.cpp
+ Main
+ opencv_videoio
+ Module
+C:/Users/Eduardo/OneDrive/Ambiente de Trabalho/BYOND/MYG/third_party/modules/videoio/vs_version.rc
+C:/Users/Eduardo/OneDrive/Ambiente de Trabalho/BYOND/MYG/third_party/modules/videoio/opencv_videoio_main.cpp

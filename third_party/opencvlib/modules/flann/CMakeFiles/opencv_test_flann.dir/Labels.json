@@ -1,0 +1,51 @@
+{
+	"sources" : 
+	[
+		{
+			"file" : "C:/Users/Eduardo/OneDrive/Ambiente de Trabalho/BYOND/MYG/third_party/opencv/modules/flann/test/test_lshtable_badarg.cpp",
+			"labels" : 
+			[
+				"Main",
+				"opencv_flann",
+				"AccuracyTest"
+			]
+		},
+		{
+			"file" : "C:/Users/Eduardo/OneDrive/Ambiente de Trabalho/BYOND/MYG/third_party/opencv/modules/flann/test/test_main.cpp",
+			"labels" : 
+			[
+				"Main",
+				"opencv_flann",
+				"AccuracyTest"
+			]
+		},
+		{
+			"file" : "C:/Users/Eduardo/OneDrive/Ambiente de Trabalho/BYOND/MYG/third_party/opencv/modules/flann/test/test_precomp.hpp",
+			"labels" : 
+			[
+				"Main",
+				"opencv_flann",
+				"AccuracyTest"
+			]
+		},
+		{
+			"file" : "C:/Users/Eduardo/OneDrive/Ambiente de Trabalho/BYOND/MYG/third_party/modules/flann/opencv_test_flann_pch.cpp",
+			"labels" : 
+			[
+				"Main",
+				"opencv_flann",
+				"AccuracyTest"
+			]
+		}
+	],
+	"target" : 
+	{
+		"labels" : 
+		[
+			"Main",
+			"opencv_flann",
+			"AccuracyTest"
+		],
+		"name" : "opencv_test_flann"
+	}
+}
