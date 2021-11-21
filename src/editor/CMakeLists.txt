@@ -53,10 +53,14 @@ set(ZLIB_LIBRARY zlib)
 add_subdirectory(deps/zlib-1.2.11)
 find_package(ZLIB REQUIRED)
 
+link_directories (${ZLIB_LIBRARY_DIRS})
+link_libraries (${ZLIB_LIBRARIES})
+
+
 ##LIBPNG
 include_directories(deps/libpng)
 set(PNG_PNG_INCLUDE_DIR deps/libpng)
-set(PNG_LIBRARY png)
+set(PNG_LIBRARY deps/libpng/Debug/png)
 add_subdirectory(deps/libpng)
 
 find_package(PNG REQUIRED)
@@ -65,12 +69,18 @@ include_directories (${PNG_INCLUDE_DIRS})
 link_directories (${PNG_LIBRARY_DIRS})
 link_libraries (${PNG_LIBRARIES})
 
-link_directories (${ZLIB_LIBRARY_DIRS})
-link_libraries (${ZLIB_LIBRARIES})
+##WEBP
+include_directories(deps/libwebp/include)
+
+find_library(libwebp "deps/libwebp")
+
+include_directories (${LIBWEBP_INCLUDE_DIR})
+link_directories (${LIBWEBP_LIBRARY_DIRS})
+link_libraries (${LIBWEBP_LIBRARIES})
 
 
-add_executable(Editor ${MAIN_CPP} ${SOURCE} ${GLAD_SOURCE} ${FA_HEADER_FILES} ${MAIN_HEADER} ${GLAD_HEADERS} ${IMGUI_HEADER_FILES} ${IMGUI_SOURCE_FILES} ${BYOND_HEADER_FILES} ${BYOND_SOURCE_FILES} ${LIBPNG_LINK_FLAGS})
+add_executable(Editor ${MAIN_CPP} DMI/codecs/png.cpp DMI/codecs/webp.cpp DMI/codecs/file.cpp  ${SOURCE} ${GLAD_SOURCE} ${FA_HEADER_FILES} ${MAIN_HEADER} ${GLAD_HEADERS} ${IMGUI_HEADER_FILES} ${IMGUI_SOURCE_FILES} ${BYOND_HEADER_FILES} ${BYOND_SOURCE_FILES} ${LIBPNG_LINK_FLAGS})
 
 include_directories(Editor ${ZLIB_DEPS} )
     
-target_link_libraries(Editor glfw ${GLFW_LIBRARIES}  ${PNG_LIBRARY})
+target_link_libraries(Editor glfw ${GLFW_LIBRARIES}  ${PNG_LIBRARIES} ${LIBWEBP_LIBRARIES} deps/libwebp/libwebp deps/libwebp/libwebpmux deps/libwebp/libwebpdemux  zlib png)
