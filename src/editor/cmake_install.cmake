@@ -32,3 +32,10 @@ if(NOT DEFINED CMAKE_CROSSCOMPILING)
   set(CMAKE_CROSSCOMPILING "FALSE")
 endif()
 
+if(NOT CMAKE_INSTALL_LOCAL_ONLY)
+  # Include the install script for each subdirectory.
+  include("C:/Users/Eduardo/OneDrive/Ambiente de Trabalho/BYOND/MYG/src/editor/deps/zlib-1.2.11/cmake_install.cmake")
+  include("C:/Users/Eduardo/OneDrive/Ambiente de Trabalho/BYOND/MYG/src/editor/deps/libpng/cmake_install.cmake")
+
+endif()
+

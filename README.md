@@ -7,6 +7,7 @@ Install GLAD
 
 ```
 pip install glad
+sudo apt-get install zlib1g-dev
 
 ```
 

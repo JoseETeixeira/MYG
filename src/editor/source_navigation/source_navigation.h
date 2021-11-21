@@ -19,7 +19,7 @@
 #include "tree/DME_Tree_Model.h"
 #include "tree/DME_Tree_Node.h"
 #include "imgui_file_browser.h"
-
+#include "../DMI/DMI.h"
 
 namespace MYG{
 

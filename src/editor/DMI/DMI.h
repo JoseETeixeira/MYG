@@ -1,5 +1,5 @@
 #pragma once
-
+#include "DMIRead.h"
 #include <string>
 #include <unordered_map>
 #include <vector>
@@ -14,36 +14,32 @@ namespace MYG::dmirender
 
 	class DMI
 	{
+	private:
+		DMIData *data;
+	
 	public:
 		
 
 		virtual ~DMI()
 		{
-			delete defaultState;
-			delete image;
+			
 		}
 
-		DMI(InputStream *inputStream)
+		DMI(std::string filename)
 		{
 
 			
 		}
 
 
-		virtual IconState *getIconState(const std::wstring &s)
+		virtual DMIState *getIconState(const std::string &s)
 		{
-			if (iconStates.find(s) != iconStates.end())
-			{
-				return iconStates[s];
-			}
-			else
-			{
-				return defaultState;
-			}
+			
 		}
 
 		virtual void createGL()
 		{
+			/*
 			if (image == nullptr || glID != -1)
 			{
 				return;
@@ -66,11 +62,14 @@ namespace MYG::dmirender
 			}
 
 			buffer->flip(); //FOR THE LOVE OF GOD DO NOT FORGET THIS
+			*/
 
 			// You now have a ByteBuffer filled with the color data of each pixel.
 			// Now just create a texture ID and bind it. Then you can load it using 
 			// whatever OpenGL method you want, for example:
-			glID = glGenTextures();
+
+			/*
+			void glID = glGenTextures();
 			glBindTexture(GL_TEXTURE_2D, glID);
 
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL12::GL_CLAMP_TO_EDGE);
@@ -83,6 +82,7 @@ namespace MYG::dmirender
 			glTexParameteri(GL_TEXTURE_2D, GL14::GL_GENERATE_MIPMAP, GL_TRUE);
 
 			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, image->getWidth(), image->getHeight(), 0, GL_RGBA, GL_UNSIGNED_BYTE, buffer);
+			*/
 		}
 	};
 

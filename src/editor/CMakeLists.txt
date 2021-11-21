@@ -7,7 +7,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 
 if(LINUX)
-    SET(GLFW_FLAGS "-lglfw3 -lGL -lX11 -lpthread -lXrandr -lXi -ldl")
+    SET(GLFW_FLAGS "-lglfw3 -lGL -lX11 -lpthread -lXrandr -lXi -ldl -libpng16")
     add_definitions(${GLFW_FLAGS})
 endif(LINUX)
 
@@ -19,11 +19,11 @@ SET(EDITOR_FOLDER ${CMAKE_CURRENT_SOURCE_DIR})
 message(STATUS "Generating project file for example in ${EXAMPLE_FOLDER}")
 # Main
 
-file(GLOB BASE_HEADERS "*.hpp" "*.h" "source_navigation/*.h" "map_editor/*.h" "code_editor/*.h")
+file(GLOB BASE_HEADERS "*.hpp" "*.h" "source_navigation/*.h" "map_editor/*.h" "code_editor/*.h" "DMI/DMI.h" )
 file(GLOB GLAD_HEADERS "../../third_party/glfw/deps/*.h" )
 file(GLOB GLAD_SOURCE "../../third_party/glfw/deps/*.c" )
 
-file(GLOB SOURCE *.cpp ${BASE_HEADERS} ${EDITOR_FOLDER}/*.cpp ${EDITOR_FOLDER}/source_navigation/*.cpp  ${EDITOR_FOLDER}/map_editor/*.cpp ${EDITOR_FOLDER}/code_editor/*.cpp)
+file(GLOB SOURCE *.cpp ${BASE_HEADERS} ${EDITOR_FOLDER}/*.cpp ${EDITOR_FOLDER}/source_navigation/*.cpp  ${EDITOR_FOLDER}/map_editor/*.cpp ${EDITOR_FOLDER}/code_editor/*.cpp ${EDITOR_FOLDER}/DMI/*.cpp)
 SET(MAIN_CPP ${EDITOR_FOLDER}/editor.cpp)
 SET(MAIN_HEADER ${EDITOR_FOLDER}/editor.hpp)
 
@@ -45,15 +45,32 @@ find_library(byond-core byond)
 file(GLOB BYOND_HEADER_FILES "byond/*.h" "byond/utils/*.h" "byond/parser/*.h" "byond/tree/*.h" )
 file(GLOB BYOND_SOURCE_FILES "byond/*.cpp" )
 
-##OpenCV
-#set(OpenCV_DIR "../../third_party/opencvlib")
-#include_directories( ${OpenCV_DIR} )
-#find_package( OpenCV REQUIRED )
-#include_directories( ${OpenCV_INCLUDE_DIRS} )
+##ZLIB
+include_directories(deps/zlib-1.2.11)
+include_directories(deps/zlib-1.2.11/Debug)
+set(ZLIB_INCLUDE_DIR deps/zlib-1.2.11)
+set(ZLIB_LIBRARY zlib)
+add_subdirectory(deps/zlib-1.2.11)
+find_package(ZLIB REQUIRED)
+
+##LIBPNG
+include_directories(deps/libpng)
+set(PNG_PNG_INCLUDE_DIR deps/libpng)
+set(PNG_LIBRARY png)
+add_subdirectory(deps/libpng)
+
+find_package(PNG REQUIRED)
+
+include_directories (${PNG_INCLUDE_DIRS})
+link_directories (${PNG_LIBRARY_DIRS})
+link_libraries (${PNG_LIBRARIES})
+
+link_directories (${ZLIB_LIBRARY_DIRS})
+link_libraries (${ZLIB_LIBRARIES})
 
 
-add_executable(Editor ${MAIN_CPP} ${SOURCE} ${GLAD_SOURCE} ${FA_HEADER_FILES} ${MAIN_HEADER} ${GLAD_HEADERS} ${IMGUI_HEADER_FILES} ${IMGUI_SOURCE_FILES} ${BYOND_HEADER_FILES} ${BYOND_SOURCE_FILES})
+add_executable(Editor ${MAIN_CPP} ${SOURCE} ${GLAD_SOURCE} ${FA_HEADER_FILES} ${MAIN_HEADER} ${GLAD_HEADERS} ${IMGUI_HEADER_FILES} ${IMGUI_SOURCE_FILES} ${BYOND_HEADER_FILES} ${BYOND_SOURCE_FILES} ${LIBPNG_LINK_FLAGS})
 
-
+include_directories(Editor ${ZLIB_DEPS} )
     
-target_link_libraries(Editor glfw ${GLFW_LIBRARIES} )#${OpenCV_LIBS} )
+target_link_libraries(Editor glfw ${GLFW_LIBRARIES}  ${PNG_LIBRARY})
