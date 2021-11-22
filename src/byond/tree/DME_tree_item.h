@@ -48,6 +48,7 @@ class DME_Tree_Item{
 		{
 			this->parent = parent;
 			this->name = name;
+			spdlog::info("ITEM: {}",name);
 
 			if (parent != nullptr)
 			{
@@ -56,9 +57,15 @@ class DME_Tree_Item{
 			}
 		}
 
-		virtual void setVar(const std::string &name, const std::string &value)
+		virtual void setVar(const std::string &n, const std::string &value)
 		{
-			vars.emplace(name, value);
+			if(n == "icon"){
+				spdlog::info("{} icon: {}",name,value);
+			}
+			if(n == "icon_state"){
+				spdlog::info("{} icon_state: {}",name,value);
+			}
+			vars.emplace(n, value);
 		}
 
 		virtual std::string getVar(const std::string &name)

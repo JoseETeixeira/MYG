@@ -47,7 +47,7 @@ public:
 
     SourceNavigationInterface( GLFWwindow* window,BYOND::Library* library,int xpos,int ypos,int width,int height);
     void RenderObjectTree(MYG::DefaultMutableTreeNode<BYOND::DME_Tree_Item *> *items, int &i,int &selection_mask,int &node_clicked);
-    void drawIcon(DMI::State& dmi);
+    void drawIcon(DMI* dmi,std::string path);
 
     void mainLoop();
 

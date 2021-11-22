@@ -13,16 +13,25 @@ namespace MYG{
 
     }
 
-    void SourceNavigationInterface::drawIcon(DMI::State& icon){
+    void SourceNavigationInterface::drawIcon(DMI* icon,std::string path){
         Image img;
-        for(auto image : icon.images){
-            for (auto second_image : image){
-                if(second_image.pixels.size()>0){
-                    img = second_image;
-                    break;
-                }
+        bool found = false;
+       
+        for(auto state : icon->states){
+            if(StringHelper::trim(state.name) == StringHelper::trim(path)){
+                img = state.images[0][0];
+                found = true;
+                break;
             }
         }
+        if(!found){
+            img = icon->states[0].images[0][0];
+        }
+        
+          
+            
+
+
         GLuint texture;
         
         glGenTextures(1, &texture);
@@ -50,15 +59,18 @@ namespace MYG{
     
 
     void SourceNavigationInterface::RenderObjectTree(MYG::DefaultMutableTreeNode<BYOND::DME_Tree_Item *>  *root, int &i,int &selection_mask,int &node_clicked){
-        
-
-            if(!root->data->name.empty()){
+        if(!root->data->name.empty()){
                
                 ImGui::Indent();
                 ImGuiTreeNodeFlags node_flags = ((selection_mask == i) ? ImGuiTreeNodeFlags_Selected : 0);
                 
                 DMI  *dmi = new DMI();
-                std::string dmipath = "C:\\Users\\Eduardo\\OneDrive\\Ambiente de Trabalho\\BYOND\\Dragonball_Universe\\" + StringHelper::ReplaceAll(root->data->getVar("icon"),"/","\\").substr(1, StringHelper::ReplaceAll(root->data->getVar("icon"), "/", "\\").length()-2);
+                std::string dmipath;
+                #if defined(WIN32)
+                    dmipath= dmePath + "\\" + StringHelper::ReplaceAll(root->data->getVar("icon"),"/","\\").substr(1, StringHelper::ReplaceAll(root->data->getVar("icon"), "/", "\\").length()-2);
+                #else if defined(LINUX)
+                    dmipath = dmePath + "/" + StringHelper::ReplaceAll(root->data->getVar("icon"),"\\","/").substr(1, StringHelper::ReplaceAll(root->data->getVar("icon"), "\\","/").length()-2);
+                #endif
                 spdlog::info(dmipath);
 
                 if(!root->data->getVar("icon").empty() && root->data->getVar("icon") != "null" ){
@@ -72,15 +84,13 @@ namespace MYG{
                             for(auto state : dmi->states){
                                 if(state.name == root->data->getVar("icon_state")){
                                     found = true;
-                                    drawIcon(state);
+                                    drawIcon(dmi,root->data->getVar("icon_state"));
                                 }
                             }
                             if(!found){
-                                drawIcon(dmi->states[0]);
+                                drawIcon(dmi,root->data->getVar("icon_state"));
                             }
                         }
-                    }else{
-                        drawIcon(dmi->states[0]);
                     }
                 }
                
@@ -102,6 +112,9 @@ namespace MYG{
 
 
                         }
+                    }else{
+                        drawIcon(dmi,root->data->getVar("icon_state"));
+                        ImGui::Text(root->data->name.c_str());
                     }
                    
                     ImGui::TreePop();
@@ -112,10 +125,8 @@ namespace MYG{
                 ImGui::Unindent();
             }
 
-           
         
-        
-       
+                
     }
 
         std::string printTree(MYG::DefaultMutableTreeNode<BYOND::DME_Tree_Item *>  *node){
@@ -151,6 +162,7 @@ namespace MYG{
                 std::string spath = p.str();
                 if(StringHelper::endsWith(spath,".dme")){
                     library->openDME(spath);
+                    dmePath = spath.substr(0,spath.find_last_of("/"));
                 }
 
 
@@ -169,7 +181,7 @@ namespace MYG{
             int node_clicked = -1;
             DME_Tree_Tree_Model *tree = library->getTree();
             //spdlog::info(printTree(tree->getRoot()));
-
+            //int child_index = 0;
             RenderObjectTree(tree->getRoot()->children[1],i,selection_mask,node_clicked);
             if (node_clicked != -1)
             {

@@ -173,6 +173,32 @@ namespace BYOND{
 					if (!found) {
 						DME_Tree_Item* item = new DME_Tree_Item(datum, startNodeName);
 						createdNodes.push_back(item);
+
+						// INICIO MODS
+						DME_Tree_Item *tmp = item;
+						if(tmp->getVar("icon").empty() || tmp->getVar("icon") == "null"){
+							while(tmp->parent!= datum){
+								if(!tmp->parent->getVar("icon").empty() && tmp->parent->getVar("icon") != "null"){
+									
+									break;
+									
+								}
+								tmp = tmp->parent;
+							}
+							item->setVar("icon",tmp->parent->getVar("icon"));
+						}
+						tmp = item;
+						if(tmp->getVar("icon_state").empty() || tmp->getVar("icon_state") == "null"){
+							while(tmp->parent!= datum){
+								if(!tmp->parent->getVar("icon_state").empty() && tmp->parent->getVar("icon_state") != "null"){
+									break;
+								}
+								tmp = tmp->parent;
+							}
+							item->setVar("icon_state",tmp->parent->getVar("icon_state"));
+						}
+						
+						//FIM MODS
 						currentNode = item;
 						for (auto listener : listeners) {
 							listener->onNodeAdded(item);
