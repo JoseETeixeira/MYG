@@ -162,7 +162,12 @@ namespace MYG{
                 std::string spath = p.str();
                 if(StringHelper::endsWith(spath,".dme")){
                     library->openDME(spath);
-                    dmePath = spath.substr(0,spath.find_last_of("/"));
+                    #if defined(WIN32)
+                        dmePath = spath.substr(0, spath.find_last_of("\\"));
+                    #else if defined(LINUX)
+                        dmePath = spath.substr(0, spath.find_last_of("/"));
+                    #endif
+                   
                 }
 
 
