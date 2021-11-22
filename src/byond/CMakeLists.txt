@@ -11,7 +11,7 @@ add_library(byond-core SHARED
 if(NOT TARGET spdlog)
     # Stand-alone build
     SET(spdlog_DIR "../../third_party/spdlog")
-    include_directories("../../third_party/spdlog/include","../../third_party/spdlog/src")
+    include_directories("../../third_party/spdlog/include" "../../third_party/spdlog/src")
 endif()
 
 

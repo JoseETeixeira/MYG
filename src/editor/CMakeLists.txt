@@ -7,7 +7,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 
 if(LINUX)
-    SET(GLFW_FLAGS "-lglfw3 -lGL -lX11 -lpthread -lXrandr -lXi -ldl -libpng16")
+    SET(GLFW_FLAGS "-lglfw3 -lGL -lX11 -lpthread -lXrandr -lXi -ldl -zlib -libpng16 -lwebp -lwebpmux -lwebpdemux")
     add_definitions(${GLFW_FLAGS})
 endif(LINUX)
 
@@ -45,42 +45,74 @@ find_library(byond-core byond)
 file(GLOB BYOND_HEADER_FILES "byond/*.h" "byond/utils/*.h" "byond/parser/*.h" "byond/tree/*.h" )
 file(GLOB BYOND_SOURCE_FILES "byond/*.cpp" )
 
-##ZLIB
-include_directories(deps/zlib-1.2.11)
-include_directories(deps/zlib-1.2.11/Debug)
-set(ZLIB_INCLUDE_DIR deps/zlib-1.2.11)
-set(ZLIB_LIBRARY zlib)
-add_subdirectory(deps/zlib-1.2.11)
-find_package(ZLIB REQUIRED)
+if (WIN32)
+    ##ZLIB
+    include_directories(deps/zlib-1.2.11)
+    include_directories(deps/zlib-1.2.11/Debug)
+    set(ZLIB_INCLUDE_DIR deps/zlib-1.2.11)
+    set(ZLIB_LIBRARY zlib)
+    add_subdirectory(deps/zlib-1.2.11)
+    find_package(ZLIB REQUIRED)
 
-link_directories (${ZLIB_LIBRARY_DIRS})
-link_libraries (${ZLIB_LIBRARIES})
-
-
-##LIBPNG
-include_directories(deps/libpng)
-set(PNG_PNG_INCLUDE_DIR deps/libpng)
-set(PNG_LIBRARY deps/libpng/Debug/png)
-add_subdirectory(deps/libpng)
-
-find_package(PNG REQUIRED)
-
-include_directories (${PNG_INCLUDE_DIRS})
-link_directories (${PNG_LIBRARY_DIRS})
-link_libraries (${PNG_LIBRARIES})
-
-##WEBP
-include_directories(deps/libwebp/include)
-
-find_library(libwebp "deps/libwebp")
-
-include_directories (${LIBWEBP_INCLUDE_DIR})
-link_directories (${LIBWEBP_LIBRARY_DIRS})
-link_libraries (${LIBWEBP_LIBRARIES})
+    link_directories (${ZLIB_LIBRARY_DIRS})
+    link_libraries (${ZLIB_LIBRARIES})
 
 
-add_executable(Editor ${MAIN_CPP} DMI/codecs/png.cpp DMI/codecs/webp.cpp DMI/codecs/file.cpp  ${SOURCE} ${GLAD_SOURCE} ${FA_HEADER_FILES} ${MAIN_HEADER} ${GLAD_HEADERS} ${IMGUI_HEADER_FILES} ${IMGUI_SOURCE_FILES} ${BYOND_HEADER_FILES} ${BYOND_SOURCE_FILES} ${LIBPNG_LINK_FLAGS})
+    ##LIBPNG
+    include_directories(deps/libpng)
+    set(PNG_PNG_INCLUDE_DIR deps/libpng)
+    set(PNG_LIBRARY deps/libpng/Debug/png)
+    add_subdirectory(deps/libpng)
 
-include_directories(Editor ${ZLIB_DEPS} )
-    
-target_link_libraries(Editor glfw ${GLFW_LIBRARIES}  ${PNG_LIBRARIES} ${LIBWEBP_LIBRARIES} deps/libwebp/libwebp deps/libwebp/libwebpmux deps/libwebp/libwebpdemux  zlib png)
+    find_package(PNG REQUIRED)
+
+    include_directories (${PNG_INCLUDE_DIRS})
+    link_directories (${PNG_LIBRARY_DIRS})
+    link_libraries (${PNG_LIBRARIES})
+
+    ##WEBP
+    include_directories(deps/libwebp/include)
+
+    find_library(libwebp "deps/libwebp")
+
+    include_directories (${LIBWEBP_INCLUDE_DIR})
+    link_directories (${LIBWEBP_LIBRARY_DIRS})
+    link_libraries (${LIBWEBP_LIBRARIES})
+
+
+    add_executable(Editor ${MAIN_CPP} DMI/codecs/png.cpp DMI/codecs/webp.cpp DMI/codecs/file.cpp  ${SOURCE} ${GLAD_SOURCE} ${FA_HEADER_FILES} ${MAIN_HEADER} ${GLAD_HEADERS} ${IMGUI_HEADER_FILES} ${IMGUI_SOURCE_FILES} ${BYOND_HEADER_FILES} ${BYOND_SOURCE_FILES} ${LIBPNG_LINK_FLAGS})
+
+    include_directories(Editor ${ZLIB_DEPS} )
+        
+    target_link_libraries(Editor glfw ${GLFW_LIBRARIES}  ${PNG_LIBRARIES} ${LIBWEBP_LIBRARIES} deps/libwebp/libwebp deps/libwebp/libwebpmux deps/libwebp/libwebpdemux  zlib png)
+else(LINUX)
+    ##ZLIB
+    find_package(ZLIB REQUIRED)
+
+    link_directories (${ZLIB_LIBRARY_DIRS})
+    link_libraries (${ZLIB_LIBRARIES})
+
+
+    ##LIBPNG
+    find_package(PNG REQUIRED)
+
+    include_directories (${PNG_INCLUDE_DIRS})
+    link_directories (${PNG_LIBRARY_DIRS})
+    link_libraries (${PNG_LIBRARIES})
+
+    ##WEBP
+    include_directories(deps/libwebp/include)
+
+    find_library(libwebp "deps/libwebp")
+
+    include_directories (${LIBWEBP_INCLUDE_DIR})
+    link_directories (${LIBWEBP_LIBRARY_DIRS})
+    link_libraries (${LIBWEBP_LIBRARIES})
+
+
+    add_executable(Editor ${MAIN_CPP} DMI/codecs/png.cpp DMI/codecs/webp.cpp DMI/codecs/file.cpp  ${SOURCE} ${GLAD_SOURCE} ${FA_HEADER_FILES} ${MAIN_HEADER} ${GLAD_HEADERS} ${IMGUI_HEADER_FILES} ${IMGUI_SOURCE_FILES} ${BYOND_HEADER_FILES} ${BYOND_SOURCE_FILES} ${LIBPNG_LINK_FLAGS})
+
+    include_directories(Editor ${ZLIB_DEPS} )
+        
+    target_link_libraries(Editor glfw ${GLFW_LIBRARIES}  ${PNG_LIBRARIES} ${LIBWEBP_LIBRARIES}  webp webpmux webpdemux)
+endif()

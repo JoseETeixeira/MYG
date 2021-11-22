@@ -1,7 +1,13 @@
 #pragma once
 
-#include "../../deps/zlib-1.2.11/zlib.h"
-#include "../../deps/libpng/png.h"
+
+#if defined(WIN32)
+    #include "../../deps/libpng/png.h"
+    #include "../../deps/zlib-1.2.11/zlib.h"
+#else
+    #include <zlib.h>
+    #include <png.h>
+#endif
 
 #include <cstdio>
 #include <filesystem>

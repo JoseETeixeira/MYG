@@ -1,4 +1,4 @@
-#include "dmi.h"
+#include "DMI.h"
 
 #include <algorithm>
 #include <cmath>
