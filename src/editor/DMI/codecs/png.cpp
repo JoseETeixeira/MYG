@@ -1,7 +1,7 @@
 #include "png.h"
 #include "file.h"
 #include "../errors.h"
-
+#include "spdlog/spdlog.h"
 #include <algorithm>
 #include <cstring>
 #include <functional>
@@ -134,6 +134,7 @@ void PNG::save(std::filesystem::path path) {
 Image PNG::slice(Vec pos, Vec size) {
     Image ret;
     ret.size = size;
+    ret.pos = pos;
     ret.pixels.resize(size.x * size.y * 4);
     for (unsigned i = 0; i < size.y; i++) {
         std::copy_n(rows[i + pos.y] + pos.x * 4, size.x * 4,
@@ -141,7 +142,6 @@ Image PNG::slice(Vec pos, Vec size) {
     }
     return ret;
 }
-
 void PNG::insert(Vec pos, Image img) {
     for (unsigned i = 0; i < img.size.y; i++) {
         auto p = img.pixels.begin() + i * 4 * img.size.x;

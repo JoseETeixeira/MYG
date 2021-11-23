@@ -50,10 +50,12 @@ namespace BYOND{
                     treeModel = new MYG::DME_Tree_Tree_Model(parser->tree);
                     spdlog::info("Tree model listener created");
                     parser->parseDME();
+                    //parser->tree->completeTree();
                     this->parser = parser;
+                    
                 });
 
-                t.detach();
+                t.join();
                 
 
                 spdlog::info("Parsing done");
