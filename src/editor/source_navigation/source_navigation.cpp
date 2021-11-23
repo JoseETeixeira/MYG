@@ -16,17 +16,21 @@ namespace MYG{
     void SourceNavigationInterface::drawIcon(DMI* icon,std::string& path){
         Image img;
         bool found = false;
-       
-        for(auto state : icon->states){
-            if(StringHelper::trim(state.name) == StringHelper::trim(path)){
-                img = state.images[0][0];
-                found = true;
-                break;
-            }
-        }
-        if(!found){
+        spdlog::info("Searching for {}",path);
+        if(path == "null"){
             img = icon->states[0].images[0][0];
         }
+        else{
+            for(auto state : icon->states){
+                //spdlog::info("current state: {}",state.name);
+                if(path.find(state.name) != std::string::npos ){
+                    img = state.images[0][0];
+                    spdlog::info("found!");
+                    break;
+                }
+            }
+        }
+        
         
         GLuint texture;
         
@@ -53,12 +57,66 @@ namespace MYG{
     }
     
 
-    void SourceNavigationInterface::RenderIcon(std::string &dmePath,DME_Tree_Tree_Model *tree, MYG::DefaultMutableTreeNode<BYOND::DME_Tree_Item *>  *root,std::unordered_map<std::string,DMI*> *icons){
+    void SourceNavigationInterface::RenderIcon(std::string &dmePath,DME_Tree_Tree_Model *tree, MYG::DefaultMutableTreeNode<BYOND::DME_Tree_Item *>  *root){
         DMI  *dmi;
         std::string icon = "null";
         std::string icon_state = "null";
-        spdlog::info("Root name: {}",root->data->name);
-
+        //spdlog::info("Root name: {}",root->data->name);
+        if(root->data->getVar("icon_state") != "null" && (root->data->getVar("icon") == "null")){
+            spdlog::info("{} HAS ICON_STATE ONLY",root->data->name);
+        }
+        else if(root->data->getVar("icon_state") == "null" && (root->data->getVar("icon") != "null")){
+            spdlog::info("{} HAS ICON ONLY",root->data->name);
+            std::string dmipath;
+            #if defined(WIN32)
+                dmipath= dmePath + "\\" + StringHelper::ReplaceAll(root->data->getVar("icon"),"/","\\").substr(1, StringHelper::ReplaceAll(root->data->getVar("icon"), "/", "\\").length()-2);
+            #else if defined(LINUX)
+                dmipath = dmePath + "/" + StringHelper::ReplaceAll(root->data->getVar("icon"),"\\","/").substr(1, StringHelper::ReplaceAll(root->data->getVar("icon"), "\\","/").length()-2);
+            #endif
+            if(dmipath.find(".dmi") == std::string::npos){
+                dmipath += ".dmi";
+            }
+            if(icons->find(root->data->getVar("icon")) != icons->end()){
+                dmi = icons->at(root->data->getVar("icon"));
+            }else{
+                dmi = new DMI();
+                icons->emplace(root->data->getVar("icon"),dmi);
+            }
+            
+            //spdlog::info(dmipath);
+            std::filesystem::path fsdmipath(dmipath);
+            dmi->load(fsdmipath);
+            drawIcon(dmi,icon_state);
+        }
+        else if(root->data->getVar("icon_state") == "null" && (root->data->getVar("icon") == "null")){
+            spdlog::info("{} HAS NOTHING",root->data->name);
+        }
+        else if(root->data->getVar("icon_state") != "null" && (root->data->getVar("icon") != "null")){
+            spdlog::info("{} HAS EVERYTHING",root->data->name);
+            std::string dmipath;
+            #if defined(WIN32)
+                dmipath= dmePath + "\\" + StringHelper::ReplaceAll(root->data->getVar("icon"),"/","\\").substr(1, StringHelper::ReplaceAll(root->data->getVar("icon"), "/", "\\").length()-2);
+            #else if defined(LINUX)
+                dmipath = dmePath + "/" + StringHelper::ReplaceAll(root->data->getVar("icon"),"\\","/").substr(1, StringHelper::ReplaceAll(root->data->getVar("icon"), "\\","/").length()-2);
+            #endif
+            if(dmipath.find(".dmi") == std::string::npos){
+                dmipath += ".dmi";
+            }
+            if(icons->find(dmipath) != icons->end()){
+                dmi = icons->at(root->data->getVar("icon"));
+            }else{
+                dmi = new DMI();
+                icons->emplace(root->data->getVar("icon"),dmi);
+            }
+            
+            //spdlog::info(dmipath);
+            std::filesystem::path fsdmipath(dmipath);
+            dmi->load(fsdmipath);
+            icon_state = root->data->getVar("icon_state");
+            drawIcon(dmi,icon_state);
+        }
+        /*
+        //set turf icon if none is found
         if(root->data->name == "turf"){
             icon = root->data->getVar("icon");
             spdlog::info(icon);
@@ -83,69 +141,7 @@ namespace MYG{
             dmi->load(fsdmipath);
             icon_state = root->data->getVar("icon_state");
             drawIcon(dmi,icon_state);
-
-            //root->data->setVar("icon","Turfs/general/grass_and_dirt.dmi");
-            //root->data->setVar("icon_state","2_2");
-        } /*else{
-           
-             std::vector<BYOND::DME_Tree_Item *> possible_children;
-            for(auto child : tree->getRoot()->children){
-                if(StringHelper::startsWith(StringHelper::trim(child->data->name),StringHelper::trim(root->data->name))){
-                    spdlog::info("possible children of {} : {}",root->data->name,child->data->name);
-                    possible_children.push_back(child->data);
-                }
-            }
-            for(auto child : possible_children){
-                if(!child->getVar("icon").empty() && child->getVar("icon") != "null"){
-                    icon = child->getVar("icon");
-                    spdlog::info("icon :{}",child->getVar("icon"));
-                }else{
-                    BYOND::DME_Tree_Item *tmp = child;
-                    while((tmp->getVar("icon").empty() || tmp->getVar("icon") == "null")&& tmp->parent != nullptr){
-                        tmp = tmp->parent;
-                        
-                    }
-                    icon = tmp->getVar("icon");
-                    spdlog::info("icon :{}",tmp->getVar("icon"));
-                }
-                if(!child->getVar("icon_state").empty() && child->getVar("icon_state") != "null"){
-                    spdlog::info("icon_state :{}",child->getVar("icon_state"));
-                    icon_state = child->getVar("icon_state");
-                }else{
-                    BYOND::DME_Tree_Item *tmp = child;
-                    while((tmp->getVar("icon_state").empty() || tmp->getVar("icon_state") == "null")&& tmp->parent != nullptr){
-                        tmp = tmp->parent;
-                    }
-                    icon_state = tmp->getVar("icon_state");
-                    spdlog::info("icon_state :{}",tmp->getVar("icon_state"));
-                }
-            }
-
-            if(!icon.empty() && icon != "null"){
-                std::string dmipath;
-                #if defined(WIN32)
-                    dmipath= dmePath + "\\" + StringHelper::ReplaceAll(icon,"/","\\").substr(1, StringHelper::ReplaceAll(icon, "/", "\\").length()-2);
-                #else if defined(LINUX)
-                    dmipath = dmePath + "/" + StringHelper::ReplaceAll(icon,"\\","/").substr(1, StringHelper::ReplaceAll(icon, "\\","/").length()-2);
-                #endif
-                if(icons->find(dmipath) != icons->end()){
-                    dmi = icons->at(dmipath);
-                }else{
-                    dmi = new DMI();
-                    icons->emplace(dmipath,dmi);
-                }
-                
-                spdlog::info(dmipath);
-                std::filesystem::path fsdmipath(dmipath);
-                dmi->load(fsdmipath);
-                drawIcon(dmi,icon_state);
-            
-            }
         }*/
-   
-       
-
-      
        
     }
 
@@ -155,7 +151,7 @@ namespace MYG{
                 ImGui::Indent();
                 ImGuiTreeNodeFlags node_flags = ((selection_mask == i) ? ImGuiTreeNodeFlags_Selected : 0);
                 
-                RenderIcon(dmePath,library->getTree(), root,&icons);
+                RenderIcon(dmePath,library->getTree(), root);
                
                 bool opened = ImGui::TreeNodeEx((void*)(intptr_t)(i), node_flags, "%s", root->data->name.c_str());
  

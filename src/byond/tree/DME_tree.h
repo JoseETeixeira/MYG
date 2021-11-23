@@ -175,6 +175,7 @@ namespace BYOND{
 						createdNodes.push_back(item);
 
 						// INICIO MODS
+						/*
 						DME_Tree_Item *tmp = item;
 						if(tmp->getVar("icon").empty() || tmp->getVar("icon") == "null"){
 							while(tmp->parent!= datum){
@@ -197,7 +198,7 @@ namespace BYOND{
 							}
 							item->setVar("icon_state",tmp->parent->getVar("icon_state"));
 						}
-						
+						*/
 						//FIM MODS
 						currentNode = item;
 						for (auto listener : listeners) {

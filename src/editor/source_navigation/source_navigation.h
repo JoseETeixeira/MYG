@@ -36,7 +36,7 @@ private:
     ImVec4 clear_color = ImVec4(0.07f,0.13f,0.17f,1.0f);
     imgui_ext::file_browser *fileBrowser;
     std::string path;
-    std::unordered_map<std::string,DMI*> icons;
+    std::map<std::string,DMI*> *icons = new std::map<std::string,DMI*>();
     std::string dmePath = "";
 
     bool fileExplorerOpen = true;
@@ -48,7 +48,7 @@ public:
     SourceNavigationInterface( GLFWwindow* window,BYOND::Library* library,int xpos,int ypos,int width,int height);
     void RenderObjectTree(MYG::DefaultMutableTreeNode<BYOND::DME_Tree_Item *> *items, int &i,int &selection_mask,int &node_clicked);
     static void drawIcon(DMI* dmi,std::string &path);
-    void RenderIcon(std::string &dmePath,DME_Tree_Tree_Model *tree, MYG::DefaultMutableTreeNode<BYOND::DME_Tree_Item *>  *root,std::unordered_map<std::string,DMI*> *icons);
+    void RenderIcon(std::string &dmePath,DME_Tree_Tree_Model *tree, MYG::DefaultMutableTreeNode<BYOND::DME_Tree_Item *>  *root);
 
     void mainLoop();
 
