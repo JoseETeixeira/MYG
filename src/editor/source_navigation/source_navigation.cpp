@@ -41,7 +41,8 @@ namespace MYG{
         }
         
         if( !std::is_empty<Image>::value){
-             GLuint texture = 0;
+            
+            GLuint texture = 0; 
             namespace bg = boost::gil;
             bg::rgb8_image_t imagem;
             if(images.find(path) != images.end()){
@@ -65,44 +66,46 @@ namespace MYG{
             //auto view = gil::interleaved_view(
             //  img.width(), img.height(), &*gil::view(img).pixels(), img.width() * sizeof pixel);
 
-            auto srcView = subImage;
             //auto view = gil::interleaved_view(
             //  img.width(), img.height(), &*gil::view(img).pixels(), img.width() * sizeof pixel);
 
-            auto pixeldata = new pixel[_width * _height  * 4];  
+            auto pixeldata = new pixel[_width * _height  * 3];  
+
 
             auto dstView = bg::interleaved_view(
-               _width, _height, pixeldata,  4);
+              _width, _height, pixeldata,  3 * _width);
 
-            bg::copy_pixels(srcView, dstView);
+             bg::copy_pixels(subImage, dstView);
 
-            //bg::write_view(state+"output.png", dstView,bg::png_tag{});
+           // bg::write_view(state+"output.png", dstView,bg::png_tag{});
 
             glGenTextures(1, &texture);
             glBindTexture(GL_TEXTURE_2D, texture);
 
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
- 
-            glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);      
 
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE); // This is required on WebGL for non power-of-two textures
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE); 
+            glPixelStorei(GL_UNPACK_ROW_LENGTH, 0);
 
 
             glTexImage2D(GL_TEXTURE_2D,     // Type of texture
                             0,                 // Pyramid level (for mip-mapping) - 0 is the top level
-                            GL_RGBA,            // Internal colour format to convert to
+                            GL_RGB,            // Internal colour format to convert to
                             subImage.width(),          // Image width  i.e. 640 for Kinect in standard mode
                             subImage.height(),          // Image height i.e. 480 for Kinect in standard mode
                             0,                 // Border width in pixels (can either be 1 or 0)
-                            GL_RGBA, // Input image format (i.e. GL_RGB, GL_RGBA, GL_BGR etc.)
+                            GL_RGB, // Input image format (i.e. GL_RGB, GL_RGBA, GL_BGR etc.)
                             GL_UNSIGNED_BYTE,  // Image data type
-                           reinterpret_cast<const void*>(pixeldata));         // The actual image data itself
-
+                            reinterpret_cast<void*>(pixeldata));         // The actual image data itself
             glGenerateMipmap(GL_TEXTURE_2D);
-            glBindTexture(GL_TEXTURE_2D, 0);
+            glActiveTexture(GL_TEXTURE0); // activate the texture unit first before binding texture
+            glBindTexture(GL_TEXTURE_2D, texture);
+
+            free(pixeldata);
 
 
-           
            
            
 
