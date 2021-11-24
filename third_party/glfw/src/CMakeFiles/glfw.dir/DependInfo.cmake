@@ -4,22 +4,22 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_C
-  "/home/eduardo/Desktop/BYOND/MYG.gg/MYG/third_party/glfw/src/context.c" "/home/eduardo/Desktop/BYOND/MYG.gg/MYG/third_party/glfw/src/CMakeFiles/glfw.dir/context.c.o"
-  "/home/eduardo/Desktop/BYOND/MYG.gg/MYG/third_party/glfw/src/egl_context.c" "/home/eduardo/Desktop/BYOND/MYG.gg/MYG/third_party/glfw/src/CMakeFiles/glfw.dir/egl_context.c.o"
-  "/home/eduardo/Desktop/BYOND/MYG.gg/MYG/third_party/glfw/src/glx_context.c" "/home/eduardo/Desktop/BYOND/MYG.gg/MYG/third_party/glfw/src/CMakeFiles/glfw.dir/glx_context.c.o"
-  "/home/eduardo/Desktop/BYOND/MYG.gg/MYG/third_party/glfw/src/init.c" "/home/eduardo/Desktop/BYOND/MYG.gg/MYG/third_party/glfw/src/CMakeFiles/glfw.dir/init.c.o"
-  "/home/eduardo/Desktop/BYOND/MYG.gg/MYG/third_party/glfw/src/input.c" "/home/eduardo/Desktop/BYOND/MYG.gg/MYG/third_party/glfw/src/CMakeFiles/glfw.dir/input.c.o"
-  "/home/eduardo/Desktop/BYOND/MYG.gg/MYG/third_party/glfw/src/linux_joystick.c" "/home/eduardo/Desktop/BYOND/MYG.gg/MYG/third_party/glfw/src/CMakeFiles/glfw.dir/linux_joystick.c.o"
-  "/home/eduardo/Desktop/BYOND/MYG.gg/MYG/third_party/glfw/src/monitor.c" "/home/eduardo/Desktop/BYOND/MYG.gg/MYG/third_party/glfw/src/CMakeFiles/glfw.dir/monitor.c.o"
-  "/home/eduardo/Desktop/BYOND/MYG.gg/MYG/third_party/glfw/src/osmesa_context.c" "/home/eduardo/Desktop/BYOND/MYG.gg/MYG/third_party/glfw/src/CMakeFiles/glfw.dir/osmesa_context.c.o"
-  "/home/eduardo/Desktop/BYOND/MYG.gg/MYG/third_party/glfw/src/posix_thread.c" "/home/eduardo/Desktop/BYOND/MYG.gg/MYG/third_party/glfw/src/CMakeFiles/glfw.dir/posix_thread.c.o"
-  "/home/eduardo/Desktop/BYOND/MYG.gg/MYG/third_party/glfw/src/posix_time.c" "/home/eduardo/Desktop/BYOND/MYG.gg/MYG/third_party/glfw/src/CMakeFiles/glfw.dir/posix_time.c.o"
-  "/home/eduardo/Desktop/BYOND/MYG.gg/MYG/third_party/glfw/src/vulkan.c" "/home/eduardo/Desktop/BYOND/MYG.gg/MYG/third_party/glfw/src/CMakeFiles/glfw.dir/vulkan.c.o"
-  "/home/eduardo/Desktop/BYOND/MYG.gg/MYG/third_party/glfw/src/window.c" "/home/eduardo/Desktop/BYOND/MYG.gg/MYG/third_party/glfw/src/CMakeFiles/glfw.dir/window.c.o"
-  "/home/eduardo/Desktop/BYOND/MYG.gg/MYG/third_party/glfw/src/x11_init.c" "/home/eduardo/Desktop/BYOND/MYG.gg/MYG/third_party/glfw/src/CMakeFiles/glfw.dir/x11_init.c.o"
-  "/home/eduardo/Desktop/BYOND/MYG.gg/MYG/third_party/glfw/src/x11_monitor.c" "/home/eduardo/Desktop/BYOND/MYG.gg/MYG/third_party/glfw/src/CMakeFiles/glfw.dir/x11_monitor.c.o"
-  "/home/eduardo/Desktop/BYOND/MYG.gg/MYG/third_party/glfw/src/x11_window.c" "/home/eduardo/Desktop/BYOND/MYG.gg/MYG/third_party/glfw/src/CMakeFiles/glfw.dir/x11_window.c.o"
-  "/home/eduardo/Desktop/BYOND/MYG.gg/MYG/third_party/glfw/src/xkb_unicode.c" "/home/eduardo/Desktop/BYOND/MYG.gg/MYG/third_party/glfw/src/CMakeFiles/glfw.dir/xkb_unicode.c.o"
+  "/home/eduardo/Desktop/BYOND/MYG/third_party/glfw/src/context.c" "/home/eduardo/Desktop/BYOND/MYG/third_party/glfw/src/CMakeFiles/glfw.dir/context.c.o"
+  "/home/eduardo/Desktop/BYOND/MYG/third_party/glfw/src/egl_context.c" "/home/eduardo/Desktop/BYOND/MYG/third_party/glfw/src/CMakeFiles/glfw.dir/egl_context.c.o"
+  "/home/eduardo/Desktop/BYOND/MYG/third_party/glfw/src/glx_context.c" "/home/eduardo/Desktop/BYOND/MYG/third_party/glfw/src/CMakeFiles/glfw.dir/glx_context.c.o"
+  "/home/eduardo/Desktop/BYOND/MYG/third_party/glfw/src/init.c" "/home/eduardo/Desktop/BYOND/MYG/third_party/glfw/src/CMakeFiles/glfw.dir/init.c.o"
+  "/home/eduardo/Desktop/BYOND/MYG/third_party/glfw/src/input.c" "/home/eduardo/Desktop/BYOND/MYG/third_party/glfw/src/CMakeFiles/glfw.dir/input.c.o"
+  "/home/eduardo/Desktop/BYOND/MYG/third_party/glfw/src/linux_joystick.c" "/home/eduardo/Desktop/BYOND/MYG/third_party/glfw/src/CMakeFiles/glfw.dir/linux_joystick.c.o"
+  "/home/eduardo/Desktop/BYOND/MYG/third_party/glfw/src/monitor.c" "/home/eduardo/Desktop/BYOND/MYG/third_party/glfw/src/CMakeFiles/glfw.dir/monitor.c.o"
+  "/home/eduardo/Desktop/BYOND/MYG/third_party/glfw/src/osmesa_context.c" "/home/eduardo/Desktop/BYOND/MYG/third_party/glfw/src/CMakeFiles/glfw.dir/osmesa_context.c.o"
+  "/home/eduardo/Desktop/BYOND/MYG/third_party/glfw/src/posix_thread.c" "/home/eduardo/Desktop/BYOND/MYG/third_party/glfw/src/CMakeFiles/glfw.dir/posix_thread.c.o"
+  "/home/eduardo/Desktop/BYOND/MYG/third_party/glfw/src/posix_time.c" "/home/eduardo/Desktop/BYOND/MYG/third_party/glfw/src/CMakeFiles/glfw.dir/posix_time.c.o"
+  "/home/eduardo/Desktop/BYOND/MYG/third_party/glfw/src/vulkan.c" "/home/eduardo/Desktop/BYOND/MYG/third_party/glfw/src/CMakeFiles/glfw.dir/vulkan.c.o"
+  "/home/eduardo/Desktop/BYOND/MYG/third_party/glfw/src/window.c" "/home/eduardo/Desktop/BYOND/MYG/third_party/glfw/src/CMakeFiles/glfw.dir/window.c.o"
+  "/home/eduardo/Desktop/BYOND/MYG/third_party/glfw/src/x11_init.c" "/home/eduardo/Desktop/BYOND/MYG/third_party/glfw/src/CMakeFiles/glfw.dir/x11_init.c.o"
+  "/home/eduardo/Desktop/BYOND/MYG/third_party/glfw/src/x11_monitor.c" "/home/eduardo/Desktop/BYOND/MYG/third_party/glfw/src/CMakeFiles/glfw.dir/x11_monitor.c.o"
+  "/home/eduardo/Desktop/BYOND/MYG/third_party/glfw/src/x11_window.c" "/home/eduardo/Desktop/BYOND/MYG/third_party/glfw/src/CMakeFiles/glfw.dir/x11_window.c.o"
+  "/home/eduardo/Desktop/BYOND/MYG/third_party/glfw/src/xkb_unicode.c" "/home/eduardo/Desktop/BYOND/MYG/third_party/glfw/src/CMakeFiles/glfw.dir/xkb_unicode.c.o"
   )
 set(CMAKE_C_COMPILER_ID "GNU")
 

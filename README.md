@@ -3,16 +3,31 @@
 
 ## Compiling
 
+
+- UBUNTU
+
 Install GLAD 
 
 ```
 pip install glad
 sudo apt-get install zlib1g-dev
 sudo apt-get install libpng-dev
-
+cd third_party/boost 
+./bootstrap.sh 
+./b2 install --prefix=/usr/share/Boost
 
 ```
 
+
+Windows
+
+```
+pip install glad
+cd third_party/boost 
+./bootstrap.bat 
+./b2 install --prefix=C:\boost
+
+```
 
 ## TUTORIALS
 
@@ -27,3 +42,7 @@ sudo apt-get install libpng-dev
 - DMI READER 
 
 https://github.com/bobbahbrown/DMISharp/blob/master/DMISharp/DMIFile.cs
+
+
+# OPEN CV
+https://docs.opencv.org/4.x/d7/d9f/tutorial_linux_install.html

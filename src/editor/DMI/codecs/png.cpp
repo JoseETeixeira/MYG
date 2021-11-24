@@ -132,15 +132,11 @@ void PNG::save(std::filesystem::path path) {
 }
 
 Image PNG::slice(Vec pos, Vec size) {
-    Image ret;
-    ret.size = size;
-    ret.pos = pos;
-    ret.pixels.resize(size.x * size.y * 4);
-    for (unsigned i = 0; i < size.y; i++) {
-        std::copy_n(rows[i + pos.y] + pos.x * 4, size.x * 4,
-                    ret.pixels.begin() + i * size.x * 4);
-    }
-    return ret;
+    Image *ret = new Image(rows,image_size);
+    ret->size = size;
+    ret->pos = pos;
+    ret->image_size = image_size;
+    return *ret;
 }
 void PNG::insert(Vec pos, Image img) {
     for (unsigned i = 0; i < img.size.y; i++) {

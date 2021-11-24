@@ -6,7 +6,7 @@
 
 #IncludeRegexTransform: 
 
-/home/eduardo/Desktop/BYOND/MYG.gg/MYG/third_party/glfw/include/GLFW/glfw3.h
+/home/eduardo/Desktop/BYOND/MYG/third_party/glfw/include/GLFW/glfw3.h
 stddef.h
 -
 stdint.h
@@ -52,7 +52,7 @@ GL/gl.h
 GL/glext.h
 -
 
-/home/eduardo/Desktop/BYOND/MYG.gg/MYG/third_party/glfw/include/GLFW/glfw3native.h
+/home/eduardo/Desktop/BYOND/MYG/third_party/glfw/include/GLFW/glfw3native.h
 windows.h
 -
 Cocoa/Cocoa.h
@@ -72,13 +72,13 @@ EGL/egl.h
 GL/osmesa.h
 -
 
-/home/eduardo/Desktop/BYOND/MYG.gg/MYG/third_party/imgui/imconfig.h
+/home/eduardo/Desktop/BYOND/MYG/third_party/imgui/imconfig.h
 
-/home/eduardo/Desktop/BYOND/MYG.gg/MYG/third_party/imgui/imgui.cpp
+/home/eduardo/Desktop/BYOND/MYG/third_party/imgui/imgui.cpp
 imgui.h
-/home/eduardo/Desktop/BYOND/MYG.gg/MYG/third_party/imgui/imgui.h
+/home/eduardo/Desktop/BYOND/MYG/third_party/imgui/imgui.h
 imgui_internal.h
-/home/eduardo/Desktop/BYOND/MYG.gg/MYG/third_party/imgui/imgui_internal.h
+/home/eduardo/Desktop/BYOND/MYG/third_party/imgui/imgui_internal.h
 ctype.h
 -
 stdio.h
@@ -94,15 +94,15 @@ windows.h
 TargetConditionals.h
 -
 stb_sprintf.h
-/home/eduardo/Desktop/BYOND/MYG.gg/MYG/third_party/imgui/stb_sprintf.h
+/home/eduardo/Desktop/BYOND/MYG/third_party/imgui/stb_sprintf.h
 Carbon/Carbon.h
 -
 imgui_user.inl
-/home/eduardo/Desktop/BYOND/MYG.gg/MYG/third_party/imgui/imgui_user.inl
+/home/eduardo/Desktop/BYOND/MYG/third_party/imgui/imgui_user.inl
 
-/home/eduardo/Desktop/BYOND/MYG.gg/MYG/third_party/imgui/imgui.h
+/home/eduardo/Desktop/BYOND/MYG/third_party/imgui/imgui.h
 imconfig.h
-/home/eduardo/Desktop/BYOND/MYG.gg/MYG/third_party/imgui/imconfig.h
+/home/eduardo/Desktop/BYOND/MYG/third_party/imgui/imconfig.h
 float.h
 -
 stdarg.h
@@ -116,11 +116,11 @@ assert.h
 stdint.h
 -
 imgui_user.h
-/home/eduardo/Desktop/BYOND/MYG.gg/MYG/third_party/imgui/imgui_user.h
+/home/eduardo/Desktop/BYOND/MYG/third_party/imgui/imgui_user.h
 
-/home/eduardo/Desktop/BYOND/MYG.gg/MYG/third_party/imgui/imgui_demo.cpp
+/home/eduardo/Desktop/BYOND/MYG/third_party/imgui/imgui_demo.cpp
 imgui.h
-/home/eduardo/Desktop/BYOND/MYG.gg/MYG/third_party/imgui/imgui.h
+/home/eduardo/Desktop/BYOND/MYG/third_party/imgui/imgui.h
 ctype.h
 -
 limits.h
@@ -136,13 +136,13 @@ stddef.h
 stdint.h
 -
 
-/home/eduardo/Desktop/BYOND/MYG.gg/MYG/third_party/imgui/imgui_draw.cpp
+/home/eduardo/Desktop/BYOND/MYG/third_party/imgui/imgui_draw.cpp
 imgui.h
-/home/eduardo/Desktop/BYOND/MYG.gg/MYG/third_party/imgui/imgui.h
+/home/eduardo/Desktop/BYOND/MYG/third_party/imgui/imgui.h
 imgui_internal.h
-/home/eduardo/Desktop/BYOND/MYG.gg/MYG/third_party/imgui/imgui_internal.h
+/home/eduardo/Desktop/BYOND/MYG/third_party/imgui/imgui_internal.h
 misc/freetype/imgui_freetype.h
-/home/eduardo/Desktop/BYOND/MYG.gg/MYG/third_party/imgui/misc/freetype/imgui_freetype.h
+/home/eduardo/Desktop/BYOND/MYG/third_party/imgui/misc/freetype/imgui_freetype.h
 stdio.h
 -
 alloca.h
@@ -152,31 +152,31 @@ malloc.h
 stdlib.h
 -
 imstb_rectpack.h
-/home/eduardo/Desktop/BYOND/MYG.gg/MYG/third_party/imgui/imstb_rectpack.h
+/home/eduardo/Desktop/BYOND/MYG/third_party/imgui/imstb_rectpack.h
 imstb_truetype.h
-/home/eduardo/Desktop/BYOND/MYG.gg/MYG/third_party/imgui/imstb_truetype.h
+/home/eduardo/Desktop/BYOND/MYG/third_party/imgui/imstb_truetype.h
 
-/home/eduardo/Desktop/BYOND/MYG.gg/MYG/third_party/imgui/imgui_impl_glfw.cpp
+/home/eduardo/Desktop/BYOND/MYG/third_party/imgui/imgui_impl_glfw.cpp
 imgui.h
-/home/eduardo/Desktop/BYOND/MYG.gg/MYG/third_party/imgui/imgui.h
+/home/eduardo/Desktop/BYOND/MYG/third_party/imgui/imgui.h
 imgui_impl_glfw.h
-/home/eduardo/Desktop/BYOND/MYG.gg/MYG/third_party/imgui/imgui_impl_glfw.h
+/home/eduardo/Desktop/BYOND/MYG/third_party/imgui/imgui_impl_glfw.h
 ../glfw/include/GLFW/glfw3.h
-/home/eduardo/Desktop/BYOND/MYG.gg/MYG/third_party/glfw/include/GLFW/glfw3.h
+/home/eduardo/Desktop/BYOND/MYG/third_party/glfw/include/GLFW/glfw3.h
 ../glfw/include/GLFW/glfw3native.h
-/home/eduardo/Desktop/BYOND/MYG.gg/MYG/third_party/glfw/include/GLFW/glfw3native.h
+/home/eduardo/Desktop/BYOND/MYG/third_party/glfw/include/GLFW/glfw3native.h
 imm.h
 -
 
-/home/eduardo/Desktop/BYOND/MYG.gg/MYG/third_party/imgui/imgui_impl_glfw.h
+/home/eduardo/Desktop/BYOND/MYG/third_party/imgui/imgui_impl_glfw.h
 imgui.h
-/home/eduardo/Desktop/BYOND/MYG.gg/MYG/third_party/imgui/imgui.h
+/home/eduardo/Desktop/BYOND/MYG/third_party/imgui/imgui.h
 
-/home/eduardo/Desktop/BYOND/MYG.gg/MYG/third_party/imgui/imgui_impl_opengl3.cpp
+/home/eduardo/Desktop/BYOND/MYG/third_party/imgui/imgui_impl_opengl3.cpp
 imgui.h
-/home/eduardo/Desktop/BYOND/MYG.gg/MYG/third_party/imgui/imgui.h
+/home/eduardo/Desktop/BYOND/MYG/third_party/imgui/imgui.h
 imgui_impl_opengl3.h
-/home/eduardo/Desktop/BYOND/MYG.gg/MYG/third_party/imgui/imgui_impl_opengl3.h
+/home/eduardo/Desktop/BYOND/MYG/third_party/imgui/imgui_impl_opengl3.h
 stdio.h
 -
 stddef.h
@@ -194,15 +194,15 @@ OpenGLES/ES3/gl.h
 GLES3/gl3.h
 -
 imgui_impl_opengl3_loader.h
-/home/eduardo/Desktop/BYOND/MYG.gg/MYG/third_party/imgui/imgui_impl_opengl3_loader.h
+/home/eduardo/Desktop/BYOND/MYG/third_party/imgui/imgui_impl_opengl3_loader.h
 
-/home/eduardo/Desktop/BYOND/MYG.gg/MYG/third_party/imgui/imgui_impl_opengl3.h
+/home/eduardo/Desktop/BYOND/MYG/third_party/imgui/imgui_impl_opengl3.h
 imgui.h
-/home/eduardo/Desktop/BYOND/MYG.gg/MYG/third_party/imgui/imgui.h
+/home/eduardo/Desktop/BYOND/MYG/third_party/imgui/imgui.h
 TargetConditionals.h
 -
 
-/home/eduardo/Desktop/BYOND/MYG.gg/MYG/third_party/imgui/imgui_impl_opengl3_loader.h
+/home/eduardo/Desktop/BYOND/MYG/third_party/imgui/imgui_impl_opengl3_loader.h
 stdint.h
 -
 windows.h
@@ -216,9 +216,9 @@ dlfcn.h
 dlfcn.h
 -
 
-/home/eduardo/Desktop/BYOND/MYG.gg/MYG/third_party/imgui/imgui_internal.h
+/home/eduardo/Desktop/BYOND/MYG/third_party/imgui/imgui_internal.h
 imgui.h
-/home/eduardo/Desktop/BYOND/MYG.gg/MYG/third_party/imgui/imgui.h
+/home/eduardo/Desktop/BYOND/MYG/third_party/imgui/imgui.h
 stdio.h
 -
 stdlib.h
@@ -230,25 +230,25 @@ limits.h
 immintrin.h
 -
 imstb_textedit.h
-/home/eduardo/Desktop/BYOND/MYG.gg/MYG/third_party/imgui/imstb_textedit.h
+/home/eduardo/Desktop/BYOND/MYG/third_party/imgui/imstb_textedit.h
 
-/home/eduardo/Desktop/BYOND/MYG.gg/MYG/third_party/imgui/imstb_rectpack.h
+/home/eduardo/Desktop/BYOND/MYG/third_party/imgui/imstb_rectpack.h
 stdlib.h
 -
 assert.h
 -
 
-/home/eduardo/Desktop/BYOND/MYG.gg/MYG/third_party/imgui/imstb_textedit.h
+/home/eduardo/Desktop/BYOND/MYG/third_party/imgui/imstb_textedit.h
 string.h
 -
 
-/home/eduardo/Desktop/BYOND/MYG.gg/MYG/third_party/imgui/imstb_truetype.h
+/home/eduardo/Desktop/BYOND/MYG/third_party/imgui/imstb_truetype.h
 stb_truetype.h
-/home/eduardo/Desktop/BYOND/MYG.gg/MYG/third_party/imgui/stb_truetype.h
+/home/eduardo/Desktop/BYOND/MYG/third_party/imgui/stb_truetype.h
 stdio.h
 -
 stb_truetype.h
-/home/eduardo/Desktop/BYOND/MYG.gg/MYG/third_party/imgui/stb_truetype.h
+/home/eduardo/Desktop/BYOND/MYG/third_party/imgui/stb_truetype.h
 math.h
 -
 math.h
@@ -268,7 +268,7 @@ string.h
 string.h
 -
 
-/home/eduardo/Desktop/BYOND/MYG.gg/MYG/third_party/imgui/misc/freetype/imgui_freetype.h
+/home/eduardo/Desktop/BYOND/MYG/third_party/imgui/misc/freetype/imgui_freetype.h
 imgui.h
-/home/eduardo/Desktop/BYOND/MYG.gg/MYG/third_party/imgui/misc/freetype/imgui.h
+/home/eduardo/Desktop/BYOND/MYG/third_party/imgui/misc/freetype/imgui.h
 

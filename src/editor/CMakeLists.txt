@@ -79,10 +79,14 @@ if (WIN32)
     link_directories (${LIBWEBP_LIBRARY_DIRS})
     link_libraries (${LIBWEBP_LIBRARIES})
 
+    ##BOOST
+    SET("Boost_DIR" "C:/boost")
+    find_package(Boost REQUIRED)
+
 
     add_executable(Editor ${MAIN_CPP} DMI/codecs/png.cpp DMI/codecs/webp.cpp DMI/codecs/file.cpp  ${SOURCE} ${GLAD_SOURCE} ${FA_HEADER_FILES} ${MAIN_HEADER} ${GLAD_HEADERS} ${IMGUI_HEADER_FILES} ${IMGUI_SOURCE_FILES} ${BYOND_HEADER_FILES} ${BYOND_SOURCE_FILES} ${LIBPNG_LINK_FLAGS})
 
-    include_directories(Editor ${ZLIB_DEPS} )
+    include_directories(Editor ${ZLIB_DEPS} ${Boost_INCLUDE_DIRS}  "../../../third_party/gil/include" "../../../third_party/io/include" )
         
     target_link_libraries(Editor glfw ${GLFW_LIBRARIES}  ${PNG_LIBRARIES} ${LIBWEBP_LIBRARIES} deps/libwebp/libwebp deps/libwebp/libwebpmux deps/libwebp/libwebpdemux  zlib png)
 else(LINUX)
@@ -109,10 +113,14 @@ else(LINUX)
     link_directories (${LIBWEBP_LIBRARY_DIRS})
     link_libraries (${LIBWEBP_LIBRARIES})
 
+    ##BOOST
+    SET("Boost_DIR" "/usr/share/Boost")
+    find_package(Boost REQUIRED)
+
 
     add_executable(Editor ${MAIN_CPP} DMI/codecs/png.cpp DMI/codecs/webp.cpp DMI/codecs/file.cpp  ${SOURCE} ${GLAD_SOURCE} ${FA_HEADER_FILES} ${MAIN_HEADER} ${GLAD_HEADERS} ${IMGUI_HEADER_FILES} ${IMGUI_SOURCE_FILES} ${BYOND_HEADER_FILES} ${BYOND_SOURCE_FILES} ${LIBPNG_LINK_FLAGS})
 
-    include_directories(Editor ${ZLIB_DEPS} )
+    include_directories(Editor ${ZLIB_DEPS} ${Boost_INCLUDE_DIRS}  "../../../third_party/gil/include" "../../../third_party/io/include")
         
-    target_link_libraries(Editor glfw ${GLFW_LIBRARIES}  ${PNG_LIBRARIES} ${LIBWEBP_LIBRARIES}  webp webpmux webpdemux)
+    target_link_libraries(Editor glfw ${GLFW_LIBRARIES}  ${PNG_LIBRARIES} ${LIBWEBP_LIBRARIES} ${Boost_LIBRARIES}  webp webpmux webpdemux)
 endif()

@@ -6,7 +6,7 @@ C_FLAGS = -fPIC   -Wall -std=gnu99
 
 C_DEFINES = -D_GLFW_USE_CONFIG_H
 
-C_INCLUDES = -I/home/eduardo/Desktop/BYOND/MYG.gg/MYG/third_party/glfw/include -I/home/eduardo/Desktop/BYOND/MYG.gg/MYG/third_party/glfw/src 
+C_INCLUDES = -I/home/eduardo/Desktop/BYOND/MYG/third_party/glfw/include -I/home/eduardo/Desktop/BYOND/MYG/third_party/glfw/src 
 
 # Custom flags: third_party/glfw/src/CMakeFiles/glfw.dir/context.c.o_FLAGS = -Wdeclaration-after-statement
 

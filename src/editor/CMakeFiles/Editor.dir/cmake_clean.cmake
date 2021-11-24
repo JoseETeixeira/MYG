@@ -1,6 +1,11 @@
 file(REMOVE_RECURSE
   "../../bin/Editor"
   "../../bin/Editor.pdb"
+  "CMakeFiles/Editor.dir/DMI/DMI.cpp.o"
+  "CMakeFiles/Editor.dir/DMI/codecs/file.cpp.o"
+  "CMakeFiles/Editor.dir/DMI/codecs/png.cpp.o"
+  "CMakeFiles/Editor.dir/DMI/codecs/webp.cpp.o"
+  "CMakeFiles/Editor.dir/DMI/errors.cpp.o"
   "CMakeFiles/Editor.dir/__/__/third_party/glfw/deps/getopt.c.o"
   "CMakeFiles/Editor.dir/__/__/third_party/glfw/deps/glad_gl.c.o"
   "CMakeFiles/Editor.dir/__/__/third_party/glfw/deps/glad_vulkan.c.o"

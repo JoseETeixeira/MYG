@@ -48,10 +48,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/eduardo/Desktop/BYOND/MYG.gg/MYG
+CMAKE_SOURCE_DIR = /home/eduardo/Desktop/BYOND/MYG
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/eduardo/Desktop/BYOND/MYG.gg/MYG
+CMAKE_BINARY_DIR = /home/eduardo/Desktop/BYOND/MYG
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -79,6 +79,28 @@ install/local/fast: preinstall/fast
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
 	/usr/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
 .PHONY : install/local/fast
+
+# Special rule for the target edit_cache
+edit_cache:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "No interactive CMake dialog available..."
+	/usr/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
+.PHONY : edit_cache
+
+# Special rule for the target edit_cache
+edit_cache/fast: edit_cache
+
+.PHONY : edit_cache/fast
+
+# Special rule for the target package_source
+package_source:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Run CPack packaging tool for source..."
+	cd /home/eduardo/Desktop/BYOND/MYG && /usr/bin/cpack --config ./CPackSourceConfig.cmake /home/eduardo/Desktop/BYOND/MYG/CPackSourceConfig.cmake
+.PHONY : package_source
+
+# Special rule for the target package_source
+package_source/fast: package_source
+
+.PHONY : package_source/fast
 
 # Special rule for the target install
 install: preinstall
@@ -113,27 +135,27 @@ rebuild_cache/fast: rebuild_cache
 
 .PHONY : rebuild_cache/fast
 
-# Special rule for the target edit_cache
-edit_cache:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "No interactive CMake dialog available..."
-	/usr/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
-.PHONY : edit_cache
+# Special rule for the target package
+package: preinstall
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Run CPack packaging tool..."
+	cd /home/eduardo/Desktop/BYOND/MYG && /usr/bin/cpack --config ./CPackConfig.cmake
+.PHONY : package
 
-# Special rule for the target edit_cache
-edit_cache/fast: edit_cache
+# Special rule for the target package
+package/fast: package
 
-.PHONY : edit_cache/fast
+.PHONY : package/fast
 
 # The main all target
 all: cmake_check_build_system
-	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG && $(CMAKE_COMMAND) -E cmake_progress_start /home/eduardo/Desktop/BYOND/MYG.gg/MYG/CMakeFiles /home/eduardo/Desktop/BYOND/MYG.gg/MYG/src/editor/CMakeFiles/progress.marks
-	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG && $(MAKE) -f CMakeFiles/Makefile2 src/editor/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/eduardo/Desktop/BYOND/MYG.gg/MYG/CMakeFiles 0
+	cd /home/eduardo/Desktop/BYOND/MYG && $(CMAKE_COMMAND) -E cmake_progress_start /home/eduardo/Desktop/BYOND/MYG/CMakeFiles /home/eduardo/Desktop/BYOND/MYG/src/editor/CMakeFiles/progress.marks
+	cd /home/eduardo/Desktop/BYOND/MYG && $(MAKE) -f CMakeFiles/Makefile2 src/editor/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/eduardo/Desktop/BYOND/MYG/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
 clean:
-	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG && $(MAKE) -f CMakeFiles/Makefile2 src/editor/clean
+	cd /home/eduardo/Desktop/BYOND/MYG && $(MAKE) -f CMakeFiles/Makefile2 src/editor/clean
 .PHONY : clean
 
 # The main clean target
@@ -143,22 +165,22 @@ clean/fast: clean
 
 # Prepare targets for installation.
 preinstall: all
-	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG && $(MAKE) -f CMakeFiles/Makefile2 src/editor/preinstall
+	cd /home/eduardo/Desktop/BYOND/MYG && $(MAKE) -f CMakeFiles/Makefile2 src/editor/preinstall
 .PHONY : preinstall
 
 # Prepare targets for installation.
 preinstall/fast:
-	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG && $(MAKE) -f CMakeFiles/Makefile2 src/editor/preinstall
+	cd /home/eduardo/Desktop/BYOND/MYG && $(MAKE) -f CMakeFiles/Makefile2 src/editor/preinstall
 .PHONY : preinstall/fast
 
 # clear depends
 depend:
-	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
+	cd /home/eduardo/Desktop/BYOND/MYG && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
 .PHONY : depend
 
 # Convenience name for target.
 src/editor/CMakeFiles/Editor.dir/rule:
-	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG && $(MAKE) -f CMakeFiles/Makefile2 src/editor/CMakeFiles/Editor.dir/rule
+	cd /home/eduardo/Desktop/BYOND/MYG && $(MAKE) -f CMakeFiles/Makefile2 src/editor/CMakeFiles/Editor.dir/rule
 .PHONY : src/editor/CMakeFiles/Editor.dir/rule
 
 # Convenience name for target.
@@ -168,8 +190,143 @@ Editor: src/editor/CMakeFiles/Editor.dir/rule
 
 # fast build rule for target.
 Editor/fast:
-	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/build
+	cd /home/eduardo/Desktop/BYOND/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/build
 .PHONY : Editor/fast
+
+DMI/DMI.o: DMI/DMI.cpp.o
+
+.PHONY : DMI/DMI.o
+
+# target to build an object file
+DMI/DMI.cpp.o:
+	cd /home/eduardo/Desktop/BYOND/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/DMI/DMI.cpp.o
+.PHONY : DMI/DMI.cpp.o
+
+DMI/DMI.i: DMI/DMI.cpp.i
+
+.PHONY : DMI/DMI.i
+
+# target to preprocess a source file
+DMI/DMI.cpp.i:
+	cd /home/eduardo/Desktop/BYOND/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/DMI/DMI.cpp.i
+.PHONY : DMI/DMI.cpp.i
+
+DMI/DMI.s: DMI/DMI.cpp.s
+
+.PHONY : DMI/DMI.s
+
+# target to generate assembly for a file
+DMI/DMI.cpp.s:
+	cd /home/eduardo/Desktop/BYOND/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/DMI/DMI.cpp.s
+.PHONY : DMI/DMI.cpp.s
+
+DMI/codecs/file.o: DMI/codecs/file.cpp.o
+
+.PHONY : DMI/codecs/file.o
+
+# target to build an object file
+DMI/codecs/file.cpp.o:
+	cd /home/eduardo/Desktop/BYOND/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/DMI/codecs/file.cpp.o
+.PHONY : DMI/codecs/file.cpp.o
+
+DMI/codecs/file.i: DMI/codecs/file.cpp.i
+
+.PHONY : DMI/codecs/file.i
+
+# target to preprocess a source file
+DMI/codecs/file.cpp.i:
+	cd /home/eduardo/Desktop/BYOND/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/DMI/codecs/file.cpp.i
+.PHONY : DMI/codecs/file.cpp.i
+
+DMI/codecs/file.s: DMI/codecs/file.cpp.s
+
+.PHONY : DMI/codecs/file.s
+
+# target to generate assembly for a file
+DMI/codecs/file.cpp.s:
+	cd /home/eduardo/Desktop/BYOND/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/DMI/codecs/file.cpp.s
+.PHONY : DMI/codecs/file.cpp.s
+
+DMI/codecs/png.o: DMI/codecs/png.cpp.o
+
+.PHONY : DMI/codecs/png.o
+
+# target to build an object file
+DMI/codecs/png.cpp.o:
+	cd /home/eduardo/Desktop/BYOND/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/DMI/codecs/png.cpp.o
+.PHONY : DMI/codecs/png.cpp.o
+
+DMI/codecs/png.i: DMI/codecs/png.cpp.i
+
+.PHONY : DMI/codecs/png.i
+
+# target to preprocess a source file
+DMI/codecs/png.cpp.i:
+	cd /home/eduardo/Desktop/BYOND/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/DMI/codecs/png.cpp.i
+.PHONY : DMI/codecs/png.cpp.i
+
+DMI/codecs/png.s: DMI/codecs/png.cpp.s
+
+.PHONY : DMI/codecs/png.s
+
+# target to generate assembly for a file
+DMI/codecs/png.cpp.s:
+	cd /home/eduardo/Desktop/BYOND/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/DMI/codecs/png.cpp.s
+.PHONY : DMI/codecs/png.cpp.s
+
+DMI/codecs/webp.o: DMI/codecs/webp.cpp.o
+
+.PHONY : DMI/codecs/webp.o
+
+# target to build an object file
+DMI/codecs/webp.cpp.o:
+	cd /home/eduardo/Desktop/BYOND/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/DMI/codecs/webp.cpp.o
+.PHONY : DMI/codecs/webp.cpp.o
+
+DMI/codecs/webp.i: DMI/codecs/webp.cpp.i
+
+.PHONY : DMI/codecs/webp.i
+
+# target to preprocess a source file
+DMI/codecs/webp.cpp.i:
+	cd /home/eduardo/Desktop/BYOND/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/DMI/codecs/webp.cpp.i
+.PHONY : DMI/codecs/webp.cpp.i
+
+DMI/codecs/webp.s: DMI/codecs/webp.cpp.s
+
+.PHONY : DMI/codecs/webp.s
+
+# target to generate assembly for a file
+DMI/codecs/webp.cpp.s:
+	cd /home/eduardo/Desktop/BYOND/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/DMI/codecs/webp.cpp.s
+.PHONY : DMI/codecs/webp.cpp.s
+
+DMI/errors.o: DMI/errors.cpp.o
+
+.PHONY : DMI/errors.o
+
+# target to build an object file
+DMI/errors.cpp.o:
+	cd /home/eduardo/Desktop/BYOND/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/DMI/errors.cpp.o
+.PHONY : DMI/errors.cpp.o
+
+DMI/errors.i: DMI/errors.cpp.i
+
+.PHONY : DMI/errors.i
+
+# target to preprocess a source file
+DMI/errors.cpp.i:
+	cd /home/eduardo/Desktop/BYOND/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/DMI/errors.cpp.i
+.PHONY : DMI/errors.cpp.i
+
+DMI/errors.s: DMI/errors.cpp.s
+
+.PHONY : DMI/errors.s
+
+# target to generate assembly for a file
+DMI/errors.cpp.s:
+	cd /home/eduardo/Desktop/BYOND/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/DMI/errors.cpp.s
+.PHONY : DMI/errors.cpp.s
 
 __/__/third_party/glfw/deps/getopt.o: __/__/third_party/glfw/deps/getopt.c.o
 
@@ -177,7 +334,7 @@ __/__/third_party/glfw/deps/getopt.o: __/__/third_party/glfw/deps/getopt.c.o
 
 # target to build an object file
 __/__/third_party/glfw/deps/getopt.c.o:
-	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/__/__/third_party/glfw/deps/getopt.c.o
+	cd /home/eduardo/Desktop/BYOND/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/__/__/third_party/glfw/deps/getopt.c.o
 .PHONY : __/__/third_party/glfw/deps/getopt.c.o
 
 __/__/third_party/glfw/deps/getopt.i: __/__/third_party/glfw/deps/getopt.c.i
@@ -186,7 +343,7 @@ __/__/third_party/glfw/deps/getopt.i: __/__/third_party/glfw/deps/getopt.c.i
 
 # target to preprocess a source file
 __/__/third_party/glfw/deps/getopt.c.i:
-	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/__/__/third_party/glfw/deps/getopt.c.i
+	cd /home/eduardo/Desktop/BYOND/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/__/__/third_party/glfw/deps/getopt.c.i
 .PHONY : __/__/third_party/glfw/deps/getopt.c.i
 
 __/__/third_party/glfw/deps/getopt.s: __/__/third_party/glfw/deps/getopt.c.s
@@ -195,7 +352,7 @@ __/__/third_party/glfw/deps/getopt.s: __/__/third_party/glfw/deps/getopt.c.s
 
 # target to generate assembly for a file
 __/__/third_party/glfw/deps/getopt.c.s:
-	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/__/__/third_party/glfw/deps/getopt.c.s
+	cd /home/eduardo/Desktop/BYOND/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/__/__/third_party/glfw/deps/getopt.c.s
 .PHONY : __/__/third_party/glfw/deps/getopt.c.s
 
 __/__/third_party/glfw/deps/glad_gl.o: __/__/third_party/glfw/deps/glad_gl.c.o
@@ -204,7 +361,7 @@ __/__/third_party/glfw/deps/glad_gl.o: __/__/third_party/glfw/deps/glad_gl.c.o
 
 # target to build an object file
 __/__/third_party/glfw/deps/glad_gl.c.o:
-	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/__/__/third_party/glfw/deps/glad_gl.c.o
+	cd /home/eduardo/Desktop/BYOND/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/__/__/third_party/glfw/deps/glad_gl.c.o
 .PHONY : __/__/third_party/glfw/deps/glad_gl.c.o
 
 __/__/third_party/glfw/deps/glad_gl.i: __/__/third_party/glfw/deps/glad_gl.c.i
@@ -213,7 +370,7 @@ __/__/third_party/glfw/deps/glad_gl.i: __/__/third_party/glfw/deps/glad_gl.c.i
 
 # target to preprocess a source file
 __/__/third_party/glfw/deps/glad_gl.c.i:
-	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/__/__/third_party/glfw/deps/glad_gl.c.i
+	cd /home/eduardo/Desktop/BYOND/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/__/__/third_party/glfw/deps/glad_gl.c.i
 .PHONY : __/__/third_party/glfw/deps/glad_gl.c.i
 
 __/__/third_party/glfw/deps/glad_gl.s: __/__/third_party/glfw/deps/glad_gl.c.s
@@ -222,7 +379,7 @@ __/__/third_party/glfw/deps/glad_gl.s: __/__/third_party/glfw/deps/glad_gl.c.s
 
 # target to generate assembly for a file
 __/__/third_party/glfw/deps/glad_gl.c.s:
-	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/__/__/third_party/glfw/deps/glad_gl.c.s
+	cd /home/eduardo/Desktop/BYOND/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/__/__/third_party/glfw/deps/glad_gl.c.s
 .PHONY : __/__/third_party/glfw/deps/glad_gl.c.s
 
 __/__/third_party/glfw/deps/glad_vulkan.o: __/__/third_party/glfw/deps/glad_vulkan.c.o
@@ -231,7 +388,7 @@ __/__/third_party/glfw/deps/glad_vulkan.o: __/__/third_party/glfw/deps/glad_vulk
 
 # target to build an object file
 __/__/third_party/glfw/deps/glad_vulkan.c.o:
-	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/__/__/third_party/glfw/deps/glad_vulkan.c.o
+	cd /home/eduardo/Desktop/BYOND/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/__/__/third_party/glfw/deps/glad_vulkan.c.o
 .PHONY : __/__/third_party/glfw/deps/glad_vulkan.c.o
 
 __/__/third_party/glfw/deps/glad_vulkan.i: __/__/third_party/glfw/deps/glad_vulkan.c.i
@@ -240,7 +397,7 @@ __/__/third_party/glfw/deps/glad_vulkan.i: __/__/third_party/glfw/deps/glad_vulk
 
 # target to preprocess a source file
 __/__/third_party/glfw/deps/glad_vulkan.c.i:
-	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/__/__/third_party/glfw/deps/glad_vulkan.c.i
+	cd /home/eduardo/Desktop/BYOND/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/__/__/third_party/glfw/deps/glad_vulkan.c.i
 .PHONY : __/__/third_party/glfw/deps/glad_vulkan.c.i
 
 __/__/third_party/glfw/deps/glad_vulkan.s: __/__/third_party/glfw/deps/glad_vulkan.c.s
@@ -249,7 +406,7 @@ __/__/third_party/glfw/deps/glad_vulkan.s: __/__/third_party/glfw/deps/glad_vulk
 
 # target to generate assembly for a file
 __/__/third_party/glfw/deps/glad_vulkan.c.s:
-	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/__/__/third_party/glfw/deps/glad_vulkan.c.s
+	cd /home/eduardo/Desktop/BYOND/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/__/__/third_party/glfw/deps/glad_vulkan.c.s
 .PHONY : __/__/third_party/glfw/deps/glad_vulkan.c.s
 
 __/__/third_party/glfw/deps/tinycthread.o: __/__/third_party/glfw/deps/tinycthread.c.o
@@ -258,7 +415,7 @@ __/__/third_party/glfw/deps/tinycthread.o: __/__/third_party/glfw/deps/tinycthre
 
 # target to build an object file
 __/__/third_party/glfw/deps/tinycthread.c.o:
-	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/__/__/third_party/glfw/deps/tinycthread.c.o
+	cd /home/eduardo/Desktop/BYOND/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/__/__/third_party/glfw/deps/tinycthread.c.o
 .PHONY : __/__/third_party/glfw/deps/tinycthread.c.o
 
 __/__/third_party/glfw/deps/tinycthread.i: __/__/third_party/glfw/deps/tinycthread.c.i
@@ -267,7 +424,7 @@ __/__/third_party/glfw/deps/tinycthread.i: __/__/third_party/glfw/deps/tinycthre
 
 # target to preprocess a source file
 __/__/third_party/glfw/deps/tinycthread.c.i:
-	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/__/__/third_party/glfw/deps/tinycthread.c.i
+	cd /home/eduardo/Desktop/BYOND/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/__/__/third_party/glfw/deps/tinycthread.c.i
 .PHONY : __/__/third_party/glfw/deps/tinycthread.c.i
 
 __/__/third_party/glfw/deps/tinycthread.s: __/__/third_party/glfw/deps/tinycthread.c.s
@@ -276,7 +433,7 @@ __/__/third_party/glfw/deps/tinycthread.s: __/__/third_party/glfw/deps/tinycthre
 
 # target to generate assembly for a file
 __/__/third_party/glfw/deps/tinycthread.c.s:
-	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/__/__/third_party/glfw/deps/tinycthread.c.s
+	cd /home/eduardo/Desktop/BYOND/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/__/__/third_party/glfw/deps/tinycthread.c.s
 .PHONY : __/__/third_party/glfw/deps/tinycthread.c.s
 
 __/__/third_party/imgui/TextEditor.o: __/__/third_party/imgui/TextEditor.cpp.o
@@ -285,7 +442,7 @@ __/__/third_party/imgui/TextEditor.o: __/__/third_party/imgui/TextEditor.cpp.o
 
 # target to build an object file
 __/__/third_party/imgui/TextEditor.cpp.o:
-	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/__/__/third_party/imgui/TextEditor.cpp.o
+	cd /home/eduardo/Desktop/BYOND/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/__/__/third_party/imgui/TextEditor.cpp.o
 .PHONY : __/__/third_party/imgui/TextEditor.cpp.o
 
 __/__/third_party/imgui/TextEditor.i: __/__/third_party/imgui/TextEditor.cpp.i
@@ -294,7 +451,7 @@ __/__/third_party/imgui/TextEditor.i: __/__/third_party/imgui/TextEditor.cpp.i
 
 # target to preprocess a source file
 __/__/third_party/imgui/TextEditor.cpp.i:
-	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/__/__/third_party/imgui/TextEditor.cpp.i
+	cd /home/eduardo/Desktop/BYOND/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/__/__/third_party/imgui/TextEditor.cpp.i
 .PHONY : __/__/third_party/imgui/TextEditor.cpp.i
 
 __/__/third_party/imgui/TextEditor.s: __/__/third_party/imgui/TextEditor.cpp.s
@@ -303,7 +460,7 @@ __/__/third_party/imgui/TextEditor.s: __/__/third_party/imgui/TextEditor.cpp.s
 
 # target to generate assembly for a file
 __/__/third_party/imgui/TextEditor.cpp.s:
-	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/__/__/third_party/imgui/TextEditor.cpp.s
+	cd /home/eduardo/Desktop/BYOND/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/__/__/third_party/imgui/TextEditor.cpp.s
 .PHONY : __/__/third_party/imgui/TextEditor.cpp.s
 
 __/__/third_party/imgui/imgui.o: __/__/third_party/imgui/imgui.cpp.o
@@ -312,7 +469,7 @@ __/__/third_party/imgui/imgui.o: __/__/third_party/imgui/imgui.cpp.o
 
 # target to build an object file
 __/__/third_party/imgui/imgui.cpp.o:
-	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/__/__/third_party/imgui/imgui.cpp.o
+	cd /home/eduardo/Desktop/BYOND/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/__/__/third_party/imgui/imgui.cpp.o
 .PHONY : __/__/third_party/imgui/imgui.cpp.o
 
 __/__/third_party/imgui/imgui.i: __/__/third_party/imgui/imgui.cpp.i
@@ -321,7 +478,7 @@ __/__/third_party/imgui/imgui.i: __/__/third_party/imgui/imgui.cpp.i
 
 # target to preprocess a source file
 __/__/third_party/imgui/imgui.cpp.i:
-	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/__/__/third_party/imgui/imgui.cpp.i
+	cd /home/eduardo/Desktop/BYOND/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/__/__/third_party/imgui/imgui.cpp.i
 .PHONY : __/__/third_party/imgui/imgui.cpp.i
 
 __/__/third_party/imgui/imgui.s: __/__/third_party/imgui/imgui.cpp.s
@@ -330,7 +487,7 @@ __/__/third_party/imgui/imgui.s: __/__/third_party/imgui/imgui.cpp.s
 
 # target to generate assembly for a file
 __/__/third_party/imgui/imgui.cpp.s:
-	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/__/__/third_party/imgui/imgui.cpp.s
+	cd /home/eduardo/Desktop/BYOND/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/__/__/third_party/imgui/imgui.cpp.s
 .PHONY : __/__/third_party/imgui/imgui.cpp.s
 
 __/__/third_party/imgui/imgui_demo.o: __/__/third_party/imgui/imgui_demo.cpp.o
@@ -339,7 +496,7 @@ __/__/third_party/imgui/imgui_demo.o: __/__/third_party/imgui/imgui_demo.cpp.o
 
 # target to build an object file
 __/__/third_party/imgui/imgui_demo.cpp.o:
-	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/__/__/third_party/imgui/imgui_demo.cpp.o
+	cd /home/eduardo/Desktop/BYOND/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/__/__/third_party/imgui/imgui_demo.cpp.o
 .PHONY : __/__/third_party/imgui/imgui_demo.cpp.o
 
 __/__/third_party/imgui/imgui_demo.i: __/__/third_party/imgui/imgui_demo.cpp.i
@@ -348,7 +505,7 @@ __/__/third_party/imgui/imgui_demo.i: __/__/third_party/imgui/imgui_demo.cpp.i
 
 # target to preprocess a source file
 __/__/third_party/imgui/imgui_demo.cpp.i:
-	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/__/__/third_party/imgui/imgui_demo.cpp.i
+	cd /home/eduardo/Desktop/BYOND/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/__/__/third_party/imgui/imgui_demo.cpp.i
 .PHONY : __/__/third_party/imgui/imgui_demo.cpp.i
 
 __/__/third_party/imgui/imgui_demo.s: __/__/third_party/imgui/imgui_demo.cpp.s
@@ -357,7 +514,7 @@ __/__/third_party/imgui/imgui_demo.s: __/__/third_party/imgui/imgui_demo.cpp.s
 
 # target to generate assembly for a file
 __/__/third_party/imgui/imgui_demo.cpp.s:
-	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/__/__/third_party/imgui/imgui_demo.cpp.s
+	cd /home/eduardo/Desktop/BYOND/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/__/__/third_party/imgui/imgui_demo.cpp.s
 .PHONY : __/__/third_party/imgui/imgui_demo.cpp.s
 
 __/__/third_party/imgui/imgui_draw.o: __/__/third_party/imgui/imgui_draw.cpp.o
@@ -366,7 +523,7 @@ __/__/third_party/imgui/imgui_draw.o: __/__/third_party/imgui/imgui_draw.cpp.o
 
 # target to build an object file
 __/__/third_party/imgui/imgui_draw.cpp.o:
-	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/__/__/third_party/imgui/imgui_draw.cpp.o
+	cd /home/eduardo/Desktop/BYOND/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/__/__/third_party/imgui/imgui_draw.cpp.o
 .PHONY : __/__/third_party/imgui/imgui_draw.cpp.o
 
 __/__/third_party/imgui/imgui_draw.i: __/__/third_party/imgui/imgui_draw.cpp.i
@@ -375,7 +532,7 @@ __/__/third_party/imgui/imgui_draw.i: __/__/third_party/imgui/imgui_draw.cpp.i
 
 # target to preprocess a source file
 __/__/third_party/imgui/imgui_draw.cpp.i:
-	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/__/__/third_party/imgui/imgui_draw.cpp.i
+	cd /home/eduardo/Desktop/BYOND/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/__/__/third_party/imgui/imgui_draw.cpp.i
 .PHONY : __/__/third_party/imgui/imgui_draw.cpp.i
 
 __/__/third_party/imgui/imgui_draw.s: __/__/third_party/imgui/imgui_draw.cpp.s
@@ -384,7 +541,7 @@ __/__/third_party/imgui/imgui_draw.s: __/__/third_party/imgui/imgui_draw.cpp.s
 
 # target to generate assembly for a file
 __/__/third_party/imgui/imgui_draw.cpp.s:
-	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/__/__/third_party/imgui/imgui_draw.cpp.s
+	cd /home/eduardo/Desktop/BYOND/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/__/__/third_party/imgui/imgui_draw.cpp.s
 .PHONY : __/__/third_party/imgui/imgui_draw.cpp.s
 
 __/__/third_party/imgui/imgui_file_browser.o: __/__/third_party/imgui/imgui_file_browser.cpp.o
@@ -393,7 +550,7 @@ __/__/third_party/imgui/imgui_file_browser.o: __/__/third_party/imgui/imgui_file
 
 # target to build an object file
 __/__/third_party/imgui/imgui_file_browser.cpp.o:
-	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/__/__/third_party/imgui/imgui_file_browser.cpp.o
+	cd /home/eduardo/Desktop/BYOND/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/__/__/third_party/imgui/imgui_file_browser.cpp.o
 .PHONY : __/__/third_party/imgui/imgui_file_browser.cpp.o
 
 __/__/third_party/imgui/imgui_file_browser.i: __/__/third_party/imgui/imgui_file_browser.cpp.i
@@ -402,7 +559,7 @@ __/__/third_party/imgui/imgui_file_browser.i: __/__/third_party/imgui/imgui_file
 
 # target to preprocess a source file
 __/__/third_party/imgui/imgui_file_browser.cpp.i:
-	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/__/__/third_party/imgui/imgui_file_browser.cpp.i
+	cd /home/eduardo/Desktop/BYOND/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/__/__/third_party/imgui/imgui_file_browser.cpp.i
 .PHONY : __/__/third_party/imgui/imgui_file_browser.cpp.i
 
 __/__/third_party/imgui/imgui_file_browser.s: __/__/third_party/imgui/imgui_file_browser.cpp.s
@@ -411,7 +568,7 @@ __/__/third_party/imgui/imgui_file_browser.s: __/__/third_party/imgui/imgui_file
 
 # target to generate assembly for a file
 __/__/third_party/imgui/imgui_file_browser.cpp.s:
-	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/__/__/third_party/imgui/imgui_file_browser.cpp.s
+	cd /home/eduardo/Desktop/BYOND/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/__/__/third_party/imgui/imgui_file_browser.cpp.s
 .PHONY : __/__/third_party/imgui/imgui_file_browser.cpp.s
 
 __/__/third_party/imgui/imgui_impl_glfw.o: __/__/third_party/imgui/imgui_impl_glfw.cpp.o
@@ -420,7 +577,7 @@ __/__/third_party/imgui/imgui_impl_glfw.o: __/__/third_party/imgui/imgui_impl_gl
 
 # target to build an object file
 __/__/third_party/imgui/imgui_impl_glfw.cpp.o:
-	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/__/__/third_party/imgui/imgui_impl_glfw.cpp.o
+	cd /home/eduardo/Desktop/BYOND/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/__/__/third_party/imgui/imgui_impl_glfw.cpp.o
 .PHONY : __/__/third_party/imgui/imgui_impl_glfw.cpp.o
 
 __/__/third_party/imgui/imgui_impl_glfw.i: __/__/third_party/imgui/imgui_impl_glfw.cpp.i
@@ -429,7 +586,7 @@ __/__/third_party/imgui/imgui_impl_glfw.i: __/__/third_party/imgui/imgui_impl_gl
 
 # target to preprocess a source file
 __/__/third_party/imgui/imgui_impl_glfw.cpp.i:
-	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/__/__/third_party/imgui/imgui_impl_glfw.cpp.i
+	cd /home/eduardo/Desktop/BYOND/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/__/__/third_party/imgui/imgui_impl_glfw.cpp.i
 .PHONY : __/__/third_party/imgui/imgui_impl_glfw.cpp.i
 
 __/__/third_party/imgui/imgui_impl_glfw.s: __/__/third_party/imgui/imgui_impl_glfw.cpp.s
@@ -438,7 +595,7 @@ __/__/third_party/imgui/imgui_impl_glfw.s: __/__/third_party/imgui/imgui_impl_gl
 
 # target to generate assembly for a file
 __/__/third_party/imgui/imgui_impl_glfw.cpp.s:
-	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/__/__/third_party/imgui/imgui_impl_glfw.cpp.s
+	cd /home/eduardo/Desktop/BYOND/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/__/__/third_party/imgui/imgui_impl_glfw.cpp.s
 .PHONY : __/__/third_party/imgui/imgui_impl_glfw.cpp.s
 
 __/__/third_party/imgui/imgui_impl_opengl3.o: __/__/third_party/imgui/imgui_impl_opengl3.cpp.o
@@ -447,7 +604,7 @@ __/__/third_party/imgui/imgui_impl_opengl3.o: __/__/third_party/imgui/imgui_impl
 
 # target to build an object file
 __/__/third_party/imgui/imgui_impl_opengl3.cpp.o:
-	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/__/__/third_party/imgui/imgui_impl_opengl3.cpp.o
+	cd /home/eduardo/Desktop/BYOND/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/__/__/third_party/imgui/imgui_impl_opengl3.cpp.o
 .PHONY : __/__/third_party/imgui/imgui_impl_opengl3.cpp.o
 
 __/__/third_party/imgui/imgui_impl_opengl3.i: __/__/third_party/imgui/imgui_impl_opengl3.cpp.i
@@ -456,7 +613,7 @@ __/__/third_party/imgui/imgui_impl_opengl3.i: __/__/third_party/imgui/imgui_impl
 
 # target to preprocess a source file
 __/__/third_party/imgui/imgui_impl_opengl3.cpp.i:
-	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/__/__/third_party/imgui/imgui_impl_opengl3.cpp.i
+	cd /home/eduardo/Desktop/BYOND/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/__/__/third_party/imgui/imgui_impl_opengl3.cpp.i
 .PHONY : __/__/third_party/imgui/imgui_impl_opengl3.cpp.i
 
 __/__/third_party/imgui/imgui_impl_opengl3.s: __/__/third_party/imgui/imgui_impl_opengl3.cpp.s
@@ -465,7 +622,7 @@ __/__/third_party/imgui/imgui_impl_opengl3.s: __/__/third_party/imgui/imgui_impl
 
 # target to generate assembly for a file
 __/__/third_party/imgui/imgui_impl_opengl3.cpp.s:
-	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/__/__/third_party/imgui/imgui_impl_opengl3.cpp.s
+	cd /home/eduardo/Desktop/BYOND/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/__/__/third_party/imgui/imgui_impl_opengl3.cpp.s
 .PHONY : __/__/third_party/imgui/imgui_impl_opengl3.cpp.s
 
 __/__/third_party/imgui/imgui_tables.o: __/__/third_party/imgui/imgui_tables.cpp.o
@@ -474,7 +631,7 @@ __/__/third_party/imgui/imgui_tables.o: __/__/third_party/imgui/imgui_tables.cpp
 
 # target to build an object file
 __/__/third_party/imgui/imgui_tables.cpp.o:
-	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/__/__/third_party/imgui/imgui_tables.cpp.o
+	cd /home/eduardo/Desktop/BYOND/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/__/__/third_party/imgui/imgui_tables.cpp.o
 .PHONY : __/__/third_party/imgui/imgui_tables.cpp.o
 
 __/__/third_party/imgui/imgui_tables.i: __/__/third_party/imgui/imgui_tables.cpp.i
@@ -483,7 +640,7 @@ __/__/third_party/imgui/imgui_tables.i: __/__/third_party/imgui/imgui_tables.cpp
 
 # target to preprocess a source file
 __/__/third_party/imgui/imgui_tables.cpp.i:
-	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/__/__/third_party/imgui/imgui_tables.cpp.i
+	cd /home/eduardo/Desktop/BYOND/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/__/__/third_party/imgui/imgui_tables.cpp.i
 .PHONY : __/__/third_party/imgui/imgui_tables.cpp.i
 
 __/__/third_party/imgui/imgui_tables.s: __/__/third_party/imgui/imgui_tables.cpp.s
@@ -492,7 +649,7 @@ __/__/third_party/imgui/imgui_tables.s: __/__/third_party/imgui/imgui_tables.cpp
 
 # target to generate assembly for a file
 __/__/third_party/imgui/imgui_tables.cpp.s:
-	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/__/__/third_party/imgui/imgui_tables.cpp.s
+	cd /home/eduardo/Desktop/BYOND/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/__/__/third_party/imgui/imgui_tables.cpp.s
 .PHONY : __/__/third_party/imgui/imgui_tables.cpp.s
 
 __/__/third_party/imgui/imgui_widgets.o: __/__/third_party/imgui/imgui_widgets.cpp.o
@@ -501,7 +658,7 @@ __/__/third_party/imgui/imgui_widgets.o: __/__/third_party/imgui/imgui_widgets.c
 
 # target to build an object file
 __/__/third_party/imgui/imgui_widgets.cpp.o:
-	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/__/__/third_party/imgui/imgui_widgets.cpp.o
+	cd /home/eduardo/Desktop/BYOND/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/__/__/third_party/imgui/imgui_widgets.cpp.o
 .PHONY : __/__/third_party/imgui/imgui_widgets.cpp.o
 
 __/__/third_party/imgui/imgui_widgets.i: __/__/third_party/imgui/imgui_widgets.cpp.i
@@ -510,7 +667,7 @@ __/__/third_party/imgui/imgui_widgets.i: __/__/third_party/imgui/imgui_widgets.c
 
 # target to preprocess a source file
 __/__/third_party/imgui/imgui_widgets.cpp.i:
-	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/__/__/third_party/imgui/imgui_widgets.cpp.i
+	cd /home/eduardo/Desktop/BYOND/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/__/__/third_party/imgui/imgui_widgets.cpp.i
 .PHONY : __/__/third_party/imgui/imgui_widgets.cpp.i
 
 __/__/third_party/imgui/imgui_widgets.s: __/__/third_party/imgui/imgui_widgets.cpp.s
@@ -519,7 +676,7 @@ __/__/third_party/imgui/imgui_widgets.s: __/__/third_party/imgui/imgui_widgets.c
 
 # target to generate assembly for a file
 __/__/third_party/imgui/imgui_widgets.cpp.s:
-	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/__/__/third_party/imgui/imgui_widgets.cpp.s
+	cd /home/eduardo/Desktop/BYOND/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/__/__/third_party/imgui/imgui_widgets.cpp.s
 .PHONY : __/__/third_party/imgui/imgui_widgets.cpp.s
 
 editor.o: editor.cpp.o
@@ -528,7 +685,7 @@ editor.o: editor.cpp.o
 
 # target to build an object file
 editor.cpp.o:
-	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/editor.cpp.o
+	cd /home/eduardo/Desktop/BYOND/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/editor.cpp.o
 .PHONY : editor.cpp.o
 
 editor.i: editor.cpp.i
@@ -537,7 +694,7 @@ editor.i: editor.cpp.i
 
 # target to preprocess a source file
 editor.cpp.i:
-	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/editor.cpp.i
+	cd /home/eduardo/Desktop/BYOND/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/editor.cpp.i
 .PHONY : editor.cpp.i
 
 editor.s: editor.cpp.s
@@ -546,7 +703,7 @@ editor.s: editor.cpp.s
 
 # target to generate assembly for a file
 editor.cpp.s:
-	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/editor.cpp.s
+	cd /home/eduardo/Desktop/BYOND/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/editor.cpp.s
 .PHONY : editor.cpp.s
 
 source_navigation/source_navigation.o: source_navigation/source_navigation.cpp.o
@@ -555,7 +712,7 @@ source_navigation/source_navigation.o: source_navigation/source_navigation.cpp.o
 
 # target to build an object file
 source_navigation/source_navigation.cpp.o:
-	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/source_navigation/source_navigation.cpp.o
+	cd /home/eduardo/Desktop/BYOND/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/source_navigation/source_navigation.cpp.o
 .PHONY : source_navigation/source_navigation.cpp.o
 
 source_navigation/source_navigation.i: source_navigation/source_navigation.cpp.i
@@ -564,7 +721,7 @@ source_navigation/source_navigation.i: source_navigation/source_navigation.cpp.i
 
 # target to preprocess a source file
 source_navigation/source_navigation.cpp.i:
-	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/source_navigation/source_navigation.cpp.i
+	cd /home/eduardo/Desktop/BYOND/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/source_navigation/source_navigation.cpp.i
 .PHONY : source_navigation/source_navigation.cpp.i
 
 source_navigation/source_navigation.s: source_navigation/source_navigation.cpp.s
@@ -573,7 +730,7 @@ source_navigation/source_navigation.s: source_navigation/source_navigation.cpp.s
 
 # target to generate assembly for a file
 source_navigation/source_navigation.cpp.s:
-	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/source_navigation/source_navigation.cpp.s
+	cd /home/eduardo/Desktop/BYOND/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/source_navigation/source_navigation.cpp.s
 .PHONY : source_navigation/source_navigation.cpp.s
 
 # Help Target
@@ -584,11 +741,28 @@ help:
 	@echo "... depend"
 	@echo "... install/strip"
 	@echo "... install/local"
+	@echo "... edit_cache"
+	@echo "... package_source"
 	@echo "... install"
 	@echo "... list_install_components"
 	@echo "... rebuild_cache"
-	@echo "... edit_cache"
+	@echo "... package"
 	@echo "... Editor"
+	@echo "... DMI/DMI.o"
+	@echo "... DMI/DMI.i"
+	@echo "... DMI/DMI.s"
+	@echo "... DMI/codecs/file.o"
+	@echo "... DMI/codecs/file.i"
+	@echo "... DMI/codecs/file.s"
+	@echo "... DMI/codecs/png.o"
+	@echo "... DMI/codecs/png.i"
+	@echo "... DMI/codecs/png.s"
+	@echo "... DMI/codecs/webp.o"
+	@echo "... DMI/codecs/webp.i"
+	@echo "... DMI/codecs/webp.s"
+	@echo "... DMI/errors.o"
+	@echo "... DMI/errors.i"
+	@echo "... DMI/errors.s"
 	@echo "... __/__/third_party/glfw/deps/getopt.o"
 	@echo "... __/__/third_party/glfw/deps/getopt.i"
 	@echo "... __/__/third_party/glfw/deps/getopt.s"
@@ -645,6 +819,6 @@ help:
 # No rule that depends on this can have commands that come from listfiles
 # because they might be regenerated.
 cmake_check_build_system:
-	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
+	cd /home/eduardo/Desktop/BYOND/MYG && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
 .PHONY : cmake_check_build_system
 

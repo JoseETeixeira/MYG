@@ -48,10 +48,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/eduardo/Desktop/BYOND/MYG.gg/MYG
+CMAKE_SOURCE_DIR = /home/eduardo/Desktop/BYOND/MYG
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/eduardo/Desktop/BYOND/MYG.gg/MYG
+CMAKE_BINARY_DIR = /home/eduardo/Desktop/BYOND/MYG
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -79,6 +79,28 @@ install/local/fast: preinstall/fast
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
 	/usr/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
 .PHONY : install/local/fast
+
+# Special rule for the target edit_cache
+edit_cache:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "No interactive CMake dialog available..."
+	/usr/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
+.PHONY : edit_cache
+
+# Special rule for the target edit_cache
+edit_cache/fast: edit_cache
+
+.PHONY : edit_cache/fast
+
+# Special rule for the target package_source
+package_source:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Run CPack packaging tool for source..."
+	cd /home/eduardo/Desktop/BYOND/MYG && /usr/bin/cpack --config ./CPackSourceConfig.cmake /home/eduardo/Desktop/BYOND/MYG/CPackSourceConfig.cmake
+.PHONY : package_source
+
+# Special rule for the target package_source
+package_source/fast: package_source
+
+.PHONY : package_source/fast
 
 # Special rule for the target install
 install: preinstall
@@ -113,27 +135,27 @@ rebuild_cache/fast: rebuild_cache
 
 .PHONY : rebuild_cache/fast
 
-# Special rule for the target edit_cache
-edit_cache:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "No interactive CMake dialog available..."
-	/usr/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
-.PHONY : edit_cache
+# Special rule for the target package
+package: preinstall
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Run CPack packaging tool..."
+	cd /home/eduardo/Desktop/BYOND/MYG && /usr/bin/cpack --config ./CPackConfig.cmake
+.PHONY : package
 
-# Special rule for the target edit_cache
-edit_cache/fast: edit_cache
+# Special rule for the target package
+package/fast: package
 
-.PHONY : edit_cache/fast
+.PHONY : package/fast
 
 # The main all target
 all: cmake_check_build_system
-	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG && $(CMAKE_COMMAND) -E cmake_progress_start /home/eduardo/Desktop/BYOND/MYG.gg/MYG/CMakeFiles /home/eduardo/Desktop/BYOND/MYG.gg/MYG/third_party/imgui/CMakeFiles/progress.marks
-	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG && $(MAKE) -f CMakeFiles/Makefile2 third_party/imgui/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/eduardo/Desktop/BYOND/MYG.gg/MYG/CMakeFiles 0
+	cd /home/eduardo/Desktop/BYOND/MYG && $(CMAKE_COMMAND) -E cmake_progress_start /home/eduardo/Desktop/BYOND/MYG/CMakeFiles /home/eduardo/Desktop/BYOND/MYG/third_party/imgui/CMakeFiles/progress.marks
+	cd /home/eduardo/Desktop/BYOND/MYG && $(MAKE) -f CMakeFiles/Makefile2 third_party/imgui/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/eduardo/Desktop/BYOND/MYG/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
 clean:
-	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG && $(MAKE) -f CMakeFiles/Makefile2 third_party/imgui/clean
+	cd /home/eduardo/Desktop/BYOND/MYG && $(MAKE) -f CMakeFiles/Makefile2 third_party/imgui/clean
 .PHONY : clean
 
 # The main clean target
@@ -143,22 +165,22 @@ clean/fast: clean
 
 # Prepare targets for installation.
 preinstall: all
-	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG && $(MAKE) -f CMakeFiles/Makefile2 third_party/imgui/preinstall
+	cd /home/eduardo/Desktop/BYOND/MYG && $(MAKE) -f CMakeFiles/Makefile2 third_party/imgui/preinstall
 .PHONY : preinstall
 
 # Prepare targets for installation.
 preinstall/fast:
-	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG && $(MAKE) -f CMakeFiles/Makefile2 third_party/imgui/preinstall
+	cd /home/eduardo/Desktop/BYOND/MYG && $(MAKE) -f CMakeFiles/Makefile2 third_party/imgui/preinstall
 .PHONY : preinstall/fast
 
 # clear depends
 depend:
-	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
+	cd /home/eduardo/Desktop/BYOND/MYG && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
 .PHONY : depend
 
 # Convenience name for target.
 third_party/imgui/CMakeFiles/imgui.dir/rule:
-	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG && $(MAKE) -f CMakeFiles/Makefile2 third_party/imgui/CMakeFiles/imgui.dir/rule
+	cd /home/eduardo/Desktop/BYOND/MYG && $(MAKE) -f CMakeFiles/Makefile2 third_party/imgui/CMakeFiles/imgui.dir/rule
 .PHONY : third_party/imgui/CMakeFiles/imgui.dir/rule
 
 # Convenience name for target.
@@ -168,7 +190,7 @@ imgui: third_party/imgui/CMakeFiles/imgui.dir/rule
 
 # fast build rule for target.
 imgui/fast:
-	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG && $(MAKE) -f third_party/imgui/CMakeFiles/imgui.dir/build.make third_party/imgui/CMakeFiles/imgui.dir/build
+	cd /home/eduardo/Desktop/BYOND/MYG && $(MAKE) -f third_party/imgui/CMakeFiles/imgui.dir/build.make third_party/imgui/CMakeFiles/imgui.dir/build
 .PHONY : imgui/fast
 
 imgui.o: imgui.cpp.o
@@ -177,7 +199,7 @@ imgui.o: imgui.cpp.o
 
 # target to build an object file
 imgui.cpp.o:
-	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG && $(MAKE) -f third_party/imgui/CMakeFiles/imgui.dir/build.make third_party/imgui/CMakeFiles/imgui.dir/imgui.cpp.o
+	cd /home/eduardo/Desktop/BYOND/MYG && $(MAKE) -f third_party/imgui/CMakeFiles/imgui.dir/build.make third_party/imgui/CMakeFiles/imgui.dir/imgui.cpp.o
 .PHONY : imgui.cpp.o
 
 imgui.i: imgui.cpp.i
@@ -186,7 +208,7 @@ imgui.i: imgui.cpp.i
 
 # target to preprocess a source file
 imgui.cpp.i:
-	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG && $(MAKE) -f third_party/imgui/CMakeFiles/imgui.dir/build.make third_party/imgui/CMakeFiles/imgui.dir/imgui.cpp.i
+	cd /home/eduardo/Desktop/BYOND/MYG && $(MAKE) -f third_party/imgui/CMakeFiles/imgui.dir/build.make third_party/imgui/CMakeFiles/imgui.dir/imgui.cpp.i
 .PHONY : imgui.cpp.i
 
 imgui.s: imgui.cpp.s
@@ -195,7 +217,7 @@ imgui.s: imgui.cpp.s
 
 # target to generate assembly for a file
 imgui.cpp.s:
-	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG && $(MAKE) -f third_party/imgui/CMakeFiles/imgui.dir/build.make third_party/imgui/CMakeFiles/imgui.dir/imgui.cpp.s
+	cd /home/eduardo/Desktop/BYOND/MYG && $(MAKE) -f third_party/imgui/CMakeFiles/imgui.dir/build.make third_party/imgui/CMakeFiles/imgui.dir/imgui.cpp.s
 .PHONY : imgui.cpp.s
 
 imgui_demo.o: imgui_demo.cpp.o
@@ -204,7 +226,7 @@ imgui_demo.o: imgui_demo.cpp.o
 
 # target to build an object file
 imgui_demo.cpp.o:
-	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG && $(MAKE) -f third_party/imgui/CMakeFiles/imgui.dir/build.make third_party/imgui/CMakeFiles/imgui.dir/imgui_demo.cpp.o
+	cd /home/eduardo/Desktop/BYOND/MYG && $(MAKE) -f third_party/imgui/CMakeFiles/imgui.dir/build.make third_party/imgui/CMakeFiles/imgui.dir/imgui_demo.cpp.o
 .PHONY : imgui_demo.cpp.o
 
 imgui_demo.i: imgui_demo.cpp.i
@@ -213,7 +235,7 @@ imgui_demo.i: imgui_demo.cpp.i
 
 # target to preprocess a source file
 imgui_demo.cpp.i:
-	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG && $(MAKE) -f third_party/imgui/CMakeFiles/imgui.dir/build.make third_party/imgui/CMakeFiles/imgui.dir/imgui_demo.cpp.i
+	cd /home/eduardo/Desktop/BYOND/MYG && $(MAKE) -f third_party/imgui/CMakeFiles/imgui.dir/build.make third_party/imgui/CMakeFiles/imgui.dir/imgui_demo.cpp.i
 .PHONY : imgui_demo.cpp.i
 
 imgui_demo.s: imgui_demo.cpp.s
@@ -222,7 +244,7 @@ imgui_demo.s: imgui_demo.cpp.s
 
 # target to generate assembly for a file
 imgui_demo.cpp.s:
-	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG && $(MAKE) -f third_party/imgui/CMakeFiles/imgui.dir/build.make third_party/imgui/CMakeFiles/imgui.dir/imgui_demo.cpp.s
+	cd /home/eduardo/Desktop/BYOND/MYG && $(MAKE) -f third_party/imgui/CMakeFiles/imgui.dir/build.make third_party/imgui/CMakeFiles/imgui.dir/imgui_demo.cpp.s
 .PHONY : imgui_demo.cpp.s
 
 imgui_draw.o: imgui_draw.cpp.o
@@ -231,7 +253,7 @@ imgui_draw.o: imgui_draw.cpp.o
 
 # target to build an object file
 imgui_draw.cpp.o:
-	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG && $(MAKE) -f third_party/imgui/CMakeFiles/imgui.dir/build.make third_party/imgui/CMakeFiles/imgui.dir/imgui_draw.cpp.o
+	cd /home/eduardo/Desktop/BYOND/MYG && $(MAKE) -f third_party/imgui/CMakeFiles/imgui.dir/build.make third_party/imgui/CMakeFiles/imgui.dir/imgui_draw.cpp.o
 .PHONY : imgui_draw.cpp.o
 
 imgui_draw.i: imgui_draw.cpp.i
@@ -240,7 +262,7 @@ imgui_draw.i: imgui_draw.cpp.i
 
 # target to preprocess a source file
 imgui_draw.cpp.i:
-	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG && $(MAKE) -f third_party/imgui/CMakeFiles/imgui.dir/build.make third_party/imgui/CMakeFiles/imgui.dir/imgui_draw.cpp.i
+	cd /home/eduardo/Desktop/BYOND/MYG && $(MAKE) -f third_party/imgui/CMakeFiles/imgui.dir/build.make third_party/imgui/CMakeFiles/imgui.dir/imgui_draw.cpp.i
 .PHONY : imgui_draw.cpp.i
 
 imgui_draw.s: imgui_draw.cpp.s
@@ -249,7 +271,7 @@ imgui_draw.s: imgui_draw.cpp.s
 
 # target to generate assembly for a file
 imgui_draw.cpp.s:
-	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG && $(MAKE) -f third_party/imgui/CMakeFiles/imgui.dir/build.make third_party/imgui/CMakeFiles/imgui.dir/imgui_draw.cpp.s
+	cd /home/eduardo/Desktop/BYOND/MYG && $(MAKE) -f third_party/imgui/CMakeFiles/imgui.dir/build.make third_party/imgui/CMakeFiles/imgui.dir/imgui_draw.cpp.s
 .PHONY : imgui_draw.cpp.s
 
 imgui_impl_glfw.o: imgui_impl_glfw.cpp.o
@@ -258,7 +280,7 @@ imgui_impl_glfw.o: imgui_impl_glfw.cpp.o
 
 # target to build an object file
 imgui_impl_glfw.cpp.o:
-	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG && $(MAKE) -f third_party/imgui/CMakeFiles/imgui.dir/build.make third_party/imgui/CMakeFiles/imgui.dir/imgui_impl_glfw.cpp.o
+	cd /home/eduardo/Desktop/BYOND/MYG && $(MAKE) -f third_party/imgui/CMakeFiles/imgui.dir/build.make third_party/imgui/CMakeFiles/imgui.dir/imgui_impl_glfw.cpp.o
 .PHONY : imgui_impl_glfw.cpp.o
 
 imgui_impl_glfw.i: imgui_impl_glfw.cpp.i
@@ -267,7 +289,7 @@ imgui_impl_glfw.i: imgui_impl_glfw.cpp.i
 
 # target to preprocess a source file
 imgui_impl_glfw.cpp.i:
-	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG && $(MAKE) -f third_party/imgui/CMakeFiles/imgui.dir/build.make third_party/imgui/CMakeFiles/imgui.dir/imgui_impl_glfw.cpp.i
+	cd /home/eduardo/Desktop/BYOND/MYG && $(MAKE) -f third_party/imgui/CMakeFiles/imgui.dir/build.make third_party/imgui/CMakeFiles/imgui.dir/imgui_impl_glfw.cpp.i
 .PHONY : imgui_impl_glfw.cpp.i
 
 imgui_impl_glfw.s: imgui_impl_glfw.cpp.s
@@ -276,7 +298,7 @@ imgui_impl_glfw.s: imgui_impl_glfw.cpp.s
 
 # target to generate assembly for a file
 imgui_impl_glfw.cpp.s:
-	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG && $(MAKE) -f third_party/imgui/CMakeFiles/imgui.dir/build.make third_party/imgui/CMakeFiles/imgui.dir/imgui_impl_glfw.cpp.s
+	cd /home/eduardo/Desktop/BYOND/MYG && $(MAKE) -f third_party/imgui/CMakeFiles/imgui.dir/build.make third_party/imgui/CMakeFiles/imgui.dir/imgui_impl_glfw.cpp.s
 .PHONY : imgui_impl_glfw.cpp.s
 
 imgui_impl_opengl3.o: imgui_impl_opengl3.cpp.o
@@ -285,7 +307,7 @@ imgui_impl_opengl3.o: imgui_impl_opengl3.cpp.o
 
 # target to build an object file
 imgui_impl_opengl3.cpp.o:
-	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG && $(MAKE) -f third_party/imgui/CMakeFiles/imgui.dir/build.make third_party/imgui/CMakeFiles/imgui.dir/imgui_impl_opengl3.cpp.o
+	cd /home/eduardo/Desktop/BYOND/MYG && $(MAKE) -f third_party/imgui/CMakeFiles/imgui.dir/build.make third_party/imgui/CMakeFiles/imgui.dir/imgui_impl_opengl3.cpp.o
 .PHONY : imgui_impl_opengl3.cpp.o
 
 imgui_impl_opengl3.i: imgui_impl_opengl3.cpp.i
@@ -294,7 +316,7 @@ imgui_impl_opengl3.i: imgui_impl_opengl3.cpp.i
 
 # target to preprocess a source file
 imgui_impl_opengl3.cpp.i:
-	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG && $(MAKE) -f third_party/imgui/CMakeFiles/imgui.dir/build.make third_party/imgui/CMakeFiles/imgui.dir/imgui_impl_opengl3.cpp.i
+	cd /home/eduardo/Desktop/BYOND/MYG && $(MAKE) -f third_party/imgui/CMakeFiles/imgui.dir/build.make third_party/imgui/CMakeFiles/imgui.dir/imgui_impl_opengl3.cpp.i
 .PHONY : imgui_impl_opengl3.cpp.i
 
 imgui_impl_opengl3.s: imgui_impl_opengl3.cpp.s
@@ -303,7 +325,7 @@ imgui_impl_opengl3.s: imgui_impl_opengl3.cpp.s
 
 # target to generate assembly for a file
 imgui_impl_opengl3.cpp.s:
-	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG && $(MAKE) -f third_party/imgui/CMakeFiles/imgui.dir/build.make third_party/imgui/CMakeFiles/imgui.dir/imgui_impl_opengl3.cpp.s
+	cd /home/eduardo/Desktop/BYOND/MYG && $(MAKE) -f third_party/imgui/CMakeFiles/imgui.dir/build.make third_party/imgui/CMakeFiles/imgui.dir/imgui_impl_opengl3.cpp.s
 .PHONY : imgui_impl_opengl3.cpp.s
 
 # Help Target
@@ -314,10 +336,12 @@ help:
 	@echo "... depend"
 	@echo "... install/strip"
 	@echo "... install/local"
+	@echo "... edit_cache"
+	@echo "... package_source"
 	@echo "... install"
 	@echo "... list_install_components"
 	@echo "... rebuild_cache"
-	@echo "... edit_cache"
+	@echo "... package"
 	@echo "... imgui"
 	@echo "... imgui.o"
 	@echo "... imgui.i"
@@ -345,6 +369,6 @@ help:
 # No rule that depends on this can have commands that come from listfiles
 # because they might be regenerated.
 cmake_check_build_system:
-	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
+	cd /home/eduardo/Desktop/BYOND/MYG && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
 .PHONY : cmake_check_build_system
 

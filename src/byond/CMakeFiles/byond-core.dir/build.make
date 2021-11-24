@@ -43,10 +43,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/eduardo/Desktop/BYOND/MYG.gg/MYG
+CMAKE_SOURCE_DIR = /home/eduardo/Desktop/BYOND/MYG
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/eduardo/Desktop/BYOND/MYG.gg/MYG
+CMAKE_BINARY_DIR = /home/eduardo/Desktop/BYOND/MYG
 
 # Include any dependencies generated for this target.
 include src/byond/CMakeFiles/byond-core.dir/depend.make
@@ -59,16 +59,16 @@ include src/byond/CMakeFiles/byond-core.dir/flags.make
 
 src/byond/CMakeFiles/byond-core.dir/library.cpp.o: src/byond/CMakeFiles/byond-core.dir/flags.make
 src/byond/CMakeFiles/byond-core.dir/library.cpp.o: src/byond/library.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/eduardo/Desktop/BYOND/MYG.gg/MYG/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object src/byond/CMakeFiles/byond-core.dir/library.cpp.o"
-	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG/src/byond && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/byond-core.dir/library.cpp.o -c /home/eduardo/Desktop/BYOND/MYG.gg/MYG/src/byond/library.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/eduardo/Desktop/BYOND/MYG/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object src/byond/CMakeFiles/byond-core.dir/library.cpp.o"
+	cd /home/eduardo/Desktop/BYOND/MYG/src/byond && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/byond-core.dir/library.cpp.o -c /home/eduardo/Desktop/BYOND/MYG/src/byond/library.cpp
 
 src/byond/CMakeFiles/byond-core.dir/library.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/byond-core.dir/library.cpp.i"
-	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG/src/byond && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/eduardo/Desktop/BYOND/MYG.gg/MYG/src/byond/library.cpp > CMakeFiles/byond-core.dir/library.cpp.i
+	cd /home/eduardo/Desktop/BYOND/MYG/src/byond && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/eduardo/Desktop/BYOND/MYG/src/byond/library.cpp > CMakeFiles/byond-core.dir/library.cpp.i
 
 src/byond/CMakeFiles/byond-core.dir/library.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/byond-core.dir/library.cpp.s"
-	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG/src/byond && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/eduardo/Desktop/BYOND/MYG.gg/MYG/src/byond/library.cpp -o CMakeFiles/byond-core.dir/library.cpp.s
+	cd /home/eduardo/Desktop/BYOND/MYG/src/byond && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/eduardo/Desktop/BYOND/MYG/src/byond/library.cpp -o CMakeFiles/byond-core.dir/library.cpp.s
 
 # Object files for target byond-core
 byond__core_OBJECTS = \
@@ -80,9 +80,9 @@ byond__core_EXTERNAL_OBJECTS =
 src/byond/libbyond-core.so.1.0.0: src/byond/CMakeFiles/byond-core.dir/library.cpp.o
 src/byond/libbyond-core.so.1.0.0: src/byond/CMakeFiles/byond-core.dir/build.make
 src/byond/libbyond-core.so.1.0.0: src/byond/CMakeFiles/byond-core.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/eduardo/Desktop/BYOND/MYG.gg/MYG/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX shared library libbyond-core.so"
-	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG/src/byond && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/byond-core.dir/link.txt --verbose=$(VERBOSE)
-	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG/src/byond && $(CMAKE_COMMAND) -E cmake_symlink_library libbyond-core.so.1.0.0 libbyond-core.so.1.0.0 libbyond-core.so
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/eduardo/Desktop/BYOND/MYG/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX shared library libbyond-core.so"
+	cd /home/eduardo/Desktop/BYOND/MYG/src/byond && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/byond-core.dir/link.txt --verbose=$(VERBOSE)
+	cd /home/eduardo/Desktop/BYOND/MYG/src/byond && $(CMAKE_COMMAND) -E cmake_symlink_library libbyond-core.so.1.0.0 libbyond-core.so.1.0.0 libbyond-core.so
 
 src/byond/libbyond-core.so: src/byond/libbyond-core.so.1.0.0
 	@$(CMAKE_COMMAND) -E touch_nocreate src/byond/libbyond-core.so
@@ -93,10 +93,10 @@ src/byond/CMakeFiles/byond-core.dir/build: src/byond/libbyond-core.so
 .PHONY : src/byond/CMakeFiles/byond-core.dir/build
 
 src/byond/CMakeFiles/byond-core.dir/clean:
-	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG/src/byond && $(CMAKE_COMMAND) -P CMakeFiles/byond-core.dir/cmake_clean.cmake
+	cd /home/eduardo/Desktop/BYOND/MYG/src/byond && $(CMAKE_COMMAND) -P CMakeFiles/byond-core.dir/cmake_clean.cmake
 .PHONY : src/byond/CMakeFiles/byond-core.dir/clean
 
 src/byond/CMakeFiles/byond-core.dir/depend:
-	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/eduardo/Desktop/BYOND/MYG.gg/MYG /home/eduardo/Desktop/BYOND/MYG.gg/MYG/src/byond /home/eduardo/Desktop/BYOND/MYG.gg/MYG /home/eduardo/Desktop/BYOND/MYG.gg/MYG/src/byond /home/eduardo/Desktop/BYOND/MYG.gg/MYG/src/byond/CMakeFiles/byond-core.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/eduardo/Desktop/BYOND/MYG && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/eduardo/Desktop/BYOND/MYG /home/eduardo/Desktop/BYOND/MYG/src/byond /home/eduardo/Desktop/BYOND/MYG /home/eduardo/Desktop/BYOND/MYG/src/byond /home/eduardo/Desktop/BYOND/MYG/src/byond/CMakeFiles/byond-core.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : src/byond/CMakeFiles/byond-core.dir/depend
 

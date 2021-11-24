@@ -4,11 +4,11 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/home/eduardo/Desktop/BYOND/MYG.gg/MYG/third_party/imgui/imgui.cpp" "/home/eduardo/Desktop/BYOND/MYG.gg/MYG/third_party/imgui/CMakeFiles/imgui.dir/imgui.cpp.o"
-  "/home/eduardo/Desktop/BYOND/MYG.gg/MYG/third_party/imgui/imgui_demo.cpp" "/home/eduardo/Desktop/BYOND/MYG.gg/MYG/third_party/imgui/CMakeFiles/imgui.dir/imgui_demo.cpp.o"
-  "/home/eduardo/Desktop/BYOND/MYG.gg/MYG/third_party/imgui/imgui_draw.cpp" "/home/eduardo/Desktop/BYOND/MYG.gg/MYG/third_party/imgui/CMakeFiles/imgui.dir/imgui_draw.cpp.o"
-  "/home/eduardo/Desktop/BYOND/MYG.gg/MYG/third_party/imgui/imgui_impl_glfw.cpp" "/home/eduardo/Desktop/BYOND/MYG.gg/MYG/third_party/imgui/CMakeFiles/imgui.dir/imgui_impl_glfw.cpp.o"
-  "/home/eduardo/Desktop/BYOND/MYG.gg/MYG/third_party/imgui/imgui_impl_opengl3.cpp" "/home/eduardo/Desktop/BYOND/MYG.gg/MYG/third_party/imgui/CMakeFiles/imgui.dir/imgui_impl_opengl3.cpp.o"
+  "/home/eduardo/Desktop/BYOND/MYG/third_party/imgui/imgui.cpp" "/home/eduardo/Desktop/BYOND/MYG/third_party/imgui/CMakeFiles/imgui.dir/imgui.cpp.o"
+  "/home/eduardo/Desktop/BYOND/MYG/third_party/imgui/imgui_demo.cpp" "/home/eduardo/Desktop/BYOND/MYG/third_party/imgui/CMakeFiles/imgui.dir/imgui_demo.cpp.o"
+  "/home/eduardo/Desktop/BYOND/MYG/third_party/imgui/imgui_draw.cpp" "/home/eduardo/Desktop/BYOND/MYG/third_party/imgui/CMakeFiles/imgui.dir/imgui_draw.cpp.o"
+  "/home/eduardo/Desktop/BYOND/MYG/third_party/imgui/imgui_impl_glfw.cpp" "/home/eduardo/Desktop/BYOND/MYG/third_party/imgui/CMakeFiles/imgui.dir/imgui_impl_glfw.cpp.o"
+  "/home/eduardo/Desktop/BYOND/MYG/third_party/imgui/imgui_impl_opengl3.cpp" "/home/eduardo/Desktop/BYOND/MYG/third_party/imgui/CMakeFiles/imgui.dir/imgui_impl_opengl3.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 

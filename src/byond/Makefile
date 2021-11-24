@@ -48,10 +48,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/eduardo/Desktop/BYOND/MYG.gg/MYG
+CMAKE_SOURCE_DIR = /home/eduardo/Desktop/BYOND/MYG
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/eduardo/Desktop/BYOND/MYG.gg/MYG
+CMAKE_BINARY_DIR = /home/eduardo/Desktop/BYOND/MYG
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -79,6 +79,28 @@ install/local/fast: preinstall/fast
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
 	/usr/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
 .PHONY : install/local/fast
+
+# Special rule for the target edit_cache
+edit_cache:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "No interactive CMake dialog available..."
+	/usr/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
+.PHONY : edit_cache
+
+# Special rule for the target edit_cache
+edit_cache/fast: edit_cache
+
+.PHONY : edit_cache/fast
+
+# Special rule for the target package_source
+package_source:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Run CPack packaging tool for source..."
+	cd /home/eduardo/Desktop/BYOND/MYG && /usr/bin/cpack --config ./CPackSourceConfig.cmake /home/eduardo/Desktop/BYOND/MYG/CPackSourceConfig.cmake
+.PHONY : package_source
+
+# Special rule for the target package_source
+package_source/fast: package_source
+
+.PHONY : package_source/fast
 
 # Special rule for the target install
 install: preinstall
@@ -113,27 +135,27 @@ rebuild_cache/fast: rebuild_cache
 
 .PHONY : rebuild_cache/fast
 
-# Special rule for the target edit_cache
-edit_cache:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "No interactive CMake dialog available..."
-	/usr/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
-.PHONY : edit_cache
+# Special rule for the target package
+package: preinstall
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Run CPack packaging tool..."
+	cd /home/eduardo/Desktop/BYOND/MYG && /usr/bin/cpack --config ./CPackConfig.cmake
+.PHONY : package
 
-# Special rule for the target edit_cache
-edit_cache/fast: edit_cache
+# Special rule for the target package
+package/fast: package
 
-.PHONY : edit_cache/fast
+.PHONY : package/fast
 
 # The main all target
 all: cmake_check_build_system
-	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG && $(CMAKE_COMMAND) -E cmake_progress_start /home/eduardo/Desktop/BYOND/MYG.gg/MYG/CMakeFiles /home/eduardo/Desktop/BYOND/MYG.gg/MYG/src/byond/CMakeFiles/progress.marks
-	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG && $(MAKE) -f CMakeFiles/Makefile2 src/byond/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/eduardo/Desktop/BYOND/MYG.gg/MYG/CMakeFiles 0
+	cd /home/eduardo/Desktop/BYOND/MYG && $(CMAKE_COMMAND) -E cmake_progress_start /home/eduardo/Desktop/BYOND/MYG/CMakeFiles /home/eduardo/Desktop/BYOND/MYG/src/byond/CMakeFiles/progress.marks
+	cd /home/eduardo/Desktop/BYOND/MYG && $(MAKE) -f CMakeFiles/Makefile2 src/byond/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/eduardo/Desktop/BYOND/MYG/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
 clean:
-	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG && $(MAKE) -f CMakeFiles/Makefile2 src/byond/clean
+	cd /home/eduardo/Desktop/BYOND/MYG && $(MAKE) -f CMakeFiles/Makefile2 src/byond/clean
 .PHONY : clean
 
 # The main clean target
@@ -143,22 +165,22 @@ clean/fast: clean
 
 # Prepare targets for installation.
 preinstall: all
-	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG && $(MAKE) -f CMakeFiles/Makefile2 src/byond/preinstall
+	cd /home/eduardo/Desktop/BYOND/MYG && $(MAKE) -f CMakeFiles/Makefile2 src/byond/preinstall
 .PHONY : preinstall
 
 # Prepare targets for installation.
 preinstall/fast:
-	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG && $(MAKE) -f CMakeFiles/Makefile2 src/byond/preinstall
+	cd /home/eduardo/Desktop/BYOND/MYG && $(MAKE) -f CMakeFiles/Makefile2 src/byond/preinstall
 .PHONY : preinstall/fast
 
 # clear depends
 depend:
-	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
+	cd /home/eduardo/Desktop/BYOND/MYG && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
 .PHONY : depend
 
 # Convenience name for target.
 src/byond/CMakeFiles/byond-core.dir/rule:
-	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG && $(MAKE) -f CMakeFiles/Makefile2 src/byond/CMakeFiles/byond-core.dir/rule
+	cd /home/eduardo/Desktop/BYOND/MYG && $(MAKE) -f CMakeFiles/Makefile2 src/byond/CMakeFiles/byond-core.dir/rule
 .PHONY : src/byond/CMakeFiles/byond-core.dir/rule
 
 # Convenience name for target.
@@ -168,7 +190,7 @@ byond-core: src/byond/CMakeFiles/byond-core.dir/rule
 
 # fast build rule for target.
 byond-core/fast:
-	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG && $(MAKE) -f src/byond/CMakeFiles/byond-core.dir/build.make src/byond/CMakeFiles/byond-core.dir/build
+	cd /home/eduardo/Desktop/BYOND/MYG && $(MAKE) -f src/byond/CMakeFiles/byond-core.dir/build.make src/byond/CMakeFiles/byond-core.dir/build
 .PHONY : byond-core/fast
 
 library.o: library.cpp.o
@@ -177,7 +199,7 @@ library.o: library.cpp.o
 
 # target to build an object file
 library.cpp.o:
-	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG && $(MAKE) -f src/byond/CMakeFiles/byond-core.dir/build.make src/byond/CMakeFiles/byond-core.dir/library.cpp.o
+	cd /home/eduardo/Desktop/BYOND/MYG && $(MAKE) -f src/byond/CMakeFiles/byond-core.dir/build.make src/byond/CMakeFiles/byond-core.dir/library.cpp.o
 .PHONY : library.cpp.o
 
 library.i: library.cpp.i
@@ -186,7 +208,7 @@ library.i: library.cpp.i
 
 # target to preprocess a source file
 library.cpp.i:
-	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG && $(MAKE) -f src/byond/CMakeFiles/byond-core.dir/build.make src/byond/CMakeFiles/byond-core.dir/library.cpp.i
+	cd /home/eduardo/Desktop/BYOND/MYG && $(MAKE) -f src/byond/CMakeFiles/byond-core.dir/build.make src/byond/CMakeFiles/byond-core.dir/library.cpp.i
 .PHONY : library.cpp.i
 
 library.s: library.cpp.s
@@ -195,7 +217,7 @@ library.s: library.cpp.s
 
 # target to generate assembly for a file
 library.cpp.s:
-	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG && $(MAKE) -f src/byond/CMakeFiles/byond-core.dir/build.make src/byond/CMakeFiles/byond-core.dir/library.cpp.s
+	cd /home/eduardo/Desktop/BYOND/MYG && $(MAKE) -f src/byond/CMakeFiles/byond-core.dir/build.make src/byond/CMakeFiles/byond-core.dir/library.cpp.s
 .PHONY : library.cpp.s
 
 # Help Target
@@ -206,10 +228,12 @@ help:
 	@echo "... depend"
 	@echo "... install/strip"
 	@echo "... install/local"
+	@echo "... edit_cache"
+	@echo "... package_source"
 	@echo "... install"
 	@echo "... list_install_components"
 	@echo "... rebuild_cache"
-	@echo "... edit_cache"
+	@echo "... package"
 	@echo "... byond-core"
 	@echo "... library.o"
 	@echo "... library.i"
@@ -225,6 +249,6 @@ help:
 # No rule that depends on this can have commands that come from listfiles
 # because they might be regenerated.
 cmake_check_build_system:
-	cd /home/eduardo/Desktop/BYOND/MYG.gg/MYG && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
+	cd /home/eduardo/Desktop/BYOND/MYG && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
 .PHONY : cmake_check_build_system
 

@@ -1,6 +1,11 @@
 #include "source_navigation.h"
 #include <sstream>
 #include "spdlog/spdlog.h"
+#include <type_traits>
+#include <boost/gil.hpp>
+#include <boost/gil/extension/io/png.hpp>
+#include <boost/gil/extension/numeric/sampler.hpp>
+#include <boost/gil/extension/numeric/resample.hpp>
 
 
 namespace MYG{
@@ -13,47 +18,102 @@ namespace MYG{
 
     }
 
-    void SourceNavigationInterface::drawIcon(DMI* icon,std::string& path){
+    void SourceNavigationInterface::drawIcon(DMI* icon,std::string& state,std::string& path){
         Image img;
         bool found = false;
-        spdlog::info("Searching for {}",path);
-        if(path == "null"){
+        spdlog::info("Searching for {}",state);
+        if(state == "null"){
             img = icon->states[0].images[0][0];
         }
         else{
             for(auto state : icon->states){
                 //spdlog::info("current state: {}",state.name);
-                if(path.find(state.name) != std::string::npos ){
+                if(state.name.find(state.name) != std::string::npos ||  state.name.find(state.name.substr(0,state.name.length()-1)) != std::string::npos){
                     img = state.images[0][0];
+                    found = true;
                     spdlog::info("found!");
                     break;
                 }
             }
         }
+        if(!found){
+            img = icon->states[0].images[0][0];
+        }
         
+        if( !std::is_empty<Image>::value){
+             GLuint texture = 0;
+            namespace bg = boost::gil;
+            bg::rgb8_image_t imagem;
+            if(images.find(path) != images.end()){
+                imagem = images.at(path);
+            }else{
+                
+                bg::read_and_convert_image(path, imagem,bg::png_tag{});
+
+                //png_read_image(path, img);
+                images.emplace(path,imagem);
+            }
+            bg::rgb8c_view_t subImage = bg::subimage_view(bg::view(imagem), img.pos.x * img.size.x, img.pos.y * img.size.y, img.size.x, img.size.y);
+
+            //bg::write_view("output.png", subImage,bg::png_tag{});
+
+            unsigned _width = static_cast<int>(subImage.width());
+            unsigned _height = static_cast<int>(subImage.height());
+
+            typedef decltype(imagem)::value_type pixel;
+
+            //auto view = gil::interleaved_view(
+            //  img.width(), img.height(), &*gil::view(img).pixels(), img.width() * sizeof pixel);
+
+            auto srcView = subImage;
+            //auto view = gil::interleaved_view(
+            //  img.width(), img.height(), &*gil::view(img).pixels(), img.width() * sizeof pixel);
+
+            auto pixeldata = new pixel[_width * _height  * 4];  
+
+            auto dstView = bg::interleaved_view(
+               _width, _height, pixeldata,  4);
+
+            bg::copy_pixels(srcView, dstView);
+
+            //bg::write_view(state+"output.png", dstView,bg::png_tag{});
+
+            glGenTextures(1, &texture);
+            glBindTexture(GL_TEXTURE_2D, texture);
+
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+ 
+            glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+
+
+
+            glTexImage2D(GL_TEXTURE_2D,     // Type of texture
+                            0,                 // Pyramid level (for mip-mapping) - 0 is the top level
+                            GL_RGBA,            // Internal colour format to convert to
+                            subImage.width(),          // Image width  i.e. 640 for Kinect in standard mode
+                            subImage.height(),          // Image height i.e. 480 for Kinect in standard mode
+                            0,                 // Border width in pixels (can either be 1 or 0)
+                            GL_RGBA, // Input image format (i.e. GL_RGB, GL_RGBA, GL_BGR etc.)
+                            GL_UNSIGNED_BYTE,  // Image data type
+                           reinterpret_cast<const void*>(pixeldata));         // The actual image data itself
+
+            glGenerateMipmap(GL_TEXTURE_2D);
+            glBindTexture(GL_TEXTURE_2D, 0);
+
+
+           
+           
+           
+
+
+            
+
+
+            ImGui::Image((void*)(intptr_t)texture, ImVec2(32,32));
+        }
         
-        GLuint texture;
-        
-        glGenTextures(1, &texture);
-        glBindTexture(GL_TEXTURE_2D, texture);
-
-
-        // Setup filtering parameters for display
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE); // This is required on WebGL for non power-of-two textures
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE); 
-
-        // Upload pixels into texture
-        glPixelStorei(GL_UNPACK_ROW_LENGTH, 0);
-        
-        // build our texture mipmaps
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, img.size.x, img.size.y, 0, GL_RGBA, GL_UNSIGNED_BYTE, img.pixels.data());
-
-          
-
-
-        ImGui::Image((void*)(intptr_t)texture, ImVec2(32,32));
+       
     }
     
 
@@ -86,7 +146,7 @@ namespace MYG{
             //spdlog::info(dmipath);
             std::filesystem::path fsdmipath(dmipath);
             dmi->load(fsdmipath);
-            drawIcon(dmi,icon_state);
+            drawIcon(dmi,icon_state,dmipath);
         }
         else if(root->data->getVar("icon_state") == "null" && (root->data->getVar("icon") == "null")){
             spdlog::info("{} HAS NOTHING",root->data->name);
@@ -113,7 +173,7 @@ namespace MYG{
             std::filesystem::path fsdmipath(dmipath);
             dmi->load(fsdmipath);
             icon_state = root->data->getVar("icon_state");
-            drawIcon(dmi,icon_state);
+            drawIcon(dmi,icon_state,dmipath);
         }
         /*
         //set turf icon if none is found

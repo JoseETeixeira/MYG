@@ -7,11 +7,14 @@ src/byond/CMakeFiles/byond-core.dir/library.cpp.o: src/byond/parser/DME_parser.h
 src/byond/CMakeFiles/byond-core.dir/library.cpp.o: src/byond/tree/DME_tree.h
 src/byond/CMakeFiles/byond-core.dir/library.cpp.o: src/byond/tree/DME_tree_item.h
 src/byond/CMakeFiles/byond-core.dir/library.cpp.o: src/byond/tree/DME_tree_listener.h
+src/byond/CMakeFiles/byond-core.dir/library.cpp.o: src/byond/utils/cached_pattern.h
 src/byond/CMakeFiles/byond-core.dir/library.cpp.o: src/byond/utils/exception_helper.h
 src/byond/CMakeFiles/byond-core.dir/library.cpp.o: src/byond/utils/string_builder.h
 src/byond/CMakeFiles/byond-core.dir/library.cpp.o: src/byond/utils/string_helper.h
 src/byond/CMakeFiles/byond-core.dir/library.cpp.o: src/byond/utils/tangible_filesystem.h
 src/byond/CMakeFiles/byond-core.dir/library.cpp.o: src/byond/utils/util.h
+src/byond/CMakeFiles/byond-core.dir/library.cpp.o: src/editor/source_navigation/tree/DME_Tree_Model.h
+src/byond/CMakeFiles/byond-core.dir/library.cpp.o: src/editor/source_navigation/tree/DME_Tree_Node.h
 src/byond/CMakeFiles/byond-core.dir/library.cpp.o: third_party/spdlog/include/spdlog/common-inl.h
 src/byond/CMakeFiles/byond-core.dir/library.cpp.o: third_party/spdlog/include/spdlog/common.h
 src/byond/CMakeFiles/byond-core.dir/library.cpp.o: third_party/spdlog/include/spdlog/details/backtracer-inl.h

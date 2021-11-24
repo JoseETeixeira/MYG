@@ -23,6 +23,13 @@
 #include <filesystem>
 #include <map>
 
+#include <boost/gil.hpp>
+// I need this bugfix to compile against libpng 1.5, your mileage may vary
+#define int_p_NULL (int*)NULL
+// done with the fix
+
+
+
 namespace MYG{
 
 class SourceNavigationInterface{
@@ -38,6 +45,7 @@ private:
     std::string path;
     std::map<std::string,DMI*> *icons = new std::map<std::string,DMI*>();
     std::string dmePath = "";
+    std::map<std::string,boost::gil::rgb8_image_t > images;
 
     bool fileExplorerOpen = true;
 
@@ -47,7 +55,7 @@ public:
 
     SourceNavigationInterface( GLFWwindow* window,BYOND::Library* library,int xpos,int ypos,int width,int height);
     void RenderObjectTree(MYG::DefaultMutableTreeNode<BYOND::DME_Tree_Item *> *items, int &i,int &selection_mask,int &node_clicked);
-    static void drawIcon(DMI* dmi,std::string &path);
+    void drawIcon(DMI* dmi,std::string &state,std::string& path);
     void RenderIcon(std::string &dmePath,DME_Tree_Tree_Model *tree, MYG::DefaultMutableTreeNode<BYOND::DME_Tree_Item *>  *root);
 
     void mainLoop();
