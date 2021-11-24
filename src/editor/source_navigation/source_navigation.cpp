@@ -44,7 +44,7 @@ namespace MYG{
             
             GLuint texture = 0; 
             namespace bg = boost::gil;
-            bg::rgb8_image_t imagem;
+            bg::rgba8_image_t imagem;
             if(images.find(path) != images.end()){
                 imagem = images.at(path);
             }else{
@@ -54,7 +54,7 @@ namespace MYG{
                 //png_read_image(path, img);
                 images.emplace(path,imagem);
             }
-            bg::rgb8c_view_t subImage = bg::subimage_view(bg::view(imagem), img.pos.x * img.size.x, img.pos.y * img.size.y, img.size.x, img.size.y);
+            bg::rgba8c_view_t subImage = bg::subimage_view(bg::view(imagem), img.pos.x * img.size.x, img.pos.y * img.size.y, img.size.x, img.size.y);
 
             //bg::write_view("output.png", subImage,bg::png_tag{});
 
@@ -69,11 +69,11 @@ namespace MYG{
             //auto view = gil::interleaved_view(
             //  img.width(), img.height(), &*gil::view(img).pixels(), img.width() * sizeof pixel);
 
-            auto pixeldata = new pixel[_width * _height  * 3];  
+            auto pixeldata = new pixel[_width * _height  * 4];  
 
 
             auto dstView = bg::interleaved_view(
-              _width, _height, pixeldata,  3 * _width);
+              _width, _height, pixeldata,  4 * _width);
 
              bg::copy_pixels(subImage, dstView);
 
@@ -92,11 +92,11 @@ namespace MYG{
 
             glTexImage2D(GL_TEXTURE_2D,     // Type of texture
                             0,                 // Pyramid level (for mip-mapping) - 0 is the top level
-                            GL_RGB,            // Internal colour format to convert to
+                            GL_RGBA,            // Internal colour format to convert to
                             subImage.width(),          // Image width  i.e. 640 for Kinect in standard mode
                             subImage.height(),          // Image height i.e. 480 for Kinect in standard mode
                             0,                 // Border width in pixels (can either be 1 or 0)
-                            GL_RGB, // Input image format (i.e. GL_RGB, GL_RGBA, GL_BGR etc.)
+                            GL_RGBA, // Input image format (i.e. GL_RGB, GL_RGBA, GL_BGR etc.)
                             GL_UNSIGNED_BYTE,  // Image data type
                             reinterpret_cast<void*>(pixeldata));         // The actual image data itself
             glGenerateMipmap(GL_TEXTURE_2D);

@@ -91,6 +91,12 @@ namespace MYG{
         //In this case the viewport goes from x = 0, y = 0, to x = monitor_work_area_width, y = monitor_work_area_height
         glViewport(0,0,width,height);    
 
+        glEnable(GL_TEXTURE_2D);                        // Enable Texture Mapping ( NEW )
+        glShadeModel(GL_SMOOTH);                        // Enable Smooth Shading            
+        glClearDepth(1.0f);                         // Depth Buffer Setup
+        glEnable(GL_DEPTH_TEST);                        // Enables Depth Testing
+        glDepthFunc(GL_LEQUAL);                         // The Type Of Depth Testing To Do
+        glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);   
 
         //Specify the color of the background
         glClearColor(0.07f,0.13f,0.17f,1.0f);

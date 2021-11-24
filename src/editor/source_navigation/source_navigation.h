@@ -45,7 +45,7 @@ private:
     std::string path;
     std::map<std::string,DMI*> *icons = new std::map<std::string,DMI*>();
     std::string dmePath = "";
-    std::map<std::string,boost::gil::rgb8_image_t > images;
+    std::map<std::string,boost::gil::rgba8_image_t > images;
 
     bool fileExplorerOpen = true;
 
