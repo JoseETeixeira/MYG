@@ -19,7 +19,7 @@ set_target_properties(byond-core PROPERTIES VERSION ${PROJECT_VERSION})
 set_target_properties(byond-core PROPERTIES PUBLIC_HEADER library.h)
 
 target_include_directories(byond-core PRIVATE .)
-target_include_directories(byond-core PRIVATE "../../third_party/color/src" "../byond")
+target_include_directories(byond-core PRIVATE "../../third_party/color/src" "../byond" "../../third_party/json")
 
 
 install(TARGETS byond-core 

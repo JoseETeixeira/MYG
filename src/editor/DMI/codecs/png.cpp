@@ -72,9 +72,9 @@ void PNG::load(std::filesystem::path path) {
     uint8_t sig[8];
     fread(sig, 1, 8, file.file);
     if (dmi_check_sig(sig))
-        throw ReasonError("old-style DMIs are not supported");
+        spdlog::error("old-style DMIs are not supported");
     else if (!png_check_sig(sig, 8))
-        throw ReasonError("not a PNG file");
+        spdlog::error("not a PNG file");
 
     ReadHandle handle;
 
@@ -100,7 +100,7 @@ void PNG::load(std::filesystem::path path) {
     png_get_text(handle.png, handle.info, &t, &num);
 
     if (num < 1)
-        throw ReasonError("incorrect PNG text blocks");
+        spdlog::error("incorrect PNG text blocks");
 
     text = std::string(t->text);
 }
