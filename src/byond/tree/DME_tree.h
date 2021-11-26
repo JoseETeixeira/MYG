@@ -301,6 +301,20 @@ namespace BYOND{
 					{
 						i.second->parent = parent;
 						parent->children->push_back(i.second);
+						for(auto var: i.second->parent->vars){
+							bool found = false;
+							for(auto child_var : i.second->vars){
+								if(child_var.first == var.first){
+									if(child_var.second == StringHelper::trim("null")){
+										i.second->setVar(child_var.first,var.second);
+										found = true;
+									}
+								}
+							}	
+							if(!found){
+								i.second->setVar(var.first,var.second);
+							}	
+						}
 					}
 					else {
 						spdlog::info("Empty Parent type: FIRST {}, SECOND {}", i.first, i.second->name);
@@ -311,98 +325,19 @@ namespace BYOND{
 
 					
 						DME_Tree_Item *item = getOrCreateDME_Tree_Item(i.first);
-						std::string fullPath = i.first;
-
-							if (fullPath.find("(") != std::string::npos && (int)fullPath.find("(") < (int)fullPath.rfind("/"))
-						{
-							continue;
-						}
-						fullPath = StringHelper::ReplaceAll(fullPath, "/tmp", ""); // Let's avoid giving a shit about whether the var is tmp, static, or global.
-						fullPath = StringHelper::ReplaceAll(fullPath, "/static", "");
-						fullPath = StringHelper::ReplaceAll(fullPath, "/global", "");
-						// Parse the var definitions.
-						if (fullPath.find("var/") != std::string::npos || fullPath.find("/var/") != std::string::npos || (fullPath.find("=") != std::string::npos && (fullPath.find("(") == std::string::npos || (int)fullPath.find("(") > (int)fullPath.find("="))))
-						{
-							std::vector<std::string> splits = split(fullPath, "=");
-							//auto tempVar2 = split.find("/") + 1;
-							std::string tmpvar = splits[0].substr(splits[0].rfind("/") + 1, splits[0].length());
-							StringHelper::trim(tmpvar);
-							std::string varname = tmpvar;
-							if (splits.size() > 1)
-							{
-
-								std::string val = StringHelper::trim(splits[1]);
-								std::string origVal = "";
-								//spdlog::info("Varname: {}", varname);
-
-								origVal = val;
-								// Trust me, this is the fastest way to parse the macros.
-
-
-								while (strcmp(origVal.c_str(),val.c_str()) != 0) {
-									origVal = val;
-									// Trust me, this is the fastest way to parse the macros.
-									std::smatch m;
-									std::regex_search(val, m, std::regex("(?<![\\d\\w\"])\\w+(?![\\d\\w\"])"));
-									std::stringstream outVal;
-									while (m.size() > 0) {
-										std::string mz = m[0].str();
-										std::string sov = outVal.str();
-										if (macros.find(mz)!= macros.end())
-											std::regex_search(sov, m, std::regex(macros[mz]));
-
-										else{
-											std::string s = mz;
-
-											std::regex_search(sov, m, std::regex(s));
-										}
+						for(auto var: item->parent->vars){
+							bool found = false;
+							for(auto child_var : item->vars){
+								if(child_var.first == var.first){
+									if(child_var.second == StringHelper::trim("null")){
+										item->setVar(child_var.first,var.second);
+										found = true;
 									}
-									val = outVal.str();
 								}
-
-
-								//spdlog::info("Varname/Val: {}/{}",varname,val);
-
-
-
-								/*
-								// Parse additions.
-								std::smatch m;
-								std::regex_search(val, m, std::regex("([\\d\\.]+)[ \\t]*\\+[ \\t]*([\\d\\.]+)"));
-								std::stringstream outVal;
-								for (int i =0; i< m.size(); i++){
-									std::string s = outVal.str();
-									float sum = std::stof(m[i + 1].str()) + std::stof(m[i + 2].str());
-									std::string macrosAtI = std::to_string(sum);
-									s = ReplaceAll(s, macrosAtI,"");
-									outVal.str(s);
-								}
-								
-								val = outVal.str();
-								// Parse subtractions.
-								
-								std::regex_search(val, m, std::regex("([\\d\\.]+)[ \\t]*\\-[ \\t]*([\\d\\.]+)"));
-								outVal.str(std::string());
-								for (int i =0; i< m.size(); i++){
-									std::string s = outVal.str();
-									float subtraction = std::stof(m[i + 1].str()) + std::stof(m[i + 2].str());
-									std::string macrosAtI = std::to_string(subtraction);
-									s = ReplaceAll(s, macrosAtI,"");
-									outVal.str(s);
-								}
-								
-								val = outVal.str();
-								*/
-
-								//item->vars[varname] = val;
-								item->setVar(varname, val);
-							}
-							else
-							{
-								item->setVar(varname,"null");
-							}
-					
-				
+							}	
+							if(!found){
+								item->setVar(var.first,var.second);
+							}		
 						}
 				
 				}

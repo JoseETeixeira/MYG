@@ -104,7 +104,7 @@ class DME_Parser{
 			 * Group 1 is the type and flags and name of the var
 			 * Group 2 is what was assigned
 			 */
-			static inline std::regex  *VAR_PATTERN = new std::regex ("^\\s*?(?:var/)?([\\w/]+)\\s*=\\s*(.+)");
+			static inline std::regex  *VAR_PATTERN = new std::regex ("^\\s*?(?:var/)?([\\w/]+)\\s*=\\s*(.+)|^\\s*?(?:var/)?([\\w/]+)\\s*\\((.*)\\)\\s*");
 
 
 	public:
@@ -424,9 +424,12 @@ class DME_Parser{
 					std::regex_search(restOfTheLine,matcher,*VAR_PATTERN);
 					if (!matcher.empty())
 					{
-						std::string varName = StringHelper::trim(matcher[1].str());
-						std::string varVal = StringHelper::trim(matcher[2].str());
-						tree->getOrCreateDME_Tree_Item(StringHelper::trim(fullPathBuilder->str()))->setVar(varName, varVal);
+						for(int i =0; i< matcher.size(); i++){
+							std::string varName = StringHelper::trim(matcher[i+1].str());
+							std::string varVal = StringHelper::trim(matcher[i+2].str());
+							tree->getOrCreateDME_Tree_Item(StringHelper::trim(fullPathBuilder->str()))->setVar(varName, varVal);
+						}
+						
 					}
 				}
 			}
