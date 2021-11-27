@@ -22,20 +22,17 @@ namespace MYG{
         Image img;
         bool found = false;
         spdlog::info("Searching for {}",state);
-        if(state == "null"){
-            img = icon->states[0].images[0][0];
-        }
-        else{
-            for(auto state : icon->states){
-                //spdlog::info("current state: {}",state.name);
-                if(state.name.find(state.name) != std::string::npos ||  state.name.find(state.name.substr(0,state.name.length()-1)) != std::string::npos){
-                    img = state.images[0][0];
-                    found = true;
-                    spdlog::info("found!");
-                    break;
-                }
+
+        for(auto sta : icon->states){
+            //spdlog::info("current state: {}",state.name);
+            if(sta.name.find(state) != std::string::npos ||  sta.name.find(state.substr(1,state.length()-2)) != std::string::npos){
+                img = sta.images[0][0];
+                found = true;
+                spdlog::info("found!");
+                break;
             }
         }
+        
         if(!found){
             img = icon->states[0].images[0][0];
         }
@@ -54,7 +51,7 @@ namespace MYG{
                 //png_read_image(path, img);
                 images.emplace(path,imagem);
             }
-            bg::rgba8c_view_t subImage = bg::subimage_view(bg::view(imagem), img.pos.x * img.size.x*4 , img.pos.y * img.size.y*4, img.size.x, img.size.y);
+            bg::rgba8c_view_t subImage = bg::subimage_view(bg::view(imagem), img.pos.x, img.pos.y, img.size.x, img.size.y);
 
             //bg::write_view("output.png", subImage,bg::png_tag{});
 
