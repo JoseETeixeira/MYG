@@ -320,7 +320,13 @@ namespace BYOND::dme
 
             std::string lookupVar(std::string  name) {
                 if (vars->find(name) != vars->end() || parentPath.empty()) {
-                    return vars->at(name);
+                    if (vars->find(name) != vars->end()) {
+                        return vars->at(name);
+                    }
+                    else {
+                        setEmptyVar(name);
+                        return vars->at(name);
+                    }
                 }
                 std::string parentVarVal = environment->getItem(parentPath)->lookupVar(name);
                 vars->emplace(name, parentVarVal);
@@ -343,6 +349,7 @@ namespace BYOND::dme
         
     
     public:
+        std::string fileDir;
         std::string absoluteRootPath;
 
         std::map<std::string, std::string> *macroses = new std::map<std::string, std::string>();

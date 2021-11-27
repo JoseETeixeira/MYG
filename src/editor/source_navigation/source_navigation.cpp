@@ -54,7 +54,7 @@ namespace MYG{
                 //png_read_image(path, img);
                 images.emplace(path,imagem);
             }
-            bg::rgba8c_view_t subImage = bg::subimage_view(bg::view(imagem), img.pos.x * img.size.x, img.pos.y * img.size.y, img.size.x, img.size.y);
+            bg::rgba8c_view_t subImage = bg::subimage_view(bg::view(imagem), img.pos.x * img.size.x*4 , img.pos.y * img.size.y*4, img.size.x, img.size.y);
 
             //bg::write_view("output.png", subImage,bg::png_tag{});
 
@@ -210,50 +210,86 @@ namespace MYG{
    // }
 
 
-    /*
 
-    void SourceNavigationInterface::RenderObjectTree(MYG::DefaultMutableTreeNode<BYOND::DME_Tree_Item *>  *root, int &i,int &selection_mask,int &node_clicked){
-        if(!root->data->name.empty()){
-               
-                ImGui::Indent();
-                ImGuiTreeNodeFlags node_flags = ((selection_mask == i) ? ImGuiTreeNodeFlags_Selected : 0);
-                
-                RenderIcon(dmePath,library->getTree(), root);
-               
-                bool opened = ImGui::TreeNodeEx((void*)(intptr_t)(i), node_flags, "%s", root->data->name.c_str());
- 
-                if (ImGui::IsItemClicked()) 
-                        node_clicked = (i);
-                if (opened)
-                {
-                    if(root->children.size() > 0){
-                         for (auto item : root->children) {
-                            //spdlog::info(item->getChildren().size());
-
-                            i++;
-                            RenderObjectTree(item, i, selection_mask, node_clicked);
-                            
-
-
-
-                        }
-                    }else{
-                       // drawIcon(dmi,root->data->getVar("icon_state"));
-                        //RenderIcon(dmePath,library->getTree(),root,&icons);
-                        ImGui::Text(root->data->name.c_str());
-                    }
-                   
-                    ImGui::TreePop();
+    void SourceNavigationInterface::SubRenderObject(std::string name, BYOND::dme::Dme::DmeItem* object, std::map<std::string, BYOND::dme::Dme::DmeItem*>* items, int& i, int& selection_mask, int& node_clicked,BYOND::dme::Dme *tree) {
+             ImGui::Indent();
+            ImGuiTreeNodeFlags node_flags = ((selection_mask == i) ? ImGuiTreeNodeFlags_Selected : 0);
+            DMI  *dmi;
+            std::string icon = "null";
+            std::string icon_state = "null";
+            icon = object->getVar("icon");
+            spdlog::info(icon);
+            if(icon != "null"){
+                 std::string dmipath;
+                #if defined(WIN32)
+                    dmipath= tree->fileDir + tree->absoluteRootPath + StringHelper::ReplaceAll(icon,"/","\\").substr(1, StringHelper::ReplaceAll(icon, "/", "\\").length()-2);
+                #else if defined(LINUX)
+                    dmipath = tree->fileDir + tree->absoluteRootPath + StringHelper::ReplaceAll(icon,"\\","/").substr(1, StringHelper::ReplaceAll(icon, "\\","/").length()-2);
+                #endif
+                if(icons->find(dmipath) != icons->end()){
+                    dmi = icons->at(dmipath);
+                }else{
+                    dmi = new DMI();
+                    icons->emplace(dmipath,dmi);
                 }
                 
-                    
-               
-                ImGui::Unindent();
+                spdlog::info(dmipath);
+                std::filesystem::path fsdmipath(dmipath);
+                dmi->load(fsdmipath);
+                icon_state = object->getVar("icon_state");
+                drawIcon(dmi,icon_state,dmipath);
             }
+           
+            //RenderIcon(dmePath,library->getTree(), root);
+            if (object->directSubtypes->size() > 0) {
+                bool opened = ImGui::TreeNodeEx((void*)(intptr_t)(i), node_flags, "%s", name.c_str());
+
+                if (ImGui::IsItemClicked())
+                    node_clicked = (i);
+                if (opened)
+                {
+
+                    if (object->directSubtypes->size() > 0) {
+
+
+                        for (auto item : *object->directSubtypes) {
+                            SubRenderObject(item, items->at(item), items, i, selection_mask, node_clicked,tree);
+                            i++;
+                        }
+
+
+                    }
+                    else {
+                        ImGui::Text(name.c_str());
+                    }
+                    ImGui::TreePop();
+                }
+            }
+            else {
+                // drawIcon(dmi,root->data->getVar("icon_state"));
+                //RenderIcon(dmePath,library->getTree(),root,&icons);
+                ImGui::Text(name.c_str());
+            }
+
+           
+            ImGui::Unindent();
+    }
+   
+
+    void SourceNavigationInterface::RenderObjectTree(std::map<std::string,BYOND::dme::Dme::DmeItem *> *items, int &i,int &selection_mask,int &node_clicked,BYOND::dme::Dme *tree){
+
+        //ATOM
+        BYOND::dme::Dme::DmeItem *atom = items->at("/atom");
+
+        for(auto item : *atom->directSubtypes){
+            spdlog::info(item);
+            SubRenderObject(item, items->at(item), items, i, selection_mask, node_clicked,tree);
+            i++;
+        }
 
         
                 
-    }*/
+    }
 
 
     
@@ -300,10 +336,11 @@ namespace MYG{
         if(ImGui::BeginTabItem("Objects", &shouldOpen, ImGuiTabItemFlags_None)){
             int i = 0;
             int node_clicked = -1;
-            //DME_Tree_Tree_Model *tree = library->getTree();
+            BYOND::dme::Dme *tree = library->DME;
             //spdlog::info(printTree(tree->getRoot()));
             //int child_index = 0;
-           // RenderObjectTree(tree->getRoot()->children[1],i,selection_mask,node_clicked);
+            std::map<std::string,BYOND::dme::Dme::DmeItem *> *items = tree->items;
+            RenderObjectTree(items,i,selection_mask,node_clicked, tree);
             if (node_clicked != -1)
             {
                 /**

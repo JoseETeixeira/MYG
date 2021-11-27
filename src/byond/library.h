@@ -24,9 +24,11 @@ namespace BYOND{
     private:
         std::string currentDME = "";
         bool done = false;
-        BYOND::dme::parser::DmeParser *parser;
+        
             
     public:
+
+        BYOND::dme::Dme *DME;
     
         Library(){};
 
@@ -45,8 +47,8 @@ namespace BYOND{
                     std::ifstream dmeFile(filepath);
                     std::filesystem::path p = filepath;
                     BYOND::dme::parser::DmeParser *parser = new   BYOND::dme::parser::DmeParser();
-                    parser->parse(p);
-                    this->parser = parser;
+                    
+                    this->DME = parser->parse(p);
                     
                 });
 

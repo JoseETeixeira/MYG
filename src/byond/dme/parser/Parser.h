@@ -48,8 +48,8 @@ namespace BYOND::dme::parser{
                 spdlog::info(current_path().string() + "\\" + INITIAL_DME_FILE);
                 std::ifstream  dmeStream(current_path().string()+"\\"+INITIAL_DME_FILE);
                 dme->mergeWJson(dmeStream);
-
-                dme->absoluteRootPath = dmeFile.parent_path().relative_path().remove_filename().string();
+                dme->fileDir = dmeFile.root_path().string();
+                dme->absoluteRootPath = dmeFile.relative_path().remove_filename().string();
                 macroses = dme->getMacroses();
             }
 
