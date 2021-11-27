@@ -5,15 +5,17 @@
 #include "Parser.h"
 #include "PostParser.h"
 
-namespace BYOND{
+namespace BYOND::dme::parser
+{
+    using Dme = BYOND::dme::Dme;
     
-    class DmeParser {
+    class DmeParser final {
 
        public:
             static Dme* parse(std::filesystem::path dmeFile) {
                 Parser *parser = new Parser(dmeFile);
                 std::ifstream file(dmeFile.string());
-                parser->parseFile(file, dmeFile.filename());
+                parser->parseFile(file, dmeFile);
                 Dme *dme = parser->dme;
                 PostParser *post_parser  = new PostParser(dme);
                 post_parser->doParse();

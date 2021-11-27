@@ -1,165 +1,168 @@
-package io.github.spair.byond.dme.parser;
+#pragma once
 
-import com.udojava.evalex.Expression;
-import io.github.spair.byond.ByondTypes;
-import io.github.spair.byond.dme.Dme;
-import io.github.spair.byond.dme.DmeItem;
-import lombok.val;
+#include <regex>
+#include <vector>
+#include <map>
+#include <set>
+#include "../../ByondTypes.h"
+#include "../Dme.h"
+#include "WordReplacer.h"
 
-import java.util.Map;
-import java.util.HashMap;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Set;
-import java.util.HashSet;
-import java.util.regex.Pattern;
+namespace BYOND::dme::parser{
 
-final class PostParser {
+    using Dme = BYOND::dme::Dme;
+    using ByondTypes = BYOND::ByondTypes;
 
-    private final Dme dme;
-    private final Map<String, String> globalVars;
+ class PostParser final{
 
-    private final Map<String, DmeItem> additionalCreatedItems = new HashMap<>();
-    private final List<DmeItem> roots = new ArrayList<>();
+    private:
 
-    private final Pattern letterPattern = Pattern.compile("[a-zA-Zа-яА-Я]+");
-    private final Pattern numberPattern = Pattern.compile("\\d+");
+        Dme* dme;
+        std::map<std::string, std::string> *globalVars;
 
-    private final String[] mathSymbols = {"+", "-", "*", "/"};
+        std::map<std::string, Dme::DmeItem *> *additionalCreatedItems = new std::map<std::string, Dme::DmeItem *>();
+        std::vector<Dme::DmeItem*> *roots = new std::vector<Dme::DmeItem*>();
 
-    PostParser(final Dme dme) {
-        this.dme = dme;
-        this.globalVars = dme.getGlobalVars();
-    }
+        std::regex *letterPattern = new std::regex("[a-zA-Zа-яА-Я]+");
+        std::regex *numberPattern = new std::regex("\\d+");
 
-    void doParse() {
-        for (val itemEntry : dme.getItems().entrySet()) {
-            val item = itemEntry.getValue();
-            if (!ByondTypes.GLOBAL.equals(itemEntry.getKey())) {
-                // Assign parent
-                if (hasParent(item.getType())) {
-                    connectParentAndChild(determineParent(item.getType()), item);
-                }
+        std::vector<std::string> mathSymbols = {"+", "-", "*", "/"};
 
-                // Replace global vars in item with values
-                for (val varEntry : item.getVars().entrySet()) {
-                    item.setVar(varEntry.getKey(), WordReplacer.replace(varEntry.getValue(), globalVars));
-                }
+    public:
+        PostParser(Dme* dme) : dme(dme), globalVars(dme->getGlobalVars())
+        {
+        }
 
-                // Evaluate math expressions
-                for (val varEntry : item.getVars().entrySet()) {
-                    val value = varEntry.getValue();
-                    if (noLetterMarkers(value) && hasMathMarkers(value)) {
-                        try {
-                            double newValue = new Expression(value).eval().doubleValue();
-                            item.setVar(varEntry.getKey(), getDoubleOrLong(newValue));
-                        } catch (Exception ignored) {
+    public:
+
+        void doParse() {
+            for (auto itemEntry : *dme->items) {
+                Dme::DmeItem* item = itemEntry.second;
+                if (ByondTypes::GLOBAL != itemEntry.first) {
+                    // Assign parent
+                    if (hasParent(item->type)) {
+                        connectParentAndChild(determineParent(item->type), item);
+                    }
+
+                    // Replace global vars in item with values
+                    for (auto varEntry : *item->vars) {
+                        item->setVar(varEntry.first, WordReplacer::replace(varEntry.second, *globalVars));
+                    }
+
+                    // Evaluate math expressions
+                    for (auto varEntry : *item->vars) {
+                        std::string value = varEntry.second;
+                        if (noLetterMarkers(value) && hasMathMarkers(value)) {
+                            try {
+                                double newValue = stod(value);
+                                long longNum = (long) newValue;
+                                if (longNum == newValue) {
+                                   item->setVar(varEntry.first, longNum);
+                                } else {
+                                   item->setVar(varEntry.first, newValue);
+                                }
+                                
+                            } catch (...) {
+                                spdlog::error("Exception Ignored");
+                            }
                         }
                     }
-                }
 
-                // Add to roots if able
-                if (item.getParentPath().equals(ByondTypes.DATUM) || item.getType().equals(ByondTypes.DATUM)) {
-                    roots.add(item);
+                    // Add to roots if able
+                    if (item->parentPath == ByondTypes::DATUM || item->type == ByondTypes::DATUM) {
+                        roots->push_back(item);
+                    }
                 }
             }
+
+            // During parent determining additional items are created. They are not declared in project,
+            // and exist in form of intermediate objects, but they should exist in Dme.
+            for (auto dmeItem : *additionalCreatedItems) {
+                dme->addItem(dmeItem.second);
+            }
+
+            // Makes parents to know about every subtype.
+            for (auto root : *roots) {
+                setAndReturnAllSubtypes(root);
+            }
+        }
+    private:
+
+        std::set<std::string>* setAndReturnAllSubtypes(Dme::DmeItem* item) {
+            std::set<std::string>*  tempSubtypes = new std::set<std::string>();
+            std::set<std::string>*  itemSubtypes = item->allSubtypes;
+
+            for (auto subtype : *itemSubtypes) {
+                tempSubtypes->merge(*setAndReturnAllSubtypes(dme->getItem(subtype)));
+            }
+            itemSubtypes->merge(*tempSubtypes);
+
+            return itemSubtypes;
         }
 
-        // During parent determining additional items are created. They are not declared in project,
-        // and exist in form of intermediate objects, but they should exist in Dme.
-        for (val dmeItem : additionalCreatedItems.values()) {
-            dme.addItem(dmeItem);
+
+
+        bool noLetterMarkers(std::string text) {
+            std::smatch m;
+            std::regex_search(text,m,*letterPattern);
+            return text.find("\"") == std::string::npos && text.find("'") == std::string::npos && m.empty();
         }
 
-        // Makes parents to know about every subtype.
-        for (val root : roots) {
-            setAndReturnAllSubtypes(root);
-        }
-    }
-
-    private Set<String> setAndReturnAllSubtypes(final DmeItem item) {
-        Set<String> tempSubtypes = new HashSet<>();
-        Set<String> itemSubtypes = item.getAllSubtypes();
-
-        for (val subtype : itemSubtypes) {
-            tempSubtypes.addAll(setAndReturnAllSubtypes(dme.getItem(subtype)));
-        }
-        itemSubtypes.addAll(tempSubtypes);
-
-        return itemSubtypes;
-    }
-
-    private static Number getDoubleOrLong(final double number) {
-        val longNum = (long) number;
-        if (longNum == number) {
-            return longNum;
-        } else {
-            return number;
-        }
-    }
-
-    private boolean noLetterMarkers(final String text) {
-        return !text.contains("\"") && !text.contains("'") && !letterPattern.matcher(text).find();
-    }
-
-    private boolean hasMathMarkers(final String text) {
-        for (val mathSymbol : mathSymbols) {
-            if (text.contains(mathSymbol)) {
-                val m = numberPattern.matcher(text);
-                int matchCount = 0;
-                while (m.find()) {
-                    matchCount++;
+        bool hasMathMarkers(std::string text) {
+            for (auto mathSymbol : mathSymbols) {
+                if (text.find(mathSymbol) != std::string::npos) {
+                    std::smatch m;
+                    std::regex_search(text,m,*numberPattern);
+                    int matchCount = m.size();
+                    return matchCount > 1;
                 }
-                return matchCount > 1;
             }
-        }
-        return false;
-    }
-
-    private DmeItem determineParent(final String type) {
-        String parentPath = ByondTypes.DATUM;
-
-        if (type.indexOf('/') != type.lastIndexOf('/')) {
-            parentPath = type.substring(0, type.lastIndexOf('/'));
-        } else {
-            switch (type) {
-                case ByondTypes.AREA:
-                case ByondTypes.TURF:
-                case ByondTypes.OBJ:
-                case ByondTypes.MOB:
-                    parentPath = ByondTypes.ATOM;
-            }
+            return false;
         }
 
-        DmeItem parent = dme.getItem(parentPath);
+        Dme::DmeItem* determineParent(std::string type) {
+            std::string parentPath = ByondTypes::DATUM;
 
-        if (parent == null) {
-            if (additionalCreatedItems.containsKey(parentPath)) {
-                parent = additionalCreatedItems.get(parentPath);
+            if (type.find_first_of('/') != type.find_last_of('/')) {
+                parentPath = type.substr(0, type.find_last_of('/'));
             } else {
-                parent = new DmeItem(parentPath, dme);
-                connectParentAndChild(determineParent(parentPath), parent);
-                additionalCreatedItems.put(parentPath, parent);
+                if(type == ByondTypes::AREA || type == ByondTypes::TURF || type == ByondTypes::OBJ || type == ByondTypes::MOB){
+                    parentPath = ByondTypes::ATOM;
+                }
+            }
+
+            Dme::DmeItem* parent = dme->getItem(parentPath);
+
+            if (parent == nullptr) {
+                if (additionalCreatedItems->find(parentPath)!= additionalCreatedItems->end()) {
+                    parent = additionalCreatedItems->at(parentPath);
+                } else {
+                    parent = new Dme::DmeItem(parentPath, dme);
+                    connectParentAndChild(determineParent(parentPath), parent);
+                    additionalCreatedItems->emplace(parentPath, parent);
+                }
+            }
+
+            return parent;
+        }
+
+        void connectParentAndChild(Dme::DmeItem* parent, Dme::DmeItem* child) {
+            parent->addToAllSubtype(child);
+            parent->addDirectSubtype(child);
+            if (child->parentPath.empty()) {
+                child->parentPath = parent->type;
             }
         }
 
-        return parent;
-    }
-
-    private void connectParentAndChild(final DmeItem parent, final DmeItem child) {
-        parent.addToAllSubtype(child);
-        parent.addDirectSubtype(child);
-        if (child.getParentPath().isEmpty()) {
-            child.setParentPath(parent.getType());
+        bool hasParent(std::string type) {
+            return !(ByondTypes::DATUM == (type)
+                    || ByondTypes::CLIENT == (type)
+                    || ByondTypes::WORLD == (type)
+                    || ByondTypes::LIST == (type)
+                    || ByondTypes::SAVEFILE == (type));
         }
-    }
+    };
 
-    private boolean hasParent(final String type) {
-        return !(ByondTypes.DATUM.equals(type)
-                || ByondTypes.CLIENT.equals(type)
-                || ByondTypes.WORLD.equals(type)
-                || ByondTypes.LIST.equals(type)
-                || ByondTypes.SAVEFILE.equals(type)
-        );
-    }
-}
+
+};
+

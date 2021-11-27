@@ -119,6 +119,7 @@ namespace MYG{
        
     }
     
+    /*
 
     void SourceNavigationInterface::RenderIcon(std::string &dmePath,DME_Tree_Tree_Model *tree, MYG::DefaultMutableTreeNode<BYOND::DME_Tree_Item *>  *root){
         DMI  *dmi;
@@ -206,7 +207,10 @@ namespace MYG{
             drawIcon(dmi,icon_state);
         }*/
        
-    }
+   // }
+
+
+    /*
 
     void SourceNavigationInterface::RenderObjectTree(MYG::DefaultMutableTreeNode<BYOND::DME_Tree_Item *>  *root, int &i,int &selection_mask,int &node_clicked){
         if(!root->data->name.empty()){
@@ -249,19 +253,9 @@ namespace MYG{
 
         
                 
-    }
+    }*/
 
-        std::string printTree(MYG::DefaultMutableTreeNode<BYOND::DME_Tree_Item *>  *node){
-            std::string tree = "{";
-            tree += node->data->name;
-            spdlog::info("Node: {}",node->data->name);
-            for(MYG::DefaultMutableTreeNode<BYOND::DME_Tree_Item *> * child : node->children){
-                tree += printTree(child);
-            }
-            tree += "}";
-            return tree;
-        }
-        
+
     
    
     void SourceNavigationInterface::mainLoop(){
@@ -306,10 +300,10 @@ namespace MYG{
         if(ImGui::BeginTabItem("Objects", &shouldOpen, ImGuiTabItemFlags_None)){
             int i = 0;
             int node_clicked = -1;
-            DME_Tree_Tree_Model *tree = library->getTree();
+            //DME_Tree_Tree_Model *tree = library->getTree();
             //spdlog::info(printTree(tree->getRoot()));
             //int child_index = 0;
-            RenderObjectTree(tree->getRoot()->children[1],i,selection_mask,node_clicked);
+           // RenderObjectTree(tree->getRoot()->children[1],i,selection_mask,node_clicked);
             if (node_clicked != -1)
             {
                 /**

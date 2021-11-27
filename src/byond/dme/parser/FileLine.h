@@ -4,51 +4,56 @@
 #include <fstream>
 #include "../../utils/string_builder.h"
 
+namespace BYOND::dme::parser { class Builder; }
 
-namespace BYOND{
+namespace BYOND::dme::parser
+{
 
-    class Builder {
-
-    private:
-
-        int indentLevel = -1;
-        StringBuilder *text = new StringBuilder();
-
-    public:
-
-        Builder() {
-        }
-
-        Builder* append(char c) {
-            text->append(c);
-            return this;
-        }
-
-        Builder* append(std::string s) {
-            text->append(s);
-            return this;
-        }
-
-        FileLine* build() {
-            FileLine *fileLine = new FileLine();
-            fileLine->indentLevel = indentLevel;
-            fileLine->text = StringHelper::trim(text->toString()); 
-            return fileLine;
-        }
-
-        bool hasNoIndent() {
-            return indentLevel == -1;
-        }
-
-        void setIndentLevel(int indentLevel) {
-            this->indentLevel = indentLevel;
-        }
-    };
     
-    class FileLine {
+    
+    class FileLine final {
     
 
         public:
+
+            class Builder {
+
+            private:
+
+                int indentLevel = -1;
+                StringBuilder* text = new StringBuilder();
+
+            public:
+
+                Builder() {
+                }
+
+                Builder* append(char c) {
+                    text->append(c);
+                    return this;
+                }
+
+                Builder* append(std::string s) {
+                    text->append(s);
+                    return this;
+                }
+
+                FileLine* build() {
+                    FileLine* fileLine = new FileLine();
+                    fileLine->indentLevel = indentLevel;
+                    fileLine->text = StringHelper::trim(text->toString());
+                    return fileLine;
+                }
+
+                bool hasNoIndent() {
+                    return indentLevel == -1;
+                }
+
+                void setIndentLevel(int indentLevel) {
+                    this->indentLevel = indentLevel;
+                }
+            };
+
             std::string text;
             int indentLevel;
 
