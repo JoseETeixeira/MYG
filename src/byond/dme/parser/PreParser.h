@@ -230,7 +230,7 @@ namespace BYOND::dme::parser{
 			{
 				if (!line->text.empty())
 				{
-					spdlog::info(line->text);
+					//spdlog::info(line->text);
 					filteredFileLines.push_back(line);
 				}
 			}
