@@ -49,7 +49,7 @@ namespace BYOND::dme::parser{
                 std::ifstream  dmeStream(current_path().string()+"\\"+INITIAL_DME_FILE);
                 dme->mergeWJson(dmeStream);
 
-                dme->absoluteRootPath = dmeFile.parent_path().root_path().string();
+                dme->absoluteRootPath = dmeFile.parent_path().relative_path().remove_filename().string();
                 macroses = dme->getMacroses();
             }
 
@@ -118,10 +118,10 @@ namespace BYOND::dme::parser{
                         if (!fileMatcher.empty()) {
                             #if defined(WIN32)
                                 std::string filePath = StringHelper::replace(fileMatcher[1].str(),"/","\\");
-                                std::string fullFilePath = filename.parent_path().root_path().string() +"\\"+filePath;
+                                std::string fullFilePath =filename.parent_path().root_path().string()+"\\"+filename.parent_path().relative_path().string() +"\\"+filePath;
                             #else if defined(LINUX)
                                 std::string filePath = StringHelper::replace(fileMatcher[1].str(),"\\","/");
-                                std::string fullFilePath = filename.parent_path().root_path().string() +"/"+filePath;
+                                std::string fullFilePath =filename.parent_path().root_path().string()+"/"+filename.parent_path().relative_path().string() +"/"+filePath;
                             #endif
                             spdlog::info("Found file {}",fullFilePath);
 

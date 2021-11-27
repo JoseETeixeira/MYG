@@ -503,7 +503,7 @@ namespace BYOND::dme
         }
 
         virtual DmeItem* getItem(std::string type) {
-            return items->at(type);
+            return getItemOrCreate(type);
         }
 
         ///////////////// Global vars

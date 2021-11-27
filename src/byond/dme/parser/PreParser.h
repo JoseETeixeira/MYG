@@ -80,7 +80,7 @@ namespace BYOND::dme::parser{
 				char currentChar = text[charIndex];
 				char nextChar = text[charIndex + 1];
 
-				Syntax currentSyntax = syntaxStack->size() > 0 ? syntaxStack->back() : Syntax::STRING;
+				Syntax currentSyntax = syntaxStack->size() > 0 ? syntaxStack->back() : Syntax::INITIAL;
 
 
 			    bool inString =  (currentSyntax == Syntax::STRING || currentSyntax == Syntax::MULTI_STRING);
@@ -99,7 +99,7 @@ namespace BYOND::dme::parser{
 
 					if (inComment && currentSyntax == Syntax::COMMENT)
 					{
-						//syntaxStack->back();
+						syntaxStack->pop_back();
 					}
 
 					if (!inComment && currentChar == BACKSLASH)
@@ -133,7 +133,7 @@ namespace BYOND::dme::parser{
 					}
 					else if (currentChar == STAR && nextChar == SLASH && currentSyntax == Syntax::MULTI_COMMENT)
 					{
-						//syntaxStack->back();
+						syntaxStack->pop_back();
 						charIndex++;
 					}
 					continue;
@@ -156,7 +156,7 @@ namespace BYOND::dme::parser{
 				}
 				else if (currentSyntax == Syntax::BRACKETS && currentChar == RIGHT_BRACKET)
 				{
-					//syntaxStack->back();
+					syntaxStack->pop_back();
 				}
 				else if (!inString && currentChar == QUOTE)
 				{
@@ -164,7 +164,7 @@ namespace BYOND::dme::parser{
 				}
 				else if (currentSyntax == Syntax::STRING && currentChar == QUOTE)
 				{
-					//syntaxStack->back();
+					syntaxStack->pop_back();
 				}
 				else if (!inString && currentChar == LEFT_PARENTHESIS)
 				{
@@ -172,7 +172,7 @@ namespace BYOND::dme::parser{
 				}
 				else if (currentSyntax == Syntax::PARENTHESES && currentChar == RIGHT_PARENTHESIS)
 				{
-					//syntaxStack->back();
+					syntaxStack->pop_back();
 				}
 				else if (currentChar == LEFT_FIGURE_BRACKET && nextChar == QUOTE && !inString)
 				{
@@ -183,7 +183,7 @@ namespace BYOND::dme::parser{
 				}
 				else if (currentChar == QUOTE && nextChar == RIGHT_FIGURE_BRACKET)
 				{
-					//syntaxStack->back();
+					syntaxStack->pop_back();
 					charIndex++;
 					fileLineBuilder->append(QUOTE_ESCAPE);
 					continue;
@@ -218,7 +218,7 @@ namespace BYOND::dme::parser{
 			{
 				//delete fileLines;
 				//delete syntaxStack;
-				if (syntaxStack->size() > 0) {
+				if (syntaxStack->size() > 1) {
 					throw std::runtime_error(StringHelper::toString("Syntax stack is not empty in file " + fileName + "!" ));
                     
                 }
