@@ -39,174 +39,92 @@ namespace MYG{
         
         if( !std::is_empty<Image>::value){
             
-            GLuint texture = 0; 
+            
             namespace bg = boost::gil;
-            bg::rgba8_image_t imagem;
+            bg::rgba8_image_t *imagem;
             if(images.find(path) != images.end()){
                 imagem = images.at(path);
             }else{
-                
-                bg::read_and_convert_image(path, imagem,bg::png_tag{});
+                imagem = new bg::rgba8_image_t();
+                bg::read_image(path, *imagem,bg::png_tag{});
 
                 //png_read_image(path, img);
                 images.emplace(path,imagem);
             }
-            bg::rgba8c_view_t subImage = bg::subimage_view(bg::view(imagem), img.pos.x, img.pos.y, img.size.x, img.size.y);
 
-            //bg::write_view("output.png", subImage,bg::png_tag{});
+            GLuint *texture;
+            
+            std::string icon_state = path+state;
+            if(icon_states.find(icon_state) != icon_states.end()){
+                texture = icon_states.at(icon_state);
+            }else{
+                texture = new GLuint();
+                bg::rgba8c_view_t subImage = bg::subimage_view(bg::view(*imagem), img.pos.x, img.pos.y, img.size.x, img.size.y);
 
-            unsigned _width = static_cast<int>(subImage.width());
-            unsigned _height = static_cast<int>(subImage.height());
+                //bg::write_view("output.png", subImage,bg::png_tag{});
 
-            typedef decltype(imagem)::value_type pixel;
+                    unsigned _width = static_cast<int>(subImage.width());
+                    unsigned _height = static_cast<int>(subImage.height());
 
-            //auto view = gil::interleaved_view(
-            //  img.width(), img.height(), &*gil::view(img).pixels(), img.width() * sizeof pixel);
+                    typedef bg::rgba8_pixel_t pixel;
 
-            //auto view = gil::interleaved_view(
-            //  img.width(), img.height(), &*gil::view(img).pixels(), img.width() * sizeof pixel);
+                    //auto view = gil::interleaved_view(
+                    //  img.width(), img.height(), &*gil::view(img).pixels(), img.width() * sizeof pixel);
 
-            auto pixeldata = new pixel[_width * _height  * 4];  
+                    //auto view = gil::interleaved_view(
+                    //  img.width(), img.height(), &*gil::view(img).pixels(), img.width() * sizeof pixel);
 
-
-            auto dstView = bg::interleaved_view(
-              _width, _height, pixeldata,  4 * _width);
-
-             bg::copy_pixels(subImage, dstView);
-
-           // bg::write_view(state+"output.png", dstView,bg::png_tag{});
-
-            glGenTextures(1, &texture);
-            glBindTexture(GL_TEXTURE_2D, texture);
-
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);      
-
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE); // This is required on WebGL for non power-of-two textures
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE); 
-            glPixelStorei(GL_UNPACK_ROW_LENGTH, 0);
+                    auto pixeldata = new pixel[_width * _height  * 4];  
 
 
-            glTexImage2D(GL_TEXTURE_2D,     // Type of texture
-                            0,                 // Pyramid level (for mip-mapping) - 0 is the top level
-                            GL_RGBA,            // Internal colour format to convert to
-                            subImage.width(),          // Image width  i.e. 640 for Kinect in standard mode
-                            subImage.height(),          // Image height i.e. 480 for Kinect in standard mode
-                            0,                 // Border width in pixels (can either be 1 or 0)
-                            GL_RGBA, // Input image format (i.e. GL_RGB, GL_RGBA, GL_BGR etc.)
-                            GL_UNSIGNED_BYTE,  // Image data type
-                            reinterpret_cast<void*>(pixeldata));         // The actual image data itself
-            glGenerateMipmap(GL_TEXTURE_2D);
-            glActiveTexture(GL_TEXTURE0); // activate the texture unit first before binding texture
-            glBindTexture(GL_TEXTURE_2D, texture);
+                    auto dstView = bg::interleaved_view(
+                    _width, _height, pixeldata,  4 * _width);
 
-            free(pixeldata);
+                    bg::copy_pixels(subImage, dstView);
+
+                // bg::write_view(state+"output.png", dstView,bg::png_tag{});
+                    glGenTextures(1, texture);
+                    glBindTexture(GL_TEXTURE_2D, *texture);
+
+                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);      
+
+                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE); // This is required on WebGL for non power-of-two textures
+                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE); 
+                    glPixelStorei(GL_UNPACK_ROW_LENGTH, 0);
 
 
-           
-           
+                    glTexImage2D(GL_TEXTURE_2D,     // Type of texture
+                                    0,                 // Pyramid level (for mip-mapping) - 0 is the top level
+                                    GL_RGBA,            // Internal colour format to convert to
+                                    subImage.width(),          // Image width  i.e. 640 for Kinect in standard mode
+                                    subImage.height(),          // Image height i.e. 480 for Kinect in standard mode
+                                    0,                 // Border width in pixels (can either be 1 or 0)
+                                    GL_RGBA, // Input image format (i.e. GL_RGB, GL_RGBA, GL_BGR etc.)
+                                    GL_UNSIGNED_BYTE,  // Image data type
+                                    reinterpret_cast<void*>(pixeldata));         // The actual image data itself
+                    glGenerateMipmap(GL_TEXTURE_2D);
+                    glActiveTexture(GL_TEXTURE0); // activate the texture unit first before binding texture
+                    glBindTexture(GL_TEXTURE_2D, *texture);
 
+                    free(pixeldata);
+                    //png_read_image(path, img);
+                    icon_states.emplace(icon_state,texture);
+                }
 
             
 
+            
+            
+        
 
-            ImGui::Image((void*)(intptr_t)texture, ImVec2(32,32));
+            ImGui::Image((void*)(intptr_t)*texture, ImVec2(32,32));
         }
         
        
     }
     
-    /*
-
-    void SourceNavigationInterface::RenderIcon(std::string &dmePath,DME_Tree_Tree_Model *tree, MYG::DefaultMutableTreeNode<BYOND::DME_Tree_Item *>  *root){
-        DMI  *dmi;
-        std::string icon = "null";
-        std::string icon_state = "null";
-        //spdlog::info("Root name: {}",root->data->name);
-        if(root->data->getVar("icon_state") != "null" && (root->data->getVar("icon") == "null")){
-            spdlog::info("{} HAS ICON_STATE ONLY",root->data->name);
-        }
-        else if(root->data->getVar("icon_state") == "null" && (root->data->getVar("icon") != "null")){
-            spdlog::info("{} HAS ICON ONLY",root->data->name);
-            std::string dmipath;
-            #if defined(WIN32)
-                dmipath= dmePath + "\\" + StringHelper::ReplaceAll(root->data->getVar("icon"),"/","\\").substr(1, StringHelper::ReplaceAll(root->data->getVar("icon"), "/", "\\").length()-2);
-            #else if defined(LINUX)
-                dmipath = dmePath + "/" + StringHelper::ReplaceAll(root->data->getVar("icon"),"\\","/").substr(1, StringHelper::ReplaceAll(root->data->getVar("icon"), "\\","/").length()-2);
-            #endif
-            if(dmipath.find(".dmi") == std::string::npos){
-                dmipath += ".dmi";
-            }
-            if(icons->find(root->data->getVar("icon")) != icons->end()){
-                dmi = icons->at(root->data->getVar("icon"));
-            }else{
-                dmi = new DMI();
-                icons->emplace(root->data->getVar("icon"),dmi);
-            }
-            
-            //spdlog::info(dmipath);
-            std::filesystem::path fsdmipath(dmipath);
-            dmi->load(fsdmipath);
-            drawIcon(dmi,icon_state,dmipath);
-        }
-        else if(root->data->getVar("icon_state") == "null" && (root->data->getVar("icon") == "null")){
-            spdlog::info("{} HAS NOTHING",root->data->name);
-        }
-        else if(root->data->getVar("icon_state") != "null" && (root->data->getVar("icon") != "null")){
-            spdlog::info("{} HAS EVERYTHING",root->data->name);
-            std::string dmipath;
-            #if defined(WIN32)
-                dmipath= dmePath + "\\" + StringHelper::ReplaceAll(root->data->getVar("icon"),"/","\\").substr(1, StringHelper::ReplaceAll(root->data->getVar("icon"), "/", "\\").length()-2);
-            #else if defined(LINUX)
-                dmipath = dmePath + "/" + StringHelper::ReplaceAll(root->data->getVar("icon"),"\\","/").substr(1, StringHelper::ReplaceAll(root->data->getVar("icon"), "\\","/").length()-2);
-            #endif
-            if(dmipath.find(".dmi") == std::string::npos){
-                dmipath += ".dmi";
-            }
-            if(icons->find(dmipath) != icons->end()){
-                dmi = icons->at(root->data->getVar("icon"));
-            }else{
-                dmi = new DMI();
-                icons->emplace(root->data->getVar("icon"),dmi);
-            }
-            
-            //spdlog::info(dmipath);
-            std::filesystem::path fsdmipath(dmipath);
-            dmi->load(fsdmipath);
-            icon_state = root->data->getVar("icon_state");
-            drawIcon(dmi,icon_state,dmipath);
-        }
-        /*
-        //set turf icon if none is found
-        if(root->data->name == "turf"){
-            icon = root->data->getVar("icon");
-            spdlog::info(icon);
-            root->data->setVar("icon","'Turfs/general/grass_and_dirt.dmi'");
-            root->data->setVar("icon_state","2_2");
-            icon = root->data->getVar("icon");
-            std::string dmipath;
-            #if defined(WIN32)
-                dmipath= dmePath + "\\" + StringHelper::ReplaceAll(icon,"/","\\").substr(1, StringHelper::ReplaceAll(icon, "/", "\\").length()-2);
-            #else if defined(LINUX)
-                dmipath = dmePath + "/" + StringHelper::ReplaceAll(icon,"\\","/").substr(1, StringHelper::ReplaceAll(icon, "\\","/").length()-2);
-            #endif
-            if(icons->find(dmipath) != icons->end()){
-                dmi = icons->at(dmipath);
-            }else{
-                dmi = new DMI();
-                icons->emplace(dmipath,dmi);
-            }
-            
-            spdlog::info(dmipath);
-            std::filesystem::path fsdmipath(dmipath);
-            dmi->load(fsdmipath);
-            icon_state = root->data->getVar("icon_state");
-            drawIcon(dmi,icon_state);
-        }*/
-       
-   // }
-
-
+ 
 
     void SourceNavigationInterface::SubRenderObject(std::string name, BYOND::dme::Dme::DmeItem* object, std::map<std::string, BYOND::dme::Dme::DmeItem*>* items, int& i, int& selection_mask, int& node_clicked,BYOND::dme::Dme *tree) {
              ImGui::Indent();
@@ -227,18 +145,19 @@ namespace MYG{
                     dmi = icons->at(dmipath);
                 }else{
                     dmi = new DMI();
+                    spdlog::info(dmipath);
+                    std::filesystem::path fsdmipath(dmipath);
+                    dmi->load(fsdmipath);
                     icons->emplace(dmipath,dmi);
-                }
+                }   
                 
-                spdlog::info(dmipath);
-                std::filesystem::path fsdmipath(dmipath);
-                dmi->load(fsdmipath);
+              
                 icon_state = object->getVar("icon_state");
                 drawIcon(dmi,icon_state,dmipath);
             }
            
             //RenderIcon(dmePath,library->getTree(), root);
-            if (object->directSubtypes->size() > 0) {
+            
                 bool opened = ImGui::TreeNodeEx((void*)(intptr_t)(i), node_flags, "%s", name.c_str());
 
                 if (ImGui::IsItemClicked())
@@ -246,28 +165,19 @@ namespace MYG{
                 if (opened)
                 {
 
-                    if (object->directSubtypes->size() > 0) {
+            
 
 
-                        for (auto item : *object->directSubtypes) {
-                            SubRenderObject(item, items->at(item), items, i, selection_mask, node_clicked,tree);
-                            i++;
-                        }
-
-
+                    for (auto item : *object->directSubtypes) {
+                        SubRenderObject(item, items->at(item), items, i, selection_mask, node_clicked,tree);
+                        i++;
                     }
-                    else {
-                        ImGui::Text(name.c_str());
-                    }
+
+
+                    
                     ImGui::TreePop();
                 }
-            }
-            else {
-                // drawIcon(dmi,root->data->getVar("icon_state"));
-                //RenderIcon(dmePath,library->getTree(),root,&icons);
-                ImGui::Text(name.c_str());
-            }
-
+           
            
             ImGui::Unindent();
     }
@@ -333,6 +243,8 @@ namespace MYG{
         if(ImGui::BeginTabItem("Objects", &shouldOpen, ImGuiTabItemFlags_None)){
             int i = 0;
             int node_clicked = -1;
+
+            
             BYOND::dme::Dme *tree = library->DME;
             //spdlog::info(printTree(tree->getRoot()));
             //int child_index = 0;

@@ -7,6 +7,7 @@
 #include <functional>
 #include <iostream>
 
+
 PNG::ReadHandle::ReadHandle() {
     png = png_create_read_struct(
         PNG_LIBPNG_VER_STRING, nullptr,
@@ -103,6 +104,8 @@ void PNG::load(std::filesystem::path path) {
         spdlog::error("incorrect PNG text blocks");
 
     text = std::string(t->text);
+
+
 }
 
 void PNG::save(std::filesystem::path path) {
@@ -132,10 +135,14 @@ void PNG::save(std::filesystem::path path) {
 }
 
 Image PNG::slice(Vec pos, Vec size) {
-    Image *ret = new Image(rows,image_size);
+    Image *ret = new Image();
     ret->size = size;
     ret->pos = pos;
-    ret->image_size = image_size;
+   
+
+    // bg::write_view(state+"output.png", dstView,bg::png_tag{});
+
+
     return *ret;
 }
 void PNG::insert(Vec pos, Image img) {
