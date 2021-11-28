@@ -23,7 +23,7 @@ file(GLOB BASE_HEADERS "*.hpp" "*.h" "source_navigation/*.h" "map_editor/*.h" "c
 file(GLOB GLAD_HEADERS "../../third_party/glfw/deps/*.h" )
 file(GLOB GLAD_SOURCE "../../third_party/glfw/deps/*.c" )
 
-file(GLOB SOURCE *.cpp ${BASE_HEADERS} ${EDITOR_FOLDER}/*.cpp ${EDITOR_FOLDER}/source_navigation/*.cpp  ${EDITOR_FOLDER}/map_editor/*.cpp ${EDITOR_FOLDER}/code_editor/*.cpp ${EDITOR_FOLDER}/DMI/*.cpp)
+file(GLOB SOURCE *.cpp ${BASE_HEADERS} ${EDITOR_FOLDER}/*.cpp ${EDITOR_FOLDER}/source_navigation/*.cpp  ${EDITOR_FOLDER}/map_editor/*.cpp ${EDITOR_FOLDER}/code_editor/*.cpp ../byond/DMI/*.cpp)
 SET(MAIN_CPP ${EDITOR_FOLDER}/editor.cpp)
 SET(MAIN_HEADER ${EDITOR_FOLDER}/editor.hpp)
 
@@ -84,7 +84,7 @@ if (WIN32)
     find_package(Boost REQUIRED)
 
 
-    add_executable(Editor ${MAIN_CPP} DMI/codecs/png.cpp DMI/codecs/webp.cpp DMI/codecs/file.cpp  ${SOURCE} ${GLAD_SOURCE} ${FA_HEADER_FILES} ${MAIN_HEADER} ${GLAD_HEADERS} ${IMGUI_HEADER_FILES} ${IMGUI_SOURCE_FILES} ${BYOND_HEADER_FILES} ${BYOND_SOURCE_FILES} ${LIBPNG_LINK_FLAGS})
+    add_executable(Editor ${MAIN_CPP} ../byond/DMI/codecs/png.cpp ../byond/DMI/codecs/webp.cpp ../byond/DMI/codecs/file.cpp  ${SOURCE} ${GLAD_SOURCE} ${FA_HEADER_FILES} ${MAIN_HEADER} ${GLAD_HEADERS} ${IMGUI_HEADER_FILES} ${IMGUI_SOURCE_FILES} ${BYOND_HEADER_FILES} ${BYOND_SOURCE_FILES} ${LIBPNG_LINK_FLAGS})
 
     include_directories(Editor ${ZLIB_DEPS} ${Boost_INCLUDE_DIRS}  "../../../third_party/gil/include" "../../../third_party/io/include" )
         

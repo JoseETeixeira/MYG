@@ -16,7 +16,7 @@
 #include "../../byond/dme/Dme.h"
 #include "../../byond/utils/string_helper.h"
 #include "imgui_file_browser.h"
-#include "../DMI/DMI.h"
+#include "../../byond/DMI/DMI.h"
 #include <filesystem>
 #include <map>
 
