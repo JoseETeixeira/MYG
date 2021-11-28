@@ -503,6 +503,8 @@ namespace BYOND::dme
                 return items->at(type);
             }else{
                 DmeItem* item = new DmeItem(type,this);
+                item->parentPath = type.substr(0,type.find_last_of("/"));
+                spdlog::info(item->parentPath);
                 items->emplace(type,item);
                 //TODO: Notify listeners
                 return item;
@@ -510,7 +512,10 @@ namespace BYOND::dme
         }
 
         virtual DmeItem* getItem(std::string type) {
-            return getItemOrCreate(type);
+            if(items->find(type) != items->end()){
+                return items->at(type);
+            }
+            return nullptr;
         }
 
         ///////////////// Global vars
