@@ -45,8 +45,13 @@ namespace BYOND::dme::parser{
                 spdlog::info(dmeFile.string());
                 dme = new Dme();
                 using std::filesystem::current_path;
-                spdlog::info(current_path().string() + "\\" + INITIAL_DME_FILE);
-                std::ifstream  dmeStream(current_path().string()+"\\"+INITIAL_DME_FILE);
+                #if defined(WIN32)
+                    spdlog::info(current_path().string() + "\\" + INITIAL_DME_FILE);
+                    std::ifstream  dmeStream(current_path().string()+"\\"+INITIAL_DME_FILE);
+                #else if defined(linux)
+                    spdlog::info(current_path().string() + "/" + INITIAL_DME_FILE);
+                    std::ifstream  dmeStream(current_path().string()+"/"+INITIAL_DME_FILE);
+                #endif
                 dme->mergeWJson(dmeStream);
                 dme->fileDir = dmeFile.root_path().string();
                 dme->absoluteRootPath = dmeFile.relative_path().remove_filename().string();
