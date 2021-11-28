@@ -48,7 +48,7 @@ file(GLOB BYOND_SOURCE_FILES "byond/*.cpp" )
 if (WIN32)
     ##ZLIB
     include_directories(deps/zlib-1.2.11)
-    include_directories(deps/zlib-1.2.11/Debug)
+    include_directories(deps/zlib-1.2.11/Release)
     set(ZLIB_INCLUDE_DIR deps/zlib-1.2.11)
     set(ZLIB_LIBRARY zlib)
     add_subdirectory(deps/zlib-1.2.11)
@@ -61,7 +61,7 @@ if (WIN32)
     ##LIBPNG
     include_directories(deps/libpng)
     set(PNG_PNG_INCLUDE_DIR deps/libpng)
-    set(PNG_LIBRARY deps/libpng/Debug/png)
+    set(PNG_LIBRARY deps/libpng/Release/png)
     add_subdirectory(deps/libpng)
 
     find_package(PNG REQUIRED)

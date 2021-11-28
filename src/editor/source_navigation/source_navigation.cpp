@@ -169,8 +169,9 @@ namespace MYG{
 
 
                     for (auto item : *object->directSubtypes) {
-                        SubRenderObject(item, items->at(item), items, i, selection_mask, node_clicked,tree);
                         i++;
+                        SubRenderObject(item, items->at(item), items, i, selection_mask, node_clicked,tree);
+                        
                     }
 
      

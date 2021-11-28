@@ -504,7 +504,7 @@ namespace BYOND::dme
             }else{
                 DmeItem* item = new DmeItem(type,this);
                 item->parentPath = type.substr(0,type.find_last_of("/"));
-                spdlog::info(item->parentPath);
+                //spdlog::info(item->parentPath);
                 items->emplace(type,item);
                 //TODO: Notify listeners
                 return item;
