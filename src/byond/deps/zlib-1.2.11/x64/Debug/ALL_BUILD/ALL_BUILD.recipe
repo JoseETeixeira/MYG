@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project>
+  <ProjectOutputs>
+    <ProjectOutput>
+      <FullPath>C:\Users\Eduardo\OneDrive\Ambiente de Trabalho\BYOND\MYG\src\editor\deps\zlib-1.2.11\x64\Debug\ZERO_CHECK</FullPath>
+    </ProjectOutput>
+    <ProjectOutput>
+      <FullPath>C:\Users\Eduardo\OneDrive\Ambiente de Trabalho\BYOND\MYG\bin\Debug\zlibd.dll</FullPath>
+    </ProjectOutput>
+    <ProjectOutput>
+      <FullPath>C:\Users\Eduardo\OneDrive\Ambiente de Trabalho\BYOND\MYG\bin\Debug\example.exe</FullPath>
+    </ProjectOutput>
+    <ProjectOutput>
+      <FullPath>C:\Users\Eduardo\OneDrive\Ambiente de Trabalho\BYOND\MYG\bin\Debug\minigzip.exe</FullPath>
+    </ProjectOutput>
+    <ProjectOutput>
+      <FullPath>C:\Users\Eduardo\OneDrive\Ambiente de Trabalho\BYOND\MYG\src\editor\deps\zlib-1.2.11\x64\Debug\ALL_BUILD</FullPath>
+    </ProjectOutput>
+  </ProjectOutputs>
+  <ContentFiles />
+  <SatelliteDlls />
+  <NonRecipeFileRefs />
+</Project>
