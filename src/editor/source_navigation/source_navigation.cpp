@@ -17,148 +17,16 @@ namespace MYG{
         textColor = ImVec4(0.90f, 0.90f, 0.90f, 0.90f);
 
     }
-
-    void SourceNavigationInterface::drawIcon(DMI* icon,std::string& state,std::string& path){
-        Image img;
-        bool found = false;
-        spdlog::info("Searching for {}",state);
-
-        for(auto sta : icon->states){
-            //spdlog::info("current state: {}",state.name);
-            if(sta.name.find(state) != std::string::npos ||  sta.name.find(state.substr(1,state.length()-2)) != std::string::npos){
-                img = sta.images[0][0];
-                found = true;
-                spdlog::info("found!");
-                break;
-            }
-        }
-        
-        if(!found){
-            img = icon->states[0].images[0][0];
-        }
-        
-        if( !std::is_empty<Image>::value){
-            
-            
-            namespace bg = boost::gil;
-            bg::rgba8_image_t *imagem;
-            if(images.find(path) != images.end()){
-                imagem = images.at(path);
-            }else{
-                imagem = new bg::rgba8_image_t();
-                bg::read_image(path, *imagem,bg::png_tag{});
-
-                //png_read_image(path, img);
-                images.emplace(path,imagem);
-            }
-
-            GLuint *texture;
-            
-            std::string icon_state = path+state;
-            if(icon_states.find(icon_state) != icon_states.end()){
-                texture = icon_states.at(icon_state);
-            }else{
-                texture = new GLuint();
-                bg::rgba8c_view_t subImage = bg::subimage_view(bg::view(*imagem), img.pos.x, img.pos.y, img.size.x, img.size.y);
-
-                //bg::write_view("output.png", subImage,bg::png_tag{});
-
-                    unsigned _width = static_cast<int>(subImage.width());
-                    unsigned _height = static_cast<int>(subImage.height());
-
-                    typedef bg::rgba8_pixel_t pixel;
-
-                    //auto view = gil::interleaved_view(
-                    //  img.width(), img.height(), &*gil::view(img).pixels(), img.width() * sizeof pixel);
-
-                    //auto view = gil::interleaved_view(
-                    //  img.width(), img.height(), &*gil::view(img).pixels(), img.width() * sizeof pixel);
-
-                    auto pixeldata = new pixel[_width * _height  * 4];  
-
-
-                    auto dstView = bg::interleaved_view(
-                    _width, _height, pixeldata,  4 * _width);
-
-                    bg::copy_pixels(subImage, dstView);
-
-                // bg::write_view(state+"output.png", dstView,bg::png_tag{});
-                    glGenTextures(1, texture);
-                    glBindTexture(GL_TEXTURE_2D, *texture);
-
-                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);      
-
-                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE); // This is required on WebGL for non power-of-two textures
-                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE); 
-                    glPixelStorei(GL_UNPACK_ROW_LENGTH, 0);
-
-
-                    glTexImage2D(GL_TEXTURE_2D,     // Type of texture
-                                    0,                 // Pyramid level (for mip-mapping) - 0 is the top level
-                                    GL_RGBA,            // Internal colour format to convert to
-                                    subImage.width(),          // Image width  i.e. 640 for Kinect in standard mode
-                                    subImage.height(),          // Image height i.e. 480 for Kinect in standard mode
-                                    0,                 // Border width in pixels (can either be 1 or 0)
-                                    GL_RGBA, // Input image format (i.e. GL_RGB, GL_RGBA, GL_BGR etc.)
-                                    GL_UNSIGNED_BYTE,  // Image data type
-                                    reinterpret_cast<void*>(pixeldata));         // The actual image data itself
-                    glGenerateMipmap(GL_TEXTURE_2D);
-                    glActiveTexture(GL_TEXTURE0); // activate the texture unit first before binding texture
-                    glBindTexture(GL_TEXTURE_2D, *texture);
-
-                    free(pixeldata);
-                    //png_read_image(path, img);
-                    icon_states.emplace(icon_state,texture);
-                }
-
-            
-
-            
-            
-        
-
-            ImGui::Image((void*)(intptr_t)*texture, ImVec2(32,32));
-        }
-        
-       
-    }
-    
  
 
-    void SourceNavigationInterface::SubRenderObject(std::string name, BYOND::dme::Dme::DmeItem* object, std::map<std::string, BYOND::dme::Dme::DmeItem*>* items, int& i, int& selection_mask, int& node_clicked,BYOND::dme::Dme *tree) {
-             ImGui::Indent();
+    void SourceNavigationInterface::SubRenderObject(BYOND::tree::Tree* tree, BYOND::tree::Tree::TreeItem* item, int& i, int& selection_mask, int& node_clicked) {
+            ImGui::Indent();
             ImGuiTreeNodeFlags node_flags = ((selection_mask == i) ? ImGuiTreeNodeFlags_Selected : 0);
-            DMI  *dmi;
-            std::string icon = "null";
-            std::string icon_state = "null";
-            icon = object->getVar("icon");
-            spdlog::info(icon);
-            if(icon != "null"){
-                 std::string dmipath;
-                #if defined(WIN32)
-                    dmipath= tree->fileDir + tree->absoluteRootPath + StringHelper::ReplaceAll(icon,"/","\\").substr(1, StringHelper::ReplaceAll(icon, "/", "\\").length()-2);
-                #else if defined(LINUX)
-                    dmipath = tree->fileDir + tree->absoluteRootPath + StringHelper::ReplaceAll(icon,"\\","/").substr(1, StringHelper::ReplaceAll(icon, "\\","/").length()-2);
-                #endif
-                if(icons->find(dmipath) != icons->end()){
-                    dmi = icons->at(dmipath);
-                }else{
-                    dmi = new DMI();
-                    spdlog::info(dmipath);
-                    std::filesystem::path fsdmipath(dmipath);
-                    dmi->load(fsdmipath);
-                    icons->emplace(dmipath,dmi);
-                }   
-                
-              
-                icon_state = object->getVar("icon_state");
-                drawIcon(dmi,icon_state,dmipath);
-            }
-           
+            ImGui::Image((void*)(intptr_t)*item->getTexture(item->getIconState(),0,0), ImVec2(32,32));
             //RenderIcon(dmePath,library->getTree(), root);
+
             
-                bool opened = ImGui::TreeNodeEx((void*)(intptr_t)(i), node_flags, "%s", name.c_str());
+                bool opened = ImGui::TreeNodeEx((void*)(intptr_t)(i), node_flags, "%s", item->getName().c_str());
 
                 if (ImGui::IsItemClicked())
                     node_clicked = (i);
@@ -168,9 +36,9 @@ namespace MYG{
             
 
 
-                    for (auto item : *object->directSubtypes) {
+                    for (auto item : *item->directSubtypes) {
                         i++;
-                        SubRenderObject(item, items->at(item), items, i, selection_mask, node_clicked,tree);
+                        SubRenderObject(tree, tree->getItem(item), i, selection_mask, node_clicked);
                         
                     }
 
@@ -186,14 +54,14 @@ namespace MYG{
     }
    
 
-    void SourceNavigationInterface::RenderObjectTree(std::map<std::string,BYOND::dme::Dme::DmeItem *> *items, int &i,int &selection_mask,int &node_clicked,BYOND::dme::Dme *tree){
+    void SourceNavigationInterface::RenderObjectTree(BYOND::tree::Tree* tree, int &i,int &selection_mask,int &node_clicked){
 
         //ATOM
-        BYOND::dme::Dme::DmeItem *atom = items->at("/atom");
+        BYOND::tree::Tree::TreeItem *atom = tree->getItem("/atom");
 
         for(auto item : *atom->directSubtypes){
             spdlog::info(item);
-            SubRenderObject(item, items->at(item), items, i, selection_mask, node_clicked,tree);
+            SubRenderObject(tree,tree->getItem(item), i, selection_mask, node_clicked);
             i++;
         }
 
@@ -248,11 +116,10 @@ namespace MYG{
             int node_clicked = -1;
 
             
-            BYOND::dme::Dme *tree = library->DME;
+            BYOND::tree::Tree *tree = library->tree;
             //spdlog::info(printTree(tree->getRoot()));
             //int child_index = 0;
-            std::map<std::string,BYOND::dme::Dme::DmeItem *> *items = tree->items;
-            RenderObjectTree(items,i,selection_mask,node_clicked, tree);
+            RenderObjectTree(tree,i,selection_mask,node_clicked);
             if (node_clicked != -1)
             {
                 /**

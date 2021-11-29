@@ -5,6 +5,12 @@ src/byond/CMakeFiles/byond-core.dir/library.cpp.o
  /home/eduardo/Desktop/BYOND/MYG/src/byond/ByondFiles.h
  /home/eduardo/Desktop/BYOND/MYG/src/byond/ByondTypes.h
  /home/eduardo/Desktop/BYOND/MYG/src/byond/ByondVarWrapper.h
+ /home/eduardo/Desktop/BYOND/MYG/src/byond/DMI/DMI.h
+ /home/eduardo/Desktop/BYOND/MYG/src/byond/DMI/codecs/image.h
+ /home/eduardo/Desktop/BYOND/MYG/src/byond/DMI/codecs/png.h
+ /home/eduardo/Desktop/BYOND/MYG/src/byond/DMI/errors.h
+ /home/eduardo/Desktop/BYOND/MYG/src/byond/deps/zlib-1.2.11/zconf.h
+ /home/eduardo/Desktop/BYOND/MYG/src/byond/deps/zlib-1.2.11/zlib.h
  /home/eduardo/Desktop/BYOND/MYG/src/byond/dme/Dme.h
  /home/eduardo/Desktop/BYOND/MYG/src/byond/dme/parser/DmeParser.h
  /home/eduardo/Desktop/BYOND/MYG/src/byond/dme/parser/FileLine.h
@@ -14,10 +20,165 @@ src/byond/CMakeFiles/byond-core.dir/library.cpp.o
  /home/eduardo/Desktop/BYOND/MYG/src/byond/dme/parser/WordReplacer.h
  /home/eduardo/Desktop/BYOND/MYG/src/byond/library.cpp
  /home/eduardo/Desktop/BYOND/MYG/src/byond/library.h
+ /home/eduardo/Desktop/BYOND/MYG/src/byond/tree/ByondTree.h
  /home/eduardo/Desktop/BYOND/MYG/src/byond/utils/exception_helper.h
  /home/eduardo/Desktop/BYOND/MYG/src/byond/utils/string_builder.h
  /home/eduardo/Desktop/BYOND/MYG/src/byond/utils/string_helper.h
+ /home/eduardo/Desktop/BYOND/MYG/third_party/glfw/deps/glad/gl.h
+ /home/eduardo/Desktop/BYOND/MYG/third_party/glfw/deps/glad/khrplatform.h
  /home/eduardo/Desktop/BYOND/MYG/third_party/json/json.hpp
+ third_party/gil/include/boost/gil.hpp
+ third_party/gil/include/boost/gil/algorithm.hpp
+ third_party/gil/include/boost/gil/bit_aligned_pixel_iterator.hpp
+ third_party/gil/include/boost/gil/bit_aligned_pixel_reference.hpp
+ third_party/gil/include/boost/gil/channel.hpp
+ third_party/gil/include/boost/gil/channel_algorithm.hpp
+ third_party/gil/include/boost/gil/cmyk.hpp
+ third_party/gil/include/boost/gil/color_base.hpp
+ third_party/gil/include/boost/gil/color_base_algorithm.hpp
+ third_party/gil/include/boost/gil/color_convert.hpp
+ third_party/gil/include/boost/gil/concepts.hpp
+ third_party/gil/include/boost/gil/concepts/basic.hpp
+ third_party/gil/include/boost/gil/concepts/channel.hpp
+ third_party/gil/include/boost/gil/concepts/color.hpp
+ third_party/gil/include/boost/gil/concepts/color_base.hpp
+ third_party/gil/include/boost/gil/concepts/concept_check.hpp
+ third_party/gil/include/boost/gil/concepts/detail/type_traits.hpp
+ third_party/gil/include/boost/gil/concepts/detail/utility.hpp
+ third_party/gil/include/boost/gil/concepts/dynamic_step.hpp
+ third_party/gil/include/boost/gil/concepts/fwd.hpp
+ third_party/gil/include/boost/gil/concepts/image.hpp
+ third_party/gil/include/boost/gil/concepts/image_view.hpp
+ third_party/gil/include/boost/gil/concepts/pixel.hpp
+ third_party/gil/include/boost/gil/concepts/pixel_based.hpp
+ third_party/gil/include/boost/gil/concepts/pixel_dereference.hpp
+ third_party/gil/include/boost/gil/concepts/pixel_iterator.hpp
+ third_party/gil/include/boost/gil/concepts/pixel_locator.hpp
+ third_party/gil/include/boost/gil/concepts/point.hpp
+ third_party/gil/include/boost/gil/deprecated.hpp
+ third_party/gil/include/boost/gil/detail/is_channel_integral.hpp
+ third_party/gil/include/boost/gil/detail/math.hpp
+ third_party/gil/include/boost/gil/detail/mp11.hpp
+ third_party/gil/include/boost/gil/detail/std_common_type.hpp
+ third_party/gil/include/boost/gil/detail/type_traits.hpp
+ third_party/gil/include/boost/gil/device_n.hpp
+ third_party/gil/include/boost/gil/dynamic_step.hpp
+ third_party/gil/include/boost/gil/extension/dynamic_image/algorithm.hpp
+ third_party/gil/include/boost/gil/extension/dynamic_image/any_image.hpp
+ third_party/gil/include/boost/gil/extension/dynamic_image/any_image_view.hpp
+ third_party/gil/include/boost/gil/extension/dynamic_image/apply_operation.hpp
+ third_party/gil/include/boost/gil/extension/dynamic_image/dynamic_image_all.hpp
+ third_party/gil/include/boost/gil/extension/dynamic_image/image_view_factory.hpp
+ third_party/gil/include/boost/gil/extension/io/png.hpp
+ third_party/gil/include/boost/gil/extension/io/png/detail/base.hpp
+ third_party/gil/include/boost/gil/extension/io/png/detail/is_allowed.hpp
+ third_party/gil/include/boost/gil/extension/io/png/detail/read.hpp
+ third_party/gil/include/boost/gil/extension/io/png/detail/reader_backend.hpp
+ third_party/gil/include/boost/gil/extension/io/png/detail/scanline_read.hpp
+ third_party/gil/include/boost/gil/extension/io/png/detail/supported_types.hpp
+ third_party/gil/include/boost/gil/extension/io/png/detail/write.hpp
+ third_party/gil/include/boost/gil/extension/io/png/detail/writer_backend.hpp
+ third_party/gil/include/boost/gil/extension/io/png/read.hpp
+ third_party/gil/include/boost/gil/extension/io/png/tags.hpp
+ third_party/gil/include/boost/gil/extension/io/png/write.hpp
+ third_party/gil/include/boost/gil/extension/numeric/affine.hpp
+ third_party/gil/include/boost/gil/extension/numeric/algorithm.hpp
+ third_party/gil/include/boost/gil/extension/numeric/channel_numeric_operations.hpp
+ third_party/gil/include/boost/gil/extension/numeric/convolve.hpp
+ third_party/gil/include/boost/gil/extension/numeric/kernel.hpp
+ third_party/gil/include/boost/gil/extension/numeric/pixel_numeric_operations.hpp
+ third_party/gil/include/boost/gil/extension/numeric/resample.hpp
+ third_party/gil/include/boost/gil/extension/numeric/sampler.hpp
+ third_party/gil/include/boost/gil/extension/toolbox/color_converters.hpp
+ third_party/gil/include/boost/gil/extension/toolbox/color_converters/gray_to_rgba.hpp
+ third_party/gil/include/boost/gil/extension/toolbox/color_converters/rgb_to_luminance.hpp
+ third_party/gil/include/boost/gil/extension/toolbox/color_spaces.hpp
+ third_party/gil/include/boost/gil/extension/toolbox/color_spaces/cmyka.hpp
+ third_party/gil/include/boost/gil/extension/toolbox/color_spaces/gray_alpha.hpp
+ third_party/gil/include/boost/gil/extension/toolbox/color_spaces/hsl.hpp
+ third_party/gil/include/boost/gil/extension/toolbox/color_spaces/hsv.hpp
+ third_party/gil/include/boost/gil/extension/toolbox/color_spaces/lab.hpp
+ third_party/gil/include/boost/gil/extension/toolbox/color_spaces/xyz.hpp
+ third_party/gil/include/boost/gil/extension/toolbox/dynamic_images.hpp
+ third_party/gil/include/boost/gil/extension/toolbox/image_types.hpp
+ third_party/gil/include/boost/gil/extension/toolbox/image_types/indexed_image.hpp
+ third_party/gil/include/boost/gil/extension/toolbox/metafunctions.hpp
+ third_party/gil/include/boost/gil/extension/toolbox/metafunctions/channel_type.hpp
+ third_party/gil/include/boost/gil/extension/toolbox/metafunctions/channel_view.hpp
+ third_party/gil/include/boost/gil/extension/toolbox/metafunctions/get_num_bits.hpp
+ third_party/gil/include/boost/gil/extension/toolbox/metafunctions/get_pixel_type.hpp
+ third_party/gil/include/boost/gil/extension/toolbox/metafunctions/is_bit_aligned.hpp
+ third_party/gil/include/boost/gil/extension/toolbox/metafunctions/is_homogeneous.hpp
+ third_party/gil/include/boost/gil/extension/toolbox/metafunctions/is_similar.hpp
+ third_party/gil/include/boost/gil/extension/toolbox/metafunctions/pixel_bit_size.hpp
+ third_party/gil/include/boost/gil/extension/toolbox/toolbox.hpp
+ third_party/gil/include/boost/gil/gray.hpp
+ third_party/gil/include/boost/gil/histogram.hpp
+ third_party/gil/include/boost/gil/image.hpp
+ third_party/gil/include/boost/gil/image_processing/adaptive_histogram_equalization.hpp
+ third_party/gil/include/boost/gil/image_processing/diffusion.hpp
+ third_party/gil/include/boost/gil/image_processing/filter.hpp
+ third_party/gil/include/boost/gil/image_processing/harris.hpp
+ third_party/gil/include/boost/gil/image_processing/hessian.hpp
+ third_party/gil/include/boost/gil/image_processing/histogram_equalization.hpp
+ third_party/gil/include/boost/gil/image_processing/histogram_matching.hpp
+ third_party/gil/include/boost/gil/image_processing/hough_parameter.hpp
+ third_party/gil/include/boost/gil/image_processing/hough_transform.hpp
+ third_party/gil/include/boost/gil/image_processing/morphology.hpp
+ third_party/gil/include/boost/gil/image_processing/numeric.hpp
+ third_party/gil/include/boost/gil/image_processing/scaling.hpp
+ third_party/gil/include/boost/gil/image_processing/threshold.hpp
+ third_party/gil/include/boost/gil/image_view.hpp
+ third_party/gil/include/boost/gil/image_view_factory.hpp
+ third_party/gil/include/boost/gil/io/base.hpp
+ third_party/gil/include/boost/gil/io/conversion_policies.hpp
+ third_party/gil/include/boost/gil/io/device.hpp
+ third_party/gil/include/boost/gil/io/dynamic_io_new.hpp
+ third_party/gil/include/boost/gil/io/error.hpp
+ third_party/gil/include/boost/gil/io/get_read_device.hpp
+ third_party/gil/include/boost/gil/io/get_reader.hpp
+ third_party/gil/include/boost/gil/io/get_write_device.hpp
+ third_party/gil/include/boost/gil/io/get_writer.hpp
+ third_party/gil/include/boost/gil/io/make_backend.hpp
+ third_party/gil/include/boost/gil/io/make_dynamic_image_reader.hpp
+ third_party/gil/include/boost/gil/io/make_dynamic_image_writer.hpp
+ third_party/gil/include/boost/gil/io/make_reader.hpp
+ third_party/gil/include/boost/gil/io/make_scanline_reader.hpp
+ third_party/gil/include/boost/gil/io/make_writer.hpp
+ third_party/gil/include/boost/gil/io/path_spec.hpp
+ third_party/gil/include/boost/gil/io/read_and_convert_image.hpp
+ third_party/gil/include/boost/gil/io/read_and_convert_view.hpp
+ third_party/gil/include/boost/gil/io/read_image.hpp
+ third_party/gil/include/boost/gil/io/read_image_info.hpp
+ third_party/gil/include/boost/gil/io/read_view.hpp
+ third_party/gil/include/boost/gil/io/reader_base.hpp
+ third_party/gil/include/boost/gil/io/row_buffer_helper.hpp
+ third_party/gil/include/boost/gil/io/scanline_read_iterator.hpp
+ third_party/gil/include/boost/gil/io/typedefs.hpp
+ third_party/gil/include/boost/gil/io/write_view.hpp
+ third_party/gil/include/boost/gil/iterator_from_2d.hpp
+ third_party/gil/include/boost/gil/locator.hpp
+ third_party/gil/include/boost/gil/metafunctions.hpp
+ third_party/gil/include/boost/gil/packed_pixel.hpp
+ third_party/gil/include/boost/gil/pixel.hpp
+ third_party/gil/include/boost/gil/pixel_iterator.hpp
+ third_party/gil/include/boost/gil/pixel_iterator_adaptor.hpp
+ third_party/gil/include/boost/gil/planar_pixel_iterator.hpp
+ third_party/gil/include/boost/gil/planar_pixel_reference.hpp
+ third_party/gil/include/boost/gil/point.hpp
+ third_party/gil/include/boost/gil/position_iterator.hpp
+ third_party/gil/include/boost/gil/premultiply.hpp
+ third_party/gil/include/boost/gil/promote_integral.hpp
+ third_party/gil/include/boost/gil/rasterization/circle.hpp
+ third_party/gil/include/boost/gil/rasterization/ellipse.hpp
+ third_party/gil/include/boost/gil/rasterization/line.hpp
+ third_party/gil/include/boost/gil/rgb.hpp
+ third_party/gil/include/boost/gil/rgba.hpp
+ third_party/gil/include/boost/gil/step_iterator.hpp
+ third_party/gil/include/boost/gil/typedefs.hpp
+ third_party/gil/include/boost/gil/utilities.hpp
+ third_party/gil/include/boost/gil/virtual_locator.hpp
+ third_party/glfw/include/GLFW/glfw3.h
  third_party/spdlog/include/spdlog/common-inl.h
  third_party/spdlog/include/spdlog/common.h
  third_party/spdlog/include/spdlog/details/backtracer-inl.h

@@ -10,7 +10,7 @@
 #include <sstream>
 #include <fstream>
 #include "dme/parser/DmeParser.h"
-
+#include "tree/ByondTree.h"
 #include <thread>
 
 
@@ -29,7 +29,8 @@ namespace BYOND{
     public:
 
         BYOND::dme::Dme *DME;
-    
+        BYOND::tree::Tree *tree;
+
         Library(){};
 
         /**
@@ -54,6 +55,7 @@ namespace BYOND{
 
                 t.join();
                 
+                this->tree = new BYOND::tree::Tree(this->DME);
 
                 spdlog::info("Parsing done");
 

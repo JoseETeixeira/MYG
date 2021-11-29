@@ -15,11 +15,12 @@ if(NOT TARGET spdlog)
 endif()
 
 
+
 set_target_properties(byond-core PROPERTIES VERSION ${PROJECT_VERSION})
 set_target_properties(byond-core PROPERTIES PUBLIC_HEADER library.h)
 
 target_include_directories(byond-core PRIVATE .)
-target_include_directories(byond-core PRIVATE "../../third_party/color/src" "../byond" "../../third_party/json")
+target_include_directories(byond-core PRIVATE "../../third_party/color/src" "../byond" "../../third_party/json" "../../third_party/gil/include" "../../third_party/io/include")
 
 
 install(TARGETS byond-core 

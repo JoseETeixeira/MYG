@@ -14,9 +14,9 @@
 #include "imgui_file_browser.h"
 #include "../../byond/library.h"
 #include "../../byond/dme/Dme.h"
+#include "../../byond/tree/ByondTree.h"
 #include "../../byond/utils/string_helper.h"
 #include "imgui_file_browser.h"
-#include "../../byond/DMI/DMI.h"
 #include <filesystem>
 #include <map>
 
@@ -52,9 +52,8 @@ public:
     ImVec4 textColor;
 
     SourceNavigationInterface( GLFWwindow* window,BYOND::Library* library,int xpos,int ypos,int width,int height);
-    void RenderObjectTree(std::map<std::string,BYOND::dme::Dme::DmeItem *> *items, int &i,int &selection_mask,int &node_clicked,BYOND::dme::Dme *tree);
-    void drawIcon(DMI* dmi,std::string &state,std::string& path);
-    void SubRenderObject(std::string name, BYOND::dme::Dme::DmeItem* object, std::map<std::string, BYOND::dme::Dme::DmeItem*>* items, int& i, int& selection_mask, int& node_clicked,BYOND::dme::Dme *tree);
+    void RenderObjectTree(BYOND::tree::Tree* tree, int &i,int &selection_mask,int &node_clicked);
+    void SubRenderObject(BYOND::tree::Tree* tree,BYOND::tree::Tree::TreeItem* item, int& i, int& selection_mask, int& node_clicked);
     //void RenderIcon(std::string &dmePath,DME_Tree_Tree_Model *tree, MYG::DefaultMutableTreeNode<BYOND::DME_Tree_Item *>  *root);
 
     void mainLoop();
