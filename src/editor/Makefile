@@ -193,141 +193,6 @@ Editor/fast:
 	cd /home/eduardo/Desktop/BYOND/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/build
 .PHONY : Editor/fast
 
-DMI/DMI.o: DMI/DMI.cpp.o
-
-.PHONY : DMI/DMI.o
-
-# target to build an object file
-DMI/DMI.cpp.o:
-	cd /home/eduardo/Desktop/BYOND/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/DMI/DMI.cpp.o
-.PHONY : DMI/DMI.cpp.o
-
-DMI/DMI.i: DMI/DMI.cpp.i
-
-.PHONY : DMI/DMI.i
-
-# target to preprocess a source file
-DMI/DMI.cpp.i:
-	cd /home/eduardo/Desktop/BYOND/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/DMI/DMI.cpp.i
-.PHONY : DMI/DMI.cpp.i
-
-DMI/DMI.s: DMI/DMI.cpp.s
-
-.PHONY : DMI/DMI.s
-
-# target to generate assembly for a file
-DMI/DMI.cpp.s:
-	cd /home/eduardo/Desktop/BYOND/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/DMI/DMI.cpp.s
-.PHONY : DMI/DMI.cpp.s
-
-DMI/codecs/file.o: DMI/codecs/file.cpp.o
-
-.PHONY : DMI/codecs/file.o
-
-# target to build an object file
-DMI/codecs/file.cpp.o:
-	cd /home/eduardo/Desktop/BYOND/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/DMI/codecs/file.cpp.o
-.PHONY : DMI/codecs/file.cpp.o
-
-DMI/codecs/file.i: DMI/codecs/file.cpp.i
-
-.PHONY : DMI/codecs/file.i
-
-# target to preprocess a source file
-DMI/codecs/file.cpp.i:
-	cd /home/eduardo/Desktop/BYOND/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/DMI/codecs/file.cpp.i
-.PHONY : DMI/codecs/file.cpp.i
-
-DMI/codecs/file.s: DMI/codecs/file.cpp.s
-
-.PHONY : DMI/codecs/file.s
-
-# target to generate assembly for a file
-DMI/codecs/file.cpp.s:
-	cd /home/eduardo/Desktop/BYOND/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/DMI/codecs/file.cpp.s
-.PHONY : DMI/codecs/file.cpp.s
-
-DMI/codecs/png.o: DMI/codecs/png.cpp.o
-
-.PHONY : DMI/codecs/png.o
-
-# target to build an object file
-DMI/codecs/png.cpp.o:
-	cd /home/eduardo/Desktop/BYOND/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/DMI/codecs/png.cpp.o
-.PHONY : DMI/codecs/png.cpp.o
-
-DMI/codecs/png.i: DMI/codecs/png.cpp.i
-
-.PHONY : DMI/codecs/png.i
-
-# target to preprocess a source file
-DMI/codecs/png.cpp.i:
-	cd /home/eduardo/Desktop/BYOND/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/DMI/codecs/png.cpp.i
-.PHONY : DMI/codecs/png.cpp.i
-
-DMI/codecs/png.s: DMI/codecs/png.cpp.s
-
-.PHONY : DMI/codecs/png.s
-
-# target to generate assembly for a file
-DMI/codecs/png.cpp.s:
-	cd /home/eduardo/Desktop/BYOND/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/DMI/codecs/png.cpp.s
-.PHONY : DMI/codecs/png.cpp.s
-
-DMI/codecs/webp.o: DMI/codecs/webp.cpp.o
-
-.PHONY : DMI/codecs/webp.o
-
-# target to build an object file
-DMI/codecs/webp.cpp.o:
-	cd /home/eduardo/Desktop/BYOND/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/DMI/codecs/webp.cpp.o
-.PHONY : DMI/codecs/webp.cpp.o
-
-DMI/codecs/webp.i: DMI/codecs/webp.cpp.i
-
-.PHONY : DMI/codecs/webp.i
-
-# target to preprocess a source file
-DMI/codecs/webp.cpp.i:
-	cd /home/eduardo/Desktop/BYOND/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/DMI/codecs/webp.cpp.i
-.PHONY : DMI/codecs/webp.cpp.i
-
-DMI/codecs/webp.s: DMI/codecs/webp.cpp.s
-
-.PHONY : DMI/codecs/webp.s
-
-# target to generate assembly for a file
-DMI/codecs/webp.cpp.s:
-	cd /home/eduardo/Desktop/BYOND/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/DMI/codecs/webp.cpp.s
-.PHONY : DMI/codecs/webp.cpp.s
-
-DMI/errors.o: DMI/errors.cpp.o
-
-.PHONY : DMI/errors.o
-
-# target to build an object file
-DMI/errors.cpp.o:
-	cd /home/eduardo/Desktop/BYOND/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/DMI/errors.cpp.o
-.PHONY : DMI/errors.cpp.o
-
-DMI/errors.i: DMI/errors.cpp.i
-
-.PHONY : DMI/errors.i
-
-# target to preprocess a source file
-DMI/errors.cpp.i:
-	cd /home/eduardo/Desktop/BYOND/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/DMI/errors.cpp.i
-.PHONY : DMI/errors.cpp.i
-
-DMI/errors.s: DMI/errors.cpp.s
-
-.PHONY : DMI/errors.s
-
-# target to generate assembly for a file
-DMI/errors.cpp.s:
-	cd /home/eduardo/Desktop/BYOND/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/DMI/errors.cpp.s
-.PHONY : DMI/errors.cpp.s
-
 __/__/third_party/glfw/deps/getopt.o: __/__/third_party/glfw/deps/getopt.c.o
 
 .PHONY : __/__/third_party/glfw/deps/getopt.o
@@ -679,6 +544,141 @@ __/__/third_party/imgui/imgui_widgets.cpp.s:
 	cd /home/eduardo/Desktop/BYOND/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/__/__/third_party/imgui/imgui_widgets.cpp.s
 .PHONY : __/__/third_party/imgui/imgui_widgets.cpp.s
 
+__/byond/DMI/DMI.o: __/byond/DMI/DMI.cpp.o
+
+.PHONY : __/byond/DMI/DMI.o
+
+# target to build an object file
+__/byond/DMI/DMI.cpp.o:
+	cd /home/eduardo/Desktop/BYOND/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/__/byond/DMI/DMI.cpp.o
+.PHONY : __/byond/DMI/DMI.cpp.o
+
+__/byond/DMI/DMI.i: __/byond/DMI/DMI.cpp.i
+
+.PHONY : __/byond/DMI/DMI.i
+
+# target to preprocess a source file
+__/byond/DMI/DMI.cpp.i:
+	cd /home/eduardo/Desktop/BYOND/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/__/byond/DMI/DMI.cpp.i
+.PHONY : __/byond/DMI/DMI.cpp.i
+
+__/byond/DMI/DMI.s: __/byond/DMI/DMI.cpp.s
+
+.PHONY : __/byond/DMI/DMI.s
+
+# target to generate assembly for a file
+__/byond/DMI/DMI.cpp.s:
+	cd /home/eduardo/Desktop/BYOND/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/__/byond/DMI/DMI.cpp.s
+.PHONY : __/byond/DMI/DMI.cpp.s
+
+__/byond/DMI/codecs/file.o: __/byond/DMI/codecs/file.cpp.o
+
+.PHONY : __/byond/DMI/codecs/file.o
+
+# target to build an object file
+__/byond/DMI/codecs/file.cpp.o:
+	cd /home/eduardo/Desktop/BYOND/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/__/byond/DMI/codecs/file.cpp.o
+.PHONY : __/byond/DMI/codecs/file.cpp.o
+
+__/byond/DMI/codecs/file.i: __/byond/DMI/codecs/file.cpp.i
+
+.PHONY : __/byond/DMI/codecs/file.i
+
+# target to preprocess a source file
+__/byond/DMI/codecs/file.cpp.i:
+	cd /home/eduardo/Desktop/BYOND/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/__/byond/DMI/codecs/file.cpp.i
+.PHONY : __/byond/DMI/codecs/file.cpp.i
+
+__/byond/DMI/codecs/file.s: __/byond/DMI/codecs/file.cpp.s
+
+.PHONY : __/byond/DMI/codecs/file.s
+
+# target to generate assembly for a file
+__/byond/DMI/codecs/file.cpp.s:
+	cd /home/eduardo/Desktop/BYOND/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/__/byond/DMI/codecs/file.cpp.s
+.PHONY : __/byond/DMI/codecs/file.cpp.s
+
+__/byond/DMI/codecs/png.o: __/byond/DMI/codecs/png.cpp.o
+
+.PHONY : __/byond/DMI/codecs/png.o
+
+# target to build an object file
+__/byond/DMI/codecs/png.cpp.o:
+	cd /home/eduardo/Desktop/BYOND/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/__/byond/DMI/codecs/png.cpp.o
+.PHONY : __/byond/DMI/codecs/png.cpp.o
+
+__/byond/DMI/codecs/png.i: __/byond/DMI/codecs/png.cpp.i
+
+.PHONY : __/byond/DMI/codecs/png.i
+
+# target to preprocess a source file
+__/byond/DMI/codecs/png.cpp.i:
+	cd /home/eduardo/Desktop/BYOND/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/__/byond/DMI/codecs/png.cpp.i
+.PHONY : __/byond/DMI/codecs/png.cpp.i
+
+__/byond/DMI/codecs/png.s: __/byond/DMI/codecs/png.cpp.s
+
+.PHONY : __/byond/DMI/codecs/png.s
+
+# target to generate assembly for a file
+__/byond/DMI/codecs/png.cpp.s:
+	cd /home/eduardo/Desktop/BYOND/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/__/byond/DMI/codecs/png.cpp.s
+.PHONY : __/byond/DMI/codecs/png.cpp.s
+
+__/byond/DMI/codecs/webp.o: __/byond/DMI/codecs/webp.cpp.o
+
+.PHONY : __/byond/DMI/codecs/webp.o
+
+# target to build an object file
+__/byond/DMI/codecs/webp.cpp.o:
+	cd /home/eduardo/Desktop/BYOND/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/__/byond/DMI/codecs/webp.cpp.o
+.PHONY : __/byond/DMI/codecs/webp.cpp.o
+
+__/byond/DMI/codecs/webp.i: __/byond/DMI/codecs/webp.cpp.i
+
+.PHONY : __/byond/DMI/codecs/webp.i
+
+# target to preprocess a source file
+__/byond/DMI/codecs/webp.cpp.i:
+	cd /home/eduardo/Desktop/BYOND/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/__/byond/DMI/codecs/webp.cpp.i
+.PHONY : __/byond/DMI/codecs/webp.cpp.i
+
+__/byond/DMI/codecs/webp.s: __/byond/DMI/codecs/webp.cpp.s
+
+.PHONY : __/byond/DMI/codecs/webp.s
+
+# target to generate assembly for a file
+__/byond/DMI/codecs/webp.cpp.s:
+	cd /home/eduardo/Desktop/BYOND/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/__/byond/DMI/codecs/webp.cpp.s
+.PHONY : __/byond/DMI/codecs/webp.cpp.s
+
+__/byond/DMI/errors.o: __/byond/DMI/errors.cpp.o
+
+.PHONY : __/byond/DMI/errors.o
+
+# target to build an object file
+__/byond/DMI/errors.cpp.o:
+	cd /home/eduardo/Desktop/BYOND/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/__/byond/DMI/errors.cpp.o
+.PHONY : __/byond/DMI/errors.cpp.o
+
+__/byond/DMI/errors.i: __/byond/DMI/errors.cpp.i
+
+.PHONY : __/byond/DMI/errors.i
+
+# target to preprocess a source file
+__/byond/DMI/errors.cpp.i:
+	cd /home/eduardo/Desktop/BYOND/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/__/byond/DMI/errors.cpp.i
+.PHONY : __/byond/DMI/errors.cpp.i
+
+__/byond/DMI/errors.s: __/byond/DMI/errors.cpp.s
+
+.PHONY : __/byond/DMI/errors.s
+
+# target to generate assembly for a file
+__/byond/DMI/errors.cpp.s:
+	cd /home/eduardo/Desktop/BYOND/MYG && $(MAKE) -f src/editor/CMakeFiles/Editor.dir/build.make src/editor/CMakeFiles/Editor.dir/__/byond/DMI/errors.cpp.s
+.PHONY : __/byond/DMI/errors.cpp.s
+
 editor.o: editor.cpp.o
 
 .PHONY : editor.o
@@ -748,21 +748,6 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... package"
 	@echo "... Editor"
-	@echo "... DMI/DMI.o"
-	@echo "... DMI/DMI.i"
-	@echo "... DMI/DMI.s"
-	@echo "... DMI/codecs/file.o"
-	@echo "... DMI/codecs/file.i"
-	@echo "... DMI/codecs/file.s"
-	@echo "... DMI/codecs/png.o"
-	@echo "... DMI/codecs/png.i"
-	@echo "... DMI/codecs/png.s"
-	@echo "... DMI/codecs/webp.o"
-	@echo "... DMI/codecs/webp.i"
-	@echo "... DMI/codecs/webp.s"
-	@echo "... DMI/errors.o"
-	@echo "... DMI/errors.i"
-	@echo "... DMI/errors.s"
 	@echo "... __/__/third_party/glfw/deps/getopt.o"
 	@echo "... __/__/third_party/glfw/deps/getopt.i"
 	@echo "... __/__/third_party/glfw/deps/getopt.s"
@@ -802,6 +787,21 @@ help:
 	@echo "... __/__/third_party/imgui/imgui_widgets.o"
 	@echo "... __/__/third_party/imgui/imgui_widgets.i"
 	@echo "... __/__/third_party/imgui/imgui_widgets.s"
+	@echo "... __/byond/DMI/DMI.o"
+	@echo "... __/byond/DMI/DMI.i"
+	@echo "... __/byond/DMI/DMI.s"
+	@echo "... __/byond/DMI/codecs/file.o"
+	@echo "... __/byond/DMI/codecs/file.i"
+	@echo "... __/byond/DMI/codecs/file.s"
+	@echo "... __/byond/DMI/codecs/png.o"
+	@echo "... __/byond/DMI/codecs/png.i"
+	@echo "... __/byond/DMI/codecs/png.s"
+	@echo "... __/byond/DMI/codecs/webp.o"
+	@echo "... __/byond/DMI/codecs/webp.i"
+	@echo "... __/byond/DMI/codecs/webp.s"
+	@echo "... __/byond/DMI/errors.o"
+	@echo "... __/byond/DMI/errors.i"
+	@echo "... __/byond/DMI/errors.s"
 	@echo "... editor.o"
 	@echo "... editor.i"
 	@echo "... editor.s"

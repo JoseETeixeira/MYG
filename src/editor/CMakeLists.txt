@@ -118,7 +118,7 @@ else(LINUX)
     find_package(Boost REQUIRED)
 
 
-    add_executable(Editor ${MAIN_CPP} DMI/codecs/png.cpp DMI/codecs/webp.cpp DMI/codecs/file.cpp  ${SOURCE} ${GLAD_SOURCE} ${FA_HEADER_FILES} ${MAIN_HEADER} ${GLAD_HEADERS} ${IMGUI_HEADER_FILES} ${IMGUI_SOURCE_FILES} ${BYOND_HEADER_FILES} ${BYOND_SOURCE_FILES} ${LIBPNG_LINK_FLAGS})
+    add_executable(Editor ${MAIN_CPP} ../byond/DMI/codecs/png.cpp ../byond/DMI/codecs/webp.cpp ../byond/DMI/codecs/file.cpp  ${SOURCE} ${GLAD_SOURCE} ${FA_HEADER_FILES} ${MAIN_HEADER} ${GLAD_HEADERS} ${IMGUI_HEADER_FILES} ${IMGUI_SOURCE_FILES} ${BYOND_HEADER_FILES} ${BYOND_SOURCE_FILES} ${LIBPNG_LINK_FLAGS})
 
     include_directories(Editor ${ZLIB_DEPS} ${Boost_INCLUDE_DIRS}  "../../../third_party/gil/include" "../../../third_party/io/include")
         

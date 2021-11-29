@@ -1,11 +1,6 @@
 file(REMOVE_RECURSE
   "../../bin/Editor"
   "../../bin/Editor.pdb"
-  "CMakeFiles/Editor.dir/DMI/DMI.cpp.o"
-  "CMakeFiles/Editor.dir/DMI/codecs/file.cpp.o"
-  "CMakeFiles/Editor.dir/DMI/codecs/png.cpp.o"
-  "CMakeFiles/Editor.dir/DMI/codecs/webp.cpp.o"
-  "CMakeFiles/Editor.dir/DMI/errors.cpp.o"
   "CMakeFiles/Editor.dir/__/__/third_party/glfw/deps/getopt.c.o"
   "CMakeFiles/Editor.dir/__/__/third_party/glfw/deps/glad_gl.c.o"
   "CMakeFiles/Editor.dir/__/__/third_party/glfw/deps/glad_vulkan.c.o"
@@ -19,6 +14,11 @@ file(REMOVE_RECURSE
   "CMakeFiles/Editor.dir/__/__/third_party/imgui/imgui_impl_opengl3.cpp.o"
   "CMakeFiles/Editor.dir/__/__/third_party/imgui/imgui_tables.cpp.o"
   "CMakeFiles/Editor.dir/__/__/third_party/imgui/imgui_widgets.cpp.o"
+  "CMakeFiles/Editor.dir/__/byond/DMI/DMI.cpp.o"
+  "CMakeFiles/Editor.dir/__/byond/DMI/codecs/file.cpp.o"
+  "CMakeFiles/Editor.dir/__/byond/DMI/codecs/png.cpp.o"
+  "CMakeFiles/Editor.dir/__/byond/DMI/codecs/webp.cpp.o"
+  "CMakeFiles/Editor.dir/__/byond/DMI/errors.cpp.o"
   "CMakeFiles/Editor.dir/editor.cpp.o"
   "CMakeFiles/Editor.dir/source_navigation/source_navigation.cpp.o"
 )
