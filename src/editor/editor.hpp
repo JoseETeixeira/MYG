@@ -49,7 +49,7 @@ namespace MYG{
             GLFWwindow* window;
 
            
-            BYOND::Library library;
+            BYOND::Library *library;
 
             int xpos,ypos,width,height;
 

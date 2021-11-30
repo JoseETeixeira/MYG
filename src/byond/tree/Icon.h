@@ -110,6 +110,7 @@ namespace BYOND::tree {
                     icon_states->emplace(iS.name,directions);
                     state++;
                 }
+                free(image);
 
             }    
 

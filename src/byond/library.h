@@ -31,6 +31,11 @@ namespace BYOND{
         BYOND::dme::Dme *DME;
         BYOND::tree::Tree *tree;
 
+        ~Library(){
+            free(DME);
+            free(tree);
+        }
+
         Library(){};
 
         /**
