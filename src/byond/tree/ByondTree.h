@@ -39,13 +39,13 @@ namespace BYOND::tree {
 
                 TreeItem(Tree *tree,BYOND::dme::Dme::DmeItem *item, std::string dmipath = "null"):tree(tree),item(item){
                     this->dmipath = dmipath;
-                    this->name = item->type.substr(item->type.find_last_of("/"),item->type.length());
+                    this->name = item->type.substr(item->type.find_last_of("/")+1,item->type.length());
                     this->directSubtypes = item->directSubtypes;
                     this->type = item->type;
                 }
 
                 std::string toString() {
-                    StringBuilder *out = new StringBuilder(item->type.substr(0,item->type.find_last_of("/")));
+                    StringBuilder *out = new StringBuilder(item->type.substr(0,item->type.find_last_of("/")-1));
                     out->append('{');
                     bool isFirst = true;
                     for(std::pair<std::string,std::string> e : *getAllVars()) {
@@ -64,8 +64,8 @@ namespace BYOND::tree {
                 bool istype(std::string path) {
                     if(this->type == path)
                         return true;
-                    if(tree->getDMEItem(item->type.substr(0,item->type.find_last_of("/"))) != nullptr)
-                        return tree->getDMEItem(item->type.substr(0,item->type.find_last_of("/")))->isType(path);
+                    if(tree->getDMEItem(item->type.substr(0,item->type.find_last_of("/")-1)) != nullptr)
+                        return tree->getDMEItem(item->type.substr(0,item->type.find_last_of("/")-1))->isType(path);
                     return false;
                 }
         
@@ -97,12 +97,13 @@ namespace BYOND::tree {
 
 
             };
+        
+       
 
         Tree(BYOND::dme::Dme *environment,std::string root = "/atom"):environment(environment){
             BYOND::dme::Dme::DmeItem *atom = environment->items->at(root);
  
             items = new std::map<std::string, TreeItem*>();
-            instances = new std::vector<TreeItem*>();
             icons = new std::map<std::string, Icon*>();
 
             TreeItem* it = new TreeItem(this, atom, "null");
@@ -169,14 +170,12 @@ namespace BYOND::tree {
             
         }
 
-        void addInstance(TreeItem* instance){
-            instances->push_back(instance);
-        }
+     
 
         private:
             BYOND::dme::Dme* environment;
             std::map<std::string,TreeItem*> *items;
-            std::vector<TreeItem*> *instances;
+            
             std::map<std::string,Icon*> *icons;
 
         
