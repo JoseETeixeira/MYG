@@ -70,70 +70,70 @@ src/editor/CMakeFiles/Editor.dir/editor.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Editor.dir/editor.cpp.s"
 	cd /home/eduardo/Desktop/BYOND/MYG/src/editor && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/eduardo/Desktop/BYOND/MYG/src/editor/editor.cpp -o CMakeFiles/Editor.dir/editor.cpp.s
 
-src/editor/CMakeFiles/Editor.dir/DMI/codecs/png.cpp.o: src/editor/CMakeFiles/Editor.dir/flags.make
-src/editor/CMakeFiles/Editor.dir/DMI/codecs/png.cpp.o: src/editor/DMI/codecs/png.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/eduardo/Desktop/BYOND/MYG/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object src/editor/CMakeFiles/Editor.dir/DMI/codecs/png.cpp.o"
-	cd /home/eduardo/Desktop/BYOND/MYG/src/editor && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Editor.dir/DMI/codecs/png.cpp.o -c /home/eduardo/Desktop/BYOND/MYG/src/editor/DMI/codecs/png.cpp
+src/editor/CMakeFiles/Editor.dir/__/byond/DMI/DMI.cpp.o: src/editor/CMakeFiles/Editor.dir/flags.make
+src/editor/CMakeFiles/Editor.dir/__/byond/DMI/DMI.cpp.o: src/byond/DMI/DMI.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/eduardo/Desktop/BYOND/MYG/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object src/editor/CMakeFiles/Editor.dir/__/byond/DMI/DMI.cpp.o"
+	cd /home/eduardo/Desktop/BYOND/MYG/src/editor && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Editor.dir/__/byond/DMI/DMI.cpp.o -c /home/eduardo/Desktop/BYOND/MYG/src/byond/DMI/DMI.cpp
 
-src/editor/CMakeFiles/Editor.dir/DMI/codecs/png.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Editor.dir/DMI/codecs/png.cpp.i"
-	cd /home/eduardo/Desktop/BYOND/MYG/src/editor && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/eduardo/Desktop/BYOND/MYG/src/editor/DMI/codecs/png.cpp > CMakeFiles/Editor.dir/DMI/codecs/png.cpp.i
+src/editor/CMakeFiles/Editor.dir/__/byond/DMI/DMI.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Editor.dir/__/byond/DMI/DMI.cpp.i"
+	cd /home/eduardo/Desktop/BYOND/MYG/src/editor && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/eduardo/Desktop/BYOND/MYG/src/byond/DMI/DMI.cpp > CMakeFiles/Editor.dir/__/byond/DMI/DMI.cpp.i
 
-src/editor/CMakeFiles/Editor.dir/DMI/codecs/png.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Editor.dir/DMI/codecs/png.cpp.s"
-	cd /home/eduardo/Desktop/BYOND/MYG/src/editor && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/eduardo/Desktop/BYOND/MYG/src/editor/DMI/codecs/png.cpp -o CMakeFiles/Editor.dir/DMI/codecs/png.cpp.s
+src/editor/CMakeFiles/Editor.dir/__/byond/DMI/DMI.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Editor.dir/__/byond/DMI/DMI.cpp.s"
+	cd /home/eduardo/Desktop/BYOND/MYG/src/editor && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/eduardo/Desktop/BYOND/MYG/src/byond/DMI/DMI.cpp -o CMakeFiles/Editor.dir/__/byond/DMI/DMI.cpp.s
 
-src/editor/CMakeFiles/Editor.dir/DMI/codecs/webp.cpp.o: src/editor/CMakeFiles/Editor.dir/flags.make
-src/editor/CMakeFiles/Editor.dir/DMI/codecs/webp.cpp.o: src/editor/DMI/codecs/webp.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/eduardo/Desktop/BYOND/MYG/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object src/editor/CMakeFiles/Editor.dir/DMI/codecs/webp.cpp.o"
-	cd /home/eduardo/Desktop/BYOND/MYG/src/editor && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Editor.dir/DMI/codecs/webp.cpp.o -c /home/eduardo/Desktop/BYOND/MYG/src/editor/DMI/codecs/webp.cpp
+src/editor/CMakeFiles/Editor.dir/__/byond/DMI/codecs/file.cpp.o: src/editor/CMakeFiles/Editor.dir/flags.make
+src/editor/CMakeFiles/Editor.dir/__/byond/DMI/codecs/file.cpp.o: src/byond/DMI/codecs/file.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/eduardo/Desktop/BYOND/MYG/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object src/editor/CMakeFiles/Editor.dir/__/byond/DMI/codecs/file.cpp.o"
+	cd /home/eduardo/Desktop/BYOND/MYG/src/editor && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Editor.dir/__/byond/DMI/codecs/file.cpp.o -c /home/eduardo/Desktop/BYOND/MYG/src/byond/DMI/codecs/file.cpp
 
-src/editor/CMakeFiles/Editor.dir/DMI/codecs/webp.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Editor.dir/DMI/codecs/webp.cpp.i"
-	cd /home/eduardo/Desktop/BYOND/MYG/src/editor && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/eduardo/Desktop/BYOND/MYG/src/editor/DMI/codecs/webp.cpp > CMakeFiles/Editor.dir/DMI/codecs/webp.cpp.i
+src/editor/CMakeFiles/Editor.dir/__/byond/DMI/codecs/file.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Editor.dir/__/byond/DMI/codecs/file.cpp.i"
+	cd /home/eduardo/Desktop/BYOND/MYG/src/editor && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/eduardo/Desktop/BYOND/MYG/src/byond/DMI/codecs/file.cpp > CMakeFiles/Editor.dir/__/byond/DMI/codecs/file.cpp.i
 
-src/editor/CMakeFiles/Editor.dir/DMI/codecs/webp.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Editor.dir/DMI/codecs/webp.cpp.s"
-	cd /home/eduardo/Desktop/BYOND/MYG/src/editor && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/eduardo/Desktop/BYOND/MYG/src/editor/DMI/codecs/webp.cpp -o CMakeFiles/Editor.dir/DMI/codecs/webp.cpp.s
+src/editor/CMakeFiles/Editor.dir/__/byond/DMI/codecs/file.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Editor.dir/__/byond/DMI/codecs/file.cpp.s"
+	cd /home/eduardo/Desktop/BYOND/MYG/src/editor && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/eduardo/Desktop/BYOND/MYG/src/byond/DMI/codecs/file.cpp -o CMakeFiles/Editor.dir/__/byond/DMI/codecs/file.cpp.s
 
-src/editor/CMakeFiles/Editor.dir/DMI/codecs/file.cpp.o: src/editor/CMakeFiles/Editor.dir/flags.make
-src/editor/CMakeFiles/Editor.dir/DMI/codecs/file.cpp.o: src/editor/DMI/codecs/file.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/eduardo/Desktop/BYOND/MYG/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object src/editor/CMakeFiles/Editor.dir/DMI/codecs/file.cpp.o"
-	cd /home/eduardo/Desktop/BYOND/MYG/src/editor && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Editor.dir/DMI/codecs/file.cpp.o -c /home/eduardo/Desktop/BYOND/MYG/src/editor/DMI/codecs/file.cpp
+src/editor/CMakeFiles/Editor.dir/__/byond/DMI/codecs/png.cpp.o: src/editor/CMakeFiles/Editor.dir/flags.make
+src/editor/CMakeFiles/Editor.dir/__/byond/DMI/codecs/png.cpp.o: src/byond/DMI/codecs/png.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/eduardo/Desktop/BYOND/MYG/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object src/editor/CMakeFiles/Editor.dir/__/byond/DMI/codecs/png.cpp.o"
+	cd /home/eduardo/Desktop/BYOND/MYG/src/editor && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Editor.dir/__/byond/DMI/codecs/png.cpp.o -c /home/eduardo/Desktop/BYOND/MYG/src/byond/DMI/codecs/png.cpp
 
-src/editor/CMakeFiles/Editor.dir/DMI/codecs/file.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Editor.dir/DMI/codecs/file.cpp.i"
-	cd /home/eduardo/Desktop/BYOND/MYG/src/editor && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/eduardo/Desktop/BYOND/MYG/src/editor/DMI/codecs/file.cpp > CMakeFiles/Editor.dir/DMI/codecs/file.cpp.i
+src/editor/CMakeFiles/Editor.dir/__/byond/DMI/codecs/png.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Editor.dir/__/byond/DMI/codecs/png.cpp.i"
+	cd /home/eduardo/Desktop/BYOND/MYG/src/editor && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/eduardo/Desktop/BYOND/MYG/src/byond/DMI/codecs/png.cpp > CMakeFiles/Editor.dir/__/byond/DMI/codecs/png.cpp.i
 
-src/editor/CMakeFiles/Editor.dir/DMI/codecs/file.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Editor.dir/DMI/codecs/file.cpp.s"
-	cd /home/eduardo/Desktop/BYOND/MYG/src/editor && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/eduardo/Desktop/BYOND/MYG/src/editor/DMI/codecs/file.cpp -o CMakeFiles/Editor.dir/DMI/codecs/file.cpp.s
+src/editor/CMakeFiles/Editor.dir/__/byond/DMI/codecs/png.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Editor.dir/__/byond/DMI/codecs/png.cpp.s"
+	cd /home/eduardo/Desktop/BYOND/MYG/src/editor && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/eduardo/Desktop/BYOND/MYG/src/byond/DMI/codecs/png.cpp -o CMakeFiles/Editor.dir/__/byond/DMI/codecs/png.cpp.s
 
-src/editor/CMakeFiles/Editor.dir/DMI/DMI.cpp.o: src/editor/CMakeFiles/Editor.dir/flags.make
-src/editor/CMakeFiles/Editor.dir/DMI/DMI.cpp.o: src/editor/DMI/DMI.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/eduardo/Desktop/BYOND/MYG/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object src/editor/CMakeFiles/Editor.dir/DMI/DMI.cpp.o"
-	cd /home/eduardo/Desktop/BYOND/MYG/src/editor && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Editor.dir/DMI/DMI.cpp.o -c /home/eduardo/Desktop/BYOND/MYG/src/editor/DMI/DMI.cpp
+src/editor/CMakeFiles/Editor.dir/__/byond/DMI/codecs/webp.cpp.o: src/editor/CMakeFiles/Editor.dir/flags.make
+src/editor/CMakeFiles/Editor.dir/__/byond/DMI/codecs/webp.cpp.o: src/byond/DMI/codecs/webp.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/eduardo/Desktop/BYOND/MYG/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object src/editor/CMakeFiles/Editor.dir/__/byond/DMI/codecs/webp.cpp.o"
+	cd /home/eduardo/Desktop/BYOND/MYG/src/editor && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Editor.dir/__/byond/DMI/codecs/webp.cpp.o -c /home/eduardo/Desktop/BYOND/MYG/src/byond/DMI/codecs/webp.cpp
 
-src/editor/CMakeFiles/Editor.dir/DMI/DMI.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Editor.dir/DMI/DMI.cpp.i"
-	cd /home/eduardo/Desktop/BYOND/MYG/src/editor && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/eduardo/Desktop/BYOND/MYG/src/editor/DMI/DMI.cpp > CMakeFiles/Editor.dir/DMI/DMI.cpp.i
+src/editor/CMakeFiles/Editor.dir/__/byond/DMI/codecs/webp.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Editor.dir/__/byond/DMI/codecs/webp.cpp.i"
+	cd /home/eduardo/Desktop/BYOND/MYG/src/editor && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/eduardo/Desktop/BYOND/MYG/src/byond/DMI/codecs/webp.cpp > CMakeFiles/Editor.dir/__/byond/DMI/codecs/webp.cpp.i
 
-src/editor/CMakeFiles/Editor.dir/DMI/DMI.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Editor.dir/DMI/DMI.cpp.s"
-	cd /home/eduardo/Desktop/BYOND/MYG/src/editor && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/eduardo/Desktop/BYOND/MYG/src/editor/DMI/DMI.cpp -o CMakeFiles/Editor.dir/DMI/DMI.cpp.s
+src/editor/CMakeFiles/Editor.dir/__/byond/DMI/codecs/webp.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Editor.dir/__/byond/DMI/codecs/webp.cpp.s"
+	cd /home/eduardo/Desktop/BYOND/MYG/src/editor && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/eduardo/Desktop/BYOND/MYG/src/byond/DMI/codecs/webp.cpp -o CMakeFiles/Editor.dir/__/byond/DMI/codecs/webp.cpp.s
 
-src/editor/CMakeFiles/Editor.dir/DMI/errors.cpp.o: src/editor/CMakeFiles/Editor.dir/flags.make
-src/editor/CMakeFiles/Editor.dir/DMI/errors.cpp.o: src/editor/DMI/errors.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/eduardo/Desktop/BYOND/MYG/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object src/editor/CMakeFiles/Editor.dir/DMI/errors.cpp.o"
-	cd /home/eduardo/Desktop/BYOND/MYG/src/editor && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Editor.dir/DMI/errors.cpp.o -c /home/eduardo/Desktop/BYOND/MYG/src/editor/DMI/errors.cpp
+src/editor/CMakeFiles/Editor.dir/__/byond/DMI/errors.cpp.o: src/editor/CMakeFiles/Editor.dir/flags.make
+src/editor/CMakeFiles/Editor.dir/__/byond/DMI/errors.cpp.o: src/byond/DMI/errors.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/eduardo/Desktop/BYOND/MYG/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object src/editor/CMakeFiles/Editor.dir/__/byond/DMI/errors.cpp.o"
+	cd /home/eduardo/Desktop/BYOND/MYG/src/editor && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Editor.dir/__/byond/DMI/errors.cpp.o -c /home/eduardo/Desktop/BYOND/MYG/src/byond/DMI/errors.cpp
 
-src/editor/CMakeFiles/Editor.dir/DMI/errors.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Editor.dir/DMI/errors.cpp.i"
-	cd /home/eduardo/Desktop/BYOND/MYG/src/editor && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/eduardo/Desktop/BYOND/MYG/src/editor/DMI/errors.cpp > CMakeFiles/Editor.dir/DMI/errors.cpp.i
+src/editor/CMakeFiles/Editor.dir/__/byond/DMI/errors.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Editor.dir/__/byond/DMI/errors.cpp.i"
+	cd /home/eduardo/Desktop/BYOND/MYG/src/editor && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/eduardo/Desktop/BYOND/MYG/src/byond/DMI/errors.cpp > CMakeFiles/Editor.dir/__/byond/DMI/errors.cpp.i
 
-src/editor/CMakeFiles/Editor.dir/DMI/errors.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Editor.dir/DMI/errors.cpp.s"
-	cd /home/eduardo/Desktop/BYOND/MYG/src/editor && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/eduardo/Desktop/BYOND/MYG/src/editor/DMI/errors.cpp -o CMakeFiles/Editor.dir/DMI/errors.cpp.s
+src/editor/CMakeFiles/Editor.dir/__/byond/DMI/errors.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Editor.dir/__/byond/DMI/errors.cpp.s"
+	cd /home/eduardo/Desktop/BYOND/MYG/src/editor && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/eduardo/Desktop/BYOND/MYG/src/byond/DMI/errors.cpp -o CMakeFiles/Editor.dir/__/byond/DMI/errors.cpp.s
 
 src/editor/CMakeFiles/Editor.dir/source_navigation/source_navigation.cpp.o: src/editor/CMakeFiles/Editor.dir/flags.make
 src/editor/CMakeFiles/Editor.dir/source_navigation/source_navigation.cpp.o: src/editor/source_navigation/source_navigation.cpp
@@ -320,11 +320,11 @@ src/editor/CMakeFiles/Editor.dir/__/__/third_party/imgui/imgui_widgets.cpp.s: cm
 # Object files for target Editor
 Editor_OBJECTS = \
 "CMakeFiles/Editor.dir/editor.cpp.o" \
-"CMakeFiles/Editor.dir/DMI/codecs/png.cpp.o" \
-"CMakeFiles/Editor.dir/DMI/codecs/webp.cpp.o" \
-"CMakeFiles/Editor.dir/DMI/codecs/file.cpp.o" \
-"CMakeFiles/Editor.dir/DMI/DMI.cpp.o" \
-"CMakeFiles/Editor.dir/DMI/errors.cpp.o" \
+"CMakeFiles/Editor.dir/__/byond/DMI/DMI.cpp.o" \
+"CMakeFiles/Editor.dir/__/byond/DMI/codecs/file.cpp.o" \
+"CMakeFiles/Editor.dir/__/byond/DMI/codecs/png.cpp.o" \
+"CMakeFiles/Editor.dir/__/byond/DMI/codecs/webp.cpp.o" \
+"CMakeFiles/Editor.dir/__/byond/DMI/errors.cpp.o" \
 "CMakeFiles/Editor.dir/source_navigation/source_navigation.cpp.o" \
 "CMakeFiles/Editor.dir/__/__/third_party/glfw/deps/getopt.c.o" \
 "CMakeFiles/Editor.dir/__/__/third_party/glfw/deps/glad_gl.c.o" \
@@ -344,11 +344,11 @@ Editor_OBJECTS = \
 Editor_EXTERNAL_OBJECTS =
 
 bin/Editor: src/editor/CMakeFiles/Editor.dir/editor.cpp.o
-bin/Editor: src/editor/CMakeFiles/Editor.dir/DMI/codecs/png.cpp.o
-bin/Editor: src/editor/CMakeFiles/Editor.dir/DMI/codecs/webp.cpp.o
-bin/Editor: src/editor/CMakeFiles/Editor.dir/DMI/codecs/file.cpp.o
-bin/Editor: src/editor/CMakeFiles/Editor.dir/DMI/DMI.cpp.o
-bin/Editor: src/editor/CMakeFiles/Editor.dir/DMI/errors.cpp.o
+bin/Editor: src/editor/CMakeFiles/Editor.dir/__/byond/DMI/DMI.cpp.o
+bin/Editor: src/editor/CMakeFiles/Editor.dir/__/byond/DMI/codecs/file.cpp.o
+bin/Editor: src/editor/CMakeFiles/Editor.dir/__/byond/DMI/codecs/png.cpp.o
+bin/Editor: src/editor/CMakeFiles/Editor.dir/__/byond/DMI/codecs/webp.cpp.o
+bin/Editor: src/editor/CMakeFiles/Editor.dir/__/byond/DMI/errors.cpp.o
 bin/Editor: src/editor/CMakeFiles/Editor.dir/source_navigation/source_navigation.cpp.o
 bin/Editor: src/editor/CMakeFiles/Editor.dir/__/__/third_party/glfw/deps/getopt.c.o
 bin/Editor: src/editor/CMakeFiles/Editor.dir/__/__/third_party/glfw/deps/glad_gl.c.o
@@ -367,12 +367,10 @@ bin/Editor: src/editor/CMakeFiles/Editor.dir/build.make
 bin/Editor: /usr/lib/x86_64-linux-gnu/libz.so
 bin/Editor: /usr/lib/x86_64-linux-gnu/libpng.so
 bin/Editor: /usr/lib/x86_64-linux-gnu/libz.so
+bin/Editor: src/byond/libbyond.so.1.0.0
 bin/Editor: third_party/glfw/src/libglfw3.a
 bin/Editor: /usr/lib/x86_64-linux-gnu/libpng.so
 bin/Editor: /usr/lib/x86_64-linux-gnu/libz.so
-bin/Editor: /usr/lib/x86_64-linux-gnu/libpng.so
-bin/Editor: /usr/lib/x86_64-linux-gnu/libz.so
-bin/Editor: /usr/lib/x86_64-linux-gnu/libpng.so
 bin/Editor: /usr/lib/x86_64-linux-gnu/librt.so
 bin/Editor: /usr/lib/x86_64-linux-gnu/libm.so
 bin/Editor: /usr/lib/x86_64-linux-gnu/libX11.so

@@ -23,17 +23,11 @@ set(CMAKE_C_TARGET_INCLUDE_PATH
   "third_party/glfw/include"
   "third_party/glfw/deps/glad"
   "third_party/imgui"
-  "src/editor/deps/libwebp/include"
+  "src/editor/@CONF_INCLUDE_DIRS@"
   "src/editor/Editor"
-  "src/editor/../../../third_party/gil/include"
-  "src/editor/../../../third_party/io/include"
+  "src/editor/../byond"
   )
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/home/eduardo/Desktop/BYOND/MYG/src/editor/DMI/DMI.cpp" "/home/eduardo/Desktop/BYOND/MYG/src/editor/CMakeFiles/Editor.dir/DMI/DMI.cpp.o"
-  "/home/eduardo/Desktop/BYOND/MYG/src/editor/DMI/codecs/file.cpp" "/home/eduardo/Desktop/BYOND/MYG/src/editor/CMakeFiles/Editor.dir/DMI/codecs/file.cpp.o"
-  "/home/eduardo/Desktop/BYOND/MYG/src/editor/DMI/codecs/png.cpp" "/home/eduardo/Desktop/BYOND/MYG/src/editor/CMakeFiles/Editor.dir/DMI/codecs/png.cpp.o"
-  "/home/eduardo/Desktop/BYOND/MYG/src/editor/DMI/codecs/webp.cpp" "/home/eduardo/Desktop/BYOND/MYG/src/editor/CMakeFiles/Editor.dir/DMI/codecs/webp.cpp.o"
-  "/home/eduardo/Desktop/BYOND/MYG/src/editor/DMI/errors.cpp" "/home/eduardo/Desktop/BYOND/MYG/src/editor/CMakeFiles/Editor.dir/DMI/errors.cpp.o"
   "/home/eduardo/Desktop/BYOND/MYG/third_party/imgui/TextEditor.cpp" "/home/eduardo/Desktop/BYOND/MYG/src/editor/CMakeFiles/Editor.dir/__/__/third_party/imgui/TextEditor.cpp.o"
   "/home/eduardo/Desktop/BYOND/MYG/third_party/imgui/imgui.cpp" "/home/eduardo/Desktop/BYOND/MYG/src/editor/CMakeFiles/Editor.dir/__/__/third_party/imgui/imgui.cpp.o"
   "/home/eduardo/Desktop/BYOND/MYG/third_party/imgui/imgui_demo.cpp" "/home/eduardo/Desktop/BYOND/MYG/src/editor/CMakeFiles/Editor.dir/__/__/third_party/imgui/imgui_demo.cpp.o"
@@ -43,6 +37,11 @@ set(CMAKE_DEPENDS_CHECK_CXX
   "/home/eduardo/Desktop/BYOND/MYG/third_party/imgui/imgui_impl_opengl3.cpp" "/home/eduardo/Desktop/BYOND/MYG/src/editor/CMakeFiles/Editor.dir/__/__/third_party/imgui/imgui_impl_opengl3.cpp.o"
   "/home/eduardo/Desktop/BYOND/MYG/third_party/imgui/imgui_tables.cpp" "/home/eduardo/Desktop/BYOND/MYG/src/editor/CMakeFiles/Editor.dir/__/__/third_party/imgui/imgui_tables.cpp.o"
   "/home/eduardo/Desktop/BYOND/MYG/third_party/imgui/imgui_widgets.cpp" "/home/eduardo/Desktop/BYOND/MYG/src/editor/CMakeFiles/Editor.dir/__/__/third_party/imgui/imgui_widgets.cpp.o"
+  "/home/eduardo/Desktop/BYOND/MYG/src/byond/DMI/DMI.cpp" "/home/eduardo/Desktop/BYOND/MYG/src/editor/CMakeFiles/Editor.dir/__/byond/DMI/DMI.cpp.o"
+  "/home/eduardo/Desktop/BYOND/MYG/src/byond/DMI/codecs/file.cpp" "/home/eduardo/Desktop/BYOND/MYG/src/editor/CMakeFiles/Editor.dir/__/byond/DMI/codecs/file.cpp.o"
+  "/home/eduardo/Desktop/BYOND/MYG/src/byond/DMI/codecs/png.cpp" "/home/eduardo/Desktop/BYOND/MYG/src/editor/CMakeFiles/Editor.dir/__/byond/DMI/codecs/png.cpp.o"
+  "/home/eduardo/Desktop/BYOND/MYG/src/byond/DMI/codecs/webp.cpp" "/home/eduardo/Desktop/BYOND/MYG/src/editor/CMakeFiles/Editor.dir/__/byond/DMI/codecs/webp.cpp.o"
+  "/home/eduardo/Desktop/BYOND/MYG/src/byond/DMI/errors.cpp" "/home/eduardo/Desktop/BYOND/MYG/src/editor/CMakeFiles/Editor.dir/__/byond/DMI/errors.cpp.o"
   "/home/eduardo/Desktop/BYOND/MYG/src/editor/editor.cpp" "/home/eduardo/Desktop/BYOND/MYG/src/editor/CMakeFiles/Editor.dir/editor.cpp.o"
   "/home/eduardo/Desktop/BYOND/MYG/src/editor/source_navigation/source_navigation.cpp" "/home/eduardo/Desktop/BYOND/MYG/src/editor/CMakeFiles/Editor.dir/source_navigation/source_navigation.cpp.o"
   )
@@ -59,14 +58,14 @@ set(CMAKE_CXX_TARGET_INCLUDE_PATH
   "third_party/glfw/include"
   "third_party/glfw/deps/glad"
   "third_party/imgui"
-  "src/editor/deps/libwebp/include"
+  "src/editor/@CONF_INCLUDE_DIRS@"
   "src/editor/Editor"
-  "src/editor/../../../third_party/gil/include"
-  "src/editor/../../../third_party/io/include"
+  "src/editor/../byond"
   )
 
 # Targets to which this target links.
 set(CMAKE_TARGET_LINKED_INFO_FILES
+  "/home/eduardo/Desktop/BYOND/MYG/src/byond/CMakeFiles/byond.dir/DependInfo.cmake"
   "/home/eduardo/Desktop/BYOND/MYG/third_party/glfw/src/CMakeFiles/glfw.dir/DependInfo.cmake"
   )
 
