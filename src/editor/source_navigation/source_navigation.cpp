@@ -20,7 +20,6 @@ namespace MYG{
             ImGui::Indent();
             ImGuiTreeNodeFlags node_flags = ((selection_mask == i) ? ImGuiTreeNodeFlags_Selected : 0);
             if(item->getVar("icon")!="null")
-                spdlog::info(item->getVar("icon_state"));
                 if(item->getTexture(item->getVar("icon_state"), 0, 0) != nullptr)
                     ImGui::Image((void*)(intptr_t)*item->getTexture(item->getVar("icon_state"),0,0), ImVec2(32,32));
             //RenderIcon(dmePath,library->getTree(), root);

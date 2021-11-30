@@ -20,18 +20,16 @@ namespace BYOND::tree {
         public:
 
             GLuint* getIconState(std::string state, int dir =0, int frame=0){
-                int sta = 0;
+
                 spdlog::info("Looking for {}",state);
                 for(auto iS : icon->states){
                     spdlog::info("Current state {}",iS.name);
-                    if(state.find(iS.name) != std::string::npos){
+                    if(iS.name.find(state) != std::string::npos || iS.name.find(state.substr(1,state.length()-2)) != std::string::npos){
                         spdlog::info("found");
-                        return icon_states->at(sta)->at(dir)->at(frame);
+                        return icon_states->at(iS.name)->at(dir)->at(frame);
                     }
-                    
-                    sta++;
                 }
-                return icon_states->at(0)->at(0)->at(0);
+                return icon_states->at(icon->states[0].name)->at(0)->at(0);
             }
             
 
@@ -45,8 +43,8 @@ namespace BYOND::tree {
 
                 namespace bg = boost::gil;
                 image = new bg::rgba8_image_t();
-                bg::read_image(dmipath, *image,bg::png_tag{});
-                icon_states = new std::vector<std::vector<std::vector<GLuint*>*>*>();
+                bg::read_and_convert_image(dmipath, *image,bg::png_tag{});
+                icon_states = new std::map<std::string,std::vector<std::vector<GLuint*>*>*>();
                 int state = 0;
                 for(auto iS : icon->states){
                     int direcao = 0;
@@ -109,7 +107,7 @@ namespace BYOND::tree {
                         directions->push_back(frames);
                         direcao++;
                     }
-                    icon_states->push_back(directions);
+                    icon_states->emplace(iS.name,directions);
                     state++;
                 }
 
@@ -119,7 +117,7 @@ namespace BYOND::tree {
             DMI* icon;
             boost::gil::rgba8_image_t *image;
             //all of the states of every item;
-            std::vector<std::vector<std::vector<GLuint*>*>*> *icon_states;
+            std::map<std::string,std::vector<std::vector<GLuint*>*>*> *icon_states;
     };
 
 };

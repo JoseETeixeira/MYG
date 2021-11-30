@@ -7,6 +7,7 @@
 #include <map>
 #include <set>
 #include "../utils/string_helper.h"
+#include "../utils/string_builder.h"
 
 #include <boost/gil.hpp>
 #include <boost/gil/extension/io/png.hpp>
@@ -23,28 +24,51 @@ namespace BYOND::tree {
     class Tree{
         public:
 
-            class TreeItem{
+            class TreeItem{      
 
-            private:
+
+            public:
                 //The DME item this relates to
                 BYOND::dme::Dme::DmeItem *item;
                 Tree *tree;
                 std::string dmipath;
                 std::string name;
-                
+                std::string type;
 
-                
-                
-
-
-            public:
                 std::set<std::string> *directSubtypes;
 
                 TreeItem(Tree *tree,BYOND::dme::Dme::DmeItem *item, std::string dmipath = "null"):tree(tree),item(item){
                     this->dmipath = dmipath;
                     this->name = item->type.substr(item->type.find_last_of("/"),item->type.length());
                     this->directSubtypes = item->directSubtypes;
+                    this->type = item->type;
                 }
+
+                std::string toString() {
+                    StringBuilder *out = new StringBuilder(item->type.substr(0,item->type.find_last_of("/")));
+                    out->append('{');
+                    bool isFirst = true;
+                    for(std::pair<std::string,std::string> e : *getAllVars()) {
+                        if(isFirst)
+                            isFirst = false;
+                        else
+                            out->append("; ");
+                        out->append(e.first);
+                        out->append(" = ");
+                        out->append(e.second);
+                    }
+                    out->append('}');
+                    return out->toString();
+                }
+
+                bool istype(std::string path) {
+                    if(this->type == path)
+                        return true;
+                    if(tree->getDMEItem(item->type.substr(0,item->type.find_last_of("/"))) != nullptr)
+                        return tree->getDMEItem(item->type.substr(0,item->type.find_last_of("/")))->isType(path);
+                    return false;
+                }
+        
 
                 GLuint* getTexture(std::string icon_state, int dir = 0, int frame = 0){
                     if(!dmipath.empty() && dmipath!="null")
@@ -64,14 +88,11 @@ namespace BYOND::tree {
                 std::string getVar(std::string var){
                     return this->item->getVar(var);
                 }
-                
-                
 
-                
-
-
-                
-
+                std::map<std::string, std::string> *getAllVars(){
+                    return this->item->vars;
+                }
+            
                 
 
 
@@ -102,6 +123,12 @@ namespace BYOND::tree {
             return nullptr;
         }
 
+        BYOND::dme::Dme::DmeItem* getDMEItem(std::string rootPath){
+            if(environment->items->find(rootPath) != environment->items->end())
+                return environment->items->at(rootPath);
+            return nullptr;
+        }
+
         void generate_items(BYOND::dme::Dme *environment,BYOND::dme::Dme::DmeItem *object){
 
             //TODO: EMPLACE ITEM AFTER GENERATING
@@ -118,9 +145,13 @@ namespace BYOND::tree {
                 #else if defined(LINUX)
                     dmipath = environment->fileDir + environment->absoluteRootPath + StringHelper::ReplaceAll(icon,"\\","/").substr(1, StringHelper::ReplaceAll(icon, "\\","/").length()-2);
                 #endif
+
+                if(icons->find(icon) == icons->end()){
+                    Icon *ico = new Icon(icon,dmipath);
+                    icons->emplace(icon,ico);
+                }
                 
-                Icon *ico = new Icon(icon,dmipath);
-                icons->emplace(icon,ico);
+                
 
                 
             }
@@ -136,6 +167,10 @@ namespace BYOND::tree {
  
 
             
+        }
+
+        void addInstance(TreeItem* instance){
+            instances->push_back(instance);
         }
 
         private:

@@ -1,7 +1,6 @@
 #pragma once
 #include "../DMM/dmm.h"
-#include "ObjInstance.h"
-#include "ObjectTree.h"
+#include "ByondTree.h"
 #include <string>
 #include <map>
 #include "../utils/string_builder.h"
@@ -10,21 +9,23 @@
 namespace BYOND::tree
 {
 
-    class ModifiedType : public ObjInstance {
+    class ModifiedType : public BYOND::tree::Tree::TreeItem {
 
     public:
 
         std::map<std::string, std::string> *vars;
         std::string parentType;
-        ObjInstance* parent;
+        BYOND::tree::Tree::TreeItem* parent;
 
-        ModifiedType(std::map<std::string,std::string> *vars, std::string parentType):vars(vars) {
-            this.parentType = parentType;
+        ModifiedType(BYOND::tree::Tree *tree,BYOND::dme::Dme::DmeItem *item,std::map<std::string, std::string> *vars, std::string parentType, std::string dmipath = "null"):vars(vars), TreeItem(tree,item,dmipath){
+            this->parentType = parentType;
+            this->parent = tree->getItem(parentType);
         }
+
         
-        static ObjInstance* fromString(std::string s, ObjectTree *objtree) {
-            if(!s.contains("{"))
-                return objtree->get(s);
+        static BYOND::tree::Tree::TreeItem* fromString(std::string s, BYOND::tree::Tree *objtree) {
+            if(s.find("{")==std::string::npos)
+                return objtree->getItem(s);
             // This will match the type path (/blah/blah) and the var list (a = "b"; c = 123)
             std::smatch m;
             std::regex_search(s,m,std::regex("([\\w/]+)\\{(.*)\\}"));
@@ -32,16 +33,16 @@ namespace BYOND::tree
                 std::map<std::string,std::string> *vars = new std::map<std::string,std::string>();
                 // This will match variable key-val
                 std::smatch varmatcher;
-                std::regex_search(m[2].str(),varmatcher,std::regex("([\\w]+) ?= ?((?:\"(?:\\\\\"|[^\"])*\"|[^;])*)(?:$|;)"));
+                std::string v = m[2].str();
+                std::regex_search(v,varmatcher,std::regex("([\\w]+) ?= ?((?:\"(?:\\\\\"|[^\"])*\"|[^;])*)(?:$|;)"));
                 for(int i = 0; i < varmatcher.size(); i++){
                     vars->emplace(varmatcher[i+1].str(),varmatcher[i+2].str());
                 }
                 
-                ModifiedType *mt = new ModifiedType(vars, m[1].str());
-                mt->parent = objtree->get(m[1].str());
+                ModifiedType *mt = new ModifiedType(objtree,objtree->getDMEItem(v),vars, m[1].str(),objtree->getItem(v)->dmipath);
                
                 if(mt->parent != nullptr) {
-                    mt->parent->addInstance(mt);
+                   objtree->addInstance(mt);
                 }
                
                 return mt;
@@ -49,10 +50,10 @@ namespace BYOND::tree
             return nullptr;
         }
         
-        static ModifiedType* deriveFrom(ObjInstance* i) {
+        static ModifiedType* deriveFrom(BYOND::tree::Tree::TreeItem* i) {
             
-            ModifiedType *p = (ModifiedType)i;
-            ModifiedType *mt = new ModifiedType(p->vars, p->type);
+            ModifiedType *p = (ModifiedType*)i;
+            ModifiedType *mt = new ModifiedType(p->tree,p->tree->getDMEItem(p->type),p->getAllVars(), p->type, p->tree->getItem(i->type)->dmipath);
             mt->parent = p->parent;
             return mt;
           
@@ -92,7 +93,7 @@ namespace BYOND::tree
             return hash;
         }
         
-        bool equals(ObjInstance* other) {
+        bool equals(BYOND::tree::Tree::TreeItem* other) {
             if(other == this)
                 return true;
             if(other->toString() == toString())
@@ -105,7 +106,7 @@ namespace BYOND::tree
         }
         
         bool istype(std::string path) {
-            if(this.type == path)
+            if(this->type == path)
                 return true;
             if(parent != nullptr)
                 return parent->istype(path);

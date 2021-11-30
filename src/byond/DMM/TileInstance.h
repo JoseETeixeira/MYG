@@ -1,18 +1,3 @@
-package com.github.tgstation.fastdmm.dmmmap;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-import java.util.regex.*;
-
-import com.github.tgstation.fastdmm.FastDMM;
-import com.github.tgstation.fastdmm.dmirender.DMI;
-import com.github.tgstation.fastdmm.dmirender.IconSubstate;
-import com.github.tgstation.fastdmm.objtree.ModifiedType;
-import com.github.tgstation.fastdmm.objtree.ObjInstance;
-import com.github.tgstation.fastdmm.objtree.ObjectTree;
-import com.github.tgstation.fastdmm.objtree.ObjectTreeItem;
 
 public class TileInstance {
 	public List<ObjInstance> objs;
