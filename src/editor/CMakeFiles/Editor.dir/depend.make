@@ -218,6 +218,7 @@ src/editor/CMakeFiles/Editor.dir/editor.cpp.o: src/byond/deps/zlib-1.2.11/zlib.h
 src/editor/CMakeFiles/Editor.dir/editor.cpp.o: src/byond/dme/Dme.h
 src/editor/CMakeFiles/Editor.dir/editor.cpp.o: src/byond/library.h
 src/editor/CMakeFiles/Editor.dir/editor.cpp.o: src/byond/tree/ByondTree.h
+src/editor/CMakeFiles/Editor.dir/editor.cpp.o: src/byond/tree/Icon.h
 src/editor/CMakeFiles/Editor.dir/editor.cpp.o: src/byond/utils/exception_helper.h
 src/editor/CMakeFiles/Editor.dir/editor.cpp.o: src/byond/utils/string_helper.h
 src/editor/CMakeFiles/Editor.dir/editor.cpp.o: third_party/glfw/include/GLFW/glfw3.h
@@ -292,6 +293,7 @@ src/editor/CMakeFiles/Editor.dir/source_navigation/source_navigation.cpp.o: src/
 src/editor/CMakeFiles/Editor.dir/source_navigation/source_navigation.cpp.o: src/byond/dme/parser/WordReplacer.h
 src/editor/CMakeFiles/Editor.dir/source_navigation/source_navigation.cpp.o: src/byond/library.h
 src/editor/CMakeFiles/Editor.dir/source_navigation/source_navigation.cpp.o: src/byond/tree/ByondTree.h
+src/editor/CMakeFiles/Editor.dir/source_navigation/source_navigation.cpp.o: src/byond/tree/Icon.h
 src/editor/CMakeFiles/Editor.dir/source_navigation/source_navigation.cpp.o: src/byond/utils/exception_helper.h
 src/editor/CMakeFiles/Editor.dir/source_navigation/source_navigation.cpp.o: src/byond/utils/string_builder.h
 src/editor/CMakeFiles/Editor.dir/source_navigation/source_navigation.cpp.o: src/byond/utils/string_helper.h

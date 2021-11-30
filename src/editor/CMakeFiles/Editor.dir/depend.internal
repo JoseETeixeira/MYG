@@ -219,6 +219,7 @@ src/editor/CMakeFiles/Editor.dir/editor.cpp.o
  src/byond/dme/Dme.h
  src/byond/library.h
  src/byond/tree/ByondTree.h
+ src/byond/tree/Icon.h
  src/byond/utils/exception_helper.h
  src/byond/utils/string_helper.h
  third_party/glfw/include/GLFW/glfw3.h
@@ -293,6 +294,7 @@ src/editor/CMakeFiles/Editor.dir/source_navigation/source_navigation.cpp.o
  src/byond/dme/parser/WordReplacer.h
  src/byond/library.h
  src/byond/tree/ByondTree.h
+ src/byond/tree/Icon.h
  src/byond/utils/exception_helper.h
  src/byond/utils/string_builder.h
  src/byond/utils/string_helper.h
