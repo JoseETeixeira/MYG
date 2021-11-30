@@ -12,7 +12,7 @@ if(NOT DEFINED CMAKE_INSTALL_CONFIG_NAME)
     string(REGEX REPLACE "^[^A-Za-z0-9_]+" ""
            CMAKE_INSTALL_CONFIG_NAME "${BUILD_TYPE}")
   else()
-    set(CMAKE_INSTALL_CONFIG_NAME "")
+    set(CMAKE_INSTALL_CONFIG_NAME "Debug")
   endif()
   message(STATUS "Install configuration: \"${CMAKE_INSTALL_CONFIG_NAME}\"")
 endif()
@@ -38,49 +38,49 @@ if(NOT DEFINED CMAKE_CROSSCOMPILING)
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  if(EXISTS "$ENV{DESTDIR}/home/eduardo/Desktop/BYOND/MYG/libs/libbyond-core.so.1.0.0" AND
-     NOT IS_SYMLINK "$ENV{DESTDIR}/home/eduardo/Desktop/BYOND/MYG/libs/libbyond-core.so.1.0.0")
+  if(EXISTS "$ENV{DESTDIR}/home/eduardo/Desktop/BYOND/MYG/libs/libbyond.so.1.0.0" AND
+     NOT IS_SYMLINK "$ENV{DESTDIR}/home/eduardo/Desktop/BYOND/MYG/libs/libbyond.so.1.0.0")
     file(RPATH_CHECK
-         FILE "$ENV{DESTDIR}/home/eduardo/Desktop/BYOND/MYG/libs/libbyond-core.so.1.0.0"
+         FILE "$ENV{DESTDIR}/home/eduardo/Desktop/BYOND/MYG/libs/libbyond.so.1.0.0"
          RPATH "")
   endif()
   list(APPEND CMAKE_ABSOLUTE_DESTINATION_FILES
-   "/home/eduardo/Desktop/BYOND/MYG/libs/libbyond-core.so.1.0.0")
+   "/home/eduardo/Desktop/BYOND/MYG/libs/libbyond.so.1.0.0")
   if(CMAKE_WARN_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(WARNING "ABSOLUTE path INSTALL DESTINATION : ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
   if(CMAKE_ERROR_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(FATAL_ERROR "ABSOLUTE path INSTALL DESTINATION forbidden (by caller): ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
-file(INSTALL DESTINATION "/home/eduardo/Desktop/BYOND/MYG/libs" TYPE SHARED_LIBRARY FILES "/home/eduardo/Desktop/BYOND/MYG/src/byond/libbyond-core.so.1.0.0")
-  if(EXISTS "$ENV{DESTDIR}/home/eduardo/Desktop/BYOND/MYG/libs/libbyond-core.so.1.0.0" AND
-     NOT IS_SYMLINK "$ENV{DESTDIR}/home/eduardo/Desktop/BYOND/MYG/libs/libbyond-core.so.1.0.0")
+file(INSTALL DESTINATION "/home/eduardo/Desktop/BYOND/MYG/libs" TYPE SHARED_LIBRARY FILES "/home/eduardo/Desktop/BYOND/MYG/src/byond/libbyond.so.1.0.0")
+  if(EXISTS "$ENV{DESTDIR}/home/eduardo/Desktop/BYOND/MYG/libs/libbyond.so.1.0.0" AND
+     NOT IS_SYMLINK "$ENV{DESTDIR}/home/eduardo/Desktop/BYOND/MYG/libs/libbyond.so.1.0.0")
     if(CMAKE_INSTALL_DO_STRIP)
-      execute_process(COMMAND "/usr/bin/strip" "$ENV{DESTDIR}/home/eduardo/Desktop/BYOND/MYG/libs/libbyond-core.so.1.0.0")
+      execute_process(COMMAND "/usr/bin/strip" "$ENV{DESTDIR}/home/eduardo/Desktop/BYOND/MYG/libs/libbyond.so.1.0.0")
     endif()
   endif()
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  if(EXISTS "$ENV{DESTDIR}/home/eduardo/Desktop/BYOND/MYG/libs/libbyond-core.so" AND
-     NOT IS_SYMLINK "$ENV{DESTDIR}/home/eduardo/Desktop/BYOND/MYG/libs/libbyond-core.so")
+  if(EXISTS "$ENV{DESTDIR}/home/eduardo/Desktop/BYOND/MYG/libs/libbyond.so" AND
+     NOT IS_SYMLINK "$ENV{DESTDIR}/home/eduardo/Desktop/BYOND/MYG/libs/libbyond.so")
     file(RPATH_CHECK
-         FILE "$ENV{DESTDIR}/home/eduardo/Desktop/BYOND/MYG/libs/libbyond-core.so"
+         FILE "$ENV{DESTDIR}/home/eduardo/Desktop/BYOND/MYG/libs/libbyond.so"
          RPATH "")
   endif()
   list(APPEND CMAKE_ABSOLUTE_DESTINATION_FILES
-   "/home/eduardo/Desktop/BYOND/MYG/libs/libbyond-core.so")
+   "/home/eduardo/Desktop/BYOND/MYG/libs/libbyond.so")
   if(CMAKE_WARN_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(WARNING "ABSOLUTE path INSTALL DESTINATION : ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
   if(CMAKE_ERROR_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(FATAL_ERROR "ABSOLUTE path INSTALL DESTINATION forbidden (by caller): ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
-file(INSTALL DESTINATION "/home/eduardo/Desktop/BYOND/MYG/libs" TYPE SHARED_LIBRARY FILES "/home/eduardo/Desktop/BYOND/MYG/src/byond/libbyond-core.so")
-  if(EXISTS "$ENV{DESTDIR}/home/eduardo/Desktop/BYOND/MYG/libs/libbyond-core.so" AND
-     NOT IS_SYMLINK "$ENV{DESTDIR}/home/eduardo/Desktop/BYOND/MYG/libs/libbyond-core.so")
+file(INSTALL DESTINATION "/home/eduardo/Desktop/BYOND/MYG/libs" TYPE SHARED_LIBRARY FILES "/home/eduardo/Desktop/BYOND/MYG/src/byond/libbyond.so")
+  if(EXISTS "$ENV{DESTDIR}/home/eduardo/Desktop/BYOND/MYG/libs/libbyond.so" AND
+     NOT IS_SYMLINK "$ENV{DESTDIR}/home/eduardo/Desktop/BYOND/MYG/libs/libbyond.so")
     if(CMAKE_INSTALL_DO_STRIP)
-      execute_process(COMMAND "/usr/bin/strip" "$ENV{DESTDIR}/home/eduardo/Desktop/BYOND/MYG/libs/libbyond-core.so")
+      execute_process(COMMAND "/usr/bin/strip" "$ENV{DESTDIR}/home/eduardo/Desktop/BYOND/MYG/libs/libbyond.so")
     endif()
   endif()
 endif()

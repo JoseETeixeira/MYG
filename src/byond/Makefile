@@ -179,19 +179,154 @@ depend:
 .PHONY : depend
 
 # Convenience name for target.
-src/byond/CMakeFiles/byond-core.dir/rule:
-	cd /home/eduardo/Desktop/BYOND/MYG && $(MAKE) -f CMakeFiles/Makefile2 src/byond/CMakeFiles/byond-core.dir/rule
-.PHONY : src/byond/CMakeFiles/byond-core.dir/rule
+src/byond/CMakeFiles/byond.dir/rule:
+	cd /home/eduardo/Desktop/BYOND/MYG && $(MAKE) -f CMakeFiles/Makefile2 src/byond/CMakeFiles/byond.dir/rule
+.PHONY : src/byond/CMakeFiles/byond.dir/rule
 
 # Convenience name for target.
-byond-core: src/byond/CMakeFiles/byond-core.dir/rule
+byond: src/byond/CMakeFiles/byond.dir/rule
 
-.PHONY : byond-core
+.PHONY : byond
 
 # fast build rule for target.
-byond-core/fast:
-	cd /home/eduardo/Desktop/BYOND/MYG && $(MAKE) -f src/byond/CMakeFiles/byond-core.dir/build.make src/byond/CMakeFiles/byond-core.dir/build
-.PHONY : byond-core/fast
+byond/fast:
+	cd /home/eduardo/Desktop/BYOND/MYG && $(MAKE) -f src/byond/CMakeFiles/byond.dir/build.make src/byond/CMakeFiles/byond.dir/build
+.PHONY : byond/fast
+
+DMI/DMI.o: DMI/DMI.cpp.o
+
+.PHONY : DMI/DMI.o
+
+# target to build an object file
+DMI/DMI.cpp.o:
+	cd /home/eduardo/Desktop/BYOND/MYG && $(MAKE) -f src/byond/CMakeFiles/byond.dir/build.make src/byond/CMakeFiles/byond.dir/DMI/DMI.cpp.o
+.PHONY : DMI/DMI.cpp.o
+
+DMI/DMI.i: DMI/DMI.cpp.i
+
+.PHONY : DMI/DMI.i
+
+# target to preprocess a source file
+DMI/DMI.cpp.i:
+	cd /home/eduardo/Desktop/BYOND/MYG && $(MAKE) -f src/byond/CMakeFiles/byond.dir/build.make src/byond/CMakeFiles/byond.dir/DMI/DMI.cpp.i
+.PHONY : DMI/DMI.cpp.i
+
+DMI/DMI.s: DMI/DMI.cpp.s
+
+.PHONY : DMI/DMI.s
+
+# target to generate assembly for a file
+DMI/DMI.cpp.s:
+	cd /home/eduardo/Desktop/BYOND/MYG && $(MAKE) -f src/byond/CMakeFiles/byond.dir/build.make src/byond/CMakeFiles/byond.dir/DMI/DMI.cpp.s
+.PHONY : DMI/DMI.cpp.s
+
+DMI/codecs/file.o: DMI/codecs/file.cpp.o
+
+.PHONY : DMI/codecs/file.o
+
+# target to build an object file
+DMI/codecs/file.cpp.o:
+	cd /home/eduardo/Desktop/BYOND/MYG && $(MAKE) -f src/byond/CMakeFiles/byond.dir/build.make src/byond/CMakeFiles/byond.dir/DMI/codecs/file.cpp.o
+.PHONY : DMI/codecs/file.cpp.o
+
+DMI/codecs/file.i: DMI/codecs/file.cpp.i
+
+.PHONY : DMI/codecs/file.i
+
+# target to preprocess a source file
+DMI/codecs/file.cpp.i:
+	cd /home/eduardo/Desktop/BYOND/MYG && $(MAKE) -f src/byond/CMakeFiles/byond.dir/build.make src/byond/CMakeFiles/byond.dir/DMI/codecs/file.cpp.i
+.PHONY : DMI/codecs/file.cpp.i
+
+DMI/codecs/file.s: DMI/codecs/file.cpp.s
+
+.PHONY : DMI/codecs/file.s
+
+# target to generate assembly for a file
+DMI/codecs/file.cpp.s:
+	cd /home/eduardo/Desktop/BYOND/MYG && $(MAKE) -f src/byond/CMakeFiles/byond.dir/build.make src/byond/CMakeFiles/byond.dir/DMI/codecs/file.cpp.s
+.PHONY : DMI/codecs/file.cpp.s
+
+DMI/codecs/png.o: DMI/codecs/png.cpp.o
+
+.PHONY : DMI/codecs/png.o
+
+# target to build an object file
+DMI/codecs/png.cpp.o:
+	cd /home/eduardo/Desktop/BYOND/MYG && $(MAKE) -f src/byond/CMakeFiles/byond.dir/build.make src/byond/CMakeFiles/byond.dir/DMI/codecs/png.cpp.o
+.PHONY : DMI/codecs/png.cpp.o
+
+DMI/codecs/png.i: DMI/codecs/png.cpp.i
+
+.PHONY : DMI/codecs/png.i
+
+# target to preprocess a source file
+DMI/codecs/png.cpp.i:
+	cd /home/eduardo/Desktop/BYOND/MYG && $(MAKE) -f src/byond/CMakeFiles/byond.dir/build.make src/byond/CMakeFiles/byond.dir/DMI/codecs/png.cpp.i
+.PHONY : DMI/codecs/png.cpp.i
+
+DMI/codecs/png.s: DMI/codecs/png.cpp.s
+
+.PHONY : DMI/codecs/png.s
+
+# target to generate assembly for a file
+DMI/codecs/png.cpp.s:
+	cd /home/eduardo/Desktop/BYOND/MYG && $(MAKE) -f src/byond/CMakeFiles/byond.dir/build.make src/byond/CMakeFiles/byond.dir/DMI/codecs/png.cpp.s
+.PHONY : DMI/codecs/png.cpp.s
+
+DMI/codecs/webp.o: DMI/codecs/webp.cpp.o
+
+.PHONY : DMI/codecs/webp.o
+
+# target to build an object file
+DMI/codecs/webp.cpp.o:
+	cd /home/eduardo/Desktop/BYOND/MYG && $(MAKE) -f src/byond/CMakeFiles/byond.dir/build.make src/byond/CMakeFiles/byond.dir/DMI/codecs/webp.cpp.o
+.PHONY : DMI/codecs/webp.cpp.o
+
+DMI/codecs/webp.i: DMI/codecs/webp.cpp.i
+
+.PHONY : DMI/codecs/webp.i
+
+# target to preprocess a source file
+DMI/codecs/webp.cpp.i:
+	cd /home/eduardo/Desktop/BYOND/MYG && $(MAKE) -f src/byond/CMakeFiles/byond.dir/build.make src/byond/CMakeFiles/byond.dir/DMI/codecs/webp.cpp.i
+.PHONY : DMI/codecs/webp.cpp.i
+
+DMI/codecs/webp.s: DMI/codecs/webp.cpp.s
+
+.PHONY : DMI/codecs/webp.s
+
+# target to generate assembly for a file
+DMI/codecs/webp.cpp.s:
+	cd /home/eduardo/Desktop/BYOND/MYG && $(MAKE) -f src/byond/CMakeFiles/byond.dir/build.make src/byond/CMakeFiles/byond.dir/DMI/codecs/webp.cpp.s
+.PHONY : DMI/codecs/webp.cpp.s
+
+DMI/errors.o: DMI/errors.cpp.o
+
+.PHONY : DMI/errors.o
+
+# target to build an object file
+DMI/errors.cpp.o:
+	cd /home/eduardo/Desktop/BYOND/MYG && $(MAKE) -f src/byond/CMakeFiles/byond.dir/build.make src/byond/CMakeFiles/byond.dir/DMI/errors.cpp.o
+.PHONY : DMI/errors.cpp.o
+
+DMI/errors.i: DMI/errors.cpp.i
+
+.PHONY : DMI/errors.i
+
+# target to preprocess a source file
+DMI/errors.cpp.i:
+	cd /home/eduardo/Desktop/BYOND/MYG && $(MAKE) -f src/byond/CMakeFiles/byond.dir/build.make src/byond/CMakeFiles/byond.dir/DMI/errors.cpp.i
+.PHONY : DMI/errors.cpp.i
+
+DMI/errors.s: DMI/errors.cpp.s
+
+.PHONY : DMI/errors.s
+
+# target to generate assembly for a file
+DMI/errors.cpp.s:
+	cd /home/eduardo/Desktop/BYOND/MYG && $(MAKE) -f src/byond/CMakeFiles/byond.dir/build.make src/byond/CMakeFiles/byond.dir/DMI/errors.cpp.s
+.PHONY : DMI/errors.cpp.s
 
 library.o: library.cpp.o
 
@@ -199,7 +334,7 @@ library.o: library.cpp.o
 
 # target to build an object file
 library.cpp.o:
-	cd /home/eduardo/Desktop/BYOND/MYG && $(MAKE) -f src/byond/CMakeFiles/byond-core.dir/build.make src/byond/CMakeFiles/byond-core.dir/library.cpp.o
+	cd /home/eduardo/Desktop/BYOND/MYG && $(MAKE) -f src/byond/CMakeFiles/byond.dir/build.make src/byond/CMakeFiles/byond.dir/library.cpp.o
 .PHONY : library.cpp.o
 
 library.i: library.cpp.i
@@ -208,7 +343,7 @@ library.i: library.cpp.i
 
 # target to preprocess a source file
 library.cpp.i:
-	cd /home/eduardo/Desktop/BYOND/MYG && $(MAKE) -f src/byond/CMakeFiles/byond-core.dir/build.make src/byond/CMakeFiles/byond-core.dir/library.cpp.i
+	cd /home/eduardo/Desktop/BYOND/MYG && $(MAKE) -f src/byond/CMakeFiles/byond.dir/build.make src/byond/CMakeFiles/byond.dir/library.cpp.i
 .PHONY : library.cpp.i
 
 library.s: library.cpp.s
@@ -217,7 +352,7 @@ library.s: library.cpp.s
 
 # target to generate assembly for a file
 library.cpp.s:
-	cd /home/eduardo/Desktop/BYOND/MYG && $(MAKE) -f src/byond/CMakeFiles/byond-core.dir/build.make src/byond/CMakeFiles/byond-core.dir/library.cpp.s
+	cd /home/eduardo/Desktop/BYOND/MYG && $(MAKE) -f src/byond/CMakeFiles/byond.dir/build.make src/byond/CMakeFiles/byond.dir/library.cpp.s
 .PHONY : library.cpp.s
 
 # Help Target
@@ -234,7 +369,22 @@ help:
 	@echo "... list_install_components"
 	@echo "... rebuild_cache"
 	@echo "... package"
-	@echo "... byond-core"
+	@echo "... byond"
+	@echo "... DMI/DMI.o"
+	@echo "... DMI/DMI.i"
+	@echo "... DMI/DMI.s"
+	@echo "... DMI/codecs/file.o"
+	@echo "... DMI/codecs/file.i"
+	@echo "... DMI/codecs/file.s"
+	@echo "... DMI/codecs/png.o"
+	@echo "... DMI/codecs/png.i"
+	@echo "... DMI/codecs/png.s"
+	@echo "... DMI/codecs/webp.o"
+	@echo "... DMI/codecs/webp.i"
+	@echo "... DMI/codecs/webp.s"
+	@echo "... DMI/errors.o"
+	@echo "... DMI/errors.i"
+	@echo "... DMI/errors.s"
 	@echo "... library.o"
 	@echo "... library.i"
 	@echo "... library.s"

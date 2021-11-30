@@ -10,10 +10,14 @@
 #include <deque>
 #include "PreParser.h"
 #include "../../utils/string_helper.h"
+#include "WordReplacer.h"
 
-namespace BYOND{
+namespace BYOND::dme::parser{
+    using Dme = BYOND::dme::Dme;
+    using ByondFiles = BYOND::ByondFiles;
+    using ByondTypes = BYOND::ByondTypes;
     
-    class Parser {
+    class Parser final {
 
         private:
             static inline std::string INITIAL_DME_FILE = "initial_dme.json";
@@ -37,156 +41,175 @@ namespace BYOND{
             Dme* dme;
             std::map<std::string, std::string> *macroses;
 
-        Parser(std::filesystem::path dmeFile) {
-            dme = new Dme();
-            std::ifstream  dmeStream(INITIAL_DME_FILE);
-            dme->mergeWithJson(dmeStream);
+            Parser(std::filesystem::path dmeFile) {
+                spdlog::info(dmeFile.string());
+                dme = new Dme();
+                using std::filesystem::current_path;
+                #if defined(WIN32)
+                    spdlog::info(current_path().string() + "\\" + INITIAL_DME_FILE);
+                    std::ifstream  dmeStream(current_path().string()+"\\"+INITIAL_DME_FILE);
+                #else if defined(linux)
+                    spdlog::info(current_path().string() + "/" + INITIAL_DME_FILE);
+                    std::ifstream  dmeStream(current_path().string()+"/"+INITIAL_DME_FILE);
+                #endif
+                dme->mergeWJson(dmeStream);
+                dme->fileDir = dmeFile.root_path().string();
+                dme->absoluteRootPath = dmeFile.relative_path().remove_filename().string();
+                macroses = dme->getMacroses();
+            }
 
-            dme->absoluteRootPath = dmeFile.parent_path().root_path();
-            macroses = dme->getMacroses();
-        }
+            void parseFile(std::ifstream& file, std::filesystem::path filename) {
+                std::deque<bool> *preProcessStack = new std::deque<bool>();
+                int preProcessBlocked = 0;
 
-        void parseFile(std::ifstream& file, std::string filename) {
-            std::deque<bool> *preProcessStack = new std::deque<bool>();
-            int preProcessBlocked = 0;
+                for (FileLine* line : PreParser::parse(file,filename.string())) {
+                    std::string lineText = line->text;
 
-            for (FileLine* line : PreParser::parse(file,filename)) {
-                std::string lineText = line->text;
-
-                if (line->hasNoIndent()) {
-                    continue;
-                }
-
-                if (StringHelper::startsWith(lineText,DIRECTIVE_HASH)) {
-                    if (lineText.find(DIRECTIVE_HASHED_ENDIF) != std::string::npos && !preProcessStack->back()) {
-                        preProcessStack->pop_back();
-                        preProcessBlocked--;
-                    }
-
-                    std::smatch matcher;
-                    std::regex_search(lineText,matcher,*directives);
-
-                    if (!matcher.empty()) {
-                        std::string macrosValue = matcher[2].str();
-                        if(matcher[1].str() == DIRECTIVE_UNDEF){
-                            macroses->erase(macrosValue);
-                        }
-                        else  if(matcher[1].str() == DIRECTIVE_IFDEF){
-                            bool isDefined = macroses->find(macrosValue)!=macroses->end();
-                            preProcessStack->push_back(isDefined);
-
-                            if (!isDefined) {
-                                preProcessBlocked++;
-                            }
-                        }
-                        else  if(matcher[1].str() == DIRECTIVE_IFNDEF){
-                            bool isNotDefined = macroses->find(macrosValue) != macroses->end();
-                            preProcessStack->push_back(isNotDefined);
-
-                            if (!isNotDefined) {
-                                preProcessBlocked++;
-                            }
-                        }
-                        else  if(matcher[1].str() == DIRECTIVE_IF){
-                           
-                            preProcessStack->push_back(true);
-                        }
-
-                    }
-                    if (preProcessBlocked > 0) {
+                    if (line->hasNoIndent()) {
                         continue;
                     }
 
-                    // Add new macros value if exists
-                    val macrosMatcher = define.matcher(lineText);
-                    if (macrosMatcher.find() && macrosMatcher.group(2) != null) {
-                        val macrosValue = macrosMatcher.group(2).replace("$", "\\$");
-                        macroses.put(macrosMatcher.group(1), WordReplacer.replace(macrosValue, macroses));
+                    if (StringHelper::startsWith(lineText,DIRECTIVE_HASH)) {
+                        if (lineText.find(DIRECTIVE_HASHED_ENDIF) != std::string::npos && !preProcessStack->back()) {
+                            preProcessStack->pop_back();
+                            preProcessBlocked--;
+                        }
+
+                        std::smatch matcher;
+                        std::regex_search(lineText,matcher,*directives);
+
+                        if (!matcher.empty()) {
+                            std::string macrosValue = matcher[2].str();
+                            if(matcher[1].str() == DIRECTIVE_UNDEF){
+                                macroses->erase(macrosValue);
+                            }
+                            else  if(matcher[1].str() == DIRECTIVE_IFDEF){
+                                bool isDefined = macroses->find(macrosValue)!=macroses->end();
+                                preProcessStack->push_back(isDefined);
+
+                                if (!isDefined) {
+                                    preProcessBlocked++;
+                                }
+                            }
+                            else  if(matcher[1].str() == DIRECTIVE_IFNDEF){
+                                bool isNotDefined = macroses->find(macrosValue) != macroses->end();
+                                preProcessStack->push_back(isNotDefined);
+
+                                if (!isNotDefined) {
+                                    preProcessBlocked++;
+                                }
+                            }
+                            else  if(matcher[1].str() == DIRECTIVE_IF){
+                            
+                                preProcessStack->push_back(true);
+                            }
+
+                        }
+                        if (preProcessBlocked > 0) {
+                            continue;
+                        }
+
+                        // Add new macros value if exists
+                        std::smatch macrosMatcher;
+                        std::regex_search(lineText,macrosMatcher,*define);
+                        if (!macrosMatcher.empty() && !macrosMatcher[2].str().empty()) {
+                            std::string macrosValue = StringHelper::replace(macrosMatcher[2].str(),"$", "\\$");
+                            macroses->emplace(macrosMatcher[1].str(), WordReplacer::replace(macrosValue, *macroses));
+                        }
+
+                        // Parse included file if exist
+                        std::smatch fileMatcher;
+                        std::regex_search(lineText,fileMatcher,*include);
+                        if (!fileMatcher.empty()) {
+                            #if defined(WIN32)
+                                std::string filePath = StringHelper::replace(fileMatcher[1].str(),"/","\\");
+                                std::string fullFilePath =filename.parent_path().root_path().string()+filename.parent_path().relative_path().string() +"\\"+filePath;
+                            #else if defined(LINUX)
+                                std::string filePath = StringHelper::replace(fileMatcher[1].str(),"\\","/");
+                                std::string fullFilePath =filename.parent_path().root_path().string()+filename.parent_path().relative_path().string() +"/"+filePath;
+                            #endif
+                            spdlog::info("Found file {}",fullFilePath);
+
+                            if (StringHelper::endsWith(filePath,ByondFiles::DMM_SUFFIX)) {
+                                dme->addMapFile(fullFilePath);
+                            } else {
+                                dme->addIncludedFile(fullFilePath);
+                                std::ifstream f(fullFilePath);
+                                parseFile(f,fullFilePath);
+                            }
+                        }
+
+                        continue;
                     }
 
-                    // Parse included file if exist
-                    val fileMatcher = include.matcher(lineText);
-                    if (fileMatcher.find()) {
-                        val filePath = fileMatcher.group(1).replace('\\', File.separatorChar);
-                        val fullFilePath = file.getParentFile().getAbsolutePath().concat(File.separator).concat(filePath);
+                    std::string fullPath = formFullPath(line);
+                    std::string type = formTypeName(fullPath);
 
-                        if (filePath.endsWith(ByondFiles.DMM_SUFFIX)) {
-                            dme.addMapFile(fullFilePath);
+                    Dme::DmeItem* dmeItem = dme->getItemOrCreate(type);
+                    std::smatch varMatcher;
+                    std::regex_search(fullPath,varMatcher,*varDefinition);
+
+                    if (!varMatcher.empty()) {
+                        std::string value = varMatcher[2].str();
+
+                        if (!value.empty()) {
+                            std::string varName = varMatcher[1].str();
+                            dmeItem->setVar(varName, WordReplacer::replace(value, *macroses));
                         } else {
-                            dme.addIncludedFile(fullFilePath);
-                            parseFile(new File(fullFilePath));
+                            dmeItem->setEmptyVar(varMatcher[3].str());
                         }
                     }
+                }
+            }
 
-                    continue;
+        private:
+            std::string formFullPath(FileLine *line) {
+                int expectedSize = line->indentLevel + 1;
+                if (pathTree.size() < expectedSize) {
+                    std::vector<std::string> *newPathTree = new std::vector<std::string>(expectedSize);
+                    std::copy_n(pathTree.begin(),pathTree.size(),newPathTree->begin());
+                    pathTree = *newPathTree;
                 }
 
-                final String fullPath = formFullPath(line);
-                final String type = formTypeName(fullPath);
+                pathTree[line->indentLevel] = line->text;
+                StringBuilder *fullPath = new StringBuilder();
 
-                val dmeItem = dme.getItemOrCreate(type);
-                val varMatcher = varDefinition.matcher(fullPath);
+                for (int i = 0; i < line->indentLevel + 1; i++) {
+                    std::string item = pathTree[i];
 
-                if (varMatcher.find()) {
-                    val value = varMatcher.group(2);
-
-                    if (value != null) {
-                        val varName = varMatcher.group(1);
-                        dmeItem.setVar(varName, WordReplacer.replace(value, macroses));
-                    } else {
-                        dmeItem.setEmptyVar(varMatcher.group(3));
+                    if (!item.empty()) {
+                        if (item[0] == '/') {
+                            fullPath = new StringBuilder(item);
+                        } else {
+                            fullPath->append('/')->append(item);
+                        }
                     }
                 }
-            }
-        }
 
-        private String formFullPath(final FileLine line) {
-            val expectedSize = line.getIndentLevel() + 1;
-            if (pathTree.length < expectedSize) {
-                val newPathTree = new String[expectedSize];
-                System.arraycopy(pathTree, 0, newPathTree, 0, pathTree.length);
-                pathTree = newPathTree;
+                return fullPath->toString();
             }
 
-            pathTree[line.getIndentLevel()] = line.getText();
-            var fullPath = new StringBuilder();
+            std::string formTypeName(std::string fullPath) {
+                StringBuilder *typeName = new StringBuilder();
 
-            for (int i = 0; i < line.getIndentLevel() + 1; i++) {
-                String item = pathTree[i];
-
-                if (item != null && !item.isEmpty()) {
-                    if (item.charAt(0) == '/') {
-                        fullPath = new StringBuilder(item);
-                    } else {
-                        fullPath.append('/').append(item);
+                for (auto pathPart : StringHelper::split(fullPath,'/')) {
+                    if (pathPart.empty()) {
+                        continue;
+                    } else if (notPartOfTypeName(pathPart)) {
+                        break;
                     }
-                }
-            }
 
-            return fullPath.toString();
-        }
-
-        private String formTypeName(final String fullPath) {
-            val typeName = new StringBuilder();
-
-            for (val pathPart : fullPath.split("/")) {
-                if (pathPart.isEmpty()) {
-                    continue;
-                } else if (notPartOfTypeName(pathPart)) {
-                    break;
+                    typeName->append('/')->append(pathPart);
                 }
 
-                typeName.append('/').append(pathPart);
+                return typeName->length() > 0 ? typeName->toString() : ByondTypes::GLOBAL;
             }
 
-            return typeName.length() > 0 ? typeName.toString() : ByondTypes.GLOBAL;
-        }
-
-        private boolean notPartOfTypeName(final String pathPart) {
-            return pathPart.contains("=") || pathPart.contains("(")
-                    || "var".equals(pathPart) || "proc".equals(pathPart) || "global".equals(pathPart)
-                    || "static".equals(pathPart) || "tmp".equals(pathPart) || "verb".equals(pathPart);
-        }
+            bool notPartOfTypeName(std::string pathPart) {
+                return pathPart.find("=") != std::string::npos || pathPart.find("(") != std::string::npos
+                        || strcmp("var",pathPart.c_str()) == 0 || strcmp("proc",pathPart.c_str()) == 0 || strcmp("global",pathPart.c_str()) == 0
+                        || strcmp("static",pathPart.c_str()) == 0 || strcmp("tmp",pathPart.c_str()) == 0 || strcmp("verb",pathPart.c_str()) == 0;
+            }
     };
 };
 
