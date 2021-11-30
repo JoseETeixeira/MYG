@@ -4,7 +4,7 @@
 #if defined(WIN32)
     #include "../../deps/libpng/png.h"
     #include "../../deps/zlib-1.2.11/zlib.h"
-#else
+#else if defined(LINUX)
     #include <zlib.h>
     #include <png.h>
 #endif

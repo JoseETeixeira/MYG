@@ -43,13 +43,14 @@ namespace BYOND::tree {
 
                 TreeItem(Tree *tree,BYOND::dme::Dme::DmeItem *item, std::string dmipath = "null"):tree(tree),item(item){
                     this->dmipath = dmipath;
-                    this->name = item->type.substr(item->type.find_last_of("/"),item->type.length()-1);
+                    this->name = item->type.substr(item->type.find_last_of("/"),item->type.length());
                     this->directSubtypes = item->directSubtypes;
                 }
 
                 GLuint* getTexture(std::string icon_state, int dir, int frame){
                     if(!dmipath.empty() && dmipath!="null")
-                        return tree->icon_states->at(dmipath+"/"+icon_state).at(dir).at(frame);
+                       if(tree->icon_states->find(dmipath + "/" + icon_state) != tree->icon_states->end())
+                          return tree->icon_states->at(dmipath+"/"+icon_state)->at(dir).at(frame);
                     return nullptr;
                 }
 
@@ -79,6 +80,17 @@ namespace BYOND::tree {
 
         Tree(BYOND::dme::Dme *environment,std::string root = "/atom"):environment(environment){
             BYOND::dme::Dme::DmeItem *atom = environment->items->at(root);
+ 
+            items = new std::map<std::string, TreeItem*>();
+            instances = new std::vector<TreeItem*>();
+            icons = new std::map<std::string, DMI*>();
+            images = new std::map<std::string, boost::gil::rgba8_image_t*>();
+            //all of the states of every item;
+            icon_states = new std::map<std::string, std::vector<std::vector<GLuint*>>*>();
+
+            TreeItem* it = new TreeItem(this, atom, "null");
+            items->emplace(atom->type, it);
+
             for(auto item : *atom->directSubtypes){
                 spdlog::info(item);
 
@@ -89,7 +101,9 @@ namespace BYOND::tree {
         }
 
         TreeItem* getItem(std::string rootPath){
-            return items->at(rootPath);
+            if(items->find(rootPath) != items->end())
+                return items->at(rootPath);
+            return nullptr;
         }
 
         void generate_items(BYOND::dme::Dme *environment,BYOND::dme::Dme::DmeItem *object){
@@ -138,15 +152,17 @@ namespace BYOND::tree {
                     std::vector<std::vector<GLuint*>> *imagens;
 
                     if(icon_states->find(dmipath+"/"+state_name) != icon_states->end()){
-                        imagens = &icon_states->at(dmipath+"/"+state_name);
+                        imagens = icon_states->at(dmipath+"/"+state_name);
                     }else{
                         imagens = new std::vector<std::vector<GLuint*>>();
-                        imagens->resize(iS.images.size());
+                        
                         int direcao = 0;
                         for(auto dir: iS.images){
-                            imagens->at(direcao).resize(dir.size());
+                            imagens->push_back(std::vector<GLuint*>());
+           
                             int fram = 0;
                             for(auto frame: dir){
+                                
                                 GLuint *texture = new GLuint();
                                 bg::rgba8c_view_t subImage = bg::subimage_view(bg::view(*image), frame.pos.x, frame.pos.y, frame.size.x, frame.size.y);
                                 unsigned _width = static_cast<int>(subImage.width());
@@ -194,14 +210,12 @@ namespace BYOND::tree {
                                 glBindTexture(GL_TEXTURE_2D, *texture);
 
                                 free(pixeldata);
-                                
-                                imagens->at(direcao).at(fram) = texture;
-                                fram ++;
+                                imagens->at(direcao).push_back(texture);
                             }
                             direcao++;
                         }
 
-                        icon_states->emplace(dmipath+"/"+state_name,*imagens);
+                        icon_states->emplace(dmipath+"/"+state_name,imagens);
                     }
 
                    
@@ -219,8 +233,8 @@ namespace BYOND::tree {
                 generate_items(environment,environment->items->at(subtype));
             }
 
-            free(images);
-            free(icons);
+           // free(images);
+            //free(icons);
             
 
             
@@ -233,7 +247,7 @@ namespace BYOND::tree {
             std::map<std::string,DMI*> *icons;
             std::map<std::string,boost::gil::rgba8_image_t*> *images;
             //all of the states of every item;
-            std::map<std::string,std::vector<std::vector<GLuint*>>> *icon_states;
+            std::map<std::string,std::vector<std::vector<GLuint*>>*> *icon_states;
 
         
 

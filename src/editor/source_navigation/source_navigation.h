@@ -12,17 +12,15 @@
 #include "imgui_impl_opengl3.h"
 #include "TextEditor.h"
 #include "imgui_file_browser.h"
-#include "../../byond/library.h"
-#include "../../byond/dme/Dme.h"
-#include "../../byond/tree/ByondTree.h"
-#include "../../byond/utils/string_helper.h"
+#include <library.h>
+#include <dme/Dme.h>
+#include <tree/ByondTree.h>
+#include <DMI/DMI.h>
+#include <utils/string_helper.h>
 #include "imgui_file_browser.h"
 #include <filesystem>
 #include <map>
 
-#include <boost/gil.hpp>
-// I need this bugfix to compile against libpng 1.5, your mileage may vary
-#define int_p_NULL (int*)NULL
 // done with the fix
 
 
@@ -40,10 +38,9 @@ private:
     ImVec4 clear_color = ImVec4(0.07f,0.13f,0.17f,1.0f);
     imgui_ext::file_browser *fileBrowser;
     std::string path;
-    std::map<std::string,DMI*> *icons = new std::map<std::string,DMI*>();
+
     std::string dmePath = "";
-    std::map<std::string,boost::gil::rgba8_image_t* > images;
-    std::map<std::string,GLuint*> icon_states;
+
 
     bool fileExplorerOpen = true;
 
