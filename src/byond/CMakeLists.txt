@@ -107,8 +107,12 @@ set_target_properties(byond PROPERTIES PUBLIC_HEADER library.h)
 target_include_directories(byond PRIVATE .)
 target_include_directories(byond PRIVATE "../../third_party/color/src" "../../third_party/json" ${ZLIB_INCLUDE_DIR} ${PNG_INCLUDE_DIRS}   "../../third_party/gil/include" "../../third_party/io/include")
 include_directories(byond  ${ZLIB_DEPS}  ${PNG_DEPS} ${Boost_INCLUDE_DIRS} ${PNG_INCLUDE_DIRS} ${ZLIB_INCLUDE_DIR}  "../../third_party/gil/include" "../../third_party/io/include" "deps/libpng" "deps/libwebp" "deps/zlib-1.2.11" "DMI" "dme".)
-target_link_libraries(byond glfw ${GLFW_LIBRARIES}  ${Boost_LIBRARIES} ${PNG_LIBRARIES} ${LIBWEBP_LIBRARIES} deps/libwebp/libwebp deps/libwebp/libwebpmux deps/libwebp/libwebpdemux  zlib png)
 
+if(WIN32)
+    target_link_libraries(byond glfw ${GLFW_LIBRARIES}  ${Boost_LIBRARIES} ${PNG_LIBRARIES} ${LIBWEBP_LIBRARIES} deps/libwebp/libwebp deps/libwebp/libwebpmux deps/libwebp/libwebpdemux  zlib png)
+else(LINUX)
+target_link_libraries(byond glfw ${GLFW_LIBRARIES}  ${Boost_LIBRARIES} ${PNG_LIBRARIES} ${LIBWEBP_LIBRARIES} webp webpmux webpdemux)
+endif()
 
 install(TARGETS byond
     EXPORT byondTargets

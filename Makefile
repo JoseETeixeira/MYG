@@ -231,17 +231,17 @@ imgui/fast:
 .PHONY : imgui/fast
 
 #=============================================================================
-# Target rules for targets named byond-core
+# Target rules for targets named byond
 
 # Build rule for target.
-byond-core: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 byond-core
-.PHONY : byond-core
+byond: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 byond
+.PHONY : byond
 
 # fast build rule for target.
-byond-core/fast:
-	$(MAKE) -f src/byond/CMakeFiles/byond-core.dir/build.make src/byond/CMakeFiles/byond-core.dir/build
-.PHONY : byond-core/fast
+byond/fast:
+	$(MAKE) -f src/byond/CMakeFiles/byond.dir/build.make src/byond/CMakeFiles/byond.dir/build
+.PHONY : byond/fast
 
 #=============================================================================
 # Target rules for targets named Editor
@@ -274,7 +274,7 @@ help:
 	@echo "... uninstall"
 	@echo "... glfw"
 	@echo "... imgui"
-	@echo "... byond-core"
+	@echo "... byond"
 	@echo "... Editor"
 .PHONY : help
 

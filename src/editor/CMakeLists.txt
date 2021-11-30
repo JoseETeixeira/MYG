@@ -7,7 +7,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 
 if(LINUX)
-    SET(GLFW_FLAGS "-lglfw3 -lGL -lX11 -lpthread -lXrandr -lXi -ldl -zlib -libpng16 -lwebp -lwebpmux -lwebpdemux")
+    SET(GLFW_FLAGS "-lglfw3 -lGL -lX11 -lpthread -lXrandr -lXi -ldl -zlib -libpng16 ")
     add_definitions(${GLFW_FLAGS})
 endif(LINUX)
 
@@ -118,5 +118,5 @@ else(LINUX)
 
     include_directories(Editor ${byond_DIR} ${Boost_INCLUDE_DIRS} ${PNG_INCLUDE_DIRS} ${ZLIB_INCLUDE_DIR}  ${byond_INCLUDE_DIRS} )
         
-    target_link_libraries(Editor glfw ${GLFW_LIBRARIES} ${Boost_LIBRARIES}  ${PNG_LIBRARIES} ${LIBWEBP_LIBRARIES} deps/libwebp/libwebp deps/libwebp/libwebpmux deps/libwebp/libwebpdemux  zlib png)
+    target_link_libraries(Editor glfw ${GLFW_LIBRARIES} ${Boost_LIBRARIES}  ${PNG_LIBRARIES} ${LIBWEBP_LIBRARIES}  )
 endif()

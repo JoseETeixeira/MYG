@@ -23,10 +23,9 @@ set(CMAKE_C_TARGET_INCLUDE_PATH
   "third_party/glfw/include"
   "third_party/glfw/deps/glad"
   "third_party/imgui"
-  "src/editor/deps/libwebp/include"
+  "src/editor/@CONF_INCLUDE_DIRS@"
   "src/editor/Editor"
-  "src/editor/../../../third_party/gil/include"
-  "src/editor/../../../third_party/io/include"
+  "src/editor/../byond"
   )
 set(CMAKE_DEPENDS_CHECK_CXX
   "/home/eduardo/Desktop/BYOND/MYG/third_party/imgui/TextEditor.cpp" "/home/eduardo/Desktop/BYOND/MYG/src/editor/CMakeFiles/Editor.dir/__/__/third_party/imgui/TextEditor.cpp.o"
@@ -59,14 +58,14 @@ set(CMAKE_CXX_TARGET_INCLUDE_PATH
   "third_party/glfw/include"
   "third_party/glfw/deps/glad"
   "third_party/imgui"
-  "src/editor/deps/libwebp/include"
+  "src/editor/@CONF_INCLUDE_DIRS@"
   "src/editor/Editor"
-  "src/editor/../../../third_party/gil/include"
-  "src/editor/../../../third_party/io/include"
+  "src/editor/../byond"
   )
 
 # Targets to which this target links.
 set(CMAKE_TARGET_LINKED_INFO_FILES
+  "/home/eduardo/Desktop/BYOND/MYG/src/byond/CMakeFiles/byond.dir/DependInfo.cmake"
   "/home/eduardo/Desktop/BYOND/MYG/third_party/glfw/src/CMakeFiles/glfw.dir/DependInfo.cmake"
   )
 

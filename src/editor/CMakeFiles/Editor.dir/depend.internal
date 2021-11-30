@@ -77,6 +77,12 @@ src/editor/CMakeFiles/Editor.dir/__/byond/DMI/DMI.cpp.o
  /home/eduardo/Desktop/BYOND/MYG/src/byond/DMI/codecs/png.h
  /home/eduardo/Desktop/BYOND/MYG/src/byond/DMI/codecs/webp.h
  /home/eduardo/Desktop/BYOND/MYG/src/byond/DMI/errors.h
+ /home/eduardo/Desktop/BYOND/MYG/src/byond/deps/libwebp/include/webp/decode.h
+ /home/eduardo/Desktop/BYOND/MYG/src/byond/deps/libwebp/include/webp/demux.h
+ /home/eduardo/Desktop/BYOND/MYG/src/byond/deps/libwebp/include/webp/mux_types.h
+ /home/eduardo/Desktop/BYOND/MYG/src/byond/deps/libwebp/include/webp/types.h
+ /home/eduardo/Desktop/BYOND/MYG/src/byond/deps/zlib-1.2.11/zconf.h
+ /home/eduardo/Desktop/BYOND/MYG/src/byond/deps/zlib-1.2.11/zlib.h
 src/editor/CMakeFiles/Editor.dir/__/byond/DMI/codecs/file.cpp.o
  /home/eduardo/Desktop/BYOND/MYG/src/byond/DMI/codecs/file.cpp
  /home/eduardo/Desktop/BYOND/MYG/src/byond/DMI/codecs/file.h
@@ -129,6 +135,8 @@ src/editor/CMakeFiles/Editor.dir/__/byond/DMI/codecs/png.cpp.o
  /home/eduardo/Desktop/BYOND/MYG/src/byond/DMI/codecs/png.cpp
  /home/eduardo/Desktop/BYOND/MYG/src/byond/DMI/codecs/png.h
  /home/eduardo/Desktop/BYOND/MYG/src/byond/DMI/errors.h
+ /home/eduardo/Desktop/BYOND/MYG/src/byond/deps/zlib-1.2.11/zconf.h
+ /home/eduardo/Desktop/BYOND/MYG/src/byond/deps/zlib-1.2.11/zlib.h
  third_party/spdlog/include/spdlog/common-inl.h
  third_party/spdlog/include/spdlog/common.h
  third_party/spdlog/include/spdlog/details/backtracer-inl.h
@@ -181,13 +189,6 @@ src/editor/CMakeFiles/Editor.dir/__/byond/DMI/errors.cpp.o
 src/editor/CMakeFiles/Editor.dir/editor.cpp.o
  /home/eduardo/Desktop/BYOND/MYG/src/byond/ByondFiles.h
  /home/eduardo/Desktop/BYOND/MYG/src/byond/ByondTypes.h
- /home/eduardo/Desktop/BYOND/MYG/src/byond/ByondVarWrapper.h
- /home/eduardo/Desktop/BYOND/MYG/src/byond/DMI/DMI.h
- /home/eduardo/Desktop/BYOND/MYG/src/byond/DMI/codecs/image.h
- /home/eduardo/Desktop/BYOND/MYG/src/byond/DMI/codecs/png.h
- /home/eduardo/Desktop/BYOND/MYG/src/byond/DMI/errors.h
- /home/eduardo/Desktop/BYOND/MYG/src/byond/deps/zlib-1.2.11/zconf.h
- /home/eduardo/Desktop/BYOND/MYG/src/byond/deps/zlib-1.2.11/zlib.h
  /home/eduardo/Desktop/BYOND/MYG/src/byond/dme/Dme.h
  /home/eduardo/Desktop/BYOND/MYG/src/byond/dme/parser/DmeParser.h
  /home/eduardo/Desktop/BYOND/MYG/src/byond/dme/parser/FileLine.h
@@ -196,8 +197,6 @@ src/editor/CMakeFiles/Editor.dir/editor.cpp.o
  /home/eduardo/Desktop/BYOND/MYG/src/byond/dme/parser/PreParser.h
  /home/eduardo/Desktop/BYOND/MYG/src/byond/dme/parser/WordReplacer.h
  /home/eduardo/Desktop/BYOND/MYG/src/byond/library.h
- /home/eduardo/Desktop/BYOND/MYG/src/byond/tree/ByondTree.h
- /home/eduardo/Desktop/BYOND/MYG/src/byond/utils/exception_helper.h
  /home/eduardo/Desktop/BYOND/MYG/src/byond/utils/string_builder.h
  /home/eduardo/Desktop/BYOND/MYG/src/byond/utils/string_helper.h
  /home/eduardo/Desktop/BYOND/MYG/src/editor/code_editor/code_editor_interface.h
@@ -209,7 +208,19 @@ src/editor/CMakeFiles/Editor.dir/editor.cpp.o
  /home/eduardo/Desktop/BYOND/MYG/third_party/fonts/IconsFontAwesome5.h
  /home/eduardo/Desktop/BYOND/MYG/third_party/glfw/deps/glad/gl.h
  /home/eduardo/Desktop/BYOND/MYG/third_party/glfw/deps/glad/khrplatform.h
- /home/eduardo/Desktop/BYOND/MYG/third_party/json/json.hpp
+ src/byond/ByondTypes.h
+ src/byond/ByondVarWrapper.h
+ src/byond/DMI/DMI.h
+ src/byond/DMI/codecs/image.h
+ src/byond/DMI/codecs/png.h
+ src/byond/DMI/errors.h
+ src/byond/deps/zlib-1.2.11/zconf.h
+ src/byond/deps/zlib-1.2.11/zlib.h
+ src/byond/dme/Dme.h
+ src/byond/library.h
+ src/byond/tree/ByondTree.h
+ src/byond/utils/exception_helper.h
+ src/byond/utils/string_helper.h
  third_party/glfw/include/GLFW/glfw3.h
  third_party/imgui/TextEditor.h
  third_party/imgui/imconfig.h
@@ -217,6 +228,7 @@ src/editor/CMakeFiles/Editor.dir/editor.cpp.o
  third_party/imgui/imgui_file_browser.h
  third_party/imgui/imgui_impl_glfw.h
  third_party/imgui/imgui_impl_opengl3.h
+ third_party/json/json.hpp
  third_party/spdlog/include/spdlog/common-inl.h
  third_party/spdlog/include/spdlog/common.h
  third_party/spdlog/include/spdlog/details/backtracer-inl.h
@@ -259,32 +271,31 @@ src/editor/CMakeFiles/Editor.dir/editor.cpp.o
  third_party/spdlog/include/spdlog/tweakme.h
  third_party/spdlog/include/spdlog/version.h
 src/editor/CMakeFiles/Editor.dir/source_navigation/source_navigation.cpp.o
- /home/eduardo/Desktop/BYOND/MYG/src/byond/ByondFiles.h
- /home/eduardo/Desktop/BYOND/MYG/src/byond/ByondTypes.h
- /home/eduardo/Desktop/BYOND/MYG/src/byond/ByondVarWrapper.h
- /home/eduardo/Desktop/BYOND/MYG/src/byond/DMI/DMI.h
- /home/eduardo/Desktop/BYOND/MYG/src/byond/DMI/codecs/image.h
- /home/eduardo/Desktop/BYOND/MYG/src/byond/DMI/codecs/png.h
- /home/eduardo/Desktop/BYOND/MYG/src/byond/DMI/errors.h
- /home/eduardo/Desktop/BYOND/MYG/src/byond/deps/zlib-1.2.11/zconf.h
- /home/eduardo/Desktop/BYOND/MYG/src/byond/deps/zlib-1.2.11/zlib.h
- /home/eduardo/Desktop/BYOND/MYG/src/byond/dme/Dme.h
- /home/eduardo/Desktop/BYOND/MYG/src/byond/dme/parser/DmeParser.h
- /home/eduardo/Desktop/BYOND/MYG/src/byond/dme/parser/FileLine.h
- /home/eduardo/Desktop/BYOND/MYG/src/byond/dme/parser/Parser.h
- /home/eduardo/Desktop/BYOND/MYG/src/byond/dme/parser/PostParser.h
- /home/eduardo/Desktop/BYOND/MYG/src/byond/dme/parser/PreParser.h
- /home/eduardo/Desktop/BYOND/MYG/src/byond/dme/parser/WordReplacer.h
- /home/eduardo/Desktop/BYOND/MYG/src/byond/library.h
- /home/eduardo/Desktop/BYOND/MYG/src/byond/tree/ByondTree.h
- /home/eduardo/Desktop/BYOND/MYG/src/byond/utils/exception_helper.h
- /home/eduardo/Desktop/BYOND/MYG/src/byond/utils/string_builder.h
- /home/eduardo/Desktop/BYOND/MYG/src/byond/utils/string_helper.h
  /home/eduardo/Desktop/BYOND/MYG/src/editor/source_navigation/source_navigation.cpp
  /home/eduardo/Desktop/BYOND/MYG/src/editor/source_navigation/source_navigation.h
  /home/eduardo/Desktop/BYOND/MYG/third_party/glfw/deps/glad/gl.h
  /home/eduardo/Desktop/BYOND/MYG/third_party/glfw/deps/glad/khrplatform.h
- /home/eduardo/Desktop/BYOND/MYG/third_party/json/json.hpp
+ src/byond/ByondFiles.h
+ src/byond/ByondTypes.h
+ src/byond/ByondVarWrapper.h
+ src/byond/DMI/DMI.h
+ src/byond/DMI/codecs/image.h
+ src/byond/DMI/codecs/png.h
+ src/byond/DMI/errors.h
+ src/byond/deps/zlib-1.2.11/zconf.h
+ src/byond/deps/zlib-1.2.11/zlib.h
+ src/byond/dme/Dme.h
+ src/byond/dme/parser/DmeParser.h
+ src/byond/dme/parser/FileLine.h
+ src/byond/dme/parser/Parser.h
+ src/byond/dme/parser/PostParser.h
+ src/byond/dme/parser/PreParser.h
+ src/byond/dme/parser/WordReplacer.h
+ src/byond/library.h
+ src/byond/tree/ByondTree.h
+ src/byond/utils/exception_helper.h
+ src/byond/utils/string_builder.h
+ src/byond/utils/string_helper.h
  third_party/glfw/include/GLFW/glfw3.h
  third_party/imgui/TextEditor.h
  third_party/imgui/imconfig.h
@@ -292,6 +303,7 @@ src/editor/CMakeFiles/Editor.dir/source_navigation/source_navigation.cpp.o
  third_party/imgui/imgui_file_browser.h
  third_party/imgui/imgui_impl_glfw.h
  third_party/imgui/imgui_impl_opengl3.h
+ third_party/json/json.hpp
  third_party/spdlog/include/spdlog/common-inl.h
  third_party/spdlog/include/spdlog/common.h
  third_party/spdlog/include/spdlog/details/backtracer-inl.h

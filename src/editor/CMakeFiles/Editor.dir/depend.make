@@ -76,6 +76,12 @@ src/editor/CMakeFiles/Editor.dir/__/byond/DMI/DMI.cpp.o: src/byond/DMI/codecs/im
 src/editor/CMakeFiles/Editor.dir/__/byond/DMI/DMI.cpp.o: src/byond/DMI/codecs/png.h
 src/editor/CMakeFiles/Editor.dir/__/byond/DMI/DMI.cpp.o: src/byond/DMI/codecs/webp.h
 src/editor/CMakeFiles/Editor.dir/__/byond/DMI/DMI.cpp.o: src/byond/DMI/errors.h
+src/editor/CMakeFiles/Editor.dir/__/byond/DMI/DMI.cpp.o: src/byond/deps/libwebp/include/webp/decode.h
+src/editor/CMakeFiles/Editor.dir/__/byond/DMI/DMI.cpp.o: src/byond/deps/libwebp/include/webp/demux.h
+src/editor/CMakeFiles/Editor.dir/__/byond/DMI/DMI.cpp.o: src/byond/deps/libwebp/include/webp/mux_types.h
+src/editor/CMakeFiles/Editor.dir/__/byond/DMI/DMI.cpp.o: src/byond/deps/libwebp/include/webp/types.h
+src/editor/CMakeFiles/Editor.dir/__/byond/DMI/DMI.cpp.o: src/byond/deps/zlib-1.2.11/zconf.h
+src/editor/CMakeFiles/Editor.dir/__/byond/DMI/DMI.cpp.o: src/byond/deps/zlib-1.2.11/zlib.h
 
 src/editor/CMakeFiles/Editor.dir/__/byond/DMI/codecs/file.cpp.o: src/byond/DMI/codecs/file.cpp
 src/editor/CMakeFiles/Editor.dir/__/byond/DMI/codecs/file.cpp.o: src/byond/DMI/codecs/file.h
@@ -128,6 +134,8 @@ src/editor/CMakeFiles/Editor.dir/__/byond/DMI/codecs/png.cpp.o: src/byond/DMI/co
 src/editor/CMakeFiles/Editor.dir/__/byond/DMI/codecs/png.cpp.o: src/byond/DMI/codecs/png.cpp
 src/editor/CMakeFiles/Editor.dir/__/byond/DMI/codecs/png.cpp.o: src/byond/DMI/codecs/png.h
 src/editor/CMakeFiles/Editor.dir/__/byond/DMI/codecs/png.cpp.o: src/byond/DMI/errors.h
+src/editor/CMakeFiles/Editor.dir/__/byond/DMI/codecs/png.cpp.o: src/byond/deps/zlib-1.2.11/zconf.h
+src/editor/CMakeFiles/Editor.dir/__/byond/DMI/codecs/png.cpp.o: src/byond/deps/zlib-1.2.11/zlib.h
 src/editor/CMakeFiles/Editor.dir/__/byond/DMI/codecs/png.cpp.o: third_party/spdlog/include/spdlog/common-inl.h
 src/editor/CMakeFiles/Editor.dir/__/byond/DMI/codecs/png.cpp.o: third_party/spdlog/include/spdlog/common.h
 src/editor/CMakeFiles/Editor.dir/__/byond/DMI/codecs/png.cpp.o: third_party/spdlog/include/spdlog/details/backtracer-inl.h
@@ -180,13 +188,6 @@ src/editor/CMakeFiles/Editor.dir/__/byond/DMI/errors.cpp.o: src/byond/DMI/errors
 
 src/editor/CMakeFiles/Editor.dir/editor.cpp.o: src/byond/ByondFiles.h
 src/editor/CMakeFiles/Editor.dir/editor.cpp.o: src/byond/ByondTypes.h
-src/editor/CMakeFiles/Editor.dir/editor.cpp.o: src/byond/ByondVarWrapper.h
-src/editor/CMakeFiles/Editor.dir/editor.cpp.o: src/byond/DMI/DMI.h
-src/editor/CMakeFiles/Editor.dir/editor.cpp.o: src/byond/DMI/codecs/image.h
-src/editor/CMakeFiles/Editor.dir/editor.cpp.o: src/byond/DMI/codecs/png.h
-src/editor/CMakeFiles/Editor.dir/editor.cpp.o: src/byond/DMI/errors.h
-src/editor/CMakeFiles/Editor.dir/editor.cpp.o: src/byond/deps/zlib-1.2.11/zconf.h
-src/editor/CMakeFiles/Editor.dir/editor.cpp.o: src/byond/deps/zlib-1.2.11/zlib.h
 src/editor/CMakeFiles/Editor.dir/editor.cpp.o: src/byond/dme/Dme.h
 src/editor/CMakeFiles/Editor.dir/editor.cpp.o: src/byond/dme/parser/DmeParser.h
 src/editor/CMakeFiles/Editor.dir/editor.cpp.o: src/byond/dme/parser/FileLine.h
@@ -195,8 +196,6 @@ src/editor/CMakeFiles/Editor.dir/editor.cpp.o: src/byond/dme/parser/PostParser.h
 src/editor/CMakeFiles/Editor.dir/editor.cpp.o: src/byond/dme/parser/PreParser.h
 src/editor/CMakeFiles/Editor.dir/editor.cpp.o: src/byond/dme/parser/WordReplacer.h
 src/editor/CMakeFiles/Editor.dir/editor.cpp.o: src/byond/library.h
-src/editor/CMakeFiles/Editor.dir/editor.cpp.o: src/byond/tree/ByondTree.h
-src/editor/CMakeFiles/Editor.dir/editor.cpp.o: src/byond/utils/exception_helper.h
 src/editor/CMakeFiles/Editor.dir/editor.cpp.o: src/byond/utils/string_builder.h
 src/editor/CMakeFiles/Editor.dir/editor.cpp.o: src/byond/utils/string_helper.h
 src/editor/CMakeFiles/Editor.dir/editor.cpp.o: src/editor/code_editor/code_editor_interface.h
@@ -208,7 +207,19 @@ src/editor/CMakeFiles/Editor.dir/editor.cpp.o: src/editor/source_navigation/sour
 src/editor/CMakeFiles/Editor.dir/editor.cpp.o: third_party/fonts/IconsFontAwesome5.h
 src/editor/CMakeFiles/Editor.dir/editor.cpp.o: third_party/glfw/deps/glad/gl.h
 src/editor/CMakeFiles/Editor.dir/editor.cpp.o: third_party/glfw/deps/glad/khrplatform.h
-src/editor/CMakeFiles/Editor.dir/editor.cpp.o: third_party/json/json.hpp
+src/editor/CMakeFiles/Editor.dir/editor.cpp.o: src/byond/ByondTypes.h
+src/editor/CMakeFiles/Editor.dir/editor.cpp.o: src/byond/ByondVarWrapper.h
+src/editor/CMakeFiles/Editor.dir/editor.cpp.o: src/byond/DMI/DMI.h
+src/editor/CMakeFiles/Editor.dir/editor.cpp.o: src/byond/DMI/codecs/image.h
+src/editor/CMakeFiles/Editor.dir/editor.cpp.o: src/byond/DMI/codecs/png.h
+src/editor/CMakeFiles/Editor.dir/editor.cpp.o: src/byond/DMI/errors.h
+src/editor/CMakeFiles/Editor.dir/editor.cpp.o: src/byond/deps/zlib-1.2.11/zconf.h
+src/editor/CMakeFiles/Editor.dir/editor.cpp.o: src/byond/deps/zlib-1.2.11/zlib.h
+src/editor/CMakeFiles/Editor.dir/editor.cpp.o: src/byond/dme/Dme.h
+src/editor/CMakeFiles/Editor.dir/editor.cpp.o: src/byond/library.h
+src/editor/CMakeFiles/Editor.dir/editor.cpp.o: src/byond/tree/ByondTree.h
+src/editor/CMakeFiles/Editor.dir/editor.cpp.o: src/byond/utils/exception_helper.h
+src/editor/CMakeFiles/Editor.dir/editor.cpp.o: src/byond/utils/string_helper.h
 src/editor/CMakeFiles/Editor.dir/editor.cpp.o: third_party/glfw/include/GLFW/glfw3.h
 src/editor/CMakeFiles/Editor.dir/editor.cpp.o: third_party/imgui/TextEditor.h
 src/editor/CMakeFiles/Editor.dir/editor.cpp.o: third_party/imgui/imconfig.h
@@ -216,6 +227,7 @@ src/editor/CMakeFiles/Editor.dir/editor.cpp.o: third_party/imgui/imgui.h
 src/editor/CMakeFiles/Editor.dir/editor.cpp.o: third_party/imgui/imgui_file_browser.h
 src/editor/CMakeFiles/Editor.dir/editor.cpp.o: third_party/imgui/imgui_impl_glfw.h
 src/editor/CMakeFiles/Editor.dir/editor.cpp.o: third_party/imgui/imgui_impl_opengl3.h
+src/editor/CMakeFiles/Editor.dir/editor.cpp.o: third_party/json/json.hpp
 src/editor/CMakeFiles/Editor.dir/editor.cpp.o: third_party/spdlog/include/spdlog/common-inl.h
 src/editor/CMakeFiles/Editor.dir/editor.cpp.o: third_party/spdlog/include/spdlog/common.h
 src/editor/CMakeFiles/Editor.dir/editor.cpp.o: third_party/spdlog/include/spdlog/details/backtracer-inl.h
@@ -258,6 +270,10 @@ src/editor/CMakeFiles/Editor.dir/editor.cpp.o: third_party/spdlog/include/spdlog
 src/editor/CMakeFiles/Editor.dir/editor.cpp.o: third_party/spdlog/include/spdlog/tweakme.h
 src/editor/CMakeFiles/Editor.dir/editor.cpp.o: third_party/spdlog/include/spdlog/version.h
 
+src/editor/CMakeFiles/Editor.dir/source_navigation/source_navigation.cpp.o: src/editor/source_navigation/source_navigation.cpp
+src/editor/CMakeFiles/Editor.dir/source_navigation/source_navigation.cpp.o: src/editor/source_navigation/source_navigation.h
+src/editor/CMakeFiles/Editor.dir/source_navigation/source_navigation.cpp.o: third_party/glfw/deps/glad/gl.h
+src/editor/CMakeFiles/Editor.dir/source_navigation/source_navigation.cpp.o: third_party/glfw/deps/glad/khrplatform.h
 src/editor/CMakeFiles/Editor.dir/source_navigation/source_navigation.cpp.o: src/byond/ByondFiles.h
 src/editor/CMakeFiles/Editor.dir/source_navigation/source_navigation.cpp.o: src/byond/ByondTypes.h
 src/editor/CMakeFiles/Editor.dir/source_navigation/source_navigation.cpp.o: src/byond/ByondVarWrapper.h
@@ -279,11 +295,6 @@ src/editor/CMakeFiles/Editor.dir/source_navigation/source_navigation.cpp.o: src/
 src/editor/CMakeFiles/Editor.dir/source_navigation/source_navigation.cpp.o: src/byond/utils/exception_helper.h
 src/editor/CMakeFiles/Editor.dir/source_navigation/source_navigation.cpp.o: src/byond/utils/string_builder.h
 src/editor/CMakeFiles/Editor.dir/source_navigation/source_navigation.cpp.o: src/byond/utils/string_helper.h
-src/editor/CMakeFiles/Editor.dir/source_navigation/source_navigation.cpp.o: src/editor/source_navigation/source_navigation.cpp
-src/editor/CMakeFiles/Editor.dir/source_navigation/source_navigation.cpp.o: src/editor/source_navigation/source_navigation.h
-src/editor/CMakeFiles/Editor.dir/source_navigation/source_navigation.cpp.o: third_party/glfw/deps/glad/gl.h
-src/editor/CMakeFiles/Editor.dir/source_navigation/source_navigation.cpp.o: third_party/glfw/deps/glad/khrplatform.h
-src/editor/CMakeFiles/Editor.dir/source_navigation/source_navigation.cpp.o: third_party/json/json.hpp
 src/editor/CMakeFiles/Editor.dir/source_navigation/source_navigation.cpp.o: third_party/glfw/include/GLFW/glfw3.h
 src/editor/CMakeFiles/Editor.dir/source_navigation/source_navigation.cpp.o: third_party/imgui/TextEditor.h
 src/editor/CMakeFiles/Editor.dir/source_navigation/source_navigation.cpp.o: third_party/imgui/imconfig.h
@@ -291,6 +302,7 @@ src/editor/CMakeFiles/Editor.dir/source_navigation/source_navigation.cpp.o: thir
 src/editor/CMakeFiles/Editor.dir/source_navigation/source_navigation.cpp.o: third_party/imgui/imgui_file_browser.h
 src/editor/CMakeFiles/Editor.dir/source_navigation/source_navigation.cpp.o: third_party/imgui/imgui_impl_glfw.h
 src/editor/CMakeFiles/Editor.dir/source_navigation/source_navigation.cpp.o: third_party/imgui/imgui_impl_opengl3.h
+src/editor/CMakeFiles/Editor.dir/source_navigation/source_navigation.cpp.o: third_party/json/json.hpp
 src/editor/CMakeFiles/Editor.dir/source_navigation/source_navigation.cpp.o: third_party/spdlog/include/spdlog/common-inl.h
 src/editor/CMakeFiles/Editor.dir/source_navigation/source_navigation.cpp.o: third_party/spdlog/include/spdlog/common.h
 src/editor/CMakeFiles/Editor.dir/source_navigation/source_navigation.cpp.o: third_party/spdlog/include/spdlog/details/backtracer-inl.h
