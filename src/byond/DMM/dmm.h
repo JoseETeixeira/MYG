@@ -1,6 +1,30 @@
 
 
 // DMM loader - Where you will get confused by all the regex.
+#pragma once
+#include "Location.h"
+#include "TileInstance.h"
+#include "../tree/ModifiedType.h"
+#include "../tree/ByondTree.h"
+#include <string>
+#include <map>
+#include <vector>
+#include <filesystem>
+#include <set>
+#include <fstream>
+#include <sstream>
+#include "../utils/string_helper.h"
+#include "../utils/string_builder.h"
+#include "../utils/exception_helper.h"
+#include "spdlog/spdlog.h"
+#include <regex>
+#include <boost/config.hpp>
+#include <iostream>
+#include <cctype>
+
+#include <boost/bimap.hpp>
+#include <ctime>
+
 
 namespace BYOND::dmm{
 
@@ -22,90 +46,117 @@ class DMM {
 		int maxY = 1;
 		int maxZ = 1;
 		
-		public int keyLen = 0;
-		public BiMap<String, TileInstance> instances = HashBiMap.create();
-		public Map<Location, String> map = new HashMap<>();
-		public List<String> unusedKeys = new ArrayList<>();
-		private Stack<DMMDiff> diffStack = new Stack<DMMDiff>();
+		int keyLen = 0;
+		boost::bimap<std::string, BYOND::dmm::TileInstance*> *instances = new boost::bimap<std::string, BYOND::dmm::TileInstance*>();
+		std::map<Location*, std::string> *map = new std::map<Location*, std::string>();
+		std::vector<std::string> *unusedKeys = new std::vector<std::string>();
 		
-		public ObjectTree objTree;
+		BYOND::tree::Tree *objTree;
 		
-		public File file;
-		boolean isTGM = false;
+		std::filesystem::path* file;
 		
-		public String relPath = "";
+		std::string relPath = "";
 		
-		public float storedViewportX = 0;
-		public float storedViewportY = 0;
-		public int storedViewportZoom = 32;
+		float storedViewportX = 0;
+		float storedViewportY = 0;
+		int storedViewportZoom = 32;
+
+		char change_case (char c) {
+			if (std::isupper(c)) 
+				return std::tolower(c); 
+			else
+				return std::toupper(c); 
+		}
+
+		std::string flip_case(std::string s){
+			std::string ans = "";
+			for(char i : s){
+				ans += change_case(i);
+			}
+			return ans;
+		}
+
 		
-		public DMM(File file, ObjectTree objTree, FastDMM editor) throws IOException {
-			this.file = file;
-			this.editor = editor;
-			this.objTree = objTree;
+		DMM(std::filesystem::path* file, BYOND::tree::Tree* objTree) {
+			this->file = file;
+			this->objTree = objTree;
+
+			relPath = file->relative_path().string();
 			
-			Path pathAbsolute = Paths.get(file.getAbsolutePath());
-			Path pathBase = Paths.get(new File(objTree.dmePath).getParent());
-			Path pathRelative = pathBase.relativize(pathAbsolute);
-			relPath = pathRelative.toString();
-			
-			if(!file.exists()) {
+			if(!std::filesystem::exists(file->string())) {
 				
-				Set<String> unusedKeysSet = new TreeSet<>();
+				std::vector<std::string> *unusedKeysSet = new std::vector<std::string> ();
 				generateKeys(keyLen, "", unusedKeysSet);
-				unusedKeys = new ArrayList<>(unusedKeysSet);
+				unusedKeys = new std::vector<std::string>(*unusedKeysSet);
 				
 				keyLen = 1;
 				
 				return;
 			}
-			BufferedReader br = new BufferedReader(new FileReader(file));
-			String line = null;
-			String runOn = "";
-			Set<String> unusedKeysSet = new HashSet<>();
+
+			spdlog::info("Reading map file: {}",file->string());
+			std::ifstream br(file->string());
+
+			std::string line;
+			std::string runOn = "";
+			std::vector<std::string> *unusedKeysSet = new std::vector<std::string>();
 			
-			Map<String, String> substitutions = new TreeMap<>();
-			
-			while ((line = br.readLine()) != null) {
-				line = line.trim();
-				if(Pattern.matches("\\((\\d*) ?, ?(\\d*) ?, ?(\\d*) ?\\) ?= ?\\{\"", line)) {
-					br.reset();
+			std::map<std::string, std::string> *substitutions = new std::map<std::string, std::string>();
+
+
+			unsigned mark = 0;
+			while (std::getline(br, line))
+			{
+				line = StringHelper::trim(line);
+				std::smatch p;
+				std::regex_search(line,p,std::regex("\\((\\d*) ?, ?(\\d*) ?, ?(\\d*) ?\\) ?= ?\\{\""));
+				if(!p.empty()) {
+					br.seekg(mark);
 					break;
 				}
-				br.mark(100);
+				mark = 100;
+				br.seekg(mark);
 				line = stripComments(line);
 				line = runOn + line;
-				if(!line.trim().isEmpty()) {
-					if(line.endsWith("\\")) {
-						line = line.substring(0, line.length() - 1);
+				if(!StringHelper::trim(line).empty()) {
+					if(StringHelper::endsWith(line,"\\")) {
+						line = line.substr(0, line.length() - 1);
 						runOn = line;
 					} else if(parenthesisDepth > 0) {
 						runOn = line;
 					} else {
 						runOn = "";
-						Matcher m = Pattern.compile("\"([a-zA-Z]*)\" ?= ?\\((.+)\\)").matcher(line);
-						if(m.find()) {
-							TileInstance ti = TileInstance.fromString(m.group(2), objTree, this);
+						std::smatch m;
+						std::regex_search(line,m,std::regex("\"([a-zA-Z]*)\" ?= ?\\((.+)\\)"));
+						if(!m.empty()) {
+							BYOND::dmm::TileInstance *ti = BYOND::dmm::TileInstance::fromString(m[2].str(), objTree, this);
+
+							typedef boost::bimap< std::string, BYOND::dmm::TileInstance* > results_bimap;
+    						typedef results_bimap::value_type position;
 							
 							// Handle cases where DM put in duplicate instances.
-							if(instances.inverse().containsKey(ti)) {
-								substitutions.put(m.group(1), instances.inverse().get(ti));
+							if(instances->right.find(ti) != instances->right.end()) {
+								substitutions->emplace(m[1].str(), instances->right.at(ti));
 								continue;
 							}
-							instances.put(m.group(1), TileInstance.fromString(m.group(2), objTree, this));
+							instances->insert(position(m[1].str(), BYOND::dmm::TileInstance::fromString(m[2].str(), objTree, this)));
 							if(keyLen == 0) {
-								keyLen = m.group(1).length();
+								keyLen = m[1].str().length();
 								// Generate all the instance ID's
 								generateKeys(keyLen, "", unusedKeysSet);
 							}
-							unusedKeysSet.remove(m.group(1));
+							for(auto it = unusedKeysSet->begin(); it!= unusedKeysSet->end(); ++it){
+								if(*it == m[1].str()){
+									unusedKeysSet->erase(it);
+								}
+							}
 						}
 					}
 				}
 			}
-			unusedKeys.addAll(unusedKeysSet);
+			unusedKeys->insert(unusedKeys->end(),unusedKeysSet->begin(),unusedKeysSet->end());
 			
-			Map<Location, String> reverseMap = new HashMap<>();
+			std::map<Location*, std::string> *reverseMap = new std::map<Location*, std::string>();
 			
 			int partX = -1;
 			int partY = -1;
@@ -113,49 +164,52 @@ class DMM {
 			int cursorX = 0;
 			int cursorY = 0;
 			
-			while((line = br.readLine()) != null) {
-				line = line.trim();
+			while (std::getline(br, line)) {
+				line = StringHelper::trim(line);
 				if(partX == -1) {
-					Matcher m = Pattern.compile("\\((\\d*) ?, ?(\\d*) ?, ?(\\d*) ?\\) ?= ?\\{\"").matcher(line);
-					if(m.find()) {
-						partX = Integer.parseInt(m.group(1));
-						partY = Integer.parseInt(m.group(2));
-						partZ = Integer.parseInt(m.group(3));
+					std::smatch m;
+					std::regex_search(line,m,std::regex("\\((\\d*) ?, ?(\\d*) ?, ?(\\d*) ?\\) ?= ?\\{\""));
+					if(!m.empty()) {
+						partX = stoi(m[1].str());
+						partY = stoi(m[2].str());
+						partZ = stoi(m[3].str());
 						cursorX = 0;
 						cursorY = 0;
 					}
 					continue;
 				}
-				if(Pattern.matches("\"}", line)) {
+				std::smatch m;
+				std::regex_search(line,m,std::regex("\"}"));
+				if(!m.empty()) {
 					partX = -1;
 					partY = -1;
 					partZ = -1;
 					continue;
 				}
 				for(int i = 0; i < line.length(); i += keyLen) {
-					Location loc = new Location(cursorX + partX, cursorY + partY, partZ) ;
-					String key = line.substring(i, i+keyLen);
-					if(substitutions.containsKey(key))
-						key = substitutions.get(key);
-					reverseMap.put(loc, key);
+					Location *loc = new Location(cursorX + partX, cursorY + partY, partZ) ;
+					std::string key = line.substr(i, i+keyLen);
+					if(substitutions->find(key) != substitutions->end())
+						key = substitutions->at(key);
+					reverseMap->emplace(loc, key);
 					
-					if(loc.x > maxX) {
-						maxX = loc.x;
+					if(loc->x > maxX) {
+						maxX = loc->x;
 					}
-					if(loc.y > maxY) {
-						maxY = loc.y;
+					if(loc->y > maxY) {
+						maxY = loc->y;
 					}
-					if(loc.z > maxZ) {
-						maxZ = loc.z;
+					if(loc->z > maxZ) {
+						maxZ = loc->z;
 					}
-					if(loc.x < minX) {
-						minX = loc.x;
+					if(loc->x < minX) {
+						minX = loc->x;
 					}
-					if(loc.y < minY) {
-						minY = loc.y;
+					if(loc->y < minY) {
+						minY = loc->y;
 					}
-					if(loc.z < minZ) {
-						minZ = loc.z;
+					if(loc->z < minZ) {
+						minZ = loc->z;
 					}
 					
 					cursorX++;
@@ -166,112 +220,104 @@ class DMM {
 			
 			br.close();
 			
-			for(Map.Entry<Location, String> entry : reverseMap.entrySet()) {
-				putMap(new Location(entry.getKey().x, maxY+minY-entry.getKey().y, entry.getKey().z), entry.getValue(), false);
+			for(std::pair<Location*, std::string> entry : *reverseMap) {
+				putMap(new Location(entry.first->x, maxY+minY-entry.first->y, entry.first->z), entry.second);
 			}
 		}
 		
-		public void putMap(Location l, String key) {
-			putMap(l, key, true);
+		void putMap(Location* l, std::string key) {
+			putMap(l, key);
 		}
 		
-		public void putMap(Location l, String key, boolean addDiff) {
-			String oldKey = map.get(l);
-			if(addDiff){
-				diffStack.push(new DMMDiff.MapDiff(this, l, oldKey, key));
-			}
-			if(oldKey != null) {
-				TileInstance i = instances.get(oldKey);
-				if (i != null) {
-					i.refCount--;
+		void putMap(Location *l, std::string key) {
+			std::string oldKey = map->at(l);
+			if(!oldKey.empty()) {
+				BYOND::dmm::TileInstance *i = instances->left.at(oldKey);
+				if (i != nullptr) {
+					i->refCount--;
 				}
 			}
-			if(instances.containsKey(key)) {
-				TileInstance i = instances.get(key);
-				if(i != null)
-					i.refCount++;
-				map.put(l, key);
+			if(instances->left.find(key) != instances->left.end()) {
+				BYOND::dmm::TileInstance *i = instances->left.at(key);
+				if(i != nullptr)
+					i->refCount++;
+				map->emplace(l, key);
 			}
 		}
 		
-		public void save() throws FileNotFoundException {
-			if(!file.exists())
+		void save() {
+			if(!std::filesystem::exists(file->string())) {
+				std::ofstream f;
 				try {
-					file.createNewFile();
+					f = std::ofstream(file->string());
 				} catch (IOException e) {
-					e.printStackTrace();
+					spdlog::error(e.what());
 				}
-			PrintStream ps = new PrintStream(file);
-			List<String> instancesList = new ArrayList<>();
-			for(Map.Entry<String, TileInstance> ent : instances.entrySet()) {
-				if(ent.getValue().refCount <= 0)
-					continue;
-				instancesList.add("\"" + ent.getKey() + "\" = (" + (ent.getValue().toString()) + ")");
-			}
-			Collections.sort(instancesList, (a, b) -> reverseCase(a).compareTo(reverseCase(b)));
-			instancesList.forEach(ps::println);
-			ps.println();
-			
-			
-			// Save normally
-			for(int z = minZ; z <= maxZ; z++) {
-				ps.println("(1,1," + z + ") = {\"");
-				for(int y = maxY; y >= minY; y--) {
-					for(int x = minX; x <= maxX; x++) {
-						ps.print(map.get(new Location(x, y, z)));
+				std::vector<std::string> *instancesList = new std::vector<std::string> ();
+				for(auto ent : instances->left) {
+					if(ent.second->refCount <= 0)
+						continue;
+					instancesList->push_back("\"" + ent.first + "\" = (" + (ent.second->toString()) + ")");
+				}
+				std::sort(instancesList->begin(), instancesList->end(),[&](std::string a, std::string b){
+					if(flip_case(a) == flip_case(b)){
+						for(auto instance : *instancesList){
+							f << "\n";
+						}
 					}
-					ps.println();
+				});
+
+				f << "\n";
+			
+			
+				// Save normally
+				for(int z = minZ; z <= maxZ; z++) {
+					f << ("(1,1," + std::to_string(z) + ") = {\"");
+					for(int y = maxY; y >= minY; y--) {
+						for(int x = minX; x <= maxX; x++) {
+							f << (map->at(new Location(x, y, z)));
+						}
+						f << "\n";
+					}
+					f << "\"}\n";
+					f << "\n";
 				}
-				ps.println("\"}");
-				ps.println();
+			
+				f.close();
 			}
-		
-			ps.close();
 		}
 		
-		public static String reverseCase(String text)
-		{
-			char[] chars = text.toCharArray();
-			for (int i = 0; i < chars.length; i++)
-			{
-				char c = chars[i];
-				if (Character.isUpperCase(c))
-				{
-					chars[i] = Character.toLowerCase(c);
-				}
-				else if (Character.isLowerCase(c))
-				{
-					chars[i] = Character.toUpperCase(c);
-				}
-			}
-			return new String(chars);
-		}
 		
-		public Random rand = new Random();
 		
-		public String getKeyForInstance(TileInstance ti) {
-			if(instances.inverse().containsKey(ti)) {
-				return instances.inverse().get(ti);
+		std::string getKeyForInstance(BYOND::dmm::TileInstance* ti) {
+			if(instances->right.find(ti) != instances->right.end()) {
+				return instances->right.at(ti);
 			}
-			if(unusedKeys.size() == 0)
+			if(unusedKeys->size() == 0)
 				expandKeys();
-			if(unusedKeys.size() > 0) {
+			if(unusedKeys->size() > 0) {
+				srand((unsigned int) time (NULL));
 				// Picking a key randomly reduces chances of merge conflicts, especially if this map editor is used a lot over time.
 				// And we all know how much of a pain *those* are.
-				String key = unusedKeys.get(rand.nextInt(unusedKeys.size()));
-				unusedKeys.remove(key);
+				std::string key = unusedKeys->at(rand()%unusedKeys->size());
+				for(auto it = unusedKeys->begin(); it!= unusedKeys->end(); ++it){
+					if(*it == key){
+						unusedKeys->erase(it);
+					}
+				}
 				// Assign the instance
-				diffStack.push(new DMMDiff.InstanceDiff(this, key, ti));
-				instances.put(key, ti);
+				typedef boost::bimap< std::string, BYOND::dmm::TileInstance* > results_bimap;
+				typedef results_bimap::value_type position;
+				instances->insert(position(key, ti));
 				// Return the key
 				return key;
 			}
-			return null;
+			return "";
 		}
 		
-		public void generateKeys(int length, String prefix, Set<String> set) {
+		void generateKeys(int length, std::string prefix, std::vector<std::string> *set) {
 			if(length <= 0) {
-				set.add(prefix);
+				set->push_back(prefix);
 				return;
 			}
 			for(char c = 'a'; c <= 'z'; c++) {
@@ -283,31 +329,38 @@ class DMM {
 		}
 		
 		// All warranties on merge conflicts and diff size are now void if you call this method.
-		public void expandKeys() {
+		void expandKeys() {
 			keyLen++;
-			Set<String> unusedKeysSet = new TreeSet<>();
+			std::vector<std::string> *unusedKeysSet = new std::vector<std::string>();
 			generateKeys(keyLen, "", unusedKeysSet);
-			ArrayList<String> newUnusedKeys = new ArrayList<>(unusedKeysSet);
-			BiMap<String, TileInstance> newInstances = HashBiMap.create();
-			Map<Location, String> newMap = new HashMap<>();
-			Map<String, String> substitutions = new HashMap<>();
-			for(Map.Entry<String, TileInstance> instance : instances.entrySet()) {
-				String newKey = newUnusedKeys.get(rand.nextInt(newUnusedKeys.size()));
-				newUnusedKeys.remove(newKey);
-				substitutions.put(instance.getKey(), newKey);
-				newInstances.put(newKey, instance.getValue());
+			std::vector<std::string> *newUnusedKeys = new std::vector<std::string>(*unusedKeysSet);
+			boost::bimap<std::string, BYOND::dmm::TileInstance*> *newInstances = new boost::bimap<std::string, BYOND::dmm::TileInstance*>();
+			std::map<Location*, std::string> *newMap = new std::map<Location*, std::string>();
+			std::map<std::string, std::string> *substitutions = new std::map<std::string, std::string>();
+			for(auto instance : *instances) {
+				srand((unsigned int) time (NULL));
+				std::string newKey = newUnusedKeys->at(rand()%newUnusedKeys->size());
+				for(auto it = newUnusedKeys->begin(); it != newUnusedKeys->end(); ++it){
+					if(*it == newKey){
+						newUnusedKeys->erase(it);
+					}
+				}
+				
+				substitutions->emplace(instance.left, newKey);
+				typedef boost::bimap< std::string, BYOND::dmm::TileInstance* > results_bimap;
+				typedef results_bimap::value_type position;
+				newInstances->insert(position(newKey, instance.right));
 			}
-			for(Map.Entry<Location, String> mapInst : map.entrySet()) {
-				newMap.put(mapInst.getKey(), substitutions.get(mapInst.getValue()));
+			for(std::pair<Location*, std::string> mapInst : *map) {
+				newMap->emplace(mapInst.first, substitutions->at(mapInst.second));
 			}
 			
-			diffStack.push(new DMMDiff.ExpandKeysDiff(this, map, newMap, instances, newInstances, unusedKeys, newUnusedKeys, keyLen-1, keyLen));
 			instances = newInstances;
 			map = newMap;
 			unusedKeys = newUnusedKeys;
 		}
 		
-		public void setSize(int nMinX, int nMinY, int nMinZ, int nMaxX, int nMaxY, int nMaxZ) {
+		void setSize(int nMinX, int nMinY, int nMinZ, int nMaxX, int nMaxY, int nMaxZ) {
 			minX = nMinX;
 			minY = nMinY;
 			minZ = nMinZ;
@@ -315,54 +368,61 @@ class DMM {
 			maxY = nMaxY;
 			maxZ = nMaxZ;
 			
-			ObjectTreeItem world = objTree.get("/world");
-			if(world == null)
+			BYOND::tree::Tree::TreeItem *world = objTree->getItem("/world");
+			if(world == nullptr)
 				return;
 			
-			TileInstance ti = TileInstance.fromString(world.getVar("turf") + ", " + world.getVar("area"), objTree, this);
-			String defaultInst = getKeyForInstance(ti);
+			TileInstance *ti = TileInstance::fromString(world->getVar("turf") + ", " + world->getVar("area"), objTree, this);
+			std::string defaultInst = getKeyForInstance(ti);
 			
-			Set<Location> toRemove = new HashSet<>();
-			for(Map.Entry<Location, String> mapInst : map.entrySet()) {
-				Location l = mapInst.getKey();
+			std::set<Location*> *toRemove = new std::set<Location*> ();
+			for(std::pair<Location*, std::string> mapInst : *map) {
+				Location *l = mapInst.first;
 				// In range? Don't remove then!
-				if(l.x >= minX && l.x <= maxX && l.y >= minY && l.y <= maxY && l.z >= minZ && l.z <= maxZ)
+				if(l->x >= minX && l->x <= maxX && l->y >= minY && l->y <= maxY && l->z >= minZ && l->z <= maxZ)
 					continue;
-				instances.get(mapInst.getValue()).refCount--;
-				toRemove.add(mapInst.getKey());
+				instances->left.at(mapInst.second)->refCount--;
+				toRemove->emplace(mapInst.first);
 			}
-			for(Location l : toRemove) {
-				map.remove(l);
+			for(Location *l : *toRemove) {
+				map->erase(l);
 			}
 			
 			for(int x = minX; x <= maxX; x++) {
 				for(int y = minY; y <= maxY; y++) {
 					for(int z = minZ; z <= maxZ; z++) {
-						Location l = new Location(x, y, z);
-						if(!map.containsKey(l))
-							putMap(l, defaultInst, false);
+						Location *l = new Location(x, y, z);
+						if(map->find(l) == map->end())
+							putMap(l, defaultInst);
 					}
 				}
 			}
 		}
 		
-		public String stripComments(String s)
+		std::string stripComments(std::string s)
 		{
-			StringBuilder o = new StringBuilder();
+			StringBuilder *o = new StringBuilder();
 			for(int i = 0; i < s.length(); i++) {
 				char pC = ' ';
-				if(i - 1 >= 0)
-					pC = s.charAt(i - 1);
+				if(i - 1 >= 0){
+					pC = s[i - 1];
+				}
+					
 				char ppC = ' ';
-				if(i - 2 >= 0)
-					ppC = s.charAt(i - 2);
-				char c = s.charAt(i);
+				if(i - 2 >= 0){
+					ppC = s[i - 2];
+				}
+					
+				char c = s[i];
 				char nC = ' ';
-				if(i + 1 < s.length())
-					nC = s.charAt(i + 1);
+				if(i + 1 < s.length()){
+					nC = s[i + 1];
+				}
+					
 				if(!isCommenting) {
-					if(c == '/' && nC == '/' && stringDepth == 0)
+					if(c == '/' && nC == '/' && stringDepth == 0){
 						break;
+					}
 					if(c == '/' && nC == '*' && stringDepth == 0) {
 						isCommenting = true;
 						continue;
@@ -372,20 +432,24 @@ class DMM {
 					} else if(c == '"' && stringDepth == stringExpDepth) {
 						stringDepth++;
 					}
-					if(c == '[' && stringDepth == stringExpDepth)
+					if(c == '[' && stringDepth == stringExpDepth){
 						arrayDepth[stringExpDepth]++;
-					else if(c == '[' && (pC != '\\' || ppC == '\\') && stringDepth != stringExpDepth)
+					}else if(c == '[' && (pC != '\\' || ppC == '\\') && stringDepth != stringExpDepth){
 						stringExpDepth++;
-					
-					if(c == ']' && arrayDepth[stringExpDepth] != 0)
+					}
+					if(c == ']' && arrayDepth[stringExpDepth] != 0){
 						arrayDepth[stringExpDepth]--;
-					else if(c == ']' && stringDepth > 0 && stringDepth == stringExpDepth)
+					}else if(c == ']' && stringDepth > 0 && stringDepth == stringExpDepth){
 						stringExpDepth--;
-					if(c == '(' && stringDepth == stringExpDepth)
+					}
+					if(c == '(' && stringDepth == stringExpDepth){
 						parenthesisDepth++;
-					if(c == ')' && stringDepth == stringExpDepth)
+					}
+					if(c == ')' && stringDepth == stringExpDepth){
 						parenthesisDepth--;
-					o.append(c);
+					}
+					o->append(c);	
+					
 				}
 				else {
 					if(c == '*' && nC == '/') {
@@ -395,19 +459,10 @@ class DMM {
 				}
 					
 			}
-			return o.toString();
+			return o->toString();
 		}
 		
-		public DMMDiff popDiffs(){
-			if(diffStack.empty()){
-				return null;
-			}
-			DMMDiff diff = diffStack.pop();
-			while(!diffStack.empty()){
-				diff.combineWith(diffStack.pop());
-			}
-			return diff;
-		}
+		
 	};
 
 

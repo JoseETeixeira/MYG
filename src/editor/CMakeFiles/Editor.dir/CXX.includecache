@@ -273,8 +273,6 @@ dme/Dme.h
 -
 tree/ByondTree.h
 -
-DMI/DMI.h
--
 utils/string_helper.h
 -
 imgui_file_browser.h
@@ -543,6 +541,8 @@ set
 -
 ../utils/string_helper.h
 src/byond/utils/string_helper.h
+../utils/string_builder.h
+src/byond/utils/string_builder.h
 boost/gil.hpp
 -
 boost/gil/extension/io/png.hpp

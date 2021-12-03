@@ -220,6 +220,7 @@ src/editor/CMakeFiles/Editor.dir/editor.cpp.o: src/byond/library.h
 src/editor/CMakeFiles/Editor.dir/editor.cpp.o: src/byond/tree/ByondTree.h
 src/editor/CMakeFiles/Editor.dir/editor.cpp.o: src/byond/tree/Icon.h
 src/editor/CMakeFiles/Editor.dir/editor.cpp.o: src/byond/utils/exception_helper.h
+src/editor/CMakeFiles/Editor.dir/editor.cpp.o: src/byond/utils/string_builder.h
 src/editor/CMakeFiles/Editor.dir/editor.cpp.o: src/byond/utils/string_helper.h
 src/editor/CMakeFiles/Editor.dir/editor.cpp.o: third_party/glfw/include/GLFW/glfw3.h
 src/editor/CMakeFiles/Editor.dir/editor.cpp.o: third_party/imgui/TextEditor.h

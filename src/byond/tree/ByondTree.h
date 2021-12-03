@@ -100,14 +100,28 @@ namespace BYOND::tree {
         
        
 
-        Tree(BYOND::dme::Dme *environment,std::string root = "/atom"):environment(environment){
-            BYOND::dme::Dme::DmeItem *atom = environment->items->at(root);
+        Tree(BYOND::dme::Dme *environment,std::string root = "/datum"):environment(environment){
+            BYOND::dme::Dme::DmeItem *datum = environment->items->at(root);
+
+            //TODO: ADD WORLD, DATUM, etc..
  
             items = new std::map<std::string, TreeItem*>();
             icons = new std::map<std::string, Icon*>();
 
-            TreeItem* it = new TreeItem(this, atom, "null");
-            items->emplace(atom->type, it);
+            TreeItem* it = new TreeItem(this, datum, "null");
+            items->emplace(datum->type, it);
+
+           
+
+            for(auto item : *datum->directSubtypes){
+                spdlog::info(item);
+
+                generate_items(environment,environment->items->at(item));
+                
+
+            }
+
+            BYOND::dme::Dme::DmeItem *atom = environment->items->at("/atom");
 
             for(auto item : *atom->directSubtypes){
                 spdlog::info(item);
@@ -131,8 +145,7 @@ namespace BYOND::tree {
         }
 
         void generate_items(BYOND::dme::Dme *environment,BYOND::dme::Dme::DmeItem *object){
-
-            //TODO: EMPLACE ITEM AFTER GENERATING
+            
             DMI  *dmi;
             std::string icon = "null";
             std::string icon_state = "null";

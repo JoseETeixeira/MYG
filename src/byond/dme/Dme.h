@@ -506,7 +506,6 @@ namespace BYOND::dme
                 item->parentPath = type.substr(0,type.find_last_of("/"));
                 //spdlog::info(item->parentPath);
                 items->emplace(type,item);
-                //TODO: Notify listeners
                 return item;
             }
         }
