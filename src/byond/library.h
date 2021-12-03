@@ -12,7 +12,8 @@
 #include "dme/parser/DmeParser.h"
 #include "tree/ByondTree.h"
 #include <thread>
-
+#include "DMM/dmm.h"
+#include <string>
 
 
 
@@ -30,6 +31,7 @@ namespace BYOND{
 
         BYOND::dme::Dme *DME;
         BYOND::tree::Tree *tree;
+        BYOND::dmm::DMM *dmm;
 
         ~Library(){
             free(DME);
@@ -67,6 +69,14 @@ namespace BYOND{
                 done = true;
 
             }
+        }
+
+        void openMap(std::filesystem::path *p){
+            dmm = new BYOND::dmm::DMM(p,this->tree);
+            spdlog::info(std::to_string(dmm->maxX));
+            spdlog::info(std::to_string(dmm->maxY));
+            spdlog::info(std::to_string(dmm->maxZ));
+            spdlog::info(std::to_string(dmm->instances->size()));
         }
 
 

@@ -99,6 +99,7 @@ namespace BYOND::tree {
             };
         
        
+        std::map<std::string,TreeItem*> *items;
 
         Tree(BYOND::dme::Dme *environment,std::string root = "/datum"):environment(environment){
             BYOND::dme::Dme::DmeItem *datum = environment->items->at(root);
@@ -116,7 +117,7 @@ namespace BYOND::tree {
             for(auto item : *datum->directSubtypes){
                 spdlog::info(item);
 
-                generate_items(environment,environment->items->at(item));
+                generate_items(environment,environment->items->at(item),false);
                 
 
             }
@@ -144,40 +145,46 @@ namespace BYOND::tree {
             return nullptr;
         }
 
-        void generate_items(BYOND::dme::Dme *environment,BYOND::dme::Dme::DmeItem *object){
+        void generate_items(BYOND::dme::Dme *environment,BYOND::dme::Dme::DmeItem *object, bool try_generate_icons = true){
             
-            DMI  *dmi;
-            std::string icon = "null";
-            std::string icon_state = "null";
-            std::string dmipath = "null";
-            icon = object->getVar("icon");
-            spdlog::info(icon);
-            if(icon != "null" && !icon.empty()){
-                 
-                #if defined(WIN32)
-                    dmipath= environment->fileDir + environment->absoluteRootPath + StringHelper::ReplaceAll(icon,"/","\\").substr(1, StringHelper::ReplaceAll(icon, "/", "\\").length()-2);
-                #else if defined(LINUX)
-                    dmipath = environment->fileDir + environment->absoluteRootPath + StringHelper::ReplaceAll(icon,"\\","/").substr(1, StringHelper::ReplaceAll(icon, "\\","/").length()-2);
-                #endif
+            if(try_generate_icons){
+                DMI  *dmi;
+                std::string icon = "null";
+                std::string icon_state = "null";
+                std::string dmipath = "null";
+                icon = object->getVar("icon");
+                spdlog::info(icon);
+                if(icon != "null" && !icon.empty()){
+                    
+                    #if defined(WIN32)
+                        dmipath= environment->fileDir + environment->absoluteRootPath + StringHelper::ReplaceAll(icon,"/","\\").substr(1, StringHelper::ReplaceAll(icon, "/", "\\").length()-2);
+                    #else if defined(LINUX)
+                        dmipath = environment->fileDir + environment->absoluteRootPath + StringHelper::ReplaceAll(icon,"\\","/").substr(1, StringHelper::ReplaceAll(icon, "\\","/").length()-2);
+                    #endif
 
-                if(icons->find(icon) == icons->end()){
-                    Icon *ico = new Icon(icon,dmipath);
-                    icons->emplace(icon,ico);
+                    if(icons->find(icon) == icons->end()){
+                        Icon *ico = new Icon(icon,dmipath);
+                        icons->emplace(icon,ico);
+                    }
+                    
+                    
+
+                    
                 }
-                
-                
 
-                
+                TreeItem *it = new TreeItem(this,object,dmipath);
+                items->emplace(object->type,it);
+            
+
+
+                for(auto subtype: *object->directSubtypes){
+                    generate_items(environment,environment->items->at(subtype));
+                }
+            }else{
+                TreeItem *it = new TreeItem(this,object,"null");
+                items->emplace(object->type,it);
             }
-
-            TreeItem *it = new TreeItem(this,object,dmipath);
-            items->emplace(object->type,it);
-        
-
-
-            for(auto subtype: *object->directSubtypes){
-                generate_items(environment,environment->items->at(subtype));
-            }
+            
  
 
             
@@ -187,7 +194,7 @@ namespace BYOND::tree {
 
         private:
             BYOND::dme::Dme* environment;
-            std::map<std::string,TreeItem*> *items;
+            
             
             std::map<std::string,Icon*> *icons;
 

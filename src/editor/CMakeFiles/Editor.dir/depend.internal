@@ -189,6 +189,8 @@ src/editor/CMakeFiles/Editor.dir/__/byond/DMI/errors.cpp.o
 src/editor/CMakeFiles/Editor.dir/editor.cpp.o
  /home/eduardo/Desktop/BYOND/MYG/src/byond/ByondFiles.h
  /home/eduardo/Desktop/BYOND/MYG/src/byond/ByondTypes.h
+ /home/eduardo/Desktop/BYOND/MYG/src/byond/DMM/Location.h
+ /home/eduardo/Desktop/BYOND/MYG/src/byond/DMM/dmm.h
  /home/eduardo/Desktop/BYOND/MYG/src/byond/dme/Dme.h
  /home/eduardo/Desktop/BYOND/MYG/src/byond/dme/parser/DmeParser.h
  /home/eduardo/Desktop/BYOND/MYG/src/byond/dme/parser/FileLine.h
@@ -197,6 +199,8 @@ src/editor/CMakeFiles/Editor.dir/editor.cpp.o
  /home/eduardo/Desktop/BYOND/MYG/src/byond/dme/parser/PreParser.h
  /home/eduardo/Desktop/BYOND/MYG/src/byond/dme/parser/WordReplacer.h
  /home/eduardo/Desktop/BYOND/MYG/src/byond/library.h
+ /home/eduardo/Desktop/BYOND/MYG/src/byond/tree/ByondTree.h
+ /home/eduardo/Desktop/BYOND/MYG/src/byond/utils/exception_helper.h
  /home/eduardo/Desktop/BYOND/MYG/src/byond/utils/string_builder.h
  /home/eduardo/Desktop/BYOND/MYG/src/byond/utils/string_helper.h
  /home/eduardo/Desktop/BYOND/MYG/src/editor/code_editor/code_editor_interface.h
@@ -284,6 +288,8 @@ src/editor/CMakeFiles/Editor.dir/source_navigation/source_navigation.cpp.o
  src/byond/DMI/codecs/image.h
  src/byond/DMI/codecs/png.h
  src/byond/DMI/errors.h
+ src/byond/DMM/Location.h
+ src/byond/DMM/dmm.h
  src/byond/deps/zlib-1.2.11/zconf.h
  src/byond/deps/zlib-1.2.11/zlib.h
  src/byond/dme/Dme.h

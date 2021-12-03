@@ -188,6 +188,8 @@ src/editor/CMakeFiles/Editor.dir/__/byond/DMI/errors.cpp.o: src/byond/DMI/errors
 
 src/editor/CMakeFiles/Editor.dir/editor.cpp.o: src/byond/ByondFiles.h
 src/editor/CMakeFiles/Editor.dir/editor.cpp.o: src/byond/ByondTypes.h
+src/editor/CMakeFiles/Editor.dir/editor.cpp.o: src/byond/DMM/Location.h
+src/editor/CMakeFiles/Editor.dir/editor.cpp.o: src/byond/DMM/dmm.h
 src/editor/CMakeFiles/Editor.dir/editor.cpp.o: src/byond/dme/Dme.h
 src/editor/CMakeFiles/Editor.dir/editor.cpp.o: src/byond/dme/parser/DmeParser.h
 src/editor/CMakeFiles/Editor.dir/editor.cpp.o: src/byond/dme/parser/FileLine.h
@@ -196,6 +198,8 @@ src/editor/CMakeFiles/Editor.dir/editor.cpp.o: src/byond/dme/parser/PostParser.h
 src/editor/CMakeFiles/Editor.dir/editor.cpp.o: src/byond/dme/parser/PreParser.h
 src/editor/CMakeFiles/Editor.dir/editor.cpp.o: src/byond/dme/parser/WordReplacer.h
 src/editor/CMakeFiles/Editor.dir/editor.cpp.o: src/byond/library.h
+src/editor/CMakeFiles/Editor.dir/editor.cpp.o: src/byond/tree/ByondTree.h
+src/editor/CMakeFiles/Editor.dir/editor.cpp.o: src/byond/utils/exception_helper.h
 src/editor/CMakeFiles/Editor.dir/editor.cpp.o: src/byond/utils/string_builder.h
 src/editor/CMakeFiles/Editor.dir/editor.cpp.o: src/byond/utils/string_helper.h
 src/editor/CMakeFiles/Editor.dir/editor.cpp.o: src/editor/code_editor/code_editor_interface.h
@@ -283,6 +287,8 @@ src/editor/CMakeFiles/Editor.dir/source_navigation/source_navigation.cpp.o: src/
 src/editor/CMakeFiles/Editor.dir/source_navigation/source_navigation.cpp.o: src/byond/DMI/codecs/image.h
 src/editor/CMakeFiles/Editor.dir/source_navigation/source_navigation.cpp.o: src/byond/DMI/codecs/png.h
 src/editor/CMakeFiles/Editor.dir/source_navigation/source_navigation.cpp.o: src/byond/DMI/errors.h
+src/editor/CMakeFiles/Editor.dir/source_navigation/source_navigation.cpp.o: src/byond/DMM/Location.h
+src/editor/CMakeFiles/Editor.dir/source_navigation/source_navigation.cpp.o: src/byond/DMM/dmm.h
 src/editor/CMakeFiles/Editor.dir/source_navigation/source_navigation.cpp.o: src/byond/deps/zlib-1.2.11/zconf.h
 src/editor/CMakeFiles/Editor.dir/source_navigation/source_navigation.cpp.o: src/byond/deps/zlib-1.2.11/zlib.h
 src/editor/CMakeFiles/Editor.dir/source_navigation/source_navigation.cpp.o: src/byond/dme/Dme.h

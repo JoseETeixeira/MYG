@@ -3,8 +3,6 @@
 // DMM loader - Where you will get confused by all the regex.
 #pragma once
 #include "Location.h"
-#include "TileInstance.h"
-#include "../tree/ModifiedType.h"
 #include "../tree/ByondTree.h"
 #include <string>
 #include <map>
@@ -26,11 +24,19 @@
 #include <ctime>
 
 
+#include "spdlog/spdlog.h"
+#include <algorithm>
+
+
+
 namespace BYOND::dmm{
 
 class DMM {
 
+	
+
 	public:
+		class TileInstance;
 		// Parser shit goes here.
 		bool isCommenting = false;
 		int parenthesisDepth = 0;
@@ -47,7 +53,7 @@ class DMM {
 		int maxZ = 1;
 		
 		int keyLen = 0;
-		boost::bimap<std::string, BYOND::dmm::TileInstance*> *instances = new boost::bimap<std::string, BYOND::dmm::TileInstance*>();
+		boost::bimap<std::string, TileInstance*> *instances = new boost::bimap<std::string, TileInstance*>();
 		std::map<Location*, std::string> *map = new std::map<Location*, std::string>();
 		std::vector<std::string> *unusedKeys = new std::vector<std::string>();
 		
@@ -60,6 +66,448 @@ class DMM {
 		float storedViewportX = 0;
 		float storedViewportY = 0;
 		int storedViewportZoom = 32;
+
+	class TileInstance {
+
+	private:
+		std::vector<BYOND::tree::Tree::TreeItem *> *cachedSorted;
+		BYOND::tree::Tree::TreeItem *cachedArea = nullptr;
+		BYOND::dmm::DMM *dmm;
+
+	public:
+		std::vector<BYOND::tree::Tree::TreeItem *> *objs;
+		int refCount = 0;
+		
+		TileInstance(std::vector<BYOND::tree::Tree::TreeItem *> *objs, BYOND::dmm::DMM* dmm):objs(objs),dmm(dmm){
+			
+		}
+		
+		static TileInstance* fromString(std::string s, BYOND::tree::Tree *objTree, BYOND::dmm::DMM* dmm) {
+			// This regex matches modified types: /blah/blah{a = "b"; c = 23}
+			try {
+				std::smatch m;
+				std::regex_search(s,m,std::regex("[\\w/]+(?:\\{(?:\"(?:\\\\\"|[^\"])*?\"|[^\\}])*?\\})?(?=,|$)"));
+				std::vector<BYOND::tree::Tree::TreeItem *> *objs = new std::vector<BYOND::tree::Tree::TreeItem *>();
+				if(m.size() > 0){
+					for(int i = 0; i< m.size(); i++){
+						objs->push_back(ModifiedType::fromString(m[i].str(), objTree,dmm));
+					}
+				}
+				return new TileInstance(objs, dmm);
+			} catch(StackOverflowError e) {
+				spdlog::error("Stack overflow. Stack {}",s);
+				return nullptr;
+			}
+		}
+		
+		std::string toString() {
+			StringBuilder *sb = new StringBuilder();
+			bool isFirst = true;
+			for(BYOND::tree::Tree::TreeItem *obj : *objs) {
+				if(isFirst)
+					isFirst = false;
+				else
+					sb->append(",");
+				sb->append(obj);
+			}
+			return sb->toString();
+		}
+		
+		template <typename T> int sgn(T val) {
+			return (T(0) < val) - (val < T(0));
+		}
+				
+		
+		std::vector<BYOND::tree::Tree::TreeItem *>* getLayerSorted() {
+			if(cachedSorted == nullptr) {
+				cachedSorted = new std::vector<BYOND::tree::Tree::TreeItem *>(*objs);
+				std::sort(cachedSorted->begin(), cachedSorted->end(),[&](BYOND::tree::Tree::TreeItem *a,BYOND::tree::Tree::TreeItem *b){
+					try {
+						float layerA = stof(a->getVar("plane"));
+						float layerB = stof(b->getVar("plane"));
+						if(layerA == layerB) {
+							layerA = stof(a->getVar("layer"));
+							layerB = stof(b->getVar("layer"));
+						}
+						if(layerA == layerB) {
+							// Sort by type
+							if(StringHelper::startsWith(a->type,"/turf"))
+								layerA = 1;
+							if(StringHelper::startsWith(a->type,"/obj"))
+								layerA = 2;
+							if(StringHelper::startsWith(a->type,"/mob"))
+								layerA = 3;
+							if(StringHelper::startsWith(a->type,"/area"))
+								layerA = 4;
+							if(StringHelper::startsWith(b->type,"/turf"))
+								layerB = 1;
+							if(StringHelper::startsWith(b->type,"/obj"))
+								layerB = 2;
+							if(StringHelper::startsWith(b->type,"/mob"))
+								layerB = 3;
+							if(StringHelper::startsWith(b->type,"/area"))
+								layerB = 4;
+						}
+						return (int)sgn(layerA - layerB);
+					} catch (NumberFormatException e) {
+						if(a != nullptr && b != nullptr) {
+							spdlog::error("Error with layers " + a->getVar("layer") + ", " + b->getVar("layer"));
+						}
+						return 0;
+					}
+				});
+				
+			}
+			return cachedSorted;
+		}
+		
+		
+		BYOND::tree::Tree::TreeItem* getArea() {
+			if(cachedArea == nullptr) {
+				for(BYOND::tree::Tree::TreeItem *i : *objs) {
+					if(i == nullptr)
+						continue;
+					if(i->type == "/area")
+						cachedArea = i;
+				}
+			}
+			return cachedArea;
+		}
+		
+		void sortObjs() {
+			// Sort the object list in the order 
+			std::sort(objs->begin(), objs->end(),[&](BYOND::tree::Tree::TreeItem *a,BYOND::tree::Tree::TreeItem *b){
+				int iA = 0;
+				int iB = 0;
+				if(a->istype("/obj"))
+					iA = 1;
+				else if(a->istype("/mob"))
+					iA = 2;
+				else if(a->istype("/turf"))
+					iA = 3;
+				else if(a->istype("/area"))
+					iA = 4;
+				if(b->istype("/obj"))
+					iB = 1;
+				else if(b->istype("/mob"))
+					iB = 2;
+				else if(b->istype("/turf"))
+					iB = 3;
+				else if(b->istype("/area"))
+					iB = 4;
+				return iA < iB ? -1 : (iA == iB ? 0 : 1);
+			});
+		
+		}
+
+		
+		
+		// Modification functions. They do not modify the tile instance, they return the key pointing to the modified instance.
+		std::string addObject(BYOND::tree::Tree::TreeItem *obj) {
+			TileInstance* ti = new TileInstance(new std::vector<BYOND::tree::Tree::TreeItem *>(*objs),dmm);
+			if(obj->istype("/area")) {
+				for(auto i = ti->objs->begin(); i != ti->objs->end(); ++i) {
+					BYOND::tree::Tree::TreeItem *cobj = *i;
+					if(cobj->istype("/area"))
+						ti->objs->erase(i);
+				}
+			}
+			if(obj->istype("/turf")) {
+				
+				for(auto i = ti->objs->begin(); i != ti->objs->end(); ++i) {
+					BYOND::tree::Tree::TreeItem *cobj = *i;
+					if(cobj->istype("/turf"))
+						ti->objs->erase(i);
+				}
+				
+			}
+			ti->objs->push_back(obj);
+			ti->sortObjs();
+			return dmm->getKeyForInstance(ti);
+		}
+		
+		// Removes the bottom-most occurence of the obj.
+		std::string removeObject(BYOND::tree::Tree::TreeItem * obj) {
+			TileInstance* ti = new TileInstance(new std::vector<BYOND::tree::Tree::TreeItem *>(*objs),dmm);
+			BYOND::tree::Tree::TreeItem *replacement = nullptr;
+			if(obj->istype("/area"))
+				replacement = obj->tree->getItem(obj->tree->getItem("/world")->getVar("area"));
+			else if(obj->istype("/turf")) {
+				int turfcount = 0;
+				for(BYOND::tree::Tree::TreeItem *i : *ti->objs)
+					if(i->istype("/turf"))
+						turfcount++;
+				if(turfcount <= 1)
+					replacement = obj->tree->getItem(obj->tree->getItem("/world")->getVar("turf"));
+			}
+			if(replacement != nullptr)
+				for(auto it = ti->objs->begin(); it!=ti->objs->end(); ++it){
+					if (*it == obj){
+						ti->objs->emplace(it, replacement);
+					}
+				}
+				
+			else
+				for(auto it = ti->objs->begin(); it!=ti->objs->end(); ++it){
+					if (*it == obj){
+						ti->objs->erase(it);
+					}
+				}
+				
+			return dmm->getKeyForInstance(ti);
+		}
+		
+		std::string removeObjectOrSubtypes(BYOND::tree::Tree::TreeItem *obj) {
+			TileInstance* ti = new TileInstance(new std::vector<BYOND::tree::Tree::TreeItem *>(*objs),dmm);
+			BYOND::tree::Tree::TreeItem *replacement = nullptr;
+			if(obj->istype("/area"))
+				replacement = obj->tree->getItem(obj->tree->getItem("/world")->getVar("area"));
+			else if(obj->istype("/turf")) {
+				int turfcount = 0;
+				for(BYOND::tree::Tree::TreeItem *i : *ti->objs)
+					if(i->istype("/turf"))
+						turfcount++;
+				if(turfcount <= 1)
+					replacement = obj->tree->getItem(obj->tree->getItem("/world")->getVar("turf"));
+			}
+			BYOND::tree::Tree::TreeItem *toDel = nullptr;
+			for(BYOND::tree::Tree::TreeItem *obj2 : *ti->objs) {
+				if(obj2 == obj || obj2->istype(obj->toString())) {
+					toDel = obj2;
+					break;
+				}	
+			}
+			if(toDel == nullptr)
+				return dmm->getKeyForInstance(this);
+			if(replacement != nullptr)
+				for(auto it = ti->objs->begin(); it!=ti->objs->end(); ++it){
+						if (*it == toDel){
+							ti->objs->emplace(it,replacement);
+						}
+					}
+			else
+				for(auto it = ti->objs->begin(); it!=ti->objs->end(); ++it){
+					if (*it == toDel){
+						ti->objs->erase(it);
+					}
+				}
+			return dmm->getKeyForInstance(ti);
+		}
+		
+		/*
+		public String deleteAllInFilter(FastDMM editor) {
+			TileInstance ti = new TileInstance(new ArrayList<>(), dmm);
+			boolean hasTurf = false;
+			boolean hasArea = false;
+			for(ObjInstance obj : objs) {
+				if(!editor.inFilter(obj)) {
+					ti.objs.add(obj);
+					if(obj.istype("/turf"))
+						hasTurf = true;
+					if(obj.istype("/area"))
+						hasArea = true;
+				}
+			}
+			if(!hasTurf)
+				ti.objs.add(dmm.objTree.get(dmm.objTree.get("/world").getVar("turf")));
+			if(!hasArea)
+				ti.objs.add(dmm.objTree.get(dmm.objTree.get("/world").getVar("area")));
+			ti.sortObjs();
+			return dmm.getKeyForInstance(ti);
+		}*/
+		
+		std::string moveObjToTop(BYOND::tree::Tree::TreeItem *obj) {
+			TileInstance* ti = new TileInstance(new std::vector<BYOND::tree::Tree::TreeItem *>(*objs),dmm);
+			for(auto it = ti->objs->begin(); it!=ti->objs->end(); ++it){
+				if (*it == obj){
+					ti->objs->erase(it);
+				}
+			}
+			ti->objs->push_back(obj);
+			ti->sortObjs();
+			return dmm->getKeyForInstance(ti);
+		}
+		
+		std::string moveObjToBottom(BYOND::tree::Tree::TreeItem * obj) {
+			TileInstance* ti = new TileInstance(new std::vector<BYOND::tree::Tree::TreeItem *>(*objs),dmm);
+			for(auto it = ti->objs->begin(); it!=ti->objs->end(); ++it){
+				if (*it == obj){
+					ti->objs->erase(it);
+				}
+			}
+			ti->objs->emplace(objs->begin(), obj);
+			ti->sortObjs();
+			return dmm->getKeyForInstance(ti);
+		}
+		
+		// Replaces the bottom-most occurence of the obj. 
+		std::string replaceObject(BYOND::tree::Tree::TreeItem *objA, BYOND::tree::Tree::TreeItem *objB) {
+			TileInstance* ti = new TileInstance(new std::vector<BYOND::tree::Tree::TreeItem *>(*objs),dmm);
+			for(auto it = ti->objs->begin(); it!=ti->objs->end(); ++it){
+				if (*it == objA){
+					ti->objs->emplace(it,objB);
+				}
+			}
+			return dmm->getKeyForInstance(ti);
+		}
+		
+		int hashCode() {
+			std::hash<std::string> hasher;
+			return hasher(toString());
+		}
+		
+		bool equals(TileInstance* other) {
+			if(other == this)
+				return true;
+			if(other->toString() == toString())
+				return true;
+			return false;
+		}
+	};
+
+
+class ModifiedType : public BYOND::tree::Tree::TreeItem {
+
+    public:
+
+        std::map<std::string, std::string> *vars;
+        std::string parentType;
+        BYOND::tree::Tree::TreeItem* parent;
+        BYOND::dmm::DMM *dmm;
+
+        ModifiedType(BYOND::tree::Tree *tree,BYOND::dme::Dme::DmeItem *item,std::map<std::string, std::string> *vars, std::string parentType,BYOND::dmm::DMM *dmm, std::string dmipath = "null"):vars(vars), dmm(dmm), TreeItem(tree,item,dmipath){
+            this->parentType = parentType;
+            this->parent = tree->getItem(parentType);
+        }
+
+        
+        static BYOND::tree::Tree::TreeItem* fromString(std::string s, BYOND::tree::Tree *objtree, BYOND::dmm::DMM *dmm) {
+            if(s.find("{")==std::string::npos)
+                return objtree->getItem(s);
+            // This will match the type path (/blah/blah) and the var list (a = "b"; c = 123)
+            std::smatch m;
+            std::regex_search(s,m,std::regex("([\\w/]+)\\{(.*)\\}"));
+            if(!m.empty()) {
+                std::map<std::string,std::string> *vars = new std::map<std::string,std::string>();
+                // This will match variable key-val
+                std::smatch varmatcher;
+                std::string v = m[2].str();
+                std::regex_search(v,varmatcher,std::regex("([\\w]+) ?= ?((?:\"(?:\\\\\"|[^\"])*\"|[^;])*)(?:$|;)"));
+                for(int i = 0; i < varmatcher.size(); i++){
+                    vars->emplace(varmatcher[i+1].str(),varmatcher[i+2].str());
+                }
+                
+                ModifiedType *mt = new ModifiedType(objtree,objtree->getDMEItem(v),vars, m[1].str(),dmm,objtree->getItem(v)->dmipath);
+               
+                if(mt->parent != nullptr) {
+                    TileInstance *ti = TileInstance::fromString(m[2].str(),objtree,dmm);
+                    typedef boost::bimap< std::string, TileInstance* > results_bimap;
+                    typedef results_bimap::value_type position;
+                    dmm->instances->insert(position(dmm->getKeyForInstance(ti),ti));
+                
+                }
+               
+                return mt;
+            }
+            return nullptr;
+        }
+        
+        static ModifiedType* deriveFrom(BYOND::tree::Tree::TreeItem* i,BYOND::dmm::DMM *dmm) {
+            
+            ModifiedType *p = (ModifiedType*)i;
+            ModifiedType *mt = new ModifiedType(p->tree,p->tree->getDMEItem(p->type),p->getAllVars(), p->type,dmm, p->tree->getItem(i->type)->dmipath);
+            mt->parent = p->parent;
+            return mt;
+          
+        }
+        
+        
+        
+        std::string getVar(std::string key) {
+            if(vars->find(key)  != vars->end())
+                return vars->at(key);
+            if(parent != nullptr)
+                return parent->getVar(key);
+            return "null";
+        }
+        
+        std::string toString() {
+            StringBuilder *out = new StringBuilder(parentType);
+            out->append('{');
+            bool isFirst = true;
+            for(std::pair<std::string,std::string> e : *vars) {
+                if(isFirst)
+                    isFirst = false;
+                else
+                    out->append("; ");
+                out->append(e.first);
+                out->append(" = ");
+                out->append(e.second);
+            }
+            out->append('}');
+            return out->toString();
+        }
+        
+        
+        size_t hashCode() {
+            std::hash<std::string> hasher;
+            size_t hash = hasher(toString());
+            return hash;
+        }
+        
+        bool equals(BYOND::tree::Tree::TreeItem* other) {
+            if(other == this)
+                return true;
+            if(other->toString() == toString())
+                return true;
+            return false;
+        }
+
+        std::string typeString() {
+            return parentType;
+        }
+        
+        bool istype(std::string path) {
+            if(this->type == path)
+                return true;
+            if(parent != nullptr)
+                return parent->istype(path);
+            return false;
+        }
+        
+        /*
+        public boolean viewVariables(FastDMM editor) {
+            final JDialog dialog = new JDialog(editor, "View Variables", true);
+            
+            final ModifiedTypeTableModel model = new ModifiedTypeTableModel(this);
+            JTable table = new JTable(model);
+            table.setFillsViewportHeight(true);
+            table.setDefaultRenderer(Object.class, new ModifiedTypeRenderer(model));
+            dialog.getContentPane().add(new JScrollPane(table), BorderLayout.CENTER);
+            
+            JPanel bottomPanel = new JPanel(new BorderLayout());
+            dialog.getContentPane().add(bottomPanel, BorderLayout.SOUTH);
+            
+            JButton okButton = new JButton("OK");
+            okButton.addActionListener(e -> {
+                model.doReturnTrue = true;
+                dialog.setVisible(false);
+            });
+            bottomPanel.add(okButton, BorderLayout.WEST);
+            
+            JButton cancelButton = new JButton("Cancel");
+            cancelButton.addActionListener(e -> dialog.setVisible(false));
+            bottomPanel.add(cancelButton, BorderLayout.EAST);
+            
+            dialog.setLocationRelativeTo(editor);
+            dialog.setSize(400, 450);
+            dialog.setPreferredSize(dialog.getSize());
+            dialog.setVisible(true);
+            
+            return model.doReturnTrue;
+        }*/
+    };
+
 
 		char change_case (char c) {
 			if (std::isupper(c)) 
@@ -75,6 +523,7 @@ class DMM {
 			}
 			return ans;
 		}
+		
 
 		
 		DMM(std::filesystem::path* file, BYOND::tree::Tree* objTree) {
@@ -129,9 +578,9 @@ class DMM {
 						std::smatch m;
 						std::regex_search(line,m,std::regex("\"([a-zA-Z]*)\" ?= ?\\((.+)\\)"));
 						if(!m.empty()) {
-							BYOND::dmm::TileInstance *ti = BYOND::dmm::TileInstance::fromString(m[2].str(), objTree, this);
+							TileInstance *ti = TileInstance::fromString(m[2].str(), objTree, this);
 
-							typedef boost::bimap< std::string, BYOND::dmm::TileInstance* > results_bimap;
+							typedef boost::bimap< std::string, TileInstance* > results_bimap;
     						typedef results_bimap::value_type position;
 							
 							// Handle cases where DM put in duplicate instances.
@@ -139,7 +588,7 @@ class DMM {
 								substitutions->emplace(m[1].str(), instances->right.at(ti));
 								continue;
 							}
-							instances->insert(position(m[1].str(), BYOND::dmm::TileInstance::fromString(m[2].str(), objTree, this)));
+							instances->insert(position(m[1].str(), TileInstance::fromString(m[2].str(), objTree, this)));
 							if(keyLen == 0) {
 								keyLen = m[1].str().length();
 								// Generate all the instance ID's
@@ -226,24 +675,22 @@ class DMM {
 		}
 		
 		void putMap(Location* l, std::string key) {
-			putMap(l, key);
-		}
-		
-		void putMap(Location *l, std::string key) {
 			std::string oldKey = map->at(l);
 			if(!oldKey.empty()) {
-				BYOND::dmm::TileInstance *i = instances->left.at(oldKey);
+				TileInstance *i = instances->left.at(oldKey);
 				if (i != nullptr) {
 					i->refCount--;
 				}
 			}
 			if(instances->left.find(key) != instances->left.end()) {
-				BYOND::dmm::TileInstance *i = instances->left.at(key);
+				TileInstance *i = instances->left.at(key);
 				if(i != nullptr)
 					i->refCount++;
 				map->emplace(l, key);
 			}
 		}
+		
+
 		
 		void save() {
 			if(!std::filesystem::exists(file->string())) {
@@ -265,6 +712,7 @@ class DMM {
 							f << "\n";
 						}
 					}
+					return strcmp(a.c_str(),b.c_str());
 				});
 
 				f << "\n";
@@ -289,7 +737,7 @@ class DMM {
 		
 		
 		
-		std::string getKeyForInstance(BYOND::dmm::TileInstance* ti) {
+		std::string getKeyForInstance(TileInstance* ti) {
 			if(instances->right.find(ti) != instances->right.end()) {
 				return instances->right.at(ti);
 			}
@@ -306,7 +754,7 @@ class DMM {
 					}
 				}
 				// Assign the instance
-				typedef boost::bimap< std::string, BYOND::dmm::TileInstance* > results_bimap;
+				typedef boost::bimap< std::string, TileInstance* > results_bimap;
 				typedef results_bimap::value_type position;
 				instances->insert(position(key, ti));
 				// Return the key
@@ -334,7 +782,7 @@ class DMM {
 			std::vector<std::string> *unusedKeysSet = new std::vector<std::string>();
 			generateKeys(keyLen, "", unusedKeysSet);
 			std::vector<std::string> *newUnusedKeys = new std::vector<std::string>(*unusedKeysSet);
-			boost::bimap<std::string, BYOND::dmm::TileInstance*> *newInstances = new boost::bimap<std::string, BYOND::dmm::TileInstance*>();
+			boost::bimap<std::string, TileInstance*> *newInstances = new boost::bimap<std::string, TileInstance*>();
 			std::map<Location*, std::string> *newMap = new std::map<Location*, std::string>();
 			std::map<std::string, std::string> *substitutions = new std::map<std::string, std::string>();
 			for(auto instance : *instances) {
@@ -347,7 +795,7 @@ class DMM {
 				}
 				
 				substitutions->emplace(instance.left, newKey);
-				typedef boost::bimap< std::string, BYOND::dmm::TileInstance* > results_bimap;
+				typedef boost::bimap< std::string, TileInstance* > results_bimap;
 				typedef results_bimap::value_type position;
 				newInstances->insert(position(newKey, instance.right));
 			}
