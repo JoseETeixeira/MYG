@@ -108,7 +108,7 @@ class DMM {
 					isFirst = false;
 				else
 					sb->append(",");
-				sb->append(obj);
+				sb->append(obj->toString());
 			}
 			return sb->toString();
 		}
@@ -560,11 +560,11 @@ class ModifiedType : public BYOND::tree::Tree::TreeItem {
 				std::smatch p;
 				std::regex_search(line,p,std::regex("\\((\\d*) ?, ?(\\d*) ?, ?(\\d*) ?\\) ?= ?\\{\""));
 				if(!p.empty()) {
-					br.seekg(mark);
+					//br.seekg(mark);
 					break;
 				}
-				mark = 100;
-				br.seekg(mark);
+				//mark = 100;
+				//br.seekg(mark);
 				line = stripComments(line);
 				line = runOn + line;
 				if(!StringHelper::trim(line).empty()) {
@@ -579,6 +579,7 @@ class ModifiedType : public BYOND::tree::Tree::TreeItem {
 						std::regex_search(line,m,std::regex("\"([a-zA-Z]*)\" ?= ?\\((.+)\\)"));
 						if(!m.empty()) {
 							TileInstance *ti = TileInstance::fromString(m[2].str(), objTree, this);
+							spdlog::info("Current tile instance: {}",ti->toString());
 
 							typedef boost::bimap< std::string, TileInstance* > results_bimap;
     						typedef results_bimap::value_type position;
@@ -675,13 +676,16 @@ class ModifiedType : public BYOND::tree::Tree::TreeItem {
 		}
 		
 		void putMap(Location* l, std::string key) {
-			std::string oldKey = map->at(l);
-			if(!oldKey.empty()) {
-				TileInstance *i = instances->left.at(oldKey);
-				if (i != nullptr) {
-					i->refCount--;
+			if(map->find(l) != map->end()){
+				std::string oldKey = map->at(l);
+				if(!oldKey.empty()) {
+					TileInstance *i = instances->left.at(oldKey);
+					if (i != nullptr) {
+						i->refCount--;
+					}
 				}
 			}
+				
 			if(instances->left.find(key) != instances->left.end()) {
 				TileInstance *i = instances->left.at(key);
 				if(i != nullptr)

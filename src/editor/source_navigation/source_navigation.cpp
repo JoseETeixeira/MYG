@@ -98,6 +98,14 @@ namespace MYG{
                     #endif
                    
                 }
+                
+                if(StringHelper::endsWith(spath,".dmm")){
+                    std::filesystem::path *p = new std::filesystem::path(spath);
+                    library->openMap(p);
+                   
+                   
+                }
+
 
 
             }
