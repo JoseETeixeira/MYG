@@ -67,6 +67,8 @@ class DMM {
 		float storedViewportY = 0;
 		int storedViewportZoom = 32;
 
+
+	//BEGIN TILE INSTANCE
 	class TileInstance {
 
 	private:

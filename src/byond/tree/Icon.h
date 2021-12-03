@@ -20,15 +20,18 @@ namespace BYOND::tree {
         public:
 
             GLuint* getIconState(std::string state, int dir =0, int frame=0){
-
-                spdlog::info("Looking for {}",state);
-                for(auto iS : icon->states){
-                    spdlog::info("Current state {}",iS.name);
-                    if(iS.name.find(state) != std::string::npos || iS.name.find(state.substr(1,state.length()-2)) != std::string::npos){
-                        spdlog::info("found");
-                        return icon_states->at(iS.name)->at(dir)->at(frame);
+                if(state != "null"){
+                    //spdlog::info("Looking for {}",state);
+                    for(auto iS : icon->states){
+                        //spdlog::info("Current state {}",iS.name);
+                        if(iS.name.find(state) != std::string::npos || iS.name.find(state.substr(1,state.length()-2)) != std::string::npos){
+                            //spdlog::info("found");
+                            return icon_states->at(iS.name)->at(dir)->at(frame);
+                        }
                     }
                 }
+
+                
                 return icon_states->at(icon->states[0].name)->at(0)->at(0);
             }
             

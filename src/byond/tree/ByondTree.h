@@ -45,7 +45,7 @@ namespace BYOND::tree {
                 }
 
                 std::string toString() {
-                    StringBuilder *out = new StringBuilder(item->type.substr(0,item->type.find_last_of("/")-1));
+                    StringBuilder *out = new StringBuilder(item->type.substr(0,item->type.find_last_of("/")));
                     out->append('{');
                     bool isFirst = true;
                     for(std::pair<std::string,std::string> e : *getAllVars()) {
@@ -64,8 +64,8 @@ namespace BYOND::tree {
                 bool istype(std::string path) {
                     if(this->type == path)
                         return true;
-                    if(tree->getDMEItem(item->type.substr(0,item->type.find_last_of("/")-1)) != nullptr)
-                        return tree->getDMEItem(item->type.substr(0,item->type.find_last_of("/")-1))->isType(path);
+                    if(tree->getDMEItem(item->type.substr(0,item->type.find_last_of("/"))) != nullptr)
+                        return tree->getDMEItem(item->type.substr(0,item->type.find_last_of("/")))->isType(path);
                     return false;
                 }
         
@@ -115,7 +115,7 @@ namespace BYOND::tree {
            
 
             for(auto item : *datum->directSubtypes){
-                spdlog::info(item);
+                //spdlog::info(item);
 
                 generate_items(environment,environment->items->at(item),false);
                 
@@ -125,7 +125,7 @@ namespace BYOND::tree {
             BYOND::dme::Dme::DmeItem *atom = environment->items->at("/atom");
 
             for(auto item : *atom->directSubtypes){
-                spdlog::info(item);
+                //spdlog::info(item);
 
                 generate_items(environment,environment->items->at(item));
                 

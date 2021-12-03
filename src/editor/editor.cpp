@@ -102,6 +102,12 @@ namespace MYG{
         glClearColor(0.07f,0.13f,0.17f,1.0f);
         //Clean the buffer and assign the new color to it
         glClear(GL_COLOR_BUFFER_BIT);
+  
+        glMatrixMode(GL_PROJECTION);    
+        glLoadIdentity();    
+        glOrtho(0.0f, width, 0.0f, height, 0.0f, 1.0f);    
+        glMatrixMode (GL_MODELVIEW);    
+        glLoadIdentity(); 
 
         //Swap the back buffer with the front buffer
         glfwSwapBuffers(window);

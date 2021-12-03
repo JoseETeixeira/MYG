@@ -25,6 +25,8 @@ namespace BYOND{
     private:
         std::string currentDME = "";
         bool done = false;
+        std::string currentMap = "";
+        bool mapOpen = false;
         
             
     public:
@@ -72,11 +74,20 @@ namespace BYOND{
         }
 
         void openMap(std::filesystem::path *p){
-            dmm = new BYOND::dmm::DMM(p,this->tree);
-            spdlog::info(std::to_string(dmm->maxX));
-            spdlog::info(std::to_string(dmm->maxY));
-            spdlog::info(std::to_string(dmm->maxZ));
-            spdlog::info(std::to_string(dmm->instances->size()));
+            if(currentMap != p->string()){
+                currentMap = p->string();
+                dmm = new BYOND::dmm::DMM(p,this->tree);
+                spdlog::info(std::to_string(dmm->maxX));
+                spdlog::info(std::to_string(dmm->maxY));
+                spdlog::info(std::to_string(dmm->maxZ));
+                spdlog::info(std::to_string(dmm->instances->size()));
+                mapOpen = true;
+            }
+            
+        }
+
+        bool isMapOpen(){
+            return mapOpen == true;
         }
 
 
