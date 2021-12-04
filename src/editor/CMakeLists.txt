@@ -76,14 +76,16 @@ if (WIN32)
     link_directories (${byond_LIBRARY_DIRS})
 
  
-
+    IF(MSVC)
+        ADD_DEFINITIONS("/EHsc")
+    ENDIF(MSVC)
 
 
     add_executable(Editor ${MAIN_CPP}   ${SOURCE} ${GLAD_SOURCE} ${FA_HEADER_FILES} ${MAIN_HEADER} ${GLAD_HEADERS} ${IMGUI_HEADER_FILES} ${IMGUI_SOURCE_FILES}  ${LIBPNG_LINK_FLAGS} )
 
     include_directories(Editor ${byond_DIR} ${Boost_INCLUDE_DIRS} ${PNG_INCLUDE_DIRS} ${ZLIB_INCLUDE_DIR} ${byond_INCLUDE_DIRS} )
         
-    target_link_libraries(Editor glfw ${GLFW_LIBRARIES} ${Boost_LIBRARIES} ${PNG_LIBRARIES} ${LIBWEBP_LIBRARIES} deps/libwebp/libwebp deps/libwebp/libwebpmux deps/libwebp/libwebpdemux  zlib png )
+    target_link_libraries(Editor glfw ${GLFW_LIBRARIES} ${Boost_LIBRARIES} ${PNG_LIBRARIES} ${LIBWEBP_LIBRARIES}  deps/libwebp/libwebp deps/libwebp/libwebpmux deps/libwebp/libwebpdemux  zlib png )
 else(LINUX)
 
     ##ZLIB

@@ -579,29 +579,30 @@ class ModifiedType : public BYOND::tree::Tree::TreeItem {
 						runOn = "";
 						std::smatch m;
 						std::regex_search(line,m,std::regex("\"([a-zA-Z]*)\" ?= ?\\((.+)\\)"));
-						if(!m.empty()) {
-							TileInstance *ti = TileInstance::fromString(m[2].str(), objTree, this);
-							spdlog::info("Current tile instance: {}",ti->toString());
+						if (!m.empty()) {
+							TileInstance* ti = TileInstance::fromString(m[2].str(), objTree, this);
+							spdlog::info("Current tile instance: {}", ti->toString());
 
 							typedef boost::bimap< std::string, TileInstance* > results_bimap;
-    						typedef results_bimap::value_type position;
-							
+							typedef results_bimap::value_type position;
+
 							// Handle cases where DM put in duplicate instances.
-							if(instances->right.find(ti) != instances->right.end()) {
+							if (instances->right.find(ti) != instances->right.end()) {
 								substitutions->emplace(m[1].str(), instances->right.at(ti));
 								continue;
 							}
 							instances->insert(position(m[1].str(), TileInstance::fromString(m[2].str(), objTree, this)));
-							if(keyLen == 0) {
+							if (keyLen == 0) {
 								keyLen = m[1].str().length();
 								// Generate all the instance ID's
 								generateKeys(keyLen, "", unusedKeysSet);
 							}
-							for(auto it = unusedKeysSet->begin(); it!= unusedKeysSet->end(); ++it){
-								if(*it == m[1].str()){
-									unusedKeysSet->erase(it);
-								}
-							}
+
+							std::erase_if(*unusedKeysSet, [&](const auto& val) {
+								return val == m[1].str();
+							});
+							
+							
 						}
 					}
 				}
@@ -630,9 +631,9 @@ class ModifiedType : public BYOND::tree::Tree::TreeItem {
 					}
 					continue;
 				}
-				std::smatch m;
-				std::regex_search(line,m,std::regex("\"}"));
-				if(!m.empty()) {
+				//std::smatch ma;
+				//std::regex_search(line,ma,std::regex("\"}"));
+				if(StringHelper::endsWith(line, "\"}")) {
 					partX = -1;
 					partY = -1;
 					partZ = -1;
