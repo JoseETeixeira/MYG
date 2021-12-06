@@ -41,6 +41,7 @@ if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for each subdirectory.
   include("/home/eduardo/Desktop/BYOND/MYG/third_party/glfw/cmake_install.cmake")
   include("/home/eduardo/Desktop/BYOND/MYG/third_party/imgui/cmake_install.cmake")
+  include("/home/eduardo/Desktop/BYOND/MYG/third_party/glm/cmake_install.cmake")
   include("/home/eduardo/Desktop/BYOND/MYG/src/byond/cmake_install.cmake")
   include("/home/eduardo/Desktop/BYOND/MYG/src/editor/cmake_install.cmake")
 

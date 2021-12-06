@@ -85,7 +85,7 @@ if (WIN32)
 
     include_directories(Editor ${byond_DIR} ${Boost_INCLUDE_DIRS} ${PNG_INCLUDE_DIRS} ${ZLIB_INCLUDE_DIR} ${byond_INCLUDE_DIRS} )
         
-    target_link_libraries(Editor glfw ${GLFW_LIBRARIES} ${Boost_LIBRARIES} ${PNG_LIBRARIES} ${LIBWEBP_LIBRARIES}  deps/libwebp/libwebp deps/libwebp/libwebpmux deps/libwebp/libwebpdemux  zlib png )
+    target_link_libraries(Editor glfw glm ${GLFW_LIBRARIES} ${Boost_LIBRARIES} ${PNG_LIBRARIES} ${LIBWEBP_LIBRARIES}  deps/libwebp/libwebp deps/libwebp/libwebpmux deps/libwebp/libwebpdemux  zlib png )
 else(LINUX)
 
     ##ZLIB
@@ -120,5 +120,5 @@ else(LINUX)
 
     include_directories(Editor ${byond_DIR} ${Boost_INCLUDE_DIRS} ${PNG_INCLUDE_DIRS} ${ZLIB_INCLUDE_DIR}  ${byond_INCLUDE_DIRS} )
         
-    target_link_libraries(Editor glfw ${GLFW_LIBRARIES} ${Boost_LIBRARIES}  ${PNG_LIBRARIES} ${LIBWEBP_LIBRARIES}  )
+    target_link_libraries(Editor glfw glm ${GLFW_LIBRARIES} ${Boost_LIBRARIES}  ${PNG_LIBRARIES} ${LIBWEBP_LIBRARIES}  )
 endif()

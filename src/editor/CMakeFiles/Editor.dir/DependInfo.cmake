@@ -26,6 +26,7 @@ set(CMAKE_C_TARGET_INCLUDE_PATH
   "src/editor/@CONF_INCLUDE_DIRS@"
   "src/editor/Editor"
   "src/editor/../byond"
+  "third_party/glm/glm/.."
   )
 set(CMAKE_DEPENDS_CHECK_CXX
   "/home/eduardo/Desktop/BYOND/MYG/third_party/imgui/TextEditor.cpp" "/home/eduardo/Desktop/BYOND/MYG/src/editor/CMakeFiles/Editor.dir/__/__/third_party/imgui/TextEditor.cpp.o"
@@ -61,6 +62,7 @@ set(CMAKE_CXX_TARGET_INCLUDE_PATH
   "src/editor/@CONF_INCLUDE_DIRS@"
   "src/editor/Editor"
   "src/editor/../byond"
+  "third_party/glm/glm/.."
   )
 
 # Targets to which this target links.

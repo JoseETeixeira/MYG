@@ -325,6 +325,8 @@ imgui_impl_opengl3.h
 /home/eduardo/Desktop/BYOND/MYG/src/byond/library.h
 ../../byond/utils/string_helper.h
 /home/eduardo/Desktop/BYOND/MYG/src/byond/utils/string_helper.h
+../../byond/DMM/Location.h
+/home/eduardo/Desktop/BYOND/MYG/src/byond/DMM/Location.h
 
 /home/eduardo/Desktop/BYOND/MYG/src/editor/source_navigation/source_navigation.cpp
 source_navigation.h
@@ -364,6 +366,10 @@ imgui_file_browser.h
 filesystem
 -
 map
+-
+boost/bimap.hpp
+-
+boost/config.hpp
 -
 
 /home/eduardo/Desktop/BYOND/MYG/third_party/fonts/IconsFontAwesome5.h

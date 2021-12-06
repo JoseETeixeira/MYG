@@ -13,6 +13,7 @@ set(GLFW_BUILD_TESTS OFF)
 
 add_subdirectory(third_party/glfw)
 add_subdirectory(third_party/imgui)
+add_subdirectory(third_party/glm)
 #add_subdirectory(third_party/opencv)
 #add_subdirectory(third_party/ultralight)
 include_directories(third_party/spdlog/include)
