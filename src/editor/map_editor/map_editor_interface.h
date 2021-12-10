@@ -31,6 +31,9 @@ private:
     GLFWwindow* window;
     int xpos,ypos,width,height;
     ImVec4 clear_color = ImVec4(0.07f,0.13f,0.17f,1.0f);
+    int zoom = 1;
+    int pos_x = 1;
+    int pos_y = 1;
 
     
 
@@ -45,7 +48,7 @@ public:
 
        void drawTiles (int z) { //our function to draw the tiles
         for(auto mi : *library->dmm->map){
-            if(mi.first->z == z){
+            if(mi.first->z == z && mi.first->x > pos_x * zoom && mi.first->y > pos_y * zoom && mi.first->x < 32 * zoom && mi.first->y < 32 * zoom){
                 ImVec2 p =  ImVec2(ImGui::GetItemRectMin().x + mi.first->x*32,ImGui::GetItemRectMin().y +  mi.first->y*32);
                 std::string instanceKey = mi.second;
                 //spdlog::info ("LOOKING FOR: {}, {}, {}",std::to_string(mi.first->x),std::to_string(mi.first->y),std::to_string(mi.first->z));

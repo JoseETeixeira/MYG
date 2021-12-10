@@ -689,7 +689,7 @@ class ModifiedType : public BYOND::tree::Tree::TreeItem {
 			
 			br.close();
 			for(auto entry : *reverseMap) {
-				putMap(new Location(entry.first->x, maxY+minY-entry.first->y, entry.first->z), entry.second);
+				putMap(new Location(entry.first->x, entry.first->y, entry.first->z), entry.second);
 			}
 			
 			
