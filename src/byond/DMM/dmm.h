@@ -54,7 +54,7 @@ class DMM {
 		
 		int keyLen = 0;
 		boost::bimap<std::string, TileInstance*> *instances = new boost::bimap<std::string, TileInstance*>();
-		std::map<Location*, std::string> *map = new std::map<Location*, std::string>();
+		std::map<BYOND::dmm::Location*, std::string> *map = new std::map<Location*, std::string>();
 		std::vector<std::string> *unusedKeys = new std::vector<std::string>();
 		
 		BYOND::tree::Tree *objTree;
@@ -401,6 +401,18 @@ class ModifiedType : public BYOND::tree::Tree::TreeItem {
                 
                 ModifiedType *mt = new ModifiedType(objtree,objtree->getDMEItem(v),vars, m[1].str(),dmm,objtree->getItem(v)->dmipath);
                
+			   	mt->parent = objtree->getItem(m[1].str());
+				if(dmm->instances->left.find(mt->toString())!= dmm->instances->left.end()) {
+					mt = (ModifiedType*) dmm->instances->left.at(mt->toString());
+				} else {
+					typedef boost::bimap< std::string, TileInstance* > results_bimap;
+                    typedef results_bimap::value_type position;
+					BYOND::dmm::DMM::TileInstance *ti = TileInstance::fromString(mt->toString(),objtree,dmm);
+					//spdlog::info ("CREATED TILE INSTANCE: {}",ti->toString());
+					dmm->instances->insert(position(dmm->getKeyForInstance(ti),ti));
+					
+				}
+
                 if(mt->parent != nullptr) {
                     TileInstance *ti = TileInstance::fromString(m[2].str(),objtree,dmm);
                     typedef boost::bimap< std::string, TileInstance* > results_bimap;
@@ -581,7 +593,7 @@ class ModifiedType : public BYOND::tree::Tree::TreeItem {
 						std::regex_search(line,m,std::regex("\"([a-zA-Z]*)\" ?= ?\\((.+)\\)"));
 						if (!m.empty()) {
 							TileInstance* ti = TileInstance::fromString(m[2].str(), objTree, this);
-							spdlog::info("Current tile instance: {}", ti->toString());
+							//spdlog::info("Current tile instance: {}", ti->toString());
 
 							typedef boost::bimap< std::string, TileInstance* > results_bimap;
 							typedef results_bimap::value_type position;
@@ -592,8 +604,9 @@ class ModifiedType : public BYOND::tree::Tree::TreeItem {
 								continue;
 							}
 							instances->insert(position(m[1].str(), TileInstance::fromString(m[2].str(), objTree, this)));
+							//spdlog::info("Instance key {}",m[1].str());
 							if (keyLen == 0) {
-								keyLen = m[1].str().length();
+								keyLen = StringHelper::trim(m[1].str()).length();
 								// Generate all the instance ID's
 								generateKeys(keyLen, "", unusedKeysSet);
 							}
@@ -616,7 +629,7 @@ class ModifiedType : public BYOND::tree::Tree::TreeItem {
 			int partZ = -1;
 			int cursorX = 0;
 			int cursorY = 0;
-			
+			br.seekg(0);
 			while (std::getline(br, line)) {
 				line = StringHelper::trim(line);
 				if(partX == -1) {
@@ -631,9 +644,9 @@ class ModifiedType : public BYOND::tree::Tree::TreeItem {
 					}
 					continue;
 				}
-				//std::smatch ma;
-				//std::regex_search(line,ma,std::regex("\"}"));
-				if(StringHelper::endsWith(line, "\"}")) {
+				std::smatch ma;
+				std::regex_search(line,ma,std::regex("\"}"));
+				if(!ma.empty()) {
 					partX = -1;
 					partY = -1;
 					partZ = -1;
@@ -641,7 +654,10 @@ class ModifiedType : public BYOND::tree::Tree::TreeItem {
 				}
 				for(int i = 0; i < line.length(); i += keyLen) {
 					Location *loc = new Location(cursorX + partX, cursorY + partY, partZ) ;
-					std::string key = line.substr(i, i+keyLen);
+					if(loc->z == 1)
+						spdlog::info("CURRENT LOC: {} ,{}, {}", std::to_string(loc->x),std::to_string(loc->y),std::to_string(loc->z));
+					std::string key = line.substr(i, keyLen);
+					//spdlog::info("KEY: {}",key);
 					if(substitutions->find(key) != substitutions->end())
 						key = substitutions->at(key);
 					reverseMap->emplace(loc, key);
@@ -672,10 +688,11 @@ class ModifiedType : public BYOND::tree::Tree::TreeItem {
 			}
 			
 			br.close();
-			
-			for(std::pair<Location*, std::string> entry : *reverseMap) {
+			for(auto entry : *reverseMap) {
 				putMap(new Location(entry.first->x, maxY+minY-entry.first->y, entry.first->z), entry.second);
 			}
+			
+			
 		}
 		
 		void putMap(Location* l, std::string key) {
@@ -696,7 +713,6 @@ class ModifiedType : public BYOND::tree::Tree::TreeItem {
 				map->emplace(l, key);
 			}
 		}
-		
 
 		
 		void save() {

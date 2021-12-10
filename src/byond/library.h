@@ -80,7 +80,7 @@ namespace BYOND{
                 spdlog::info(std::to_string(dmm->maxX));
                 spdlog::info(std::to_string(dmm->maxY));
                 spdlog::info(std::to_string(dmm->maxZ));
-                spdlog::info(std::to_string(dmm->instances->size()));
+                spdlog::info(std::to_string(dmm->map->size()));
                 mapOpen = true;
             }
             
