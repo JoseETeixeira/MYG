@@ -48,8 +48,8 @@ public:
 
        void drawTiles (int z) { //our function to draw the tiles
         for(auto mi : *library->dmm->map){
-            if(mi.first->z == z && mi.first->x > pos_x * zoom && mi.first->y > pos_y * zoom && mi.first->x < 32 * zoom && mi.first->y < 32 * zoom){
-                ImVec2 p =  ImVec2(ImGui::GetItemRectMin().x + mi.first->x*32,ImGui::GetItemRectMin().y +  mi.first->y*32);
+            if(mi.first->z == z && mi.first->x > pos_x && mi.first->y > pos_y  && mi.first->x < 2 * 32 * pos_x && mi.first->y < 32 * pos_y){
+                ImVec2 p =  ImVec2(ImGui::GetItemRectMin().x + mi.first->x*32 - pos_x*32,ImGui::GetItemRectMin().y +  mi.first->y*32 - pos_y*32);
                 std::string instanceKey = mi.second;
                 //spdlog::info ("LOOKING FOR: {}, {}, {}",std::to_string(mi.first->x),std::to_string(mi.first->y),std::to_string(mi.first->z));
                 if(library->dmm->instances->left.find(instanceKey) != library->dmm->instances->left.end()){
@@ -66,7 +66,7 @@ public:
                 {
                     
                     spdlog::info("LOC NOT FOUND {} {} {}",std::to_string(mi.first->x),std::to_string(mi.first->y),std::to_string(mi.first->z));
-                    ImVec2 p =  ImVec2(ImGui::GetItemRectMin().x + mi.first->x*32,ImGui::GetItemRectMin().y + mi.first->y*32);
+                    ImVec2 p =  ImVec2(ImGui::GetItemRectMin().x + mi.first->x*32 - pos_x*32,ImGui::GetItemRectMin().y + mi.first->y*32 - pos_y*32);
                     ImGui::GetWindowDrawList()->AddImage((void*)*library->tree->getItem("/turf")->getTexture("2_2"), p, ImVec2(p.x+32, p.y+32), ImVec2(0,0), ImVec2(1,1)); 
 
                     
@@ -113,8 +113,20 @@ public:
 
 
             draw(shouldOpen);
-               
 
+
+            ImVec2 c_pos = ImGui::GetMouseDragDelta();
+            pos_x += c_pos.x/c_pos.x;
+            pos_y += c_pos.y/c_pos.y;
+            if(pos_y < 1)
+                pos_y = 1;
+
+            if(pos_x < 1)
+                pos_x = 1;
+
+            
+  
+           
                         
         
 
