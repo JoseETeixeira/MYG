@@ -644,9 +644,9 @@ class ModifiedType : public BYOND::tree::Tree::TreeItem {
 					}
 					continue;
 				}
-				std::smatch ma;
-				std::regex_search(line,ma,std::regex("\"}"));
-				if(!ma.empty()) {
+				//std::smatch ma;
+				//std::regex_search(line,ma,std::regex("\"}"));
+				if(StringHelper::endsWith(line, "\"}")) {
 					partX = -1;
 					partY = -1;
 					partZ = -1;
