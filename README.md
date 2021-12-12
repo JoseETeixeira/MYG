@@ -8,6 +8,9 @@ The project will at some point become private, or migrate to another repository 
 - DMM reader/parser 
 - Code editor interface
 
+![Map_Reader](./doc/1.PNG)
+![DME_Parser](./doc/2.PNG)
+
 
 ## Compiling
 
