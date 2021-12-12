@@ -1,5 +1,13 @@
 # MYG
 
+The evolution of B.Y.O.N.D, rewritten in C++ and OpenGL3. 
+
+The project will at some point become private, or migrate to another repository when server functionality is added for security purposes. For now, it features
+
+- DME reader/parser
+- DMM reader/parser 
+- Code editor interface
+
 
 ## Compiling
 
